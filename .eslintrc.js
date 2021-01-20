@@ -1,4 +1,10 @@
 module.exports = {
+    env: {
+        es6: true,
+        node: true,
+        browser: true,
+        jest: true,
+    },
     parser: '@typescript-eslint/parser', // Specifies the ESLint parser
     parserOptions: {
         ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features
