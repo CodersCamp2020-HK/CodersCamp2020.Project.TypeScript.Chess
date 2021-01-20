@@ -1,2 +1,3 @@
-const x = 10;
-console.log(x);
+import App from './app/App';
+
+App();
