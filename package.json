@@ -4,7 +4,8 @@
     "description": "**UWAGA! Zaczynając pracę nad projektem — nie róbcie forka.\r Jedna osoba z zespołu (np. Mentor) powinna użyć przycisku `Use this template` i dodać innych członków zespołu jako Collaborators do tego repozytorium.\r Mentorzy mogą dowolnie zmieniać zakres projektu lub zdecydować się na zupełnie inny temat.**",
     "private": true,
     "scripts": {
-        "build": "webpack --watch"
+        "build": "webpack",
+        "start": "tsc --watch"
     },
     "repository": {
         "type": "git",
@@ -18,7 +19,9 @@
     },
     "homepage": "https://github.com/CodersCamp2020-HK/CodersCamp2020.Project.TypeScript.Chess#readme",
     "devDependencies": {
+        "clean-webpack-plugin": "^3.0.0",
         "css-loader": "^5.0.1",
+        "html-webpack-plugin": "^4.5.1",
         "sass": "^1.32.5",
         "sass-loader": "^10.1.1",
         "style-loader": "^2.0.0",
