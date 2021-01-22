@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    name: "Build Star Wars Quiz application"
+    name: "Build Chess aplication"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -26,7 +26,7 @@ jobs:
         name: Upload build as artifact
         if: always()
         with:
-          name: swquiz-dist
+          name: chess-dist
           path: ./dist
   deploy-on-github-pages:
     name: "Deploy app to GitHub Pages from main branch source code"
@@ -36,7 +36,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v2
         with:
-          name: swquiz-dist
+          name: chess-dist
           path: ./dist
       - name: Deploy app as GitHub Pages
         uses: peaceiris/actions-gh-pages@v3.7.0-6
