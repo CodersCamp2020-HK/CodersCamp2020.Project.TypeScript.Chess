@@ -1,41 +1,12 @@
-enum PieceType {
-    Pawn,
-    King,
-    Queen,
-    Rook,
-    Bishop,
-    Knight,
+interface Cord {
+    x: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
+    y: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 }
-
-// type PieceType = Pawn;
 
 enum Side {
     White,
     Black,
 }
-
-enum MoveType {
-    NormalMove,
-    Capture,
-    Castling,
-}
-
-interface BoardField {
-    piece: PieceType;
-    side: Side;
-}
-
-type ChessBoardRepresentation = Array<Array<BoardField | null>>;
-
-interface Cord {
-    x: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H';
-    y: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
-}
-
-// interface Cord {
-//     x: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
-//     y: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
-// }
 
 interface PieceMove {
     from: Cord;
@@ -46,44 +17,84 @@ interface CordWithMoveType extends Cord {
     moveType: MoveType;
 }
 
+interface BoardField {
+    piece: PieceType;
+    side: Side;
+}
+
+interface Piece {
+    cord: Cord;
+    side: Side;
+    getPossibleMoves(): CordWithMoveType[];
+}
+
+interface Pawn extends Piece {
+    isMoved: boolean;
+    promotion(): BoardField;
+}
+
+interface King extends Piece {
+    isMoved: boolean;
+}
+
+interface Rook extends Piece {
+    isMoved: boolean;
+}
+
+type Queen = Piece;
+type Bishop = Piece;
+type Knight = Piece;
+
+type PieceType = Pawn | Queen | King | Bishop | Rook | Knight;
+
+class queen implements Queen {
+    cord: Cord;
+    side: Side;
+    constructor(cord: Cord, side: Side) {
+        this.cord = cord;
+        this.side = side;
+    }
+    getPossibleMoves() {
+        const xy: CordWithMoveType = { x: 5, y: 5, moveType: MoveType.NormalMove };
+        const arr: CordWithMoveType[] = [];
+        arr.push(xy);
+        return arr;
+    }
+}
+
+const q = new queen({ x: 5, y: 1 }, Side.Black);
+console.log(q);
+
+enum MoveType {
+    NormalMove,
+    Capture,
+    Castling,
+}
+
+type ChessBoardRepresentation = Array<Array<BoardField | null>>;
+
 interface ChessBoard {
     board: ChessBoardRepresentation;
     makeMove(piece: PieceType, move: PieceMove): void;
     hasPiece(cord: Cord): boolean;
 }
 
-export interface ChessBoardDefault {
+interface ChessBoardDefault {
     pickSide(): Side; // W sposób losowy
     setUpChessBoard(): ChessBoardRepresentation; // Ustawienia początkowe szachownicy
 }
 
-export interface ChessBoardState {
+interface ChessBoardState {
     isCheck(boardState: ChessBoard, side: Side): boolean;
     isCheckmate(boardState: ChessBoard, side: Side): boolean;
     isStealemate(boardState: ChessBoard, side: Side): boolean;
 }
 
-export interface ChessEngine {
+interface ChessEngine {
     getPossibleMovesForPiece(cord: Cord, boardState: ChessBoard): CordWithMoveType[]; // Czy ruch rodzielać względem figur, czy kierunków?
     promotePawn(cord: Cord, boardState: ChessBoard): BoardField; // Czy to nie powinno być wykonywane automatycznie po ruchu?
     checkCastle(kingsCord: Cord, rooksCord: Cord, boardState: ChessBoard): boolean;
     castle(kingsCord: Cord, rooksCord: Cord, boardState: ChessBoard): CordWithMoveType;
 }
 
-// Czy nie lepiej zamiast enuma dać obiekty na podstawie klasy?
-
-// interface Piece {
-//     getPossibleMoves(): Array<CordWithMoveType>;
-// }
-
-// interface Pawn extends Piece {
-//     isMoved: boolean;
-//     isPromoted: boolean;
-//     promotion(): BoardField;
-// }
-
-// interface King extends Piece {
-//     isMoved: boolean;
-// }
-
-// interface ChessEngine {}
+export { ChessBoardDefault, ChessBoardState, ChessEngine };
