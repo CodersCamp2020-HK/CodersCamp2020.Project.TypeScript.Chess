@@ -13,24 +13,26 @@ interface PieceMove {
     to: Cord;
 }
 
+enum MoveType {
+    NormalMove,
+    Capture,
+    Castling,
+}
+
 interface CordWithMoveType extends Cord {
     moveType: MoveType;
 }
 
-interface BoardField {
-    piece: PieceType;
-    side: Side;
-}
-
+type PieceType = Pawn | Queen | King | Bishop | Rook | Knight;
 interface Piece {
     cord: Cord;
     side: Side;
-    getPossibleMoves(): CordWithMoveType[];
+    getAllPossibleMoves(): CordWithMoveType[]; // Zwraca wszystkie moliwe ruchy
 }
 
 interface Pawn extends Piece {
     isMoved: boolean;
-    promotion(): BoardField;
+    promotion(): PieceType;
 }
 
 interface King extends Piece {
@@ -45,8 +47,6 @@ type Queen = Piece;
 type Bishop = Piece;
 type Knight = Piece;
 
-type PieceType = Pawn | Queen | King | Bishop | Rook | Knight;
-
 class queen implements Queen {
     cord: Cord;
     side: Side;
@@ -54,7 +54,7 @@ class queen implements Queen {
         this.cord = cord;
         this.side = side;
     }
-    getPossibleMoves() {
+    getAllPossibleMoves() {
         const xy: CordWithMoveType = { x: 5, y: 5, moveType: MoveType.NormalMove };
         const arr: CordWithMoveType[] = [];
         arr.push(xy);
@@ -65,13 +65,7 @@ class queen implements Queen {
 const q = new queen({ x: 5, y: 1 }, Side.Black);
 console.log(q);
 
-enum MoveType {
-    NormalMove,
-    Capture,
-    Castling,
-}
-
-type ChessBoardRepresentation = Array<Array<BoardField | null>>;
+type ChessBoardRepresentation = Array<Array<PieceType | null>>;
 
 interface ChessBoard {
     board: ChessBoardRepresentation;
@@ -92,7 +86,6 @@ interface ChessBoardState {
 
 interface ChessEngine {
     getPossibleMovesForPiece(cord: Cord, boardState: ChessBoard): CordWithMoveType[]; // Czy ruch rodzielać względem figur, czy kierunków?
-    promotePawn(cord: Cord, boardState: ChessBoard): BoardField; // Czy to nie powinno być wykonywane automatycznie po ruchu?
     checkCastle(kingsCord: Cord, rooksCord: Cord, boardState: ChessBoard): boolean;
     castle(kingsCord: Cord, rooksCord: Cord, boardState: ChessBoard): CordWithMoveType;
 }
