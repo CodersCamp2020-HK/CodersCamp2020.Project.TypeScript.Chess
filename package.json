@@ -5,16 +5,17 @@
     "private": true,
     "scripts": {
         "build": "webpack",
-        "start": "tsc --watch",
-        "test": "npx jest",
-        "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix"
+        "start": "webpack --watch",
+        "test:cov": "jest --coverage",
+        "test:dev": "jest --watch",
+        "lint": "eslint --ignore-path .gitignore --fix ."
     },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/CodersCamp2020-HK/CodersCamp2020.Project.TypeScript.Chess.git"
     },
     "keywords": [],
-    "author": "Meo",
+    "author": "CodersCamp2020",
     "license": "ISC",
     "bugs": {
         "url": "https://github.com/CodersCamp2020-HK/CodersCamp2020.Project.TypeScript.Chess/issues"
