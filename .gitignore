@@ -1,2 +1,8 @@
-node_modules
+.idea
 dist
+.cache
+node_modules
+coverage
+.coverage
+.parcel-cache
+.DS_Store
