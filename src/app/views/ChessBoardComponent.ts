@@ -6,7 +6,7 @@ import { Side } from '../models/EngineInterface';
 interface PieceFile {
     url: string,
 }
-
+let css = require('./chess.scss');
 export class ChessBoardComponent {
     wrapper: HTMLDivElement;
     chessBoardElement: HTMLDivElement;
@@ -18,14 +18,19 @@ export class ChessBoardComponent {
     constructor(blackTilesClassList: string, whiteTilesClassList: string, piecesFiles: PieceFile[], chessBoardRepresentation: ChessBoardRepresentation) {
         this.wrapper = document.createElement('div');
         this.wrapper.className = 'board-wrapper';
+
         this.chessBoardElement = document.createElement('div');
+        this.chessBoardElement.className = 'board';
+
         this.verticalAxi = document.createElement('div');
         this.verticalAxi.className = 'vertical-axi';
+
         this.horizontalAxi = document.createElement('div');
         this.horizontalAxi.className = 'horizontal-axi';
-        this.chessBoardElement = document.createElement('div');
+
         this.blackTilesClassList = blackTilesClassList;
         this.whiteTilesClassList = whiteTilesClassList;
+
         this.piecesFiles = piecesFiles;
 
         this.wrapper.appendChild(this.verticalAxi);
@@ -48,7 +53,13 @@ export class ChessBoardComponent {
 
         for(let i = 0; i < chessBoardRepresentation.length; i++) {
 
-            currentTile = currentTile == blackTile ? whiteTile : blackTile;
+            if(i % 2 == 0) {
+                currentTile = whiteTile;
+            }
+            else {
+                currentTile = blackTile;
+            }
+            
 
             for(let j = 0; j < chessBoardRepresentation[i].length; j++) {
                 let tileToAppend = currentTile.cloneNode(true) as HTMLDivElement;
@@ -63,8 +74,6 @@ export class ChessBoardComponent {
                 currentTile = currentTile == blackTile ? whiteTile : blackTile;
 
             }
-
-            currentTile = currentTile == blackTile ? whiteTile : blackTile;
         }
     }
 }
