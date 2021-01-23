@@ -7,7 +7,7 @@ module.exports = {
     entry: './src/index.ts',
 
     plugins: [
-        new CleanWebpackPlugin(),
+        new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
         new HtmlWebpackPlugin({
             title: 'Output Management',
         }),
