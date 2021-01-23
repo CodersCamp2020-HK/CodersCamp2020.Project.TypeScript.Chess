@@ -1,6 +1,3 @@
-// Nadaj podstawowo klasę .button.
-// Napisz gettera do elementu.
-
 export class Button {
   private __button: HTMLButtonElement;
 
