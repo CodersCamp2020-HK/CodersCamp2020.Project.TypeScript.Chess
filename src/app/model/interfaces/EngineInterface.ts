@@ -23,71 +23,51 @@ interface CordWithMoveType extends Cord {
     moveType: MoveType;
 }
 
-type PieceType = Pawn | Queen | King | Bishop | Rook | Knight;
+enum PieceType {
+    Pawn,
+    Rook,
+    Knight,
+    Bishop,
+    Queen,
+    King,
+}
+
 interface Piece {
+    piece: PieceType;
     cord: Cord;
     side: Side;
-    getAllPossibleMoves(): CordWithMoveType[]; // Zwraca wszystkie moliwe ruchy
-}
-
-interface Pawn extends Piece {
-    isMoved: boolean;
-    promotion(): PieceType;
-}
-
-interface King extends Piece {
     isMoved: boolean;
 }
 
-interface Rook extends Piece {
-    isMoved: boolean;
-}
+type ChessBoardRepresentation = Array<Array<Piece | null>>;
 
-type Queen = Piece;
-type Bishop = Piece;
-type Knight = Piece;
-
-class queen implements Queen {
-    cord: Cord;
-    side: Side;
-    constructor(cord: Cord, side: Side) {
-        this.cord = cord;
-        this.side = side;
-    }
-    getAllPossibleMoves() {
-        const xy: CordWithMoveType = { x: 5, y: 5, moveType: MoveType.NormalMove };
-        const arr: CordWithMoveType[] = [];
-        arr.push(xy);
-        return arr;
-    }
-}
-
-const q = new queen({ x: 5, y: 1 }, Side.Black);
-console.log(q);
-
-type ChessBoardRepresentation = Array<Array<PieceType | null>>;
-
-interface ChessBoard {
+interface IChessBoard {
     board: ChessBoardRepresentation;
-    makeMove(piece: PieceType, move: PieceMove): void;
+    makeMove(piece: Piece, move: PieceMove): void;
     hasPiece(cord: Cord): boolean;
 }
 
-interface ChessBoardDefault {
-    pickSide(): Side; // W sposób losowy
-    setUpChessBoard(): ChessBoardRepresentation; // Ustawienia początkowe szachownicy
+type pickSide = () => Side;
+type setUpChessBoard = () => ChessBoardRepresentation;
+type checkCastle = (kingsCord: Cord, rooksCord: Cord, boardState: IChessBoard) => boolean;
+type makeCastle = (kingsCord: Cord, rooksCord: Cord, boardState: IChessBoard) => CordWithMoveType;
+
+interface IChessEngine {
+    isCheck(boardState: IChessBoard, side: Side): boolean;
+    isCheckmate(boardState: IChessBoard, side: Side): boolean;
+    isStealemate(boardState: IChessBoard, side: Side): boolean;
+    // getPossibleMovesForPiece będzie uruchamiała funkcje w zalezności od figury
+    getPossibleMovesForPiece(cord: Cord, boardState: IChessBoard): CordWithMoveType[];
+
+    getPossibleMovesForPawn(cord: Cord, boardState: IChessBoard): CordWithMoveType[];
+    getPossibleMovesForRook(cord: Cord, boardState: IChessBoard): CordWithMoveType[];
+    getPossibleMovesForKnight(cord: Cord, boardState: IChessBoard): CordWithMoveType[];
+    getPossibleMovesForBishop(cord: Cord, boardState: IChessBoard): CordWithMoveType[];
+    getPossibleMovesForQueen(cord: Cord, boardState: IChessBoard): CordWithMoveType[];
+    getPossibleMovesForKing(cord: Cord, boardState: IChessBoard): CordWithMoveType[];
+
+    removeMovesOutsideChessBoard(cords: CordWithMoveType[]): CordWithMoveType[];
+    removeMovesBlockedByPiece(cords: CordWithMoveType[]): CordWithMoveType[];
 }
 
-interface ChessBoardState {
-    isCheck(boardState: ChessBoard, side: Side): boolean;
-    isCheckmate(boardState: ChessBoard, side: Side): boolean;
-    isStealemate(boardState: ChessBoard, side: Side): boolean;
-}
-
-interface ChessEngine {
-    getPossibleMovesForPiece(cord: Cord, boardState: ChessBoard): CordWithMoveType[]; // Czy ruch rodzielać względem figur, czy kierunków?
-    checkCastle(kingsCord: Cord, rooksCord: Cord, boardState: ChessBoard): boolean;
-    castle(kingsCord: Cord, rooksCord: Cord, boardState: ChessBoard): CordWithMoveType;
-}
-
-export { ChessBoardDefault, ChessBoardState, ChessEngine };
+export { IChessEngine, IChessBoard, pickSide, setUpChessBoard, checkCastle, makeCastle };
