@@ -37,6 +37,9 @@ export class ChessBoardComponent {
         this.wrapper.appendChild(this.horizontalAxi);
         this.wrapper.appendChild(this.chessBoardElement);
 
+
+        this.renderAxi(this.horizontalAxi, ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']);
+        this.renderAxi(this.verticalAxi, [1, 2, 3, 4, 5, 6, 7, 8]);
         this.render(chessBoardRepresentation);
     }
 
@@ -66,7 +69,8 @@ export class ChessBoardComponent {
                 tileToAppend.dataset.x = i.toString();
                 tileToAppend.dataset.y = j.toString();
                 if(chessBoardRepresentation[i][j] !== null) {
-
+                    let img = document.createElement('img');
+                    tileToAppend.appendChild(img);
                 }
 
                 this.chessBoardElement.appendChild(tileToAppend);
@@ -75,5 +79,13 @@ export class ChessBoardComponent {
 
             }
         }
+    }
+    renderAxi(axi: HTMLDivElement, legend: (number|string)[]) {
+        legend.forEach((legendRow) => {
+            let span = document.createElement('span');
+            span.className = 'one-legend';
+            span.textContent = legendRow.toString();
+            axi.appendChild(span);
+        })
     }
 }
