@@ -1,0 +1,17 @@
+.black {
+    background-color: black;
+    width: 50px;
+    height: 50px;
+}
+
+.white {
+    background-color: orange;
+    width: 50px;
+    height: 50px;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(8, 50px);
+    grid-template-rows: repeat(8, 50px);
+}
