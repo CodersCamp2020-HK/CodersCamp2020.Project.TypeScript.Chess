@@ -1,11 +1,11 @@
 export class Button {
   private __button: HTMLButtonElement;
 
-  constructor(tekst: string, classList: string[], callback: any) {
+  constructor(text: string, classList: string[], onClickCb: any) {
     this.__button = document.createElement('button');
     this.__button.classList.add('button', ...classList);
-    this.__button.innerText = tekst;
-    this.__button.addEventListener('click', () => callback());
+    this.__button.innerText = text;
+    this.__button.addEventListener('click', () => onClickCb());
   }
 
   public get button(): HTMLButtonElement {
