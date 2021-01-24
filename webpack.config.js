@@ -4,10 +4,15 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
+    mode: 'development',
     entry: './src/index.ts',
 
+    devServer: {
+        contentBase: './dist',
+    },
+
     plugins: [
-        new CleanWebpackPlugin(),
+        new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
         new HtmlWebpackPlugin({
             title: 'Output Management',
         }),
@@ -21,15 +26,16 @@ module.exports = {
             },
 
             {
-                test: /\.scss$/,
-                use: ['style-loader', 'css-loader', 'sass-loader'],
-                exclude: /\.module\.scss$/,
-            },
-
-            {
-                test: /\.scss$/,
+                test: /\.module\.scss$/,
                 use: [
                     'style-loader',
+                    {
+                        loader: 'dts-css-modules-loader',
+                        options: {
+                            namedExport: true,
+                            banner: '// This file is generated automatically',
+                        },
+                    },
                     {
                         loader: 'css-loader',
                         options: {
@@ -40,6 +46,12 @@ module.exports = {
                     'sass-loader',
                 ],
                 include: /\.module\.scss$/,
+            },
+
+            {
+                test: /\.scss$/,
+                use: ['style-loader', 'css-loader', 'sass-loader'],
+                exclude: /\.module\.scss$/,
             },
 
             {
