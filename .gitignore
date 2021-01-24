@@ -5,4 +5,8 @@ node_modules
 coverage
 .coverage
 .parcel-cache
+<<<<<<< HEAD
 .DS_Store
+=======
+.DS_Store
+>>>>>>> 933d31b4caa0b6cb01e33c1ad25f1f4d9ec228ad
