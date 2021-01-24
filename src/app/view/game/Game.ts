@@ -14,27 +14,27 @@ export class Game {
 
     createGameDiv(): void {
         const cyberChessTextWrapper = document.createElement('div');
-        cyberChessTextWrapper.classList.add('wrapper__text');
+        cyberChessTextWrapper.classList.add(styles.wrapper__text);
         cyberChessTextWrapper.textContent = 'Cyber Chess';
 
         const chessboardWrapper = document.createElement('div');
-        chessboardWrapper.classList.add('wrapper__chessboard');
+        chessboardWrapper.classList.add(styles.wrapper__chessboard);
         chessboardWrapper.textContent = 'Szachownica';
 
         const opponentScoreWrapper = document.createElement('div');
-        opponentScoreWrapper.classList.add('wrapper_opponent');
+        opponentScoreWrapper.classList.add(styles.wrapper__opponent);
         opponentScoreWrapper.textContent = 'Nazwa, czas przeciwnika, zbite pionki';
 
         const playerScoreWrapper = document.createElement('div');
-        playerScoreWrapper.classList.add('wrapper__player');
+        playerScoreWrapper.classList.add(styles.wrapper__player);
         opponentScoreWrapper.textContent = 'Nazwa, czas gracza, zbite pionki';
 
         const previousMovesWrapper = document.createElement('div');
-        previousMovesWrapper.classList.add('wrapper__moves');
+        previousMovesWrapper.classList.add(styles.wrapper__moves);
         previousMovesWrapper.textContent = 'Poprzednie ruchy';
 
         const quitButtonWrapper = document.createElement('div');
-        quitButtonWrapper.classList.add('wrapper__quit');
+        quitButtonWrapper.classList.add(styles.wrapper__quit);
         quitButtonWrapper.textContent = 'Wyjście z gry';
 
         this.__gameWrapper.append(
