@@ -20,16 +20,17 @@ module.exports = {
                 type: 'asset/resource',
             },
 
-            {
-                test: /\.scss$/,
-                use: ['style-loader', 'css-loader', 'sass-loader'],
-                exclude: /\.module\.scss$/,
-            },
+            // {
+            //     test: /\.scss$/,
+            //     use: ['style-loader', 'css-loader', 'sass-loader'],
+            //     exclude: /\.module\.scss$/,
+            // },
 
             {
                 test: /\.scss$/,
                 use: [
                     'style-loader',
+                    '@teamsupercell/typings-for-css-modules-loader',
                     {
                         loader: 'css-loader',
                         options: {
@@ -39,7 +40,7 @@ module.exports = {
                     },
                     'sass-loader',
                 ],
-                include: /\.module\.scss$/,
+                //include: /\.module\.scss$/,
             },
 
             {
