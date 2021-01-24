@@ -1,5 +1,9 @@
+import { Game } from './view/game/Game';
+
 const App = (): void => {
-    console.log('yo');
+    const gameComponent = new Game();
+    gameComponent.createGameDiv();
+    document.body.appendChild(gameComponent.gameWrapper);
 };
 
 export default App;
