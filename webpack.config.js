@@ -34,8 +34,10 @@ module.exports = {
                     {
                         loader: 'css-loader',
                         options: {
-                            importLoaders: 1,
-                            modules: { localIdentName: '[local]' },
+                            importLoaders: 2,
+                            modules: {
+                                localIdentName: '[local]',
+                            },
                         },
                     },
                     'sass-loader',
