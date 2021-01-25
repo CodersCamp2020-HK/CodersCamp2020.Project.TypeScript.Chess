@@ -1,5 +1,5 @@
 const App = (): void => {
-    const wrapper = document.createElement('div');
+    console.log('yo');
 };
 
 export default App;
