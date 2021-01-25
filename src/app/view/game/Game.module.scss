@@ -17,14 +17,13 @@
 }
 
 .wrapper > * {
-    min-height: 100px;
     border: 1px solid black;
 }
 
 .wrapper__text {
     grid-area: text;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 80px;
 }
 
 .wrapper__chessboard {
