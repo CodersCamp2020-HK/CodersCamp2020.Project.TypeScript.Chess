@@ -1,10 +1,9 @@
-import { ChessBoardRepresentation } from '../models/EngineInterface';
-import { Piece } from '../models/EngineInterface';
-import { Cord } from '../models/EngineInterface';
-import { Side } from '../models/EngineInterface';
+import { ChessBoardRepresentation, Piece, Cord, Side, PieceType } from '../models/EngineInterface';
 
-interface PieceFile {
-    url: string;
+export interface PieceElement {
+    element: HTMLElement;
+    piece: PieceType;
+    side: Side;
 }
 
 import styles from './chess.scss';
@@ -15,11 +14,11 @@ export class ChessBoardComponent {
     horizontalAxi: HTMLDivElement;
     blackTilesClassList: string;
     whiteTilesClassList: string;
-    piecesFiles: PieceFile[];
+    piecesElements: PieceElement[];
     constructor(
         blackTilesClassList: string,
         whiteTilesClassList: string,
-        piecesFiles: PieceFile[],
+        piecesElements: PieceElement[],
         chessBoardRepresentation: ChessBoardRepresentation,
     ) {
         this.wrapper = document.createElement('div');
@@ -37,7 +36,7 @@ export class ChessBoardComponent {
         this.blackTilesClassList = blackTilesClassList;
         this.whiteTilesClassList = whiteTilesClassList;
 
-        this.piecesFiles = piecesFiles;
+        this.piecesElements = piecesElements;
 
         this.wrapper.appendChild(this.verticalAxi);
         this.wrapper.appendChild(this.horizontalAxi);
@@ -69,9 +68,19 @@ export class ChessBoardComponent {
                 const tileToAppend = currentTile.cloneNode(true) as HTMLDivElement;
                 tileToAppend.dataset.x = i.toString();
                 tileToAppend.dataset.y = j.toString();
+
                 if (chessBoardRepresentation[i][j] !== null) {
-                    const img = document.createElement('img');
-                    tileToAppend.appendChild(img);
+                    const pieceElement: PieceElement | undefined = this.piecesElements.find((element) => {
+                        if (
+                            element.piece == chessBoardRepresentation[i][j]?.piece &&
+                            element.side == chessBoardRepresentation[i][j]?.side
+                        ) {
+                            return true;
+                        }
+                    });
+                    if (pieceElement) {
+                        tileToAppend.appendChild(pieceElement.element);
+                    }
                 }
 
                 this.chessBoardElement.appendChild(tileToAppend);

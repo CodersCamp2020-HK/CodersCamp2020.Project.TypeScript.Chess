@@ -23,7 +23,7 @@ interface CordWithMoveType extends Cord {
     moveType: MoveType;
 }
 
-enum PieceType {
+export enum PieceType {
     Pawn,
     Rook,
     Knight,
