@@ -17,6 +17,8 @@ export enum MoveType {
     NormalMove,
     Capture,
     Castling,
+    Promotion,
+    EnPassant,
 }
 
 export interface CordWithMoveType extends Cord {

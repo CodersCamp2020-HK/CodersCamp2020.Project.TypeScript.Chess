@@ -61,10 +61,4 @@ export class ChessEngine implements IChessEngine {
     isStealemate(boardState: IChessBoard, side: Side): boolean {
         throw new Error('Method not implemented.');
     }
-    checkCastle(kingsCord: Cord, rooksCord: Cord, boardState: IChessBoard): boolean {
-        throw new Error('Method not implemented.');
-    }
-    makeCastle(kingsCord: Cord, rooksCord: Cord, boardState: IChessBoard): CordWithMoveType {
-        throw new Error('Method not implemented.');
-    }
 }
