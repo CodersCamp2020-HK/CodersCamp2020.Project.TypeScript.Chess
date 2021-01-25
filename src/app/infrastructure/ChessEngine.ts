@@ -20,7 +20,7 @@ export class ChessEngine implements IChessEngine {
         if (!piece) {
             return [];
         }
-        const handler = this.getMovesByPiece.get(piece.piece);
+        const handler = this.getMovesByPiece.get(piece.figType);
         if (!handler) {
             return [];
         }

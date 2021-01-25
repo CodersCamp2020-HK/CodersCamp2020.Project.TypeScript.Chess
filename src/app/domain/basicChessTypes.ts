@@ -33,7 +33,7 @@ export enum PieceType {
 }
 
 export interface Piece {
-    piece: PieceType;
+    figType: PieceType;
     cord: Cord;
     side: Side;
     isMoved: boolean;
