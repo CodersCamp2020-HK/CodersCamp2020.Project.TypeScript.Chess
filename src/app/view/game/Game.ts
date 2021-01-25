@@ -27,7 +27,7 @@ export class Game {
 
         const playerScoreWrapper = document.createElement('div');
         playerScoreWrapper.classList.add(styles.wrapper__player);
-        opponentScoreWrapper.textContent = 'Nazwa, czas gracza, zbite pionki';
+        playerScoreWrapper.textContent = 'Nazwa, czas gracza, zbite pionki';
 
         const previousMovesWrapper = document.createElement('div');
         previousMovesWrapper.classList.add(styles.wrapper__moves);

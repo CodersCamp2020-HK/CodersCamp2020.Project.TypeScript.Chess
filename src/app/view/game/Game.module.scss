@@ -1,28 +1,48 @@
 .wrapper {
+    max-width: 80%;
+    max-height: 100%;
+    margin: auto;
+    padding: 30px;
     display: grid;
-    background-color: aquamarine;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    row-gap: 10px;
+    column-gap: 30px;
+    grid-template-areas: 
+        "text text"
+        "chessboard opponent"
+        "chessboard player"
+        "chessboard moves"
+        "chessboard quit";
+}
+
+.wrapper > * {
+    min-height: 100px;
+    border: 1px solid black;
 }
 
 .wrapper__text {
-    color: bisque;
+    grid-area: text;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 .wrapper__chessboard {
-    color: rebeccapurple;
+    grid-area: chessboard;
 }
 
 .wrapper__opponent {
-    color: blue;
+    grid-area: opponent;
 }
 
 .wrapper__player {
-    color: salmon;
+    grid-area: player;
 }
 
 .wrapper__moves {
-    color: chartreuse;
+    grid-area: moves;
 }
 
 .wrapper__quit {
-    color: slategrey;
+    grid-area: quit;
 }
