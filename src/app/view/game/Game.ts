@@ -12,7 +12,7 @@ export class Game {
         return this, this.__gameWrapper;
     }
 
-    createGameDiv(): void {
+    createGameWrapper(): void {
         const cyberChessTextWrapper = document.createElement('div');
         cyberChessTextWrapper.classList.add(styles.wrapper__text);
         cyberChessTextWrapper.textContent = 'Cyber Chess';

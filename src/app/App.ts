@@ -2,7 +2,7 @@ import { Game } from './view/game/Game';
 
 const App = (): void => {
     const gameComponent = new Game();
-    gameComponent.createGameDiv();
+    gameComponent.createGameWrapper();
     document.body.appendChild(gameComponent.gameWrapper);
 };
 
