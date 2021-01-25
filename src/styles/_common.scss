@@ -1,0 +1,29 @@
+@use './colors';
+
+$mobile-max: (max-width: 900px);
+
+%background-gradient{
+   background: linear-gradient(180deg, rgba(63, 221, 217, 0.15) 0%, rgba(0, 8, 12, 0.15) 32.54%), 
+   linear-gradient(0deg, rgba(253, 96, 89, 0.15) 0%, rgba(0, 8, 12, 0.15) 37.72%), #00080C;
+   height:100%;
+   border: 15px solid colors.$yellow;
+   position: relative;
+}
+
+%background-photo-after {
+   content: "";
+   background-image: url("./images/Background-cyber.jpg");
+   background-size: cover;
+   background-repeat: no-repeat;
+   background-position: center;
+   opacity: 0.15;
+   position: absolute;
+   top: 0;
+   left: 0;
+   bottom: 0;
+   right: 0;
+ }
+
+ 
+
+
