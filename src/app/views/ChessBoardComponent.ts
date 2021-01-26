@@ -66,8 +66,8 @@ export class ChessBoardComponent {
 
             for (let j = 0; j < chessBoardRepresentation[i].length; j++) {
                 const tileToAppend = currentTile.cloneNode(true) as HTMLDivElement;
-                tileToAppend.dataset.x = i.toString();
-                tileToAppend.dataset.y = j.toString();
+                tileToAppend.dataset.x = j.toString();
+                tileToAppend.dataset.y = i.toString();
 
                 if (chessBoardRepresentation[i][j] !== null) {
                     const pieceElement: PieceElement | undefined = this.piecesElements.find((element) => {

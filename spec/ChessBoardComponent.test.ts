@@ -124,22 +124,35 @@ describe('ChessBoard Component', () => {
     });
 
     describe('addTileClassList', () => {
-        test('axi x', () => {
-            expect(1).toBe(1);
+        test('should given tile has current classlist with added classes', () => {
+            chessboard.chessBoardElement.children[0].removeAttribute('class');
+            chessboard.chessBoardElement.children[0].classList.add('white');
+            chessboard.addTileClassList({ x: 0, y: 0 }, ['qwe', 'asd']);
+            expect(chessboard.chessBoardElement.children[0].classList.length).toBe(3);
+            expect(chessboard.chessBoardElement.children[0].classList.contains('white')).toBe(true);
+            expect(chessboard.chessBoardElement.children[0].classList.contains('qwe')).toBe(true);
+            expect(chessboard.chessBoardElement.children[0].classList.contains('asd')).toBe(true);
         });
     });
     describe('removeTileClassList', () => {
-        test('axi x', () => {
-            expect(1).toBe(1);
+        test('should given tile has classlist without removed classes', () => {
+            chessboard.chessBoardElement.children[5].removeAttribute('class');
+            chessboard.chessBoardElement.children[5].classList.add('black');
+            chessboard.addTileClassList({ x: 5, y: 0 }, ['qwe', 'asd']);
+            chessboard.removeTileClassList({ x: 5, y: 0 }, ['qwe', 'black']);
+            expect(chessboard.chessBoardElement.children[5].classList.length).toBe(1);
+            expect(chessboard.chessBoardElement.children[5].classList.contains('black')).toBe(false);
+            expect(chessboard.chessBoardElement.children[5].classList.contains('qwe')).toBe(false);
+            expect(chessboard.chessBoardElement.children[5].classList.contains('asd')).toBe(true);
         });
     });
     describe('addTileEvent', () => {
-        test('axi x', () => {
+        test('', () => {
             expect(1).toBe(1);
         });
     });
     describe('removeTileEvent', () => {
-        test('axi x', () => {
+        test('', () => {
             expect(1).toBe(1);
         });
     });
