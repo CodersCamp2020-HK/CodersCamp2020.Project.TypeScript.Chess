@@ -1,4 +1,4 @@
-import { ChessBoardRepresentation, Piece, Cord, Side, PieceType } from '../models/EngineInterface';
+import { ChessBoardRepresentation, Piece, Cord, Side, PieceType } from '../../models/EngineInterface';
 
 export interface PieceElement {
     element: HTMLElement;
@@ -6,7 +6,6 @@ export interface PieceElement {
     side: Side;
 }
 
-import styles from './chess.scss';
 export class ChessBoardComponent {
     wrapper: HTMLDivElement;
     chessBoardElement: HTMLDivElement;
@@ -91,6 +90,7 @@ export class ChessBoardComponent {
     }
     renderAxi(axi: HTMLDivElement, legend: (number | string)[]): void {
         axi.innerHTML = '';
+
         legend.forEach((legendRow) => {
             const span = document.createElement('span');
             span.className = 'one-legend';

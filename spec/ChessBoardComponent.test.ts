@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { ChessBoardComponent, PieceElement } from '../src/app/views/ChessBoardComponent';
+import { ChessBoardComponent, PieceElement } from '../src/app/views/ChessBoard/ChessBoardComponent';
 import * as interfaces from '../src/app/models/EngineInterface';
 
 const chessBoardEmpty: interfaces.ChessBoardRepresentation = [
@@ -144,16 +144,6 @@ describe('ChessBoard Component', () => {
             expect(chessboard.chessBoardElement.children[5].classList.contains('black')).toBe(false);
             expect(chessboard.chessBoardElement.children[5].classList.contains('qwe')).toBe(false);
             expect(chessboard.chessBoardElement.children[5].classList.contains('asd')).toBe(true);
-        });
-    });
-    describe('addTileEvent', () => {
-        test('', () => {
-            expect(1).toBe(1);
-        });
-    });
-    describe('removeTileEvent', () => {
-        test('', () => {
-            expect(1).toBe(1);
         });
     });
 });
