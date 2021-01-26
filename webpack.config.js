@@ -4,7 +4,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
+    mode: 'development',
     entry: './src/index.ts',
+
+    devServer: {
+        contentBase: './dist',
+    },
 
     plugins: [
         new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
@@ -20,29 +25,33 @@ module.exports = {
                 type: 'asset/resource',
             },
 
-            // {
-            //     test: /\.scss$/,
-            //     use: ['style-loader', 'css-loader', 'sass-loader'],
-            //     exclude: /\.module\.scss$/,
-            // },
-
             {
-                test: /\.scss$/,
+                test: /\.module\.scss$/,
                 use: [
                     'style-loader',
-                    '@teamsupercell/typings-for-css-modules-loader',
+                    {
+                        loader: 'dts-css-modules-loader',
+                        options: {
+                            namedExport: true,
+                            banner: '// This file is generated automatically',
+                        },
+                    },
                     {
                         loader: 'css-loader',
                         options: {
-                            importLoaders: 2,
-                            modules: {
-                                localIdentName: '[local]',
-                            },
+                            importLoaders: 1,
+                            modules: true,
                         },
                     },
                     'sass-loader',
                 ],
-                //include: /\.module\.scss$/,
+                include: /\.module\.scss$/,
+            },
+
+            {
+                test: /\.scss$/,
+                use: ['style-loader', 'css-loader', 'sass-loader'],
+                exclude: /\.module\.scss$/,
             },
 
             {
