@@ -1,8 +1,6 @@
-/* eslint @typescript-eslint/no-var-requires: "off" */
 import { PieceType, Cord, IChessBoard, CordWithMoveType, Side } from '../domain/basicChessTypes';
 import { IChessEngine } from '../domain/IChessEngine';
-
-const _ = require('lodash');
+import _ from 'lodash';
 
 export class ChessEngine implements IChessEngine {
     getMovesByPiece: Map<PieceType, (cord: Cord, boardState: IChessBoard) => CordWithMoveType[]>;
@@ -41,8 +39,9 @@ export class ChessEngine implements IChessEngine {
     }
     getPossibleMovesForBishop(cord: Cord, boardState: IChessBoard): CordWithMoveType[] {
         const { x, y } = cord;
-        if (typeof boardState.board[x][y] !== null) {
-            const piece = boardState.board[x][y]?.figType;
+        const aaa = boardState.board[x][y];
+        if (aaa !== null) {
+            const piece = aaa.figType;
             if (piece !== PieceType.Bishop) throw new Error('Piece is not a Bishop');
         }
 

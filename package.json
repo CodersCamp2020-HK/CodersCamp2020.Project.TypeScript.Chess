@@ -25,6 +25,7 @@
     "homepage": "https://github.com/CodersCamp2020-HK/CodersCamp2020.Project.TypeScript.Chess#readme",
     "devDependencies": {
         "@types/jest": "^26.0.20",
+        "@types/lodash": "^4.14.168",
         "@typescript-eslint/eslint-plugin": "^4.14.0",
         "@typescript-eslint/parser": "^4.14.0",
         "clean-webpack-plugin": "^3.0.0",
