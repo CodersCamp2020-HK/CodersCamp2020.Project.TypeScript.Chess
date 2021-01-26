@@ -90,6 +90,7 @@ export class ChessBoardComponent {
         }
     }
     renderAxi(axi: HTMLDivElement, legend: (number | string)[]): void {
+        axi.innerHTML = '';
         legend.forEach((legendRow) => {
             const span = document.createElement('span');
             span.className = 'one-legend';
