@@ -1,18 +1,20 @@
 import styles from './Game.module.scss';
 
 export class Game {
-    private __gameWrapper: HTMLDivElement;
+    private __element: HTMLElement;
 
     constructor() {
-        this.__gameWrapper = document.createElement('div');
-        this.__gameWrapper.classList.add(styles.wrapper);
+        this.__element = this.createGameWrapper();
     }
 
-    public get gameWrapper(): HTMLDivElement {
-        return this, this.__gameWrapper;
+    public get element(): HTMLElement {
+        return this.__element;
     }
 
-    createGameWrapper(): void {
+    private createGameWrapper(): HTMLElement {
+        const wrapper = document.createElement('div');
+        wrapper.classList.add(styles.wrapper);
+
         const cyberChessTextWrapper = document.createElement('div');
         cyberChessTextWrapper.classList.add(styles.wrapper__text);
         cyberChessTextWrapper.textContent = 'Cyber Chess';
@@ -23,11 +25,11 @@ export class Game {
 
         const opponentScoreWrapper = document.createElement('div');
         opponentScoreWrapper.classList.add(styles.wrapper__opponent);
-        opponentScoreWrapper.textContent = 'Nazwa, czas przeciwnika, zbite pionki';
+        opponentScoreWrapper.textContent = 'Nazwa przeciwnika, czas przeciwnika, zbite pionki';
 
         const playerScoreWrapper = document.createElement('div');
         playerScoreWrapper.classList.add(styles.wrapper__player);
-        playerScoreWrapper.textContent = 'Nazwa, czas gracza, zbite pionki';
+        playerScoreWrapper.textContent = 'Nazwa gracza, czas gracza, zbite pionki';
 
         const previousMovesWrapper = document.createElement('div');
         previousMovesWrapper.classList.add(styles.wrapper__moves);
@@ -37,7 +39,7 @@ export class Game {
         quitButtonWrapper.classList.add(styles.wrapper__quit);
         quitButtonWrapper.textContent = 'Wyjście z gry';
 
-        this.__gameWrapper.append(
+        wrapper.append(
             cyberChessTextWrapper,
             chessboardWrapper,
             opponentScoreWrapper,
@@ -45,5 +47,7 @@ export class Game {
             previousMovesWrapper,
             quitButtonWrapper,
         );
+
+        return wrapper;
     }
 }

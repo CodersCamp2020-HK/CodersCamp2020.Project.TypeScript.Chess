@@ -18,6 +18,7 @@
 
 .wrapper > * {
     border: 1px solid black;
+    min-width: 300px;
 }
 
 .wrapper__text {
@@ -28,6 +29,7 @@
 
 .wrapper__chessboard {
     grid-area: chessboard;
+    min-width: 500px;
 }
 
 .wrapper__opponent {
