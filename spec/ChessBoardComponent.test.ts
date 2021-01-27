@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { ChessBoardComponent, PieceElement } from '../src/app/views/ChessBoard/ChessBoardComponent';
+import { ChessBoardComponent, PieceElement } from '../src/app/components/ChessBoard/ChessBoardComponent';
 import * as interfaces from '../src/app/models/EngineInterface';
 
 const chessBoardEmpty: interfaces.ChessBoardRepresentation = [
