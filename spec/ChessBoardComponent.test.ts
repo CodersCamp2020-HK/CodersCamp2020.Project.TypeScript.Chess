@@ -2,8 +2,13 @@
  * @jest-environment jsdom
  */
 
+test('test', () => {
+    expect(true).toBeTruthy();
+});
+
 import { ChessBoardComponent, PieceElement } from '../src/app/components/ChessBoard/ChessBoardComponent';
 import * as interfaces from '../src/app/models/EngineInterface';
+import styles from '../src/app/components/ChessBoard/chess.module.scss';
 
 const chessBoardEmpty: interfaces.ChessBoardRepresentation = [
     [null, null, null, null, null, null, null, null],
@@ -63,7 +68,9 @@ const piecesElements: PieceElement[] = [
     },
 ];
 
-const chessboard = new ChessBoardComponent('black', 'white', piecesElements, chessBoardEmpty);
+const wrapper = document.createElement('div');
+
+const chessboard = new ChessBoardComponent(wrapper, piecesElements, chessBoardEmpty);
 
 describe('ChessBoard Component', () => {
     describe('render', () => {
@@ -71,34 +78,34 @@ describe('ChessBoard Component', () => {
             expect(chessboard.wrapper).toBeInstanceOf(HTMLDivElement);
         });
         test('should render div chessboard', () => {
-            expect(chessboard.chessBoardElement).toBeInstanceOf(HTMLDivElement);
+            expect(chessboard.board).toBeInstanceOf(HTMLDivElement);
         });
         test('should render 64 tiles', () => {
-            expect(chessboard.chessBoardElement.children.length).toBe(64);
+            expect(chessboard.board.children.length).toBe(64);
         });
         test('should render 32 black tiles', () => {
-            expect(chessboard.chessBoardElement.querySelectorAll('.black').length).toBe(32);
+            expect(chessboard.board.querySelectorAll('.black').length).toBe(32);
         });
         test('should render 32 white tiles', () => {
-            expect(chessboard.chessBoardElement.querySelectorAll('.white').length).toBe(32);
+            expect(chessboard.board.querySelectorAll('.white').length).toBe(32);
         });
         test('should render white tile on first place', () => {
-            expect(chessboard.chessBoardElement.children[0].classList.contains('white')).toBe(true);
+            expect(chessboard.board.children[0].classList.contains('white')).toBe(true);
         });
         test('should render tiles alternately in row', () => {
-            expect(chessboard.chessBoardElement.children[0].classList.contains('white')).toBe(true);
-            expect(chessboard.chessBoardElement.children[1].classList.contains('black')).toBe(true);
-            expect(chessboard.chessBoardElement.children[2].classList.contains('white')).toBe(true);
+            expect(chessboard.board.children[0].classList.contains('white')).toBe(true);
+            expect(chessboard.board.children[1].classList.contains('black')).toBe(true);
+            expect(chessboard.board.children[2].classList.contains('white')).toBe(true);
         });
         test('should render tiles alternately in column', () => {
-            expect(chessboard.chessBoardElement.children[0].classList.contains('white')).toBe(true);
-            expect(chessboard.chessBoardElement.children[8].classList.contains('black')).toBe(true);
-            expect(chessboard.chessBoardElement.children[16].classList.contains('white')).toBe(true);
+            expect(chessboard.board.children[0].classList.contains('white')).toBe(true);
+            expect(chessboard.board.children[8].classList.contains('black')).toBe(true);
+            expect(chessboard.board.children[16].classList.contains('white')).toBe(true);
         });
         test('should render pieces in right places', () => {
-            chessboard.render(chessBoardFilled);
-            expect(chessboard.chessBoardElement.children[19].children[0]).toBeInstanceOf(HTMLDivElement);
-            expect(chessboard.chessBoardElement.children[41].children[0]).toBeInstanceOf(HTMLImageElement);
+            chessboard.renderBoard(chessBoardFilled);
+            expect(chessboard.board.children[19].children[0]).toBeInstanceOf(HTMLDivElement);
+            expect(chessboard.board.children[41].children[0]).toBeInstanceOf(HTMLImageElement);
         });
     });
 
@@ -125,25 +132,21 @@ describe('ChessBoard Component', () => {
 
     describe('addTileClassList', () => {
         test('should given tile has current classlist with added classes', () => {
-            chessboard.chessBoardElement.children[0].removeAttribute('class');
-            chessboard.chessBoardElement.children[0].classList.add('white');
             chessboard.addTileClassList({ x: 0, y: 0 }, ['qwe', 'asd']);
-            expect(chessboard.chessBoardElement.children[0].classList.length).toBe(3);
-            expect(chessboard.chessBoardElement.children[0].classList.contains('white')).toBe(true);
-            expect(chessboard.chessBoardElement.children[0].classList.contains('qwe')).toBe(true);
-            expect(chessboard.chessBoardElement.children[0].classList.contains('asd')).toBe(true);
+            expect(chessboard.tiles[0][0]?.classList.length).toBe(3);
+            expect(chessboard.tiles[0][0]?.classList.contains('white')).toBe(true);
+            expect(chessboard.tiles[0][0]?.classList.contains('qwe')).toBe(true);
+            expect(chessboard.tiles[0][0]?.classList.contains('asd')).toBe(true);
         });
     });
     describe('removeTileClassList', () => {
         test('should given tile has classlist without removed classes', () => {
-            chessboard.chessBoardElement.children[5].removeAttribute('class');
-            chessboard.chessBoardElement.children[5].classList.add('black');
             chessboard.addTileClassList({ x: 5, y: 0 }, ['qwe', 'asd']);
             chessboard.removeTileClassList({ x: 5, y: 0 }, ['qwe', 'black']);
-            expect(chessboard.chessBoardElement.children[5].classList.length).toBe(1);
-            expect(chessboard.chessBoardElement.children[5].classList.contains('black')).toBe(false);
-            expect(chessboard.chessBoardElement.children[5].classList.contains('qwe')).toBe(false);
-            expect(chessboard.chessBoardElement.children[5].classList.contains('asd')).toBe(true);
+            expect(chessboard.tiles[5][0]?.classList.length).toBe(1);
+            expect(chessboard.tiles[5][0]?.classList.contains('black')).toBe(false);
+            expect(chessboard.tiles[5][0]?.classList.contains('qwe')).toBe(false);
+            expect(chessboard.tiles[5][0]?.classList.contains('asd')).toBe(true);
         });
     });
 });
