@@ -40,7 +40,7 @@ const App = (): void => {
             [null, null, null, null, null, null, null, null],
         ],
     };
-    console.log(chessEngine.getPossibleMovesForBishop(cord, board));
+    chessEngine.getPossibleMovesForBishop(cord, board);
 };
 
 export default App;
