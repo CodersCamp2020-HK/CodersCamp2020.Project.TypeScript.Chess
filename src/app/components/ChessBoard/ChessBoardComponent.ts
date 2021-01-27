@@ -1,5 +1,5 @@
 import { ChessBoardRepresentation, Piece, Cord, Side, PieceType } from '../../models/EngineInterface';
-
+import styles from './chess.module.scss';
 export interface PieceElement {
     element: HTMLElement;
     piece: PieceType;
@@ -24,7 +24,7 @@ export class ChessBoardComponent {
         this.wrapper.className = 'board-wrapper';
 
         this.chessBoardElement = document.createElement('div');
-        this.chessBoardElement.className = 'board';
+        this.chessBoardElement.className = styles.board;
 
         this.verticalAxi = document.createElement('div');
         this.verticalAxi.className = 'vertical-axi';
