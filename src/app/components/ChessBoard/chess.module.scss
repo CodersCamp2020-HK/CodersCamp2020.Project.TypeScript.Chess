@@ -30,11 +30,15 @@
 .vertical_axi {
     display: flex;
     flex-direction: column;
+    color: colors.$blue;
+    //@extend %h4;
 }
 
 .horizontal_axi {
     display: flex;
     flex-direction: row;
+    color: colors.$red;
+    //@extend %h4;
 }
 
 .selected {
@@ -65,7 +69,6 @@
     background-repeat: no-repeat;
 }
 
-//pasant 
 .pasant {
     background-image: url('./images/circle.svg');
     background-position: center;
