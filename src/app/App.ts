@@ -22,7 +22,6 @@ const App = (): void => {
             [null, null, null, null, null, null, null, null],
         ],
     };
-    console.log(board.board);
     console.log(chessEngine.getPossibleMovesForBishop(cord, board));
 };
 
