@@ -13,6 +13,16 @@ export class ChessBoardComponent {
     horizontalAxi: HTMLDivElement;
     blackTilesClassList: string;
     whiteTilesClassList: string;
+    tiles: Array<Array<null | HTMLDivElement>> = [
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+    ];
     piecesElements: PieceElement[];
     constructor(
         blackTilesClassList: string,
@@ -27,10 +37,10 @@ export class ChessBoardComponent {
         this.chessBoardElement.className = styles.board;
 
         this.verticalAxi = document.createElement('div');
-        this.verticalAxi.className = 'vertical-axi';
+        this.verticalAxi.className = styles.vertical_axi;
 
         this.horizontalAxi = document.createElement('div');
-        this.horizontalAxi.className = 'horizontal-axi';
+        this.horizontalAxi.className = styles.horizontal_axi;
 
         this.blackTilesClassList = blackTilesClassList;
         this.whiteTilesClassList = whiteTilesClassList;
@@ -56,23 +66,23 @@ export class ChessBoardComponent {
         let currentTile = blackTile;
         this.chessBoardElement.innerHTML = '';
 
-        for (let i = 0; i < chessBoardRepresentation.length; i++) {
-            if (i % 2 == 0) {
+        for (let row = 0; row < chessBoardRepresentation.length; row++) {
+            if (row % 2 == 0) {
                 currentTile = whiteTile;
             } else {
                 currentTile = blackTile;
             }
 
-            for (let j = 0; j < chessBoardRepresentation[i].length; j++) {
+            for (let column = 0; column < chessBoardRepresentation[row].length; column++) {
                 const tileToAppend = currentTile.cloneNode(true) as HTMLDivElement;
-                tileToAppend.dataset.x = j.toString();
-                tileToAppend.dataset.y = i.toString();
+                tileToAppend.dataset.x = column.toString();
+                tileToAppend.dataset.y = row.toString();
 
-                if (chessBoardRepresentation[i][j] !== null) {
+                if (chessBoardRepresentation[row][column] !== null) {
                     const pieceElement: PieceElement | undefined = this.piecesElements.find((element) => {
                         if (
-                            element.piece == chessBoardRepresentation[i][j]?.piece &&
-                            element.side == chessBoardRepresentation[i][j]?.side
+                            element.piece == chessBoardRepresentation[row][column]?.piece &&
+                            element.side == chessBoardRepresentation[row][column]?.side
                         ) {
                             return true;
                         }
@@ -81,6 +91,8 @@ export class ChessBoardComponent {
                         tileToAppend.appendChild(pieceElement.element);
                     }
                 }
+
+                this.tiles[row][column] = tileToAppend;
 
                 this.chessBoardElement.appendChild(tileToAppend);
 
@@ -99,22 +111,22 @@ export class ChessBoardComponent {
         });
     }
     addTileClassList(cord: Cord, classList: string[]): void {
-        const selectedTile = this.chessBoardElement.querySelector(`div[data-x="${cord.x}"][data-y="${cord.y}"]`);
+        const selectedTile = this.tiles[cord.x][cord.y];
         selectedTile?.classList.add(...classList);
     }
 
     removeTileClassList(cord: Cord, classList: string[]): void {
-        const selectedTile = this.chessBoardElement.querySelector(`div[data-x="${cord.x}"][data-y="${cord.y}"]`);
+        const selectedTile = this.tiles[cord.x][cord.y];
         selectedTile?.classList.remove(...classList);
     }
 
     removeTileEvent(cord: Cord, eventName: string, eventCallback: () => void): void {
-        const selectedTile = this.chessBoardElement.querySelector(`div[data-x="${cord.x}"][data-y="${cord.y}"]`);
+        const selectedTile = this.tiles[cord.x][cord.y];
         selectedTile?.removeEventListener(eventName, eventCallback);
     }
 
     addTileEvent(cord: Cord, eventName: string, eventCallback: () => void): void {
-        const selectedTile = this.chessBoardElement.querySelector(`div[data-x="${cord.x}"][data-y="${cord.y}"]`);
+        const selectedTile = this.tiles[cord.x][cord.y];
         selectedTile?.addEventListener(eventName, eventCallback);
     }
 }
