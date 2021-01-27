@@ -3,7 +3,7 @@ import { ChessEngine } from './infrastructure/ChessEngine';
 
 const App = (): void => {
     const chessEngine = new ChessEngine();
-    const cord: Cord = { x: 3, y: 4 };
+    const cord: Cord = { x: 2, y: 1 };
     const bishop: Piece = {
         figType: PieceType.Bishop,
         cord: cord,
@@ -14,8 +14,8 @@ const App = (): void => {
         board: [
             [null, null, null, null, null, null, null, null],
             [null, null, null, null, null, null, null, null],
+            [null, bishop, null, null, null, null, null, null],
             [null, null, null, null, null, null, null, null],
-            [null, null, null, null, bishop, null, null, null],
             [null, null, null, null, null, null, null, null],
             [null, null, null, null, null, null, null, null],
             [null, null, null, null, null, null, null, null],

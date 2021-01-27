@@ -39,10 +39,11 @@ export class ChessEngine implements IChessEngine {
     }
     getPossibleMovesForBishop(cord: Cord, boardState: IChessBoard): CordWithMoveType[] {
         const { x, y } = cord;
-        const board = boardState.board[x][y];
+        const square = boardState.board[x][y];
         const result: CordWithMoveType[] = [];
-        if (board) {
-            const piece = board.figType;
+        if (square) {
+            const piece = square.figType;
+            const side = square.side;
             if (piece !== PieceType.Bishop) throw new Error('Piece is not a Bishop');
 
             const directions = [
@@ -51,7 +52,8 @@ export class ChessEngine implements IChessEngine {
                 ..._.zip(_.range(x - 1, -1, -1), _.range(y + 1, 8, 1)),
                 ..._.zip(_.range(x - 1, -1, -1), _.range(y - 1, -1, -1)),
             ];
-            console.log(directions);
+            console.log(side, directions);
+
             for (const move of directions) {
                 if (move[0] !== undefined && move[1] !== undefined) {
                     const propperCord = { x: move[0], y: move[1] } as Cord;
