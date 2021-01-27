@@ -73,8 +73,6 @@ export class ChessBoardComponent {
 
             for (let column = 0; column < chessBoardRepresentation[row].length; column++) {
                 const tileToAppend = currentTile.cloneNode(true) as HTMLDivElement;
-                tileToAppend.dataset.x = column.toString();
-                tileToAppend.dataset.y = row.toString();
 
                 if (chessBoardRepresentation[row][column] !== null) {
                     const pieceElement: PieceElement | undefined = this.piecesElements.find((element) => {
@@ -109,26 +107,26 @@ export class ChessBoardComponent {
         });
     }
     addTileClassList(cord: Cord, classList: string[]): void {
-        const selectedTile = this.tiles[cord.x][cord.y];
+        const selectedTile = this.tiles[cord.y][cord.x];
         classList.forEach((el) => {
             selectedTile?.classList.add(el);
         });
     }
 
     removeTileClassList(cord: Cord, classList: string[]): void {
-        const selectedTile = this.tiles[cord.x][cord.y];
+        const selectedTile = this.tiles[cord.y][cord.x];
         classList.forEach((el) => {
             selectedTile?.classList.remove(el);
         });
     }
 
     removeTileEvent(cord: Cord, eventName: string, eventCallback: () => void): void {
-        const selectedTile = this.tiles[cord.x][cord.y];
+        const selectedTile = this.tiles[cord.y][cord.x];
         selectedTile?.removeEventListener(eventName, eventCallback);
     }
 
     addTileEvent(cord: Cord, eventName: string, eventCallback: () => void): void {
-        const selectedTile = this.tiles[cord.x][cord.y];
+        const selectedTile = this.tiles[cord.y][cord.x];
         selectedTile?.addEventListener(eventName, eventCallback);
     }
 }
