@@ -8,7 +8,6 @@ test('test', () => {
 
 import { ChessBoardComponent, PieceElement } from '../src/app/components/ChessBoard/ChessBoardComponent';
 import * as interfaces from '../src/app/models/EngineInterface';
-import styles from '../src/app/components/ChessBoard/chess.module.scss';
 
 const chessBoardEmpty: interfaces.ChessBoardRepresentation = [
     [null, null, null, null, null, null, null, null],
