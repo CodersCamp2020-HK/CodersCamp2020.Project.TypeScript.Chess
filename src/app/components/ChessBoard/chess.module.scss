@@ -1,19 +1,30 @@
+@use '../../../styles/colors';
+@use '../../../styles/common';
+//@use '../../../styles/typography';
 .black {
-    background-color: black;
+    //background-color: black;
     width: 50px;
     height: 50px;
+    border: 2px solid colors.$blue;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin: 2px;
 }
 
 .white {
-    background-color: orange;
+    //background-color: orange;
     width: 50px;
     height: 50px;
+    border: 2px solid colors.$red;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin: 2px;
 }
 
 .board {
     display: grid;
-    grid-template-columns: repeat(8, 50px);
-    grid-template-rows: repeat(8, 50px);
+    grid-template-columns: repeat(8, 52px);
+    grid-template-rows: repeat(8, 52px);
 }
 
 .vertical_axi {
@@ -24,4 +35,37 @@
 .horizontal_axi {
     display: flex;
     flex-direction: row;
+}
+
+.selected {
+    //background-color: black;
+    border-style: double;
+    border-width: 4px;
+}
+
+//posibble move
+.possible__move {
+    background-image: url('./images/circle.svg');
+    background-position: center;
+    background-size: 50% auto;
+    background-repeat: no-repeat;
+    
+}
+
+//posibble move hover
+.possible__move__hover {
+    background-image: url('./images/hollow-circle.svg'), url('./images/hollow-circle.svg'), url('./images/circle.svg');
+    background-position: center;
+    background-size: 100%, 80%, 50%; //50% to cover first circle
+    background-repeat: no-repeat;
+
+}
+
+//posibble capture
+.capture {
+    background-image: url('./images/hollow-circle.svg'), url('./images/circle.svg');
+    background-position: center;
+    background-size: 100%, 80% 80%; //80% to cover first circle
+    background-repeat: no-repeat;
+
 }
