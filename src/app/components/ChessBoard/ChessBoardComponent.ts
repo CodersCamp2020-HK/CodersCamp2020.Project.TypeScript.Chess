@@ -8,7 +8,7 @@ export interface PieceElement {
 
 export class ChessBoardComponent {
     wrapper: HTMLDivElement;
-    chessBoardElement: HTMLDivElement;
+    board: HTMLDivElement;
     verticalAxi: HTMLDivElement;
     horizontalAxi: HTMLDivElement;
     blackTilesClassList: string;
@@ -25,16 +25,14 @@ export class ChessBoardComponent {
     ];
     piecesElements: PieceElement[];
     constructor(
-        blackTilesClassList: string,
-        whiteTilesClassList: string,
+        wrapper: HTMLDivElement,
         piecesElements: PieceElement[],
         chessBoardRepresentation: ChessBoardRepresentation,
     ) {
-        this.wrapper = document.createElement('div');
-        this.wrapper.className = 'board-wrapper';
+        this.wrapper = wrapper;
 
-        this.chessBoardElement = document.createElement('div');
-        this.chessBoardElement.className = styles.board;
+        this.board = document.createElement('div');
+        this.board.className = styles.board;
 
         this.verticalAxi = document.createElement('div');
         this.verticalAxi.className = styles.vertical_axi;
@@ -42,21 +40,21 @@ export class ChessBoardComponent {
         this.horizontalAxi = document.createElement('div');
         this.horizontalAxi.className = styles.horizontal_axi;
 
-        this.blackTilesClassList = blackTilesClassList;
-        this.whiteTilesClassList = whiteTilesClassList;
+        this.blackTilesClassList = styles.black;
+        this.whiteTilesClassList = styles.white;
 
         this.piecesElements = piecesElements;
 
         this.wrapper.appendChild(this.verticalAxi);
         this.wrapper.appendChild(this.horizontalAxi);
-        this.wrapper.appendChild(this.chessBoardElement);
+        this.wrapper.appendChild(this.board);
 
         this.renderAxi(this.horizontalAxi, ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']);
         this.renderAxi(this.verticalAxi, [1, 2, 3, 4, 5, 6, 7, 8]);
-        this.render(chessBoardRepresentation);
+        this.renderBoard(chessBoardRepresentation);
     }
 
-    render(chessBoardRepresentation: ChessBoardRepresentation): void {
+    renderBoard(chessBoardRepresentation: ChessBoardRepresentation): void {
         const blackTile = document.createElement('div');
         blackTile.classList.add(this.blackTilesClassList);
 
@@ -64,7 +62,7 @@ export class ChessBoardComponent {
         whiteTile.classList.add(this.whiteTilesClassList);
 
         let currentTile = blackTile;
-        this.chessBoardElement.innerHTML = '';
+        this.board.innerHTML = '';
 
         for (let row = 0; row < chessBoardRepresentation.length; row++) {
             if (row % 2 == 0) {
@@ -94,7 +92,7 @@ export class ChessBoardComponent {
 
                 this.tiles[row][column] = tileToAppend;
 
-                this.chessBoardElement.appendChild(tileToAppend);
+                this.board.appendChild(tileToAppend);
 
                 currentTile = currentTile == blackTile ? whiteTile : blackTile;
             }
@@ -112,12 +110,16 @@ export class ChessBoardComponent {
     }
     addTileClassList(cord: Cord, classList: string[]): void {
         const selectedTile = this.tiles[cord.x][cord.y];
-        selectedTile?.classList.add(...classList);
+        classList.forEach((el) => {
+            selectedTile?.classList.add(el);
+        });
     }
 
     removeTileClassList(cord: Cord, classList: string[]): void {
         const selectedTile = this.tiles[cord.x][cord.y];
-        selectedTile?.classList.remove(...classList);
+        classList.forEach((el) => {
+            selectedTile?.classList.remove(el);
+        });
     }
 
     removeTileEvent(cord: Cord, eventName: string, eventCallback: () => void): void {
