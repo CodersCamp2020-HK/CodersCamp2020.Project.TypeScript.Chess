@@ -38,12 +38,10 @@
 }
 
 .selected {
-    //background-color: black;
     border-style: double;
-    border-width: 4px;
+    border-width: 6px;
 }
 
-//posibble move
 .possible__move {
     background-image: url('./images/circle.svg');
     background-position: center;
@@ -52,7 +50,6 @@
     
 }
 
-//posibble move hover
 .possible__move__hover {
     background-image: url('./images/hollow-circle.svg'), url('./images/hollow-circle.svg'), url('./images/circle.svg');
     background-position: center;
@@ -61,11 +58,31 @@
 
 }
 
-//posibble capture
 .capture {
     background-image: url('./images/hollow-circle.svg'), url('./images/circle.svg');
     background-position: center;
-    background-size: 100%, 80% 80%; //80% to cover first circle
+    background-size: 100%, 80%; //80% to cover first circle
     background-repeat: no-repeat;
+}
 
+//pasant 
+.pasant {
+    background-image: url('./images/circle.svg');
+    background-position: center;
+    background-size: 80%; //80% to cover first circle
+    background-repeat: no-repeat;
+}
+
+.castling__right {
+    background-image: url('./images/arrow-right.svg');
+    background-position: 100% 95%;
+    background-size: 20%; //80% to cover first circle
+    background-repeat: repeat-x;
+}
+
+.castling__left {
+    background-image: url('./images/arrow-left.svg');
+    background-position: 100% 95%;
+    background-size: 20%; //80% to cover first circle
+    background-repeat: repeat-x;
 }
