@@ -71,9 +71,8 @@ export class ChessEngine implements IChessEngine {
                             if (square.side !== side) {
                                 result.push({ x, y, moveType: MoveType.Capture } as CordWithMoveType);
                                 break;
-                            } else {
-                                break;
                             }
+                            break;
                         } else {
                             result.push({ x, y, moveType: MoveType.NormalMove } as CordWithMoveType);
                         }
