@@ -7,7 +7,7 @@ test('test', () => {
 });
 
 import { ChessBoardComponent, PieceElement } from '../src/app/components/ChessBoard/ChessBoardComponent';
-import * as interfaces from '../src/app/models/EngineInterface';
+import * as interfaces from '../src/app/domain/basicChessTypes';
 
 const chessBoardEmpty: interfaces.ChessBoardRepresentation = [
     [null, null, null, null, null, null, null, null],
@@ -27,7 +27,7 @@ const chessBoardFilled: interfaces.ChessBoardRepresentation = [
         null,
         null,
         null,
-        { piece: interfaces.PieceType.Pawn, cord: { x: 0, y: 0 }, side: interfaces.Side.Black, isMoved: false },
+        { figType: interfaces.PieceType.Pawn, cord: { x: 0, y: 0 }, side: interfaces.Side.Black, isMoved: false },
         null,
         null,
         null,
@@ -37,7 +37,7 @@ const chessBoardFilled: interfaces.ChessBoardRepresentation = [
     [null, null, null, null, null, null, null, null],
     [
         null,
-        { piece: interfaces.PieceType.Bishop, cord: { x: 0, y: 0 }, side: interfaces.Side.White, isMoved: false },
+        { figType: interfaces.PieceType.Bishop, cord: { x: 0, y: 0 }, side: interfaces.Side.White, isMoved: false },
         null,
         null,
         null,
@@ -52,17 +52,17 @@ const chessBoardFilled: interfaces.ChessBoardRepresentation = [
 const piecesElements: PieceElement[] = [
     {
         element: document.createElement('div'),
-        piece: interfaces.PieceType.Pawn,
+        figType: interfaces.PieceType.Pawn,
         side: interfaces.Side.Black,
     },
     {
         element: document.createElement('img'),
-        piece: interfaces.PieceType.Bishop,
+        figType: interfaces.PieceType.Bishop,
         side: interfaces.Side.White,
     },
     {
         element: document.createElement('span'),
-        piece: interfaces.PieceType.Bishop,
+        figType: interfaces.PieceType.Bishop,
         side: interfaces.Side.Black,
     },
 ];

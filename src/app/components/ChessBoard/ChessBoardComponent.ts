@@ -1,8 +1,8 @@
-import { ChessBoardRepresentation, Piece, Cord, Side, PieceType } from '../../models/EngineInterface';
+import { ChessBoardRepresentation, Cord, Side, PieceType } from '../../domain/basicChessTypes';
 import styles from './chess.module.scss';
 export interface PieceElement {
     element: HTMLElement;
-    piece: PieceType;
+    figType: PieceType;
     side: Side;
 }
 
@@ -77,7 +77,7 @@ export class ChessBoardComponent {
                 if (chessBoardRepresentation[row][column] !== null) {
                     const pieceElement: PieceElement | undefined = this.piecesElements.find((element) => {
                         if (
-                            element.piece == chessBoardRepresentation[row][column]?.piece &&
+                            element.figType == chessBoardRepresentation[row][column]?.figType &&
                             element.side == chessBoardRepresentation[row][column]?.side
                         ) {
                             return true;
