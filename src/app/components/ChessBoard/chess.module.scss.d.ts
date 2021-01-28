@@ -15,6 +15,6 @@ export const capture__white: string;
 export const pasant__black: string;
 export const pasant__white: string;
 export const castling__right__black: string;
-export const castling__right__white: string;
 export const castling__left__black: string;
+export const castling__right__white: string;
 export const castling__left__white: string;
