@@ -32,32 +32,32 @@
     border: 1px solid purple;
 }
 
-.wrapper__text {
+.wrapperText {
     grid-area: text;
     text-align: center;
 }
 
-.wrapper__chessboard {
+.wrapperChessboard {
     grid-area: chessboard;
 }
 
-.wrapper__opponent {
+.wrapperOpponent {
     grid-area: opponent;
 }
 
-.wrapper__player {
+.wrapperPlayer {
     grid-area: player;
 }
 
-.wrapper__moves {
+.wrapperMoves {
     grid-area: moves;
 }
 
-.wrapper__quit {
+.wrapperQuit {
     grid-area: quit;
 }
 
-.wrapper__footer {
+.wrapperFooter {
     grid-area: footer;
     text-align: center;
 }
