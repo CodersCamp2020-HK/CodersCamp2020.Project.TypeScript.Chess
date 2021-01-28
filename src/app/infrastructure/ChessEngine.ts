@@ -8,9 +8,11 @@ import {
     MoveType,
 } from '../domain/basicChessTypes';
 import { IChessEngine } from '../domain/IChessEngine';
-import { getDirections } from './bishop';
+import { getBishopDirections } from './bishop';
 import { getRookDirections } from './rook';
 import _ from 'lodash';
+import { getKingDirections } from './king';
+
 export class ChessEngine implements IChessEngine {
     getMovesByPiece: Map<PieceType, (cord: Cord, boardState: IChessBoard) => CordWithMoveType[]>;
 
@@ -46,9 +48,8 @@ export class ChessEngine implements IChessEngine {
             const directions = getRookDirections(cord);
             const moves = this.removeMovesBlockedByPiece(cord, directions, boardState);
             const result = this.getMoveTypesForPiece(moves, square.side, boardState);
-            // console.log(result);
 
-            return [];
+            return result;
         }
         return [];
     }
@@ -61,12 +62,10 @@ export class ChessEngine implements IChessEngine {
         const { x, y } = cord;
         const square = boardState.board[x][y];
         if (square) {
-            const allMoves = getDirections({ x, y });
+            const allMoves = getBishopDirections(cord);
             const properCords = this.removeMovesOutsideChessBoard(allMoves);
             const moves = this.removeMovesBlockedByPiece(cord, properCords, boardState);
             const result = this.getMoveTypesForPiece(moves, square.side, boardState);
-
-            console.log(result);
 
             return result;
         }
@@ -81,34 +80,10 @@ export class ChessEngine implements IChessEngine {
     getPossibleMovesForKing(cord: Cord, boardState: IChessBoard): CordWithMoveType[] {
         const square = boardState.board[cord.x][cord.y];
         if (square) {
-            const numbers = [-1, 1];
-            const possibleMoves = [];
-
-            for (const i of numbers) {
-                const actualKingPositionX = cord.x + i;
-                const actualKingPositionY = cord.y;
-                possibleMoves.push({ x: actualKingPositionX, y: actualKingPositionY });
-            }
-
-            for (const i of numbers) {
-                const actualKingPositionX = cord.x;
-                const actualKingPositionY = cord.y + i;
-                possibleMoves.push({ x: actualKingPositionX, y: actualKingPositionY });
-            }
-
-            for (const i of numbers) {
-                for (const j of numbers) {
-                    const actualKingPositionX = cord.x + i;
-                    const actualKingPositionY = cord.y + j;
-                    possibleMoves.push({ x: actualKingPositionX, y: actualKingPositionY });
-                }
-            }
-
+            const possibleMoves = getKingDirections(cord);
             const properMoves = this.removeMovesOutsideChessBoard(possibleMoves);
             const moves = this.removeMovesBlockedByPiece(cord, properMoves, boardState);
             const result = this.getMoveTypesForPiece(moves, square.side, boardState);
-
-            // console.log(result);
 
             return result;
         }
