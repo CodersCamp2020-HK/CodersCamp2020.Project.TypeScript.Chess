@@ -75,12 +75,20 @@ export class ChessEngine implements IChessEngine {
     }
 
     private removeMovesBlockedByPiece(pieceCord: Cord, possibleMovesCords: Cord[], boardState: IChessBoard): Cord[] {
-        const otherPiecesCords = possibleMovesCords.filter((cord) => {
+        const otherPiecesCords = this.getOtherPiecesCord(possibleMovesCords, boardState);
+        const result: Cord[] = this.excludeMovesBehindPiece(pieceCord, possibleMovesCords, otherPiecesCords);
+
+        return result;
+    }
+
+    private getOtherPiecesCord(possibleMovesCords: Cord[], boardState: IChessBoard) {
+        return possibleMovesCords.filter((cord) => {
             const square = boardState.board[cord.x][cord.y];
             return square ? true : false;
         });
-        console.log(otherPiecesCords);
+    }
 
+    private excludeMovesBehindPiece(pieceCord: Cord, possibleMovesCords: Cord[], otherPiecesCords: Cord[]): Cord[] {
         const result = [];
 
         for (const otherPieceCord of otherPiecesCords) {
@@ -103,11 +111,7 @@ export class ChessEngine implements IChessEngine {
             );
         }
 
-        console.log(result);
-        const all = result.reduce((prev, curr) => prev.filter((i) => curr.includes(i)));
-        console.log(all);
-
-        return [];
+        return result.reduce((prev, curr) => prev.filter((i) => curr.includes(i)));
     }
 
     isCheck(boardState: IChessBoard, side: Side): boolean {
