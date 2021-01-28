@@ -1,12 +1,4 @@
-import {
-    PieceType,
-    Cord,
-    IChessBoard,
-    CordWithMoveType,
-    Side,
-    PossibleCords,
-    MoveType,
-} from '../domain/basicChessTypes';
+import { PieceType, Cord, IChessBoard, CordWithMoveType, Side, MoveType } from '../domain/basicChessTypes';
 import { IChessEngine } from '../domain/IChessEngine';
 import _ from 'lodash';
 
@@ -70,7 +62,6 @@ export class ChessEngine implements IChessEngine {
                         if (square) {
                             if (square.side !== side) {
                                 result.push({ x, y, moveType: MoveType.Capture } as CordWithMoveType);
-                                break;
                             }
                             break;
                         } else {
