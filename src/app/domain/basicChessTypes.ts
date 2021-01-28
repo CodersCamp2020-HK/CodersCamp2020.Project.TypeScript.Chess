@@ -45,8 +45,8 @@ export type ChessBoardRepresentation = Array<Array<Piece | null>>;
 
 export interface IChessBoard {
     board: ChessBoardRepresentation;
-    makeMove(piece: Piece, move: PieceMove): void;
-    hasPiece(cord: Cord): boolean;
+    //     makeMove(piece: Piece, move: PieceMove): void;
+    //     hasPiece(cord: Cord): boolean;
 }
 
 export type PickSide = () => Side;
