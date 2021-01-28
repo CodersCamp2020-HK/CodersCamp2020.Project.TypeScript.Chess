@@ -1,6 +1,6 @@
-import { PieceType, Cord, IChessBoard, CordWithMoveType, Side, MoveType } from '../domain/basicChessTypes';
+import { PieceType, Cord, IChessBoard, CordWithMoveType, Side, PossibleCords } from '../domain/basicChessTypes';
 import { IChessEngine } from '../domain/IChessEngine';
-import _ from 'lodash';
+import { getDirections } from './bishop';
 
 export class ChessEngine implements IChessEngine {
     getMovesByPiece: Map<PieceType, (cord: Cord, boardState: IChessBoard) => CordWithMoveType[]>;
@@ -44,10 +44,11 @@ export class ChessEngine implements IChessEngine {
         if (square) {
             const piece = square.figType;
             if (piece !== PieceType.Bishop) throw new Error('Piece is not a Bishop');
-
             const allMoves: PossibleCords[] = getDirections({ x, y });
             const properCords = this.removeMovesOutsideChessBoard(allMoves);
             console.log(properCords);
+
+            this.removeMovesBlockedByPiece(properCords, boardState);
 
             return result;
         }
@@ -58,18 +59,29 @@ export class ChessEngine implements IChessEngine {
     getPossibleMovesForQueen(cord: Cord, boardState: IChessBoard): CordWithMoveType[] {
         return this.getPossibleMovesForBishop(cord, boardState).concat(this.getPossibleMovesForRook(cord, boardState));
     }
+
     getPossibleMovesForKing(cord: Cord, boardState: IChessBoard): CordWithMoveType[] {
         return [];
     }
+
     private removeMovesOutsideChessBoard(cords: PossibleCords[]): Cord[] {
         const result = cords.filter((move) => {
             const xCondition = move.x !== undefined && move.x >= 0 && move.x <= 7;
             const yCondition = move.y !== undefined && move.y >= 0 && move.y <= 7;
             return xCondition && yCondition;
         }) as Cord[];
+
         return result;
     }
-    removeMovesBlockedByPiece(cords: CordWithMoveType[]): CordWithMoveType[] {
+    private removeMovesBlockedByPiece(possibleMovesCords: Cord[], boardState: IChessBoard): Cord[] {
+        const cords = possibleMovesCords;
+
+        const otherPiecesCords = cords.filter((cord) => {
+            const square = boardState.board[cord.x][cord.y];
+            return square ? true : false;
+        });
+        console.log(otherPiecesCords);
+
         return [];
     }
 
