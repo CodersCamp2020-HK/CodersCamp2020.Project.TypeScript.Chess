@@ -1,8 +1,9 @@
 // This file is generated automatically
+export const board__wrapper: string;
+export const board: string;
 export const tile: string;
 export const black__tile: string;
 export const white__tile: string;
-export const board: string;
 export const vertical__axi: string;
 export const horizontal__axi: string;
 export const selected: string;
