@@ -1,13 +1,23 @@
 import { Cord, IChessBoard, CordWithMoveType, MoveType, ChessBoardRepresentation } from '../domain/basicChessTypes';
 //import { IChessEngine } from '../domain/IChessEngine';
 
-export function getNormalMove(
+export function getSingleMove(
     cord: Cord,
     moveDirection: number,
     currentBoardState: ChessBoardRepresentation,
 ): CordWithMoveType[] {
-    return [];
+    if (cord.y - moveDirection > 7 || cord.y - moveDirection < 0) {
+        return [];
+    }
+    //check is blocked
+    if (currentBoardState[cord.y - moveDirection][cord.x] != null) {
+        return [];
+    }
+    const resultCordY = (cord.y - moveDirection) as Cord['y'];
+    const result: CordWithMoveType[] = [{ x: 1, y: resultCordY, moveType: MoveType.NormalMove }];
+    return result;
 }
+
 export function getDoubleMove(
     cord: Cord,
     moveDirection: number,
