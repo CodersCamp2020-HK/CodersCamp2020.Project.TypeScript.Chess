@@ -75,18 +75,11 @@ export class ChessEngine implements IChessEngine {
     }
 
     private removeMovesBlockedByPiece(pieceCord: Cord, possibleMovesCords: Cord[], boardState: IChessBoard): Cord[] {
-        const cords = possibleMovesCords;
-
-        const otherPiecesCords = cords.filter((cord) => {
+        const otherPiecesCords = possibleMovesCords.filter((cord) => {
             const square = boardState.board[cord.x][cord.y];
             return square ? true : false;
         });
         console.log(otherPiecesCords);
-
-        const positions = otherPiecesCords.map((cord) => {
-            return { x: cord.x - pieceCord.x, y: cord.y - pieceCord.y };
-        });
-        // console.log(positions);
 
         const result = [];
 
@@ -105,11 +98,14 @@ export class ChessEngine implements IChessEngine {
                     } else {
                         yCondition = move.y >= otherPieceCord.y;
                     }
-                    return xCondition && yCondition;
+                    return xCondition || yCondition;
                 }),
             );
         }
+
         console.log(result);
+        const all = result.reduce((prev, curr) => prev.filter((i) => curr.includes(i)));
+        console.log(all);
 
         return [];
     }

@@ -22,6 +22,12 @@ const App = (): void => {
         side: Side.Black,
         isMoved: true,
     };
+    const pawn4: Piece = {
+        figType: PieceType.Pawn,
+        cord: { x: 1, y: 2 },
+        side: Side.White,
+        isMoved: true,
+    };
     const bishop: Piece = {
         figType: PieceType.Bishop,
         cord: cord,
@@ -31,7 +37,7 @@ const App = (): void => {
     const board: IChessBoard = {
         board: [
             [null, pawn3, null, pawn2, null, null, null, null],
-            [null, null, null, null, null, null, null, null],
+            [null, null, pawn4, null, null, null, null, null],
             [null, bishop, null, null, null, null, null, null],
             [null, null, pawn1, null, null, null, null, null],
             [null, null, null, null, null, null, null, null],
