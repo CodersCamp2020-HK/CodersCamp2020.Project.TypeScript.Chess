@@ -1,4 +1,12 @@
-import { PieceType, Cord, IChessBoard, CordWithMoveType, Side, PossibleCords } from '../domain/basicChessTypes';
+import {
+    PieceType,
+    Cord,
+    IChessBoard,
+    CordWithMoveType,
+    Side,
+    PossibleCords,
+    MoveType,
+} from '../domain/basicChessTypes';
 import { IChessEngine } from '../domain/IChessEngine';
 import { getDirections } from './bishop';
 
@@ -40,15 +48,15 @@ export class ChessEngine implements IChessEngine {
     getPossibleMovesForBishop(cord: Cord, boardState: IChessBoard): CordWithMoveType[] {
         const { x, y } = cord;
         const square = boardState.board[x][y];
-        const result: CordWithMoveType[] = [];
         if (square) {
             const piece = square.figType;
+            const side = square.side;
             if (piece !== PieceType.Bishop) throw new Error('Piece is not a Bishop');
-            const allMoves: PossibleCords[] = getDirections({ x, y });
+            const allMoves = getDirections({ x, y });
             const properCords = this.removeMovesOutsideChessBoard(allMoves);
-            console.log(properCords);
+            const moves = this.removeMovesBlockedByPiece(cord, properCords, boardState);
 
-            this.removeMovesBlockedByPiece(cord, properCords, boardState);
+            const result = this.getMoveTypesForPiece(moves, side, boardState);
 
             return result;
         }
@@ -112,6 +120,24 @@ export class ChessEngine implements IChessEngine {
         }
 
         return result.reduce((prev, curr) => prev.filter((i) => curr.includes(i)));
+    }
+
+    private getMoveTypesForPiece(cords: Cord[], side: Side, boardState: IChessBoard): CordWithMoveType[] {
+        const result: CordWithMoveType[] = [];
+        for (const move of cords) {
+            const { x, y } = move;
+            const square = boardState.board[x][y];
+            if (square) {
+                const otherSide = square.side;
+                if (otherSide !== side) {
+                    result.push({ x, y, moveType: MoveType.Capture });
+                }
+            } else {
+                result.push({ x, y, moveType: MoveType.NormalMove });
+            }
+        }
+
+        return result;
     }
 
     isCheck(boardState: IChessBoard, side: Side): boolean {
