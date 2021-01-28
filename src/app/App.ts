@@ -1,4 +1,5 @@
-import { Game } from './view/game/Game';
+import { Game } from './components/game/Game';
+import './app.scss';
 
 const App = (): void => {
     const game = new Game();

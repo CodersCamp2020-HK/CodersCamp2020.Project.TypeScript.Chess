@@ -1,4 +1,7 @@
 import styles from './Game.module.scss';
+import { Aside } from '../Aside/Aside';
+import rulesTxt from '../../../assets/rules.txt';
+import infoTxt from '../../../assets/info.txt';
 
 export class Game {
     private __element: HTMLElement;
@@ -12,8 +15,14 @@ export class Game {
     }
 
     private createGameWrapper(): HTMLElement {
+        const container = document.createElement('div');
+        container.classList.add(styles.container);
+
         const wrapper = document.createElement('div');
         wrapper.classList.add(styles.wrapper);
+
+        const rules = new Aside('Rules', 'left', rulesTxt);
+        const info = new Aside('Info', 'right', infoTxt);
 
         const cyberChessTextWrapper = document.createElement('div');
         cyberChessTextWrapper.classList.add(styles.wrapper__text);
@@ -39,15 +48,19 @@ export class Game {
         quitButtonWrapper.classList.add(styles.wrapper__quit);
         quitButtonWrapper.textContent = 'Wyjście z gry';
 
+        const footerWrapper = document.createElement('div');
+        footerWrapper.classList.add(styles.wrapper__footer);
+        footerWrapper.textContent = 'Coders Camp';
+
         wrapper.append(
-            cyberChessTextWrapper,
             chessboardWrapper,
             opponentScoreWrapper,
             playerScoreWrapper,
             previousMovesWrapper,
             quitButtonWrapper,
         );
+        container.append(rules.element, info.element, cyberChessTextWrapper, wrapper, footerWrapper);
 
-        return wrapper;
+        return container;
     }
 }
