@@ -35,13 +35,13 @@ export class ChessBoardComponent {
         this.board.className = styles.board;
 
         this.verticalAxi = document.createElement('div');
-        this.verticalAxi.className = styles.vertical_axi;
+        this.verticalAxi.className = styles.vertical__axi;
 
         this.horizontalAxi = document.createElement('div');
-        this.horizontalAxi.className = styles.horizontal_axi;
+        this.horizontalAxi.className = styles.horizontal__axi;
 
-        this.blackTilesClassList = styles.black;
-        this.whiteTilesClassList = styles.white;
+        this.blackTilesClassList = `${styles.tile} ${styles.black__tile}`;
+        this.whiteTilesClassList = `${styles.tile} ${styles.white__tile}`;
 
         this.piecesElements = piecesElements;
 
@@ -56,10 +56,10 @@ export class ChessBoardComponent {
 
     renderBoard(chessBoardRepresentation: ChessBoardRepresentation): void {
         const blackTile = document.createElement('div');
-        blackTile.classList.add(this.blackTilesClassList);
+        blackTile.className = this.blackTilesClassList;
 
         const whiteTile = document.createElement('div');
-        whiteTile.classList.add(this.whiteTilesClassList);
+        whiteTile.className = this.whiteTilesClassList;
 
         let currentTile = blackTile;
         this.board.innerHTML = '';
