@@ -48,7 +48,7 @@ export class ChessEngine implements IChessEngine {
             const properCords = this.removeMovesOutsideChessBoard(allMoves);
             console.log(properCords);
 
-            this.removeMovesBlockedByPiece(properCords, boardState);
+            this.removeMovesBlockedByPiece(cord, properCords, boardState);
 
             return result;
         }
@@ -73,7 +73,8 @@ export class ChessEngine implements IChessEngine {
 
         return result;
     }
-    private removeMovesBlockedByPiece(possibleMovesCords: Cord[], boardState: IChessBoard): Cord[] {
+
+    private removeMovesBlockedByPiece(pieceCord: Cord, possibleMovesCords: Cord[], boardState: IChessBoard): Cord[] {
         const cords = possibleMovesCords;
 
         const otherPiecesCords = cords.filter((cord) => {
@@ -81,6 +82,34 @@ export class ChessEngine implements IChessEngine {
             return square ? true : false;
         });
         console.log(otherPiecesCords);
+
+        const positions = otherPiecesCords.map((cord) => {
+            return { x: cord.x - pieceCord.x, y: cord.y - pieceCord.y };
+        });
+        // console.log(positions);
+
+        const result = [];
+
+        for (const otherPieceCord of otherPiecesCords) {
+            result.push(
+                possibleMovesCords.filter((move) => {
+                    let xCondition: boolean;
+                    let yCondition: boolean;
+                    if (otherPieceCord.x > pieceCord.x) {
+                        xCondition = move.x <= otherPieceCord.x;
+                    } else {
+                        xCondition = move.x >= otherPieceCord.x;
+                    }
+                    if (otherPieceCord.y > pieceCord.y) {
+                        yCondition = move.y <= otherPieceCord.y;
+                    } else {
+                        yCondition = move.y >= otherPieceCord.y;
+                    }
+                    return xCondition && yCondition;
+                }),
+            );
+        }
+        console.log(result);
 
         return [];
     }

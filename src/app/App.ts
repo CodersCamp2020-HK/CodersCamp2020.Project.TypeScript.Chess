@@ -18,7 +18,7 @@ const App = (): void => {
     };
     const pawn3: Piece = {
         figType: PieceType.Pawn,
-        cord: { x: 0, y: 1 },
+        cord: { x: 1, y: 0 },
         side: Side.Black,
         isMoved: true,
     };
