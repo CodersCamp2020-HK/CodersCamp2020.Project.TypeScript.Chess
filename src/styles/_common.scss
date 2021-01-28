@@ -1,7 +1,8 @@
 @use './colors';
 
 //Media-queries
-$mobile-max: (max-width: 900px);
+// $mobile-max: (max-width: 900px);
+$mobileMax: 900px;
 
 //Shadows
 %shadow-blue-1{box-shadow: 0px 0px 20px #54BCE0;}
