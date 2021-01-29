@@ -1,4 +1,9 @@
-import { getPossibleMovesForBishop, getPossibleMovesForQueen, getPossibleMovesForRook } from '../src/app/utils/Moves';
+import {
+    getPossibleMovesForBishop,
+    getPossibleMovesForQueen,
+    getPossibleMovesForRook,
+    getPossibleMovesForKing,
+} from '../src/app/utils/Moves';
 import { CordWithMoveType, Piece, PieceType, Side } from '../src/app/domain/basicChessTypes';
 import { ChessBoard } from '../src/app/infrastructure/ChessBoard';
 
@@ -135,6 +140,42 @@ describe(`Given: Chessboard with queen on square { x: 3, y: 3 }`, () => {
         ];
         it(`Then: Cords array should be ${JSON.stringify(expected, null, 4)}`, () => {
             const actual = getPossibleMovesForQueen({ x: 3, y: 3 }, chessboard);
+            expect(actual).toEqual(expected);
+        });
+    });
+});
+
+describe(`Given: Chessboard with king on square { x: 3, y: 3 }`, () => {
+    const king: Piece = {
+        figType: PieceType.King,
+        side: Side.White,
+        isMoved: false,
+        cord: { x: 3, y: 3 },
+    };
+    const chessboard = new ChessBoard();
+    chessboard.board = [
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, king, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+    ];
+    describe('When: getPossibleMovesForKing is invoked', () => {
+        const expected: CordWithMoveType[] = [
+            { x: 2, y: 3, moveType: 0 },
+            { x: 4, y: 3, moveType: 0 },
+            { x: 3, y: 2, moveType: 0 },
+            { x: 3, y: 4, moveType: 0 },
+            { x: 2, y: 2, moveType: 0 },
+            { x: 2, y: 4, moveType: 0 },
+            { x: 4, y: 2, moveType: 0 },
+            { x: 4, y: 4, moveType: 0 },
+        ];
+        it(`Then: Cords array should be ${JSON.stringify(expected, null, 4)}`, () => {
+            const actual = getPossibleMovesForKing({ x: 3, y: 3 }, chessboard);
             expect(actual).toEqual(expected);
         });
     });
