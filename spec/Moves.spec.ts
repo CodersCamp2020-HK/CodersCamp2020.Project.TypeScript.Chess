@@ -48,6 +48,56 @@ describe(`Given: Chessboard with bishop on square { x: 3, y: 3 }`, () => {
     });
 });
 
+describe(`Given: Chessboard with bishop on square { x: 3, y: 3 } surrounded by same side pieces`, () => {
+    const bishop: Piece = {
+        figType: PieceType.Bishop,
+        side: Side.Black,
+        isMoved: false,
+        cord: { x: 3, y: 3 },
+    };
+    const pawn1: Piece = {
+        figType: PieceType.Pawn,
+        side: Side.Black,
+        isMoved: false,
+        cord: { x: 2, y: 2 },
+    };
+    const pawn2: Piece = {
+        figType: PieceType.Pawn,
+        side: Side.Black,
+        isMoved: false,
+        cord: { x: 2, y: 4 },
+    };
+    const pawn3: Piece = {
+        figType: PieceType.Pawn,
+        side: Side.Black,
+        isMoved: false,
+        cord: { x: 4, y: 2 },
+    };
+    const pawn4: Piece = {
+        figType: PieceType.Pawn,
+        side: Side.Black,
+        isMoved: false,
+        cord: { x: 4, y: 4 },
+    };
+    const chessboard = new ChessBoard();
+    chessboard.board = [
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, pawn1, null, pawn2, null, null, null],
+        [null, null, null, bishop, null, null, null, null],
+        [null, null, pawn3, null, pawn4, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+    ];
+    describe('When: getPossibleMovesForBishop is invoked', () => {
+        it(`Then: Cords array should be empty`, () => {
+            const actual = getPossibleMovesForBishop({ x: 3, y: 3 }, chessboard);
+            expect(actual).toEqual([]);
+        });
+    });
+});
+
 describe(`Given: Chessboard with rook on square { x: 0, y: 0 }`, () => {
     const rook: Piece = {
         figType: PieceType.Rook,
