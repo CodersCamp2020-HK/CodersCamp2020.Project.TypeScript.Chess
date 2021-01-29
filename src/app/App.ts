@@ -1,5 +1,9 @@
+import { Game } from './components/game/Game';
+import './app.scss';
+
 const App = (): void => {
-    console.log('yo');
+    const game = new Game();
+    document.body.appendChild(game.element);
 };
 
 export default App;

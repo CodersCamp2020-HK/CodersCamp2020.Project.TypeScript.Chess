@@ -1,0 +1,6 @@
+@use '../styles/common';
+
+.chessapp {
+    @extend %background-gradient;
+    box-sizing: border-box;
+}
