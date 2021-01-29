@@ -1,12 +1,12 @@
-import { PieceType, Cord, IChessBoard, CordWithMoveType, Side, Piece } from '../domain/basicChessTypes';
+import { PieceType, Cord, IChessBoard, CordWithMoveType, Side } from '../domain/basicChessTypes';
 import { IChessEngine } from '../domain/IChessEngine';
 import {
-    getBishopDirections,
-    getKingDirections,
-    getRookDirections,
-    removeMovesOutsideChessBoard,
-    removeMovesBlockedByPiece,
-    getMoveTypesForPiece,
+    getPossibleMovesForBishop,
+    getPossibleMovesForKing,
+    getPossibleMovesForKnight,
+    getPossibleMovesForPawn,
+    getPossibleMovesForQueen,
+    getPossibleMovesForRook,
 } from '../utils/Moves';
 
 export class ChessEngine implements IChessEngine {
@@ -44,45 +44,4 @@ export class ChessEngine implements IChessEngine {
     isStealemate(boardState: IChessBoard, side: Side): boolean {
         throw new Error('Method not implemented.');
     }
-}
-
-function getPossibleMovesForPawn(cord: Cord, boardState: IChessBoard): CordWithMoveType[] {
-    return [];
-}
-
-function getPossibleMovesForRook(cord: Cord, boardState: IChessBoard): CordWithMoveType[] {
-    const square = boardState.board[cord.x][cord.y] as Piece;
-    const directions = getRookDirections(cord);
-    const moves = removeMovesBlockedByPiece(cord, directions, boardState);
-    const result = getMoveTypesForPiece(moves, square.side, boardState);
-
-    return result;
-}
-
-function getPossibleMovesForKnight(cord: Cord, boardState: IChessBoard): CordWithMoveType[] {
-    return [];
-}
-
-function getPossibleMovesForBishop(cord: Cord, boardState: IChessBoard): CordWithMoveType[] {
-    const square = boardState.board[cord.x][cord.y] as Piece;
-    const directions = getBishopDirections(cord);
-    const moves = removeMovesOutsideChessBoard(directions);
-    const properMoves = removeMovesBlockedByPiece(cord, moves, boardState);
-    const result = getMoveTypesForPiece(properMoves, square.side, boardState);
-
-    return result;
-}
-
-function getPossibleMovesForQueen(cord: Cord, boardState: IChessBoard): CordWithMoveType[] {
-    return getPossibleMovesForBishop(cord, boardState).concat(getPossibleMovesForRook(cord, boardState));
-}
-
-function getPossibleMovesForKing(cord: Cord, boardState: IChessBoard): CordWithMoveType[] {
-    const square = boardState.board[cord.x][cord.y] as Piece;
-    const directions = getKingDirections(cord);
-    const moves = removeMovesOutsideChessBoard(directions);
-    const properMoves = removeMovesBlockedByPiece(cord, moves, boardState);
-    const result = getMoveTypesForPiece(properMoves, square.side, boardState);
-
-    return result;
 }

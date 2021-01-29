@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { IChessBoard, PieceType, Side, Piece } from './domain/basicChessTypes';
 import { ChessEngine } from './infrastructure/ChessEngine';
 
@@ -85,14 +84,6 @@ const App = (): void => {
     // board.board[rook.cord.x][rook.cord.y] = rook;
 
     console.log(chessEngine.getPossibleMovesForPiece({ x: queen.cord.x, y: queen.cord.y }, board));
-=======
-import { Game } from './components/game/Game';
-import './app.scss';
-
-const App = (): void => {
-    const game = new Game();
-    document.body.appendChild(game.element);
->>>>>>> master
 };
 
 export default App;

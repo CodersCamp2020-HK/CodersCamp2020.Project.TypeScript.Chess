@@ -1,115 +1,50 @@
-import { Cord, CordWithMoveType, IChessBoard, MoveType, PossibleCords, Side } from '../domain/basicChessTypes';
-import _ from 'lodash';
+import { Cord, CordWithMoveType, IChessBoard, Piece } from '../domain/basicChessTypes';
+import {
+    getBishopDirections,
+    getKingDirections,
+    getRookDirections,
+    removeMovesOutsideChessBoard,
+    removeMovesBlockedByPiece,
+    getMoveTypesForPiece,
+} from './MoveHelpers';
 
-export function getBishopDirections(cord: Cord): Cord[] {
-    const { x, y } = cord;
-    const directions = [
-        ..._.zip(_.range(x + 1, 8, 1), _.range(y + 1, 8, 1)),
-        ..._.zip(_.range(x + 1, 8, 1), _.range(y - 1, -1, -1)),
-        ..._.zip(_.range(x - 1, -1, -1), _.range(y + 1, 8, 1)),
-        ..._.zip(_.range(x - 1, -1, -1), _.range(y - 1, -1, -1)),
-    ];
-    const filteredDirections = directions.filter((cord) => cord[0] !== undefined && cord[1] !== undefined);
-    return filteredDirections.map((cord) => {
-        return { x: cord[0], y: cord[1] } as Cord;
-    });
+export function getPossibleMovesForPawn(cord: Cord, boardState: IChessBoard): CordWithMoveType[] {
+    return [];
 }
 
-export function getKingDirections(cord: Cord): PossibleCords[] {
-    const numbers = [-1, 1];
-    const possibleMoves = [];
-
-    for (const i of numbers) {
-        const actualKingPositionX = cord.x + i;
-        const actualKingPositionY = cord.y;
-        possibleMoves.push({ x: actualKingPositionX, y: actualKingPositionY });
-    }
-
-    for (const i of numbers) {
-        const actualKingPositionX = cord.x;
-        const actualKingPositionY = cord.y + i;
-        possibleMoves.push({ x: actualKingPositionX, y: actualKingPositionY });
-    }
-
-    for (const i of numbers) {
-        for (const j of numbers) {
-            const actualKingPositionX = cord.x + i;
-            const actualKingPositionY = cord.y + j;
-            possibleMoves.push({ x: actualKingPositionX, y: actualKingPositionY });
-        }
-    }
-
-    return possibleMoves;
-}
-
-export function getRookDirections(cord: Cord): Cord[] {
-    const arr: Cord[] = [];
-    for (let i = 0; i <= 7; i++) {
-        arr.push({ x: cord.x, y: i } as Cord);
-    }
-    for (let i = 0; i <= 7; i++) {
-        arr.push({ x: i, y: cord.y } as Cord);
-    }
-    const result = _.differenceWith(arr, [cord], _.isEqual);
-    return result;
-}
-
-const insideBoard = (v: number) => v >= 0 && v <= 7;
-export function removeMovesOutsideChessBoard(cords: PossibleCords[]): Cord[] {
-    return cords.filter(({ x, y }) => insideBoard(x as number) && insideBoard(y as number)) as Cord[];
-}
-
-export function removeMovesBlockedByPiece(
-    pieceCord: Cord,
-    possibleMovesCords: Cord[],
-    boardState: IChessBoard,
-): Cord[] {
-    const otherPiecesCords = getOtherPiecesCord(possibleMovesCords, boardState);
-    const result = excludeMovesBehindPiece(pieceCord, possibleMovesCords, otherPiecesCords);
+export function getPossibleMovesForRook(cord: Cord, boardState: IChessBoard): CordWithMoveType[] {
+    const square = boardState.board[cord.x][cord.y] as Piece;
+    const directions = getRookDirections(cord);
+    const moves = removeMovesBlockedByPiece(cord, directions, boardState);
+    const result = getMoveTypesForPiece(moves, square.side, boardState);
 
     return result;
 }
 
-export function getOtherPiecesCord(possibleMovesCords: Cord[], boardState: IChessBoard): Cord[] {
-    return possibleMovesCords.filter((cord) => {
-        const square = boardState.board[cord.x][cord.y];
-        return square ? true : false;
-    });
+export function getPossibleMovesForKnight(cord: Cord, boardState: IChessBoard): CordWithMoveType[] {
+    return [];
 }
 
-export function excludeMovesBehindPiece(pieceCord: Cord, possibleMovesCords: Cord[], otherPiecesCords: Cord[]): Cord[] {
-    const diffArr: Cord[] = [];
+export function getPossibleMovesForBishop(cord: Cord, boardState: IChessBoard): CordWithMoveType[] {
+    const square = boardState.board[cord.x][cord.y] as Piece;
+    const directions = getBishopDirections(cord);
+    const moves = removeMovesOutsideChessBoard(directions);
+    const properMoves = removeMovesBlockedByPiece(cord, moves, boardState);
+    const result = getMoveTypesForPiece(properMoves, square.side, boardState);
 
-    for (const otherPieceCord of otherPiecesCords) {
-        const vector = { x: otherPieceCord.x - pieceCord.x, y: otherPieceCord.y - pieceCord.y };
-        let versorX;
-        let versorY;
-        vector.x === 0 ? (versorX = 0) : vector.x > 0 ? (versorX = 1) : (versorX = -1);
-        vector.y === 0 ? (versorY = 0) : vector.y > 0 ? (versorY = 1) : (versorY = -1);
-        for (let i = 1; i <= 7; i++) {
-            const oneDiffCord = { x: otherPieceCord.x + versorX * i, y: otherPieceCord.y + versorY * i } as Cord;
-            if (oneDiffCord.x > 7 || oneDiffCord.x < 0 || oneDiffCord.y > 7 || oneDiffCord.y < 0) break;
-            diffArr.push(oneDiffCord);
-        }
-    }
-
-    return _.differenceWith(possibleMovesCords, diffArr, _.isEqual);
+    return result;
 }
 
-export function getMoveTypesForPiece(cords: Cord[], side: Side, boardState: IChessBoard): CordWithMoveType[] {
-    const result: CordWithMoveType[] = [];
-    for (const move of cords) {
-        const { x, y } = move;
-        const square = boardState.board[x][y];
-        if (square) {
-            const otherSide = square.side;
-            if (otherSide !== side) {
-                result.push({ x, y, moveType: MoveType.Capture });
-            }
-        } else {
-            result.push({ x, y, moveType: MoveType.NormalMove });
-        }
-    }
+export function getPossibleMovesForQueen(cord: Cord, boardState: IChessBoard): CordWithMoveType[] {
+    return getPossibleMovesForBishop(cord, boardState).concat(getPossibleMovesForRook(cord, boardState));
+}
+
+export function getPossibleMovesForKing(cord: Cord, boardState: IChessBoard): CordWithMoveType[] {
+    const square = boardState.board[cord.x][cord.y] as Piece;
+    const directions = getKingDirections(cord);
+    const moves = removeMovesOutsideChessBoard(directions);
+    const properMoves = removeMovesBlockedByPiece(cord, moves, boardState);
+    const result = getMoveTypesForPiece(properMoves, square.side, boardState);
 
     return result;
 }
