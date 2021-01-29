@@ -83,10 +83,7 @@ const App = (): void => {
     // board.board[king.cord.x][king.cord.y] = king;
     // board.board[rook.cord.x][rook.cord.y] = rook;
 
-    chessEngine.getPossibleMovesForBishop(bishop.cord, board);
-    chessEngine.getPossibleMovesForKing(king.cord, board);
-    chessEngine.getPossibleMovesForRook(rook.cord, board);
-    console.log(chessEngine.getPossibleMovesForQueen(queen.cord, board));
+    console.log(chessEngine.getPossibleMovesForPiece({ x: queen.cord.x, y: queen.cord.y }, board));
 };
 
 export default App;
