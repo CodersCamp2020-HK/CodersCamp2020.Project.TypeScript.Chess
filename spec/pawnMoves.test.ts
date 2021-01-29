@@ -1,4 +1,6 @@
-import { getSingleMove } from '../src/app/infrastructure/pawnMoves';
+import { getPassant, getPromotion, getSingleMove, getDoubleMove } from '../src/app/infrastructure/pawnMoves';
+import * as normalMove from './pawMovesTestCases/normalMove';
+import * as doubleMove from './pawMovesTestCases/doubleMove';
 import {
     ChessBoardRepresentation,
     CordWithMoveType,
@@ -8,85 +10,14 @@ import {
     Side,
 } from '../src/app/domain/basicChessTypes';
 
-const pawnNormalBlack: Piece = { figType: PieceType.Pawn, cord: { x: 1, y: 6 }, side: Side.Black, isMoved: true };
-const blockingPiece: Piece = { figType: PieceType.Pawn, cord: { x: 1, y: 6 }, side: Side.Black, isMoved: true };
-const currentBoardMoveBlack: ChessBoardRepresentation = [
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, pawnNormalBlack, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-];
-const currentBoardMoveBlackBlocked: ChessBoardRepresentation = [
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, blockingPiece, null, null, null, null, null, null],
-    [null, pawnNormalBlack, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-];
-const el1: CordWithMoveType = {
-    x: 1,
-    y: 5,
-    moveType: MoveType.NormalMove,
-};
-const normalBlackResult: CordWithMoveType[] = [el1];
-
-//White
-
-const pawnNormalWhite: Piece = { figType: PieceType.Pawn, cord: { x: 1, y: 6 }, side: Side.White, isMoved: true };
-const blockingPieceWhite: Piece = { figType: PieceType.Bishop, cord: { x: 1, y: 6 }, side: Side.Black, isMoved: true };
-
-const currentBoardMoveWhite: ChessBoardRepresentation = [
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, pawnNormalWhite, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-];
-
-const currentBoardMoveWhiteBlocked: ChessBoardRepresentation = [
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, pawnNormalWhite, null, null, null, null, null, null],
-    [null, blockingPieceWhite, null, null, null, null, null, null],
-];
-
-const el2: CordWithMoveType = {
-    x: 1,
-    y: 7,
-    moveType: MoveType.NormalMove,
-};
-const normalWhiteResult: CordWithMoveType[] = [el2];
-
-const previousBoard: ChessBoardRepresentation = [
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-];
-
 describe('Possible Moves for Pawn', () => {
     describe('promotion', () => {
         describe('for black side', () => {
-            test('7 row', () => {
-                expect(true).toBeTruthy();
+            test('blocked', () => {
+                //expect(getPromotion(pawnNormalBlack.cord, 1, currentBoardMoveBlackBlocked)).toEqual([]);
+            });
+            test('not blocked', () => {
+                //expect(getPromotion(pawnNormalBlack.cord, 1, currentBoardMoveBlackBlocked)).toEqual([]);
             });
         });
         describe('for white side', () => {
@@ -95,6 +26,7 @@ describe('Possible Moves for Pawn', () => {
             });
         });
     });
+
     describe('pasant', () => {
         describe('for black side', () => {
             test('5 row', () => {
@@ -107,6 +39,7 @@ describe('Possible Moves for Pawn', () => {
             });
         });
     });
+
     describe('capture', () => {
         describe('for black side', () => {
             test('5 row', () => {
@@ -119,33 +52,57 @@ describe('Possible Moves for Pawn', () => {
             });
         });
     });
+
     describe('first move', () => {
         describe('for black side', () => {
-            test('2 row', () => {
-                expect(true).toBeTruthy();
+            test('blocked', () => {
+                expect(
+                    getDoubleMove(doubleMove.pawnDoubleBlack.cord, 1, doubleMove.currentBoardMoveBlackBlocked),
+                ).toEqual([]);
+            });
+            test('not blocked', () => {
+                expect(getDoubleMove(doubleMove.pawnDoubleBlack.cord, 1, doubleMove.currentBoardMoveBlack)).toEqual(
+                    doubleMove.doubleBlackResult,
+                );
             });
         });
         describe('for white side', () => {
-            test('7 row', () => {
-                expect(true).toBeTruthy();
+            test('blocked', () => {
+                expect(
+                    getDoubleMove(doubleMove.pawnDoubleWhite.cord, -1, doubleMove.currentBoardMoveWhiteBlocked),
+                ).toEqual([]);
+            });
+            test('not blocked', () => {
+                expect(getDoubleMove(doubleMove.pawnDoubleWhite.cord, -1, doubleMove.currentBoardMoveWhite)).toEqual(
+                    doubleMove.doubleWhiteResult,
+                );
             });
         });
     });
+
     describe('single move', () => {
         describe('for black side', () => {
             test('blocked', () => {
-                expect(getSingleMove(pawnNormalBlack.cord, 1, currentBoardMoveBlackBlocked)).toEqual([]);
+                expect(
+                    getSingleMove(normalMove.pawnNormalBlack.cord, 1, normalMove.currentBoardMoveBlackBlocked),
+                ).toEqual([]);
             });
             test('not blocked', () => {
-                expect(getSingleMove(pawnNormalBlack.cord, 1, currentBoardMoveBlack)).toEqual(normalBlackResult);
+                expect(getSingleMove(normalMove.pawnNormalBlack.cord, 1, normalMove.currentBoardMoveBlack)).toEqual(
+                    normalMove.normalBlackResult,
+                );
             });
         });
         describe('for white side', () => {
             test('blocked', () => {
-                expect(getSingleMove(pawnNormalWhite.cord, -1, currentBoardMoveWhiteBlocked)).toEqual([]);
+                expect(
+                    getSingleMove(normalMove.pawnNormalWhite.cord, -1, normalMove.currentBoardMoveWhiteBlocked),
+                ).toEqual([]);
             });
             test('not blocked', () => {
-                expect(getSingleMove(pawnNormalWhite.cord, -1, currentBoardMoveWhite)).toEqual(normalWhiteResult);
+                expect(getSingleMove(normalMove.pawnNormalWhite.cord, -1, normalMove.currentBoardMoveWhite)).toEqual(
+                    normalMove.normalWhiteResult,
+                );
             });
         });
     });
