@@ -1,0 +1,86 @@
+@use "./common.scss";
+
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sarpanch:wght@600&display=swap');
+
+@font-face {
+   font-family: 'Cyberpunk';
+   src: url('../assets/UI/Cyberpunk-Regular.woff') format('woff2'),
+       url('../assets/UI/Cyberpunk-Regular.woff') format('woff');
+}
+
+%font-main{font-family: 'Rajdhani', sans-serif;};
+%font-coderscamp{font-family: 'Sarpanch', sans-serif;};
+%font-logo{ font-family: 'Cyberpunk';}
+
+%h1 {
+   @extend %font-main;
+   font-style: normal;
+   text-transform: uppercase;
+   font-weight: 700;
+   font-size: 44px;
+   letter-spacing: 1.5px;
+
+   @media only screen and (max-width: common.$mobileMax) {
+       font-size: 38px;
+   }
+}
+
+%h2 {
+    @extend %font-main;
+   font-style: normal;
+   text-transform: uppercase;
+   font-weight: 700;
+   font-size: 35px;
+
+   @media only screen and (max-width: common.$mobileMax) {
+       font-size: 30px;
+   }
+}
+
+%h3 {
+    @extend %font-main;
+   font-style: normal;
+   text-transform: uppercase;
+   font-weight: 500;
+   font-size: 28px;
+
+   @media only screen and (max-width: common.$mobileMax) {
+       font-size: 24px;
+   }
+}
+
+%h4 {
+    @extend %font-main;
+   font-style: normal;
+   text-transform: uppercase;
+   font-weight: 400;
+   font-size: 22.5px;
+
+   @media only screen and (max-width: common.$mobileMax) {
+       font-size: 20px;
+   }
+}
+
+%h4-bold {
+    @extend %font-main;
+   font-style: normal;
+   text-transform: uppercase;
+   font-weight: 500;
+   font-size: 22.5px;
+
+   @media only screen and (max-width: common.$mobileMax) {
+       font-size: 20px;
+   }
+}
+
+%p {
+    @extend %font-main;
+   font-style: normal;
+   font-weight: 400;
+   font-size: 18px;
+
+   @media only screen and (max-width: common.$mobileMax){
+       font-size: 16px;
+   }
+}

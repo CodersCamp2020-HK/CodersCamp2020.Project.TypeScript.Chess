@@ -21,6 +21,11 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.txt$/i,
+                use: 'raw-loader',
+            },
+
+            {
                 test: /\.(png|svg|jpg|jpeg|gif)$/i,
                 type: 'asset/resource',
             },
