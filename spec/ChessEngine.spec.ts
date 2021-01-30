@@ -129,4 +129,14 @@ describe(`Given: Chessboard ${displayChessboard(chessboard.board)}`, () => {
             expect(actual).toMatchObject(expected);
         });
     });
+    describe(`When: getPossibleMovesForPiece for black king is invoked`, () => {
+        const expected: CordWithMoveType[] = [
+            { x: 1, y: 1, moveType: 0 },
+            { x: 1, y: 0, moveType: 0 },
+        ];
+        it(`Then: possible moves for black king should be:\n${displayMoves(expected)}`, () => {
+            const actual = chessEngine.getPossibleMovesForPiece(king.cord, chessboard);
+            expect(actual).toMatchObject(expected);
+        });
+    });
 });
