@@ -1,4 +1,4 @@
-import { ChessBoardRepresentation, CordWithMoveType, PieceType, Side } from '../domain/basicChessTypes';
+import { ChessBoardRepresentation, CordWithMoveType, PieceType, PossibleCords, Side } from '../domain/basicChessTypes';
 
 export const displayChessboard = (chessboard: ChessBoardRepresentation): string => {
     const result: string[][] = [];
@@ -32,7 +32,7 @@ export const displayChessboard = (chessboard: ChessBoardRepresentation): string 
     ${result[7]}`;
 };
 
-export const displayMoves = (moves: CordWithMoveType[]): string => {
+export const displayMoves = (moves: CordWithMoveType[] | PossibleCords[]): string => {
     const result: string[] = [];
     for (const move of moves) {
         result.push(JSON.stringify(move).padStart(36));
