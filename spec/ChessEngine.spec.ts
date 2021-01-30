@@ -1,46 +1,7 @@
-import { ChessBoardRepresentation, CordWithMoveType, Piece, PieceType, Side } from '../src/app/domain/basicChessTypes';
+import { CordWithMoveType, Piece, PieceType, Side } from '../src/app/domain/basicChessTypes';
 import { ChessBoard } from '../src/app/infrastructure/ChessBoard';
 import { ChessEngine } from '../src/app/infrastructure/ChessEngine';
-
-const displayChessboard = (chessboard: ChessBoardRepresentation) => {
-    const result: string[][] = [];
-    for (const row of chessboard) {
-        const pieceSymbol = new Map([
-            [PieceType.Bishop, 'B '],
-            [PieceType.King, 'K '],
-            [PieceType.Knight, 'N '],
-            [PieceType.Pawn, 'P '],
-            [PieceType.Queen, 'Q '],
-            [PieceType.Rook, 'R '],
-        ]);
-        result.push(
-            row.map((cord) => {
-                if (cord) {
-                    const side = cord.side == Side.White ? ' w' : ' b';
-                    return side + pieceSymbol.get(cord.figType);
-                }
-                return '    ';
-            }) as string[],
-        );
-    }
-    return `
-    ${result[0]}
-    ${result[1]}
-    ${result[2]}
-    ${result[3]}
-    ${result[4]}
-    ${result[5]}
-    ${result[6]}
-    ${result[7]}`;
-};
-
-const displayMoves = (moves: CordWithMoveType[]) => {
-    const result: string[] = [];
-    for (const move of moves) {
-        result.push(JSON.stringify(move).padStart(36));
-    }
-    return result.join('\n');
-};
+import { displayChessboard, displayMoves } from '../src/app/utils/Display';
 
 const chessboard = new ChessBoard();
 chessboard.board = [
