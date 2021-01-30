@@ -157,4 +157,37 @@ describe(`Given: Chessboard ${displayChessboard(chessboard.board)}`, () => {
             expect(actual).toMatchObject(expected);
         });
     });
+    describe(`When: getPossibleMovesForPiece for white rook is invoked`, () => {
+        const expected: CordWithMoveType[] = [
+            { x: 3, y: 0, moveType: 0 },
+            { x: 3, y: 1, moveType: 0 },
+            { x: 3, y: 3, moveType: 0 },
+            { x: 3, y: 4, moveType: 0 },
+            { x: 1, y: 2, moveType: 1 },
+            { x: 2, y: 2, moveType: 0 },
+            { x: 4, y: 2, moveType: 0 },
+            { x: 5, y: 2, moveType: 0 },
+            { x: 6, y: 2, moveType: 0 },
+            { x: 7, y: 2, moveType: 0 },
+        ];
+        it(`Then: possible moves for white rook should be:\n${displayMoves(expected)}`, () => {
+            const actual = chessEngine.getPossibleMovesForPiece(whiteRook.cord, chessboard);
+            expect(actual).toMatchObject(expected);
+        });
+    });
+    describe(`When: getPossibleMovesForPiece for white bishop is invoked`, () => {
+        const expected: CordWithMoveType[] = [
+            { x: 4, y: 6, moveType: 0 },
+            { x: 5, y: 7, moveType: 0 },
+            { x: 2, y: 6, moveType: 0 },
+            { x: 1, y: 7, moveType: 0 },
+            { x: 2, y: 4, moveType: 0 },
+            { x: 1, y: 3, moveType: 0 },
+            { x: 0, y: 2, moveType: 1 },
+        ];
+        it(`Then: possible moves for white bishop should be:\n${displayMoves(expected)}`, () => {
+            const actual = chessEngine.getPossibleMovesForPiece(bishop.cord, chessboard);
+            expect(actual).toMatchObject(expected);
+        });
+    });
 });
