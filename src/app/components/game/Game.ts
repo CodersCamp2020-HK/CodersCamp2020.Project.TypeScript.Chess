@@ -40,13 +40,17 @@ export class Game {
         const playerScoreWrapper = document.createElement('div');
         playerScoreWrapper.classList.add(styles.wrapperPlayer);
         playerScoreWrapper.textContent = 'Nazwa gracza, czas gracza, zbite pionki';
-        const timer = new Timer(5 * 60, 2);
-        playerScoreWrapper.appendChild(timer.element);
-        timer.startTime();
-        timer.convertTime();
-        setTimeout(() => {
-            timer.stopTime();
+        const timer = new Timer(10, 2, () => {
+            console.log('gxdgdsgds');
         });
+        playerScoreWrapper.appendChild(timer.element);
+        timer.start();
+        setTimeout(() => {
+            timer.stop();
+        }, 3000);
+        setTimeout(() => {
+            timer.start();
+        }, 2000);
 
         const previousMovesWrapper = document.createElement('div');
         previousMovesWrapper.classList.add(styles.wrapperMoves);
