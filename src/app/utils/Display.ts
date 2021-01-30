@@ -37,5 +37,5 @@ export const displayMoves = (moves: CordWithMoveType[] | PossibleCords[]): strin
     for (const move of moves) {
         result.push(JSON.stringify(move).padStart(36));
     }
-    return result.join('\n');
+    return '\n' + result.join('\n');
 };
