@@ -2,6 +2,7 @@ import styles from './Game.module.scss';
 import { Aside } from '../Aside/Aside';
 import rulesTxt from '../../../assets/rules.txt';
 import infoTxt from '../../../assets/info.txt';
+import { Timer } from '../timer/Timer';
 
 export class Game {
     private __element: HTMLElement;
@@ -39,6 +40,13 @@ export class Game {
         const playerScoreWrapper = document.createElement('div');
         playerScoreWrapper.classList.add(styles.wrapperPlayer);
         playerScoreWrapper.textContent = 'Nazwa gracza, czas gracza, zbite pionki';
+        const timer = new Timer(5 * 60, 2);
+        playerScoreWrapper.appendChild(timer.element);
+        timer.startTime();
+        timer.convertTime();
+        setTimeout(() => {
+            timer.stopTime();
+        });
 
         const previousMovesWrapper = document.createElement('div');
         previousMovesWrapper.classList.add(styles.wrapperMoves);
