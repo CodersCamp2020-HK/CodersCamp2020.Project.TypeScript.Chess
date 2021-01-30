@@ -1,6 +1,15 @@
-import { getPassant, getPromotion, getSingleMove, getDoubleMove } from '../src/app/infrastructure/pawnMoves';
+import {
+    getPassant,
+    getPromotion,
+    getSingleMove,
+    getDoubleMove,
+    getCapture,
+} from '../src/app/infrastructure/pawnMoves';
 import * as normalMove from './pawMovesTestCases/normalMove';
 import * as doubleMove from './pawMovesTestCases/doubleMove';
+import * as captureMove from './pawMovesTestCases/captureMove';
+import * as passantMove from './pawMovesTestCases/enPassantMove';
+import * as promotionMove from './pawMovesTestCases/promotionMove';
 import {
     ChessBoardRepresentation,
     CordWithMoveType,
@@ -14,41 +23,74 @@ describe('Possible Moves for Pawn', () => {
     describe('promotion', () => {
         describe('for black side', () => {
             test('blocked', () => {
-                //expect(getPromotion(pawnNormalBlack.cord, 1, currentBoardMoveBlackBlocked)).toEqual([]);
+                expect(
+                    getPromotion(
+                        promotionMove.currentPawnBlack.cord,
+                        1,
+                        promotionMove.currentBoardPromotionBlackBlocked,
+                    ),
+                ).toEqual([]);
             });
             test('not blocked', () => {
-                //expect(getPromotion(pawnNormalBlack.cord, 1, currentBoardMoveBlackBlocked)).toEqual([]);
+                expect(
+                    getPromotion(promotionMove.currentPawnBlack.cord, 1, promotionMove.currentBoardPromotionBlack),
+                ).toEqual(promotionMove.promotionBlackResult);
             });
         });
         describe('for white side', () => {
-            test('2 row', () => {
-                expect(true).toBeTruthy();
+            test('blocked', () => {
+                expect(
+                    getPromotion(promotionMove.pawnWhite.cord, -1, promotionMove.currentBoardMoveWhiteBlocked),
+                ).toEqual([]);
+            });
+            test('not blocked', () => {
+                expect(getPromotion(promotionMove.pawnWhite.cord, -1, promotionMove.currentBoardMoveWhite)).toEqual(
+                    promotionMove.promotionWhiteResult,
+                );
             });
         });
     });
 
     describe('pasant', () => {
         describe('for black side', () => {
-            test('5 row', () => {
-                expect(true).toBeTruthy();
+            test('two side', () => {
+                expect(
+                    getPassant(
+                        passantMove.currentPawnBlack.cord,
+                        1,
+                        passantMove.currentBoardPassantBlack,
+                        passantMove.currentBoardPassantBlackBefore,
+                    ),
+                ).toEqual(passantMove.passantBlackResult);
             });
         });
         describe('for white side', () => {
-            test('4 row', () => {
-                expect(true).toBeTruthy();
+            test('two side', () => {
+                expect(
+                    getPassant(
+                        passantMove.currentPawnWhite.cord,
+                        -1,
+                        passantMove.currentBoardMoveWhite,
+                        passantMove.currentBoardMoveWhiteBefore,
+                    ),
+                ).toEqual(passantMove.passantWhiteResult);
             });
         });
     });
 
     describe('capture', () => {
         describe('for black side', () => {
-            test('5 row', () => {
-                expect(true).toBeTruthy();
+            test('left and right', () => {
+                expect(getCapture(captureMove.currentPawnBlack.cord, 1, captureMove.currentBoardCaptureBlack)).toEqual(
+                    captureMove.captureBlackResult,
+                );
             });
         });
         describe('for white side', () => {
-            test('4 row', () => {
-                expect(true).toBeTruthy();
+            test('left and right', () => {
+                expect(getCapture(captureMove.currentPawnWhite.cord, -1, captureMove.currentBoardMoveWhite)).toEqual(
+                    captureMove.captureWhiteResult,
+                );
             });
         });
     });

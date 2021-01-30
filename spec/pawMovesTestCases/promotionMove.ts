@@ -8,7 +8,7 @@ import {
 } from '../../src/app/domain/basicChessTypes';
 export const currentPawnBlack: Piece = {
     figType: PieceType.Pawn,
-    cord: { x: 1, y: 6 },
+    cord: { x: 1, y: 1 },
     side: Side.Black,
     isMoved: true,
 };
@@ -38,7 +38,7 @@ export const el1: CordWithMoveType = {
     y: 0,
     moveType: MoveType.Promotion,
 };
-export const normalBlackResult: CordWithMoveType[] = [el1];
+export const promotionBlackResult: CordWithMoveType[] = [el1];
 
 //White
 
@@ -82,4 +82,4 @@ export const el2: CordWithMoveType = {
     y: 7,
     moveType: MoveType.Promotion,
 };
-export const normalWhiteResult: CordWithMoveType[] = [el2];
+export const promotionWhiteResult: CordWithMoveType[] = [el2];

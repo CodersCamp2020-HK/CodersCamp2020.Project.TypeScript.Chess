@@ -12,9 +12,9 @@ export const currentPawnBlack: Piece = {
     side: Side.Black,
     isMoved: true,
 };
-export const blockingPiece: Piece = { figType: PieceType.Pawn, cord: { x: 1, y: 3 }, side: Side.Black, isMoved: true };
-export const blockingPiece2: Piece = { figType: PieceType.Pawn, cord: { x: 3, y: 3 }, side: Side.Black, isMoved: true };
-export const currentBoardPassantBlack: ChessBoardRepresentation = [
+export const blockingPiece: Piece = { figType: PieceType.Rook, cord: { x: 1, y: 2 }, side: Side.White, isMoved: true };
+export const blockingPiece2: Piece = { figType: PieceType.Pawn, cord: { x: 3, y: 2 }, side: Side.White, isMoved: true };
+export const currentBoardCaptureBlack: ChessBoardRepresentation = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, blockingPiece, null, blockingPiece2, null, null, null, null],
@@ -27,26 +27,28 @@ export const currentBoardPassantBlack: ChessBoardRepresentation = [
 export const el1: CordWithMoveType = {
     x: 1,
     y: 2,
-    moveType: MoveType.EnPassant,
+    moveType: MoveType.Capture,
 };
 export const el2: CordWithMoveType = {
     x: 3,
     y: 2,
-    moveType: MoveType.EnPassant,
+    moveType: MoveType.Capture,
 };
-export const normalBlackResult: CordWithMoveType[] = [el1, el2];
+export const captureBlackResult: CordWithMoveType[] = [el1, el2];
 
 //White
 
 export const currentPawnWhite: Piece = {
     figType: PieceType.Pawn,
-    cord: { x: 1, y: 6 },
+    cord: { x: 3, y: 4 },
     side: Side.White,
     isMoved: true,
 };
-export const blockingPieceWhite: Piece = {
-    figType: PieceType.Bishop,
-    cord: { x: 1, y: 7 },
+
+export const blockingPiece3: Piece = { figType: PieceType.Pawn, cord: { x: 2, y: 5 }, side: Side.Black, isMoved: true };
+export const blockingPiece4: Piece = {
+    figType: PieceType.Knight,
+    cord: { x: 4, y: 5 },
     side: Side.Black,
     isMoved: true,
 };
@@ -65,11 +67,11 @@ export const currentBoardMoveWhite: ChessBoardRepresentation = [
 export const el3: CordWithMoveType = {
     x: 2,
     y: 5,
-    moveType: MoveType.EnPassant,
+    moveType: MoveType.Capture,
 };
 export const el4: CordWithMoveType = {
     x: 4,
     y: 5,
-    moveType: MoveType.EnPassant,
+    moveType: MoveType.Capture,
 };
-export const normalWhiteResult: CordWithMoveType[] = [el3, el4];
+export const captureWhiteResult: CordWithMoveType[] = [el3, el4];

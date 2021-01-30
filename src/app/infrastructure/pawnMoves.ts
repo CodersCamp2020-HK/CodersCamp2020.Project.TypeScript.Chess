@@ -78,21 +78,16 @@ export function getPassant(
     previousBoardState: ChessBoardRepresentation,
 ): CordWithMoveType[] {
     const result: CordWithMoveType[] = [];
-    const leftSide = currentBoardState[cord.y - moveDirection][cord.x - 1];
-    const rightSide = currentBoardState[cord.y - moveDirection][cord.x + 1];
+    const leftSide = currentBoardState[cord.y][cord.x - 1];
+    const rightSide = currentBoardState[cord.y][cord.x + 1];
     const currentPawn = currentBoardState[cord.y][cord.x];
 
-    if (
-        previousBoardState[cord.y - moveDirection * 2][cord.x - 1]?.figType == PieceType.Pawn &&
-        previousBoardState[cord.y - moveDirection * 2][cord.x - 1]?.side != currentPawn?.side
-    ) {
-        if (rightSide != null && rightSide != undefined && rightSide.side != currentPawn?.side) {
-            result.push({
-                x: rightCorner.cord.x,
-                y: rightCorner.cord.y,
-                moveType: MoveType.Capture,
-            });
-        }
+    if (cord.y - moveDirection * 2 < 0 || cord.y - moveDirection * 2 > 7) {
+        return result;
+    }
+
+    if (cord.x - 1 < 0 || cord.x + 1 > 7) {
+        return result;
     }
 
     if (
@@ -101,12 +96,27 @@ export function getPassant(
     ) {
         if (leftSide != null && leftSide != undefined && leftSide.side != currentPawn?.side) {
             result.push({
-                x: rightCorner.cord.x,
-                y: rightCorner.cord.y,
-                moveType: MoveType.Capture,
+                x: leftSide.cord.x,
+                y: (leftSide.cord.y - moveDirection) as Cord['y'],
+                moveType: MoveType.EnPassant,
             });
         }
     }
+
+    if (
+        previousBoardState[cord.y - moveDirection * 2][cord.x - 1]?.figType == PieceType.Pawn &&
+        previousBoardState[cord.y - moveDirection * 2][cord.x - 1]?.side != currentPawn?.side
+    ) {
+        if (rightSide != null && rightSide != undefined && rightSide.side != currentPawn?.side) {
+            result.push({
+                x: rightSide.cord.x,
+                y: (rightSide.cord.y - moveDirection) as Cord['y'],
+                moveType: MoveType.EnPassant,
+            });
+        }
+    }
+
+    return result;
 }
 export function getPromotion(
     cord: Cord,
