@@ -95,30 +95,34 @@ export function possibleEnPassantMoves(
     previousBoardState: ChessBoardRepresentation,
 ): CordWithMoveType[] {
     const result: CordWithMoveType[] = [];
+    const enPassantDirections = [];
     const leftSideTile = currentBoardState[cord.y][cord.x - 1];
     const rightSideTile = currentBoardState[cord.y][cord.x + 1];
-    const previousLeftSideTile =
-        previousBoardState[((leftSideTile?.cord?.y as Cord['y']) - moveDirection * 2) as Cord['y']][
-            leftSideTile?.cord.x as Cord['x']
-        ];
-    const previousRightSideTile =
-        previousBoardState[((rightSideTile?.cord?.y as Cord['y']) - moveDirection * 2) as Cord['y']][
-            rightSideTile?.cord.x as Cord['x']
-        ];
-    const currentPawn = currentBoardState[cord.y][cord.x];
 
-    const enPassantDirections = [
-        {
+    if (leftSideTile) {
+        const previousLeftSideTile =
+            previousBoardState[((leftSideTile?.cord?.y as Cord['y']) - moveDirection * 2) as Cord['y']][
+                leftSideTile?.cord.x as Cord['x']
+            ];
+        enPassantDirections.push({
             currentTile: leftSideTile,
             previousTile: previousLeftSideTile,
             sideDirection: -1,
-        },
-        {
+        });
+    }
+
+    if (rightSideTile) {
+        const previousRightSideTile =
+            previousBoardState[((rightSideTile?.cord?.y as Cord['y']) - moveDirection * 2) as Cord['y']][
+                rightSideTile?.cord.x as Cord['x']
+            ];
+        enPassantDirections.push({
             currentTile: rightSideTile,
             previousTile: previousRightSideTile,
-            sideDirection: 1,
-        },
-    ];
+            sideDirection: -1,
+        });
+    }
+    const currentPawn = currentBoardState[cord.y][cord.x];
 
     if (isOutsideBoard((cord.y - moveDirection * 2) as Cord['y'])) {
         return [];

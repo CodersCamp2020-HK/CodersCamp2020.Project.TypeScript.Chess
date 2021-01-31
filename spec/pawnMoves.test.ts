@@ -100,6 +100,16 @@ describe('Possible Moves for Pawn', () => {
                     ),
                 ).toEqual(passantMove.passantWhiteResult);
             });
+            test('one side', () => {
+                expect(
+                    possibleEnPassantMoves(
+                        passantMove.pawnWhiteBySide.cord,
+                        -1,
+                        passantMove.currentBoardMoveWhiteOneSide,
+                        passantMove.currentBoardMoveWhiteOneSideBefore,
+                    ),
+                ).toEqual(passantMove.passantWhiteResultOneSide);
+            });
         });
     });
 
