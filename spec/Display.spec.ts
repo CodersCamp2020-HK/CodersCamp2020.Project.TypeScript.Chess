@@ -1,4 +1,4 @@
-import { Piece, PieceType, Side } from '../src/app/domain/basicChessTypes';
+import { CordWithMoveType, MoveType, Piece, PieceType, Side } from '../src/app/domain/basicChessTypes';
 import { ChessBoard } from '../src/app/infrastructure/ChessBoard';
 import { convertEmojiToRep, convertEmojitoCordWithMoveType } from './Display';
 
@@ -94,6 +94,34 @@ describe(`Given: Emoji chessboard: ${emojiBoard}`, () => {
         it(`Then: chessboard representation should be returned`, () => {
             const actual = convertEmojiToRep(emojiBoard);
             expect(actual).toEqual(chessboard.board);
+        });
+    });
+});
+
+const emojiMoveTypeBoard = [
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '👟', '👟', '⚔️', '.', '.'],
+    ['.', '.', '🏰', '👟', '♚', '👟', '🏰', '.'],
+];
+describe(`Given: Emoji chessboard with move types: ${emojiMoveTypeBoard}`, () => {
+    describe('When: convertEmojitoCordWithMoveType is invoked', () => {
+        const expected: CordWithMoveType[] = [
+            { x: 7, y: 3, moveType: MoveType.NormalMove },
+            { x: 6, y: 3, moveType: MoveType.NormalMove },
+            { x: 6, y: 4, moveType: MoveType.NormalMove },
+            { x: 7, y: 5, moveType: MoveType.NormalMove },
+            { x: 6, y: 5, moveType: MoveType.Capture },
+            { x: 7, y: 2, moveType: MoveType.Castling },
+            { x: 7, y: 6, moveType: MoveType.Castling },
+        ];
+        it(`Then: cords with move types should be returned`, () => {
+            const actual = convertEmojitoCordWithMoveType(emojiMoveTypeBoard);
+            expect(actual).toEqual(expect.arrayContaining(expected));
         });
     });
 });

@@ -58,7 +58,7 @@ export const convertEmojitoCordWithMoveType = (emojiBoard: string[][]): CordWith
     const emojis = new Map([
         ['👟', MoveType.NormalMove],
         ['⚔️', MoveType.Capture],
-        ['🏰', MoveType.Capture],
+        ['🏰', MoveType.Castling],
         ['🤺', MoveType.EnPassant],
         ['🥇', MoveType.Promotion],
     ]);
