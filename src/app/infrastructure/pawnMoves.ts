@@ -5,124 +5,125 @@ import {
     MoveType,
     ChessBoardRepresentation,
     PieceType,
+    Piece,
 } from '../domain/basicChessTypes';
 //import { IChessEngine } from '../domain/IChessEngine';
 
-export function getSingleMove(
+function isOutsideBoard(cord: Cord['x'] | Cord['y']): boolean {
+    if (cord > 7 || cord < 0) {
+        return true;
+    }
+    return false;
+}
+
+function isBlockedTile(tile: Piece | null): boolean {
+    if (tile != null && tile != undefined) {
+        return true;
+    }
+    return false;
+}
+
+export function possibleNormalMoves(
     cord: Cord,
     moveDirection: number,
     currentBoardState: ChessBoardRepresentation,
 ): CordWithMoveType[] {
-    if (cord.y - moveDirection > 7 || cord.y - moveDirection < 0) {
+    if (isOutsideBoard((cord.y - moveDirection) as Cord['y'])) {
         return [];
     }
-    //check is blocked
-    if (currentBoardState[cord.y - moveDirection][cord.x] != null) {
+
+    if (isBlockedTile(currentBoardState[cord.y - moveDirection][cord.x])) {
         return [];
     }
-    const resultCordY = (cord.y - moveDirection) as Cord['y'];
-    const result: CordWithMoveType[] = [{ x: 1, y: resultCordY, moveType: MoveType.NormalMove }];
+
+    const result: CordWithMoveType[] = [
+        { x: 1, y: (cord.y - moveDirection) as Cord['y'], moveType: MoveType.NormalMove },
+    ];
     return result;
 }
 
-export function getDoubleMove(
-    cord: Cord,
-    moveDirection: number,
-    currentBoardState: ChessBoardRepresentation,
-): CordWithMoveType[] {
-    {
-        if (cord.y - moveDirection > 7 || cord.y - moveDirection < 0) {
-            return [];
-        }
-        //check is blocked
-        if (currentBoardState[cord.y - moveDirection * 2][cord.x] != null) {
-            return [];
-        }
-        const resultCordY = (cord.y - moveDirection * 2) as Cord['y'];
-        const result: CordWithMoveType[] = [{ x: 1, y: resultCordY, moveType: MoveType.NormalMove }];
-        return result;
-    }
-}
-export function getCapture(
+export function possibleCaptureMoves(
     cord: Cord,
     moveDirection: number,
     currentBoardState: ChessBoardRepresentation,
 ): CordWithMoveType[] {
     const result: CordWithMoveType[] = [];
+
     const leftCorner = currentBoardState[cord.y - moveDirection][cord.x - 1];
     const rightCorner = currentBoardState[cord.y - moveDirection][cord.x + 1];
     const currentPawn = currentBoardState[cord.y][cord.x];
-    if (cord.y - moveDirection > 7 || cord.y - moveDirection < 0) {
-        return result;
+
+    if (isOutsideBoard((cord.y - moveDirection) as Cord['y'])) {
+        return [];
     }
-    if (leftCorner != null && leftCorner != undefined && leftCorner.side != currentPawn?.side) {
-        result.push({
-            x: leftCorner.cord.x,
-            y: leftCorner.cord.y,
-            moveType: MoveType.Capture,
-        });
-    }
-    if (rightCorner != null && rightCorner != undefined && rightCorner.side != currentPawn?.side) {
-        result.push({
-            x: rightCorner.cord.x,
-            y: rightCorner.cord.y,
-            moveType: MoveType.Capture,
-        });
-    }
+
+    const captureDirections = [leftCorner, rightCorner];
+    captureDirections.forEach((currentDirection) => {
+        if (currentDirection != null && currentDirection != undefined && currentDirection.side != currentPawn?.side) {
+            result.push({
+                x: currentDirection.cord.x,
+                y: currentDirection.cord.y,
+                moveType: MoveType.Capture,
+            });
+        }
+    });
+
     return result;
 }
-export function getPassant(
+export function possibleEnPassantMoves(
     cord: Cord,
     moveDirection: number,
     currentBoardState: ChessBoardRepresentation,
     previousBoardState: ChessBoardRepresentation,
 ): CordWithMoveType[] {
     const result: CordWithMoveType[] = [];
-    const leftSide = currentBoardState[cord.y][cord.x - 1];
-    const rightSide = currentBoardState[cord.y][cord.x + 1];
+    const leftSideTile = currentBoardState[cord.y][cord.x - 1];
+    const rightSideTile = currentBoardState[cord.y][cord.x + 1];
     const currentPawn = currentBoardState[cord.y][cord.x];
 
-    if (cord.y - moveDirection * 2 < 0 || cord.y - moveDirection * 2 > 7) {
-        return result;
+    const enPassantDirections = [
+        {
+            tile: leftSideTile,
+            sideDirection: -1,
+        },
+        {
+            tile: rightSideTile,
+            sideDirection: 1,
+        },
+    ];
+
+    if (isOutsideBoard((cord.y - moveDirection * 2) as Cord['y'])) {
+        return [];
     }
 
-    if (cord.x - 1 < 0 || cord.x + 1 > 7) {
-        return result;
+    if (isOutsideBoard((cord.x - 1) as Cord['x']) || isOutsideBoard((cord.x + 1) as Cord['x'])) {
+        return [];
     }
 
-    if (
-        previousBoardState[cord.y - moveDirection * 2][cord.x + 1]?.figType == PieceType.Pawn &&
-        previousBoardState[cord.y - moveDirection * 2][cord.x + 1]?.side != currentPawn?.side
-    ) {
-        if (leftSide != null && leftSide != undefined && leftSide.side != currentPawn?.side) {
-            result.push({
-                x: leftSide.cord.x,
-                y: (leftSide.cord.y - moveDirection) as Cord['y'],
-                moveType: MoveType.EnPassant,
-            });
+    enPassantDirections.forEach((enPassantDirection) => {
+        if (
+            previousBoardState[cord.y - moveDirection * 2][cord.x + enPassantDirection.sideDirection]?.figType ==
+                PieceType.Pawn &&
+            previousBoardState[cord.y - moveDirection * 2][cord.x + enPassantDirection.sideDirection]?.side !=
+                currentPawn?.side
+        ) {
+            if (isBlockedTile(enPassantDirection.tile) && enPassantDirection.tile.side != currentPawn?.side) {
+                result.push({
+                    x: enPassantDirection.tile.cord.x,
+                    y: (enPassantDirection.tile.cord.y - moveDirection) as Cord['y'],
+                    moveType: MoveType.EnPassant,
+                });
+            }
         }
-    }
-
-    if (
-        previousBoardState[cord.y - moveDirection * 2][cord.x - 1]?.figType == PieceType.Pawn &&
-        previousBoardState[cord.y - moveDirection * 2][cord.x - 1]?.side != currentPawn?.side
-    ) {
-        if (rightSide != null && rightSide != undefined && rightSide.side != currentPawn?.side) {
-            result.push({
-                x: rightSide.cord.x,
-                y: (rightSide.cord.y - moveDirection) as Cord['y'],
-                moveType: MoveType.EnPassant,
-            });
-        }
-    }
-
+    });
     return result;
 }
-export function getPromotion(
+export function possiblePromotionMoves(
     cord: Cord,
     moveDirection: number,
     currentBoardState: ChessBoardRepresentation,
 ): CordWithMoveType[] {
+    const result: CordWithMoveType[] = [];
     if (cord.y - moveDirection > 7 || cord.y - moveDirection < 0) {
         return [];
     }
@@ -130,8 +131,9 @@ export function getPromotion(
     if (currentBoardState[cord.y - moveDirection][cord.x] != null) {
         return [];
     }
-    const resultCordY = (cord.y - moveDirection) as Cord['y'];
-    const result: CordWithMoveType[] = [{ x: 1, y: resultCordY, moveType: MoveType.Promotion }];
+
+    result.push({ x: 1, y: (cord.y - moveDirection) as Cord['y'], moveType: MoveType.Promotion });
+
     return result;
 }
 
