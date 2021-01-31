@@ -1,7 +1,7 @@
 import { CordWithMoveType, Piece, PieceType, Side } from '../src/app/domain/basicChessTypes';
 import { ChessBoard } from '../src/app/infrastructure/ChessBoard';
 import { ChessEngine } from '../src/app/infrastructure/ChessEngine';
-import { displayChessboard, displayMoves } from '../src/app/utils/Display';
+import { displayChessboard, displayMoves } from './Display';
 
 const chessboard = new ChessBoard();
 chessboard.board = [

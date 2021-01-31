@@ -7,7 +7,7 @@ import {
     excludeMovesBehindPiece,
     getMoveTypesForPiece,
 } from '../src/app/utils/MoveHelpers';
-import { displayChessboard, displayMoves } from '../src/app/utils/Display';
+import { displayChessboard, displayMoves } from './Display';
 import { ChessBoard } from '../src/app/infrastructure/ChessBoard';
 import { Cord, Piece, PieceType, PossibleCords, Side } from '../src/app/domain/basicChessTypes';
 
