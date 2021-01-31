@@ -1,6 +1,6 @@
 import { CordWithMoveType, MoveType, Piece, PieceType, Side } from '../src/app/domain/basicChessTypes';
 import { ChessBoard } from '../src/app/infrastructure/ChessBoard';
-import { convertEmojiToRep, convertEmojitoCordWithMoveType } from './Display';
+import { convertEmojiToRep, convertEmojitoCordWithMoveType, displayEmojiBoard } from './Display';
 
 const chessboard = new ChessBoard();
 chessboard.board = [
@@ -89,7 +89,7 @@ const emojiBoard = [
     ['.', '.', '♛', '.', '.', '.', '.', '.'],
 ];
 
-describe(`Given: Emoji chessboard: ${emojiBoard}`, () => {
+describe(`Given: Emoji chessboard: ${displayEmojiBoard(emojiBoard)}`, () => {
     describe('When: convertEmojiToRep is invoked on emoji chessboard', () => {
         it(`Then: chessboard representation should be returned`, () => {
             const actual = convertEmojiToRep(emojiBoard);
@@ -108,7 +108,7 @@ const emojiMoveTypeBoard = [
     ['.', '.', '.', '👟', '👟', '⚔️', '.', '.'],
     ['.', '.', '🏰', '👟', '♚', '👟', '🏰', '.'],
 ];
-describe(`Given: Emoji chessboard with move types: ${emojiMoveTypeBoard}`, () => {
+describe(`Given: Emoji chessboard with move types: ${displayEmojiBoard(emojiMoveTypeBoard)}`, () => {
     describe('When: convertEmojitoCordWithMoveType is invoked', () => {
         const expected: CordWithMoveType[] = [
             { x: 7, y: 3, moveType: MoveType.NormalMove },

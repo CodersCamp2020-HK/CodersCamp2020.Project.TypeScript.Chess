@@ -71,6 +71,18 @@ export const convertEmojitoCordWithMoveType = (emojiBoard: string[][]): CordWith
     return result;
 };
 
+export const displayEmojiBoard = (emojiBoard: string[][]): string => {
+    return `
+    ${emojiBoard[0]}
+    ${emojiBoard[1]}
+    ${emojiBoard[2]}
+    ${emojiBoard[3]}
+    ${emojiBoard[4]}
+    ${emojiBoard[5]}
+    ${emojiBoard[6]}
+    ${emojiBoard[7]}`;
+};
+
 export const displayMoves = (moves: CordWithMoveType[] | PossibleCords[]): string => {
     const result: string[] = [];
     for (const move of moves) {

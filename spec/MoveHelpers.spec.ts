@@ -7,7 +7,7 @@ import {
     excludeMovesBehindPiece,
     getMoveTypesForPiece,
 } from '../src/app/utils/MoveHelpers';
-import { convertEmojiToRep, displayMoves } from './Display';
+import { convertEmojiToRep, displayEmojiBoard, displayMoves } from './Display';
 import { ChessBoard } from '../src/app/infrastructure/ChessBoard';
 import { Cord, PossibleCords, Side } from '../src/app/domain/basicChessTypes';
 
@@ -115,7 +115,7 @@ const emojiBoard = [
 const chessboard = new ChessBoard();
 chessboard.board = convertEmojiToRep(emojiBoard);
 
-describe(`Given: chessboard: ${emojiBoard}`, () => {
+describe(`Given: chessboard: ${displayEmojiBoard(emojiBoard)}`, () => {
     describe('When: getOtherPiecesCord is invoked for rook', () => {
         const expected: Cord[] = [
             { x: 3, y: 2 },
