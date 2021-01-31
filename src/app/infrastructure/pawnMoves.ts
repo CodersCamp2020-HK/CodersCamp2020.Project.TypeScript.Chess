@@ -151,11 +151,9 @@ export function possiblePromotionMoves(
         return [];
     }
 
-    if (isBlockedTile(currentBoardState[cord.y - moveDirection][cord.x])) {
-        return [];
+    if (!isBlockedTile(currentBoardState[cord.y - moveDirection][cord.x])) {
+        result.push({ x: cord.x, y: (cord.y - moveDirection) as Cord['y'], moveType: MoveType.Promotion });
     }
-
-    result.push({ x: 1, y: (cord.y - moveDirection) as Cord['y'], moveType: MoveType.Promotion });
 
     const captureResults = possibleCaptureMoves(cord, moveDirection, currentBoardState);
     if (captureResults.length > 0) {

@@ -39,6 +39,15 @@ describe('Possible Moves for Pawn', () => {
                     ),
                 ).toEqual(promotionMove.promotionBlackResult);
             });
+            test('with capture possible', () => {
+                expect(
+                    possiblePromotionMoves(
+                        promotionMove.currentPawnBlack.cord,
+                        1,
+                        promotionMove.currentBoardPromotionBlackWithCapture,
+                    ),
+                ).toEqual(promotionMove.promotionBlackResultWithCapture);
+            });
         });
         describe('for white side', () => {
             test('blocked', () => {
@@ -54,6 +63,15 @@ describe('Possible Moves for Pawn', () => {
                 expect(
                     possiblePromotionMoves(promotionMove.pawnWhite.cord, -1, promotionMove.currentBoardMoveWhite),
                 ).toEqual(promotionMove.promotionWhiteResult);
+            });
+            test('blocked with captures possible', () => {
+                expect(
+                    possiblePromotionMoves(
+                        promotionMove.pawnWhite.cord,
+                        -1,
+                        promotionMove.currentBoardMoveWhiteWithTwoCaptures,
+                    ),
+                ).toEqual(promotionMove.promotionWhiteResultBlockedTwoCaptures);
             });
         });
     });
