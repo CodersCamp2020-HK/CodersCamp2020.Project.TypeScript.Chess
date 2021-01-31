@@ -6,8 +6,16 @@ import {
     ChessBoardRepresentation,
     PieceType,
     Piece,
+    Side
 } from '../domain/basicChessTypes';
 //import { IChessEngine } from '../domain/IChessEngine';
+
+enum moveDirection {
+    LEFT = -1,
+    RIGHT = 1,
+    UP = 1,
+    DOWN = -1,
+}
 
 function isOutsideBoard(cord: Cord['x'] | Cord['y']): boolean {
     if (cord > 7 || cord < 0) {
@@ -35,7 +43,7 @@ function isOppositePawn(currentPawn: Piece | null, pieceToComparison: Piece | nu
 
 export function possibleNormalMoves(
     cord: Cord,
-    moveDirection: number,
+    moveDirection: moveDirection,
     currentBoardState: ChessBoardRepresentation,
 ): CordWithMoveType[] {
     if (isOutsideBoard((cord.y - moveDirection) as Cord['y'])) {
@@ -54,7 +62,7 @@ export function possibleNormalMoves(
 
 export function possibleCaptureMoves(
     cord: Cord,
-    moveDirection: number,
+    moveDirection: moveDirection,
     currentBoardState: ChessBoardRepresentation,
 ): CordWithMoveType[] {
     const result: CordWithMoveType[] = [];
@@ -82,22 +90,32 @@ export function possibleCaptureMoves(
 }
 export function possibleEnPassantMoves(
     cord: Cord,
-    moveDirection: number,
+    moveDirection: moveDirection,
     currentBoardState: ChessBoardRepresentation,
     previousBoardState: ChessBoardRepresentation,
 ): CordWithMoveType[] {
     const result: CordWithMoveType[] = [];
     const leftSideTile = currentBoardState[cord.y][cord.x - 1];
     const rightSideTile = currentBoardState[cord.y][cord.x + 1];
+    const previousLeftSideTile =
+        previousBoardState[((leftSideTile?.cord?.y as Cord['y']) - moveDirection * 2) as Cord['y']][
+            leftSideTile?.cord.x as Cord['x']
+        ];
+    const previousRightSideTile =
+        previousBoardState[((rightSideTile?.cord?.y as Cord['y']) - moveDirection * 2) as Cord['y']][
+            rightSideTile?.cord.x as Cord['x']
+        ];
     const currentPawn = currentBoardState[cord.y][cord.x];
 
     const enPassantDirections = [
         {
-            tile: leftSideTile,
+            currentTile: leftSideTile,
+            previousTile: previousLeftSideTile,
             sideDirection: -1,
         },
         {
-            tile: rightSideTile,
+            currentTile: rightSideTile,
+            previousTile: previousRightSideTile,
             sideDirection: 1,
         },
     ];
@@ -106,17 +124,15 @@ export function possibleEnPassantMoves(
         return [];
     }
 
-    // if (isOutsideBoard((cord.x - 1) as Cord['x']) || isOutsideBoard((cord.x + 1) as Cord['x'])) {
-    //     return [];
-    // }
-
     enPassantDirections.forEach((enPassantDirection) => {
-        if (isOppositePawn(currentPawn, enPassantDirection.tile)) {
-            if (isBlockedTile(enPassantDirection.tile)) {
-                let resultY: Cord['y'] = enPassantDirection?.tile?.cord?.y as Cord['y'];
+        const isCurrentOppositePawn = isOppositePawn(currentPawn, enPassantDirection.currentTile);
+        const ispreviousOppositePawn = isOppositePawn(currentPawn, enPassantDirection.previousTile);
+        if (isCurrentOppositePawn && ispreviousOppositePawn) {
+            if (isBlockedTile(enPassantDirection.currentTile)) {
+                let resultY: Cord['y'] = enPassantDirection?.currentTile?.cord?.y as Cord['y'];
                 resultY -= moveDirection;
                 result.push({
-                    x: enPassantDirection?.tile?.cord.x as Cord['y'],
+                    x: enPassantDirection?.currentTile?.cord.x as Cord['y'],
                     y: resultY as Cord['y'],
                     moveType: MoveType.EnPassant,
                 });
@@ -127,7 +143,7 @@ export function possibleEnPassantMoves(
 }
 export function possiblePromotionMoves(
     cord: Cord,
-    moveDirection: number,
+    moveDirection: moveDirection,
     currentBoardState: ChessBoardRepresentation,
 ): CordWithMoveType[] {
     const result: CordWithMoveType[] = [];
@@ -158,9 +174,10 @@ export function getPossibleMovesForPawn(
     currentBoardState: IChessBoard,
     previousBoardState: IChessBoard,
 ): CordWithMoveType[] {
-    let pieceSide;
-    let isMoved;
-    let promotionRow;
+    const currentPiece = currentBoardState.board[cord.y][cord.x];
+    const pieceSide = currentPiece?.side;
+    let isMoved = currentPiece?.isMoved;
+    let promotionRow = pieceSide === Side.Black ? ;
     let passantRow;
     //1up -1down
     let moveDirection;
