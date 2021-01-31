@@ -75,9 +75,17 @@ export function possibleCaptureMoves(
         return [];
     }
 
-    const captureDirections = [leftCorner, rightCorner];
+    const captureDirections = [];
+    if (leftCorner) {
+        captureDirections.push(leftCorner);
+    }
+
+    if (rightCorner) {
+        captureDirections.push(rightCorner);
+    }
+
     captureDirections.forEach((currentDirection) => {
-        if (isBlockedTile(currentDirection) && currentDirection?.side != currentPawn?.side) {
+        if (isBlockedTile(currentDirection) && currentDirection.side != currentPawn?.side) {
             result.push({
                 x: currentDirection?.cord.x as Cord['x'],
                 y: currentDirection?.cord.y as Cord['y'],
@@ -185,6 +193,7 @@ export function getPossibleMovesForPawn(
 
     const singleMoveResult = possibleNormalMoves(cord, moveDirection, currentBoardComponent.board);
     const doubleMoveResult = isMoved ? [] : possibleNormalMoves(cord, moveDirection * 2, currentBoardComponent.board);
+    const captureResult = possibleCaptureMoves(cord, moveDirection, currentBoardComponent.board);
 
     const enPassantMoveResult =
         enPassantRow == cord.y
@@ -196,6 +205,7 @@ export function getPossibleMovesForPawn(
     let result: CordWithMoveType[] = [
         ...singleMoveResult,
         ...doubleMoveResult,
+        ...captureResult,
         ...enPassantMoveResult,
         ...promotionMoveResult,
     ];

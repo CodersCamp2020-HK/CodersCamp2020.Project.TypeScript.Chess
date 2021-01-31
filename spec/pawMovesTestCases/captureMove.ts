@@ -75,3 +75,34 @@ export const el4: CordWithMoveType = {
     moveType: MoveType.Capture,
 };
 export const captureWhiteResult: CordWithMoveType[] = [el3, el4];
+
+export const blockingPieceOneSide: Piece = {
+    figType: PieceType.Pawn,
+    cord: { x: 6, y: 5 },
+    side: Side.Black,
+    isMoved: true,
+};
+export const currentPawnWhiteOneSide: Piece = {
+    figType: PieceType.Pawn,
+    cord: { x: 7, y: 4 },
+    side: Side.White,
+    isMoved: true,
+};
+export const currentBoardMoveWhiteOneSide: ChessBoardRepresentation = [
+    [null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, currentPawnWhiteOneSide],
+    [null, null, null, null, null, null, blockingPieceOneSide, null],
+    [null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null],
+];
+
+export const elBlockedOneSide: CordWithMoveType = {
+    x: 6,
+    y: 5,
+    moveType: MoveType.Capture,
+};
+
+export const captureWhiteResultOneSide: CordWithMoveType[] = [elBlockedOneSide];

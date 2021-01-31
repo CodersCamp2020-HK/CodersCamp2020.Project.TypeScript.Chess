@@ -3,15 +3,18 @@ import {
     possiblePromotionMoves,
     possibleNormalMoves,
     possibleCaptureMoves,
+    getPossibleMovesForPawn,
 } from '../src/app/infrastructure/pawnMoves';
 import * as normalMove from './pawMovesTestCases/normalMove';
 import * as doubleMove from './pawMovesTestCases/doubleMove';
 import * as captureMove from './pawMovesTestCases/captureMove';
 import * as passantMove from './pawMovesTestCases/enPassantMove';
 import * as promotionMove from './pawMovesTestCases/promotionMove';
+import * as allMoves from './pawMovesTestCases/allMoves';
 import {
     ChessBoardRepresentation,
     CordWithMoveType,
+    IChessBoard,
     MoveType,
     Piece,
     PieceType,
@@ -127,6 +130,15 @@ describe('Possible Moves for Pawn', () => {
                     possibleCaptureMoves(captureMove.currentPawnWhite.cord, -1, captureMove.currentBoardMoveWhite),
                 ).toEqual(captureMove.captureWhiteResult);
             });
+            test('one side', () => {
+                expect(
+                    possibleCaptureMoves(
+                        captureMove.currentPawnWhiteOneSide.cord,
+                        -1,
+                        captureMove.currentBoardMoveWhiteOneSide,
+                    ),
+                ).toEqual(captureMove.captureWhiteResultOneSide);
+            });
         });
     });
 
@@ -184,3 +196,27 @@ describe('Possible Moves for Pawn', () => {
         });
     });
 });
+
+let ichess = {
+    board: allMoves.currentBoardCaptureBlack,
+    makeMove: () => {return true},
+    hasPiece: () => {return true},
+}
+let ichessprevious = {
+    board: allMoves.currentBoardCaptureBlackBefore,
+    makeMove: () => {return true},
+    hasPiece: () => {return true},
+}
+
+describe('All possible', () => {
+    describe('capture normal passant', () => {
+        describe('for black side', () => {
+            test('not blocked', () => {
+                expect(
+                    getPossibleMovesForPawn(
+                        allMoves.currentPawnBlack.cord,
+                        ichess,
+                        ichessprevious,
+                    ),
+                ).toEqual(allMoves.captureBlackResult);
+            });
