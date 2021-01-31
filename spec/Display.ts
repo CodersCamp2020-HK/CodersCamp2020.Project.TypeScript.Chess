@@ -4,10 +4,11 @@ import {
     MoveType,
     Piece,
     PieceType,
+    PossibleCords,
     Side,
 } from '../src/app/domain/basicChessTypes';
 
-export const convertEmojiToRep = (emojiBoard: string[][]) => {
+export const convertEmojiToRep = (emojiBoard: string[][]): ChessBoardRepresentation => {
     const result: ChessBoardRepresentation = [[], [], [], [], [], [], [], []];
     const emojis = new Map([
         ['♟', { figType: PieceType.Pawn, side: Side.Black }],
@@ -52,7 +53,7 @@ export const convertEmojiToRep = (emojiBoard: string[][]) => {
     return result;
 };
 
-export const convertEmojitoCordWithMoveType = (emojiBoard: string[][]) => {
+export const convertEmojitoCordWithMoveType = (emojiBoard: string[][]): CordWithMoveType[] => {
     const result: CordWithMoveType[] = [];
     const emojis = new Map([
         ['👟', MoveType.NormalMove],
@@ -68,4 +69,12 @@ export const convertEmojitoCordWithMoveType = (emojiBoard: string[][]) => {
         }
     }
     return result;
+};
+
+export const displayMoves = (moves: CordWithMoveType[] | PossibleCords[]): string => {
+    const result: string[] = [];
+    for (const move of moves) {
+        result.push(JSON.stringify(move).padStart(36));
+    }
+    return '\n' + result.join('\n');
 };
