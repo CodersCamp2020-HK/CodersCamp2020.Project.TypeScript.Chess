@@ -1,6 +1,6 @@
 import { CordWithMoveType, IChessBoard, Piece, PieceType, Side, Cord } from '../domain/basicChessTypes';
 import { ChessBoard } from '../infrastructure/ChessBoard';
-import { ChessEngine } from '../infrastructure/ChessEngine';
+// import { ChessEngine } from '../infrastructure/ChessEngine';
 
 const chessboard = new ChessBoard();
 chessboard.board = [
@@ -48,9 +48,9 @@ function getPossibleMovesForKnight(cord: Cord, boardState: IChessBoard) {
 
         possibleMoves.push({ x: actualKnightPositionX, y: actualKnightPositionY });
     }
-
-    getPossibleMovesForKnight(knight.cord, chessboard);
 }
+
+getPossibleMovesForKnight(knight.cord, chessboard);
 
 //     let possibleCords
 //     {
