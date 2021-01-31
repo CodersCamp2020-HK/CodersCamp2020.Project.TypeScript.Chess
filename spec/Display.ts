@@ -37,11 +37,11 @@ export const convertEmojiToRep = (emojiBoard: string[][]): ChessBoardRepresentat
                     if (PieceType.King === figType) {
                         const blackKingCond = x == 0 && y == 4 && side == Side.Black;
                         const whiteKingCond = x == 7 && y == 4 && side == Side.White;
-                        isMoved = blackKingCond || whiteKingCond ? true : false;
+                        isMoved = blackKingCond || whiteKingCond ? false : true;
                     } else if (PieceType.Pawn === figType) {
                         const blackPawnCond = x == 1 && side == Side.Black;
                         const whitePawnCond = x == 6 && side == Side.White;
-                        isMoved = blackPawnCond || whitePawnCond ? true : false;
+                        isMoved = blackPawnCond || whitePawnCond ? false : true;
                     } else {
                         isMoved = true;
                     }
