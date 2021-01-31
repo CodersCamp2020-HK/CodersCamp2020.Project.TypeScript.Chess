@@ -1,6 +1,7 @@
 import {
     ChessBoardRepresentation,
     CordWithMoveType,
+    MoveType,
     Piece,
     PieceType,
     PossibleCords,
@@ -10,7 +11,7 @@ import {
 export const convertEmojiToRep = (emojiBoard: string[][]) => {
     const result: ChessBoardRepresentation = [[], [], [], [], [], [], [], []];
     const emojis = new Map([
-        ['♟️', { figType: PieceType.Pawn, side: Side.Black }],
+        ['♟', { figType: PieceType.Pawn, side: Side.Black }],
         ['♙', { figType: PieceType.Pawn, side: Side.White }],
         ['♝', { figType: PieceType.Bishop, side: Side.Black }],
         ['♗', { figType: PieceType.Bishop, side: Side.White }],
@@ -47,6 +48,24 @@ export const convertEmojiToRep = (emojiBoard: string[][]) => {
                     result[x].push({ figType, cord: { x, y }, side, isMoved } as Piece);
                 }
             }
+        }
+    }
+    return result;
+};
+
+export const convertEmojitoCordWithMoveType = (emojiBoard: string[][]) => {
+    const result: CordWithMoveType[] = [];
+    const emojis = new Map([
+        ['👟', MoveType.NormalMove],
+        ['⚔️', MoveType.Capture],
+        ['🏰', MoveType.Capture],
+        ['🤺', MoveType.EnPassant],
+        ['🥇', MoveType.Promotion],
+    ]);
+    for (let x = 0; x < emojiBoard.length; x++) {
+        for (let y = 0; y < emojiBoard.length; y++) {
+            const moveType = emojis.get(emojiBoard[x][y]);
+            if (moveType !== undefined) result.push({ x, y, moveType } as CordWithMoveType);
         }
     }
     return result;
