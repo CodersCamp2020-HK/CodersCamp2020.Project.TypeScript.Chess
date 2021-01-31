@@ -8,7 +8,6 @@ import {
     Piece,
     Side,
 } from '../../src/app/domain/basicChessTypes';
-import { blockingPiece2Before } from './enPassantMove';
 
 export const currentPawnBlack: Piece = {
     figType: PieceType.Pawn,

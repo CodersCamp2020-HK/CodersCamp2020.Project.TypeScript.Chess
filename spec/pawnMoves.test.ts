@@ -197,26 +197,33 @@ describe('Possible Moves for Pawn', () => {
     });
 });
 
-let ichess = {
+const ichess = {
     board: allMoves.currentBoardCaptureBlack,
-    makeMove: () => {return true},
-    hasPiece: () => {return true},
-}
-let ichessprevious = {
+    makeMove: () => {
+        return true;
+    },
+    hasPiece: () => {
+        return true;
+    },
+};
+const ichessprevious = {
     board: allMoves.currentBoardCaptureBlackBefore,
-    makeMove: () => {return true},
-    hasPiece: () => {return true},
-}
+    makeMove: () => {
+        return true;
+    },
+    hasPiece: () => {
+        return true;
+    },
+};
 
 describe('All possible', () => {
     describe('capture normal passant', () => {
         describe('for black side', () => {
             test('not blocked', () => {
-                expect(
-                    getPossibleMovesForPawn(
-                        allMoves.currentPawnBlack.cord,
-                        ichess,
-                        ichessprevious,
-                    ),
-                ).toEqual(allMoves.captureBlackResult);
+                expect(getPossibleMovesForPawn(allMoves.currentPawnBlack.cord, ichess, ichessprevious)).toEqual(
+                    allMoves.captureBlackResult,
+                );
             });
+        });
+    });
+});
