@@ -6,11 +6,11 @@ import {
     ChessBoardRepresentation,
     PieceType,
     Piece,
-    Side
+    Side,
 } from '../domain/basicChessTypes';
 //import { IChessEngine } from '../domain/IChessEngine';
 
-enum moveDirection {
+enum MoveDirection {
     LEFT = -1,
     RIGHT = 1,
     UP = 1,
@@ -43,7 +43,7 @@ function isOppositePawn(currentPawn: Piece | null, pieceToComparison: Piece | nu
 
 export function possibleNormalMoves(
     cord: Cord,
-    moveDirection: moveDirection,
+    moveDirection: MoveDirection,
     currentBoardState: ChessBoardRepresentation,
 ): CordWithMoveType[] {
     if (isOutsideBoard((cord.y - moveDirection) as Cord['y'])) {
@@ -62,7 +62,7 @@ export function possibleNormalMoves(
 
 export function possibleCaptureMoves(
     cord: Cord,
-    moveDirection: moveDirection,
+    moveDirection: MoveDirection,
     currentBoardState: ChessBoardRepresentation,
 ): CordWithMoveType[] {
     const result: CordWithMoveType[] = [];
@@ -90,7 +90,7 @@ export function possibleCaptureMoves(
 }
 export function possibleEnPassantMoves(
     cord: Cord,
-    moveDirection: moveDirection,
+    moveDirection: MoveDirection,
     currentBoardState: ChessBoardRepresentation,
     previousBoardState: ChessBoardRepresentation,
 ): CordWithMoveType[] {
@@ -143,7 +143,7 @@ export function possibleEnPassantMoves(
 }
 export function possiblePromotionMoves(
     cord: Cord,
-    moveDirection: moveDirection,
+    moveDirection: MoveDirection,
     currentBoardState: ChessBoardRepresentation,
 ): CordWithMoveType[] {
     const result: CordWithMoveType[] = [];
@@ -171,21 +171,37 @@ export function possiblePromotionMoves(
 
 export function getPossibleMovesForPawn(
     cord: Cord,
-    currentBoardState: IChessBoard,
-    previousBoardState: IChessBoard,
+    currentBoardComponent: IChessBoard,
+    previousBoardComponent: IChessBoard,
 ): CordWithMoveType[] {
-    const currentPiece = currentBoardState.board[cord.y][cord.x];
+    const currentPiece = currentBoardComponent.board[cord.y][cord.x];
     const pieceSide = currentPiece?.side;
-    let isMoved = currentPiece?.isMoved;
-    let promotionRow = pieceSide === Side.Black ? ;
-    let passantRow;
-    //1up -1down
-    let moveDirection;
+    const isMoved = currentPiece?.isMoved;
+    const promotionRow = pieceSide === Side.Black ? 1 : 6;
+    const enPassantRow = pieceSide === Side.Black ? 3 : 4;
+    const moveDirection = pieceSide === Side.Black ? MoveDirection.UP : MoveDirection.DOWN;
 
-    const result: CordWithMoveType = {
-        x: cord.x,
-        y: cord.y,
-        moveType: MoveType.NormalMove,
-    };
-    return [result];
+    const singleMoveResult = possibleNormalMoves(cord, moveDirection, currentBoardComponent.board);
+    const doubleMoveResult = isMoved ? [] : possibleNormalMoves(cord, moveDirection * 2, currentBoardComponent.board);
+
+    const enPassantMoveResult =
+        enPassantRow == cord.y
+            ? possibleEnPassantMoves(cord, moveDirection, currentBoardComponent.board, previousBoardComponent.board)
+            : [];
+    const promotionMoveResult =
+        promotionRow == cord.y ? possiblePromotionMoves(cord, moveDirection, currentBoardComponent.board) : [];
+
+    let result: CordWithMoveType[] = [
+        ...singleMoveResult,
+        ...doubleMoveResult,
+        ...enPassantMoveResult,
+        ...promotionMoveResult,
+    ];
+    result = result.filter((el) => {
+        if (el === null || el == undefined) {
+            return false;
+        }
+        return true;
+    });
+    return result;
 }
