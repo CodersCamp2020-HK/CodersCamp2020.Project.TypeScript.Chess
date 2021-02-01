@@ -7,13 +7,13 @@ export interface PieceElement {
 }
 
 export class ChessBoardComponent {
-    wrapper: HTMLDivElement;
-    board: HTMLDivElement;
-    verticalAxi: HTMLDivElement;
-    horizontalAxi: HTMLDivElement;
-    blackTilesClassList: string;
-    whiteTilesClassList: string;
-    tiles: Array<Array<null | HTMLDivElement>> = [
+    public wrapper: HTMLDivElement;
+    private board: HTMLDivElement;
+    private verticalAxi: HTMLDivElement;
+    private horizontalAxi: HTMLDivElement;
+    private readonly blackTilesClassList: string;
+    private readonly whiteTilesClassList: string;
+    private tiles: Array<Array<null | HTMLDivElement>> = [
         [null, null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null, null],
