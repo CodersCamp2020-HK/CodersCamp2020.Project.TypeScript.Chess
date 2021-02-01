@@ -6,7 +6,7 @@ export class ChessBoard implements IChessBoard {
 
     makeMove(piece: Piece, move: PieceMove): void {
         const { x: oldX, y: oldY } = move.from;
-        const { x: newX, y: newY } = move.from;
+        const { x: newX, y: newY } = move.to;
         piece.cord = { x: newX, y: newY };
         this.board[oldX][oldY] = null;
         this.board[newX][newY] = piece;
