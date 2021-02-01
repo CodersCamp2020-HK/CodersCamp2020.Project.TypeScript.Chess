@@ -14,9 +14,7 @@ export class Label {
         labelLine.classList.add(styles.labelline);
         this.__element.appendChild(labelLine);
 
-        labelColor === 'red' && this.__element.classList.add(styles.red);
-        labelColor === 'blue' && this.__element.classList.add(styles.blue);
-        labelColor === 'yellow' && this.__element.classList.add(styles.yellow);
+        this.__element.classList.add(styles[labelColor]);
     }
 
     public get element(): HTMLDivElement {
