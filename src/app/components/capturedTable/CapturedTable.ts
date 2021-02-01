@@ -17,8 +17,7 @@ export class CapturedTable {
             this.__element.appendChild(pieceImage);
         }
 
-        side === 'opponent' && this.__element.classList.add(styles[side]);
-        side === 'player' && this.__element.classList.add(styles[side]);
+        this.__element.classList.add(styles[side]);
     }
 
     public get element(): HTMLDivElement {
