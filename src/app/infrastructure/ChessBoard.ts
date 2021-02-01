@@ -1,7 +1,9 @@
-import { IChessBoard, ChessBoardRepresentation, Piece, PieceMove, Cord } from '../domain/basicChessTypes';
+import { IChessBoard, Piece, PieceMove, Cord } from '../domain/basicChessTypes';
+import { generateDeafultChessboard } from '../utils/ChessboardHelpers';
 
 export class ChessBoard implements IChessBoard {
-    board: ChessBoardRepresentation = [[]];
+    board = generateDeafultChessboard();
+
     makeMove(piece: Piece, move: PieceMove): void {
         throw new Error('Method not implemented.');
     }
