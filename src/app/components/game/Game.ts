@@ -2,6 +2,7 @@ import styles from './Game.module.scss';
 import { Aside } from '../Aside/Aside';
 import rulesTxt from '../../../assets/rules.txt';
 import infoTxt from '../../../assets/info.txt';
+import { CapturedTable } from '../capturedTable/CapturedTable';
 
 export class Game {
     private __element: HTMLElement;
@@ -34,11 +35,20 @@ export class Game {
 
         const opponentScoreWrapper = document.createElement('div');
         opponentScoreWrapper.classList.add(styles.wrapperOpponent);
-        opponentScoreWrapper.textContent = 'Nazwa przeciwnika, czas przeciwnika, zbite pionki';
+        const opponentCapturedTable = new CapturedTable('opponent', [
+            'queen',
+            'bishop',
+            'king',
+            'rook',
+            'pawn',
+            'knight',
+        ]);
+        opponentScoreWrapper.append(opponentCapturedTable.element);
 
         const playerScoreWrapper = document.createElement('div');
         playerScoreWrapper.classList.add(styles.wrapperPlayer);
-        playerScoreWrapper.textContent = 'Nazwa gracza, czas gracza, zbite pionki';
+        const playerCapturedTable = new CapturedTable('player', ['queen', 'bishop', 'king', 'rook', 'pawn', 'knight']);
+        playerScoreWrapper.append(playerCapturedTable.element);
 
         const previousMovesWrapper = document.createElement('div');
         previousMovesWrapper.classList.add(styles.wrapperMoves);
