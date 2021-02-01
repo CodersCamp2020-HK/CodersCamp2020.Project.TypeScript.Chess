@@ -12,9 +12,9 @@ export const currentPawnBlack: Piece = {
     side: Side.Black,
     isMoved: true,
 };
-export const blockingPiece: Piece = { figType: PieceType.Pawn, cord: { x: 1, y: 3 }, side: Side.White, isMoved: true };
-export const blockingPiece2: Piece = { figType: PieceType.Pawn, cord: { x: 3, y: 3 }, side: Side.White, isMoved: true };
-export const currentBoardPassantBlack: ChessBoardRepresentation = [
+const blockingPiece: Piece = { figType: PieceType.Pawn, cord: { x: 1, y: 3 }, side: Side.White, isMoved: true };
+const blockingPiece2: Piece = { figType: PieceType.Pawn, cord: { x: 3, y: 3 }, side: Side.White, isMoved: true };
+export const currentBoardPassantForBlack: ChessBoardRepresentation = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
@@ -25,19 +25,19 @@ export const currentBoardPassantBlack: ChessBoardRepresentation = [
     [null, null, null, null, null, null, null, null],
 ];
 
-export const blockingPieceBefore: Piece = {
+const blockingPieceBefore: Piece = {
     figType: PieceType.Pawn,
     cord: { x: 1, y: 1 },
     side: Side.White,
     isMoved: false,
 };
-export const blockingPiece2Before: Piece = {
+const blockingPiece2Before: Piece = {
     figType: PieceType.Pawn,
     cord: { x: 3, y: 1 },
     side: Side.White,
     isMoved: false,
 };
-export const currentBoardPassantBlackBefore: ChessBoardRepresentation = [
+export const previousBoardPassantForBlack: ChessBoardRepresentation = [
     [null, null, null, null, null, null, null, null],
     [null, blockingPieceBefore, null, blockingPiece2Before, null, null, null, null],
     [null, null, null, null, null, null, null, null],
@@ -47,17 +47,17 @@ export const currentBoardPassantBlackBefore: ChessBoardRepresentation = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
 ];
-export const el1: CordWithMoveType = {
+const passantResultForBlack: CordWithMoveType = {
     x: 1,
     y: 2,
     moveType: MoveType.EnPassant,
 };
-export const el2: CordWithMoveType = {
+const passantResult2ForBlack: CordWithMoveType = {
     x: 3,
     y: 2,
     moveType: MoveType.EnPassant,
 };
-export const passantBlackResult: CordWithMoveType[] = [el1, el2];
+export const passantForBlackResult: CordWithMoveType[] = [passantResultForBlack, passantResult2ForBlack];
 
 //White
 
@@ -67,22 +67,26 @@ export const currentPawnWhite: Piece = {
     side: Side.White,
     isMoved: true,
 };
-export const blockingPieceWhite: Piece = {
-    figType: PieceType.Bishop,
-    cord: { x: 1, y: 7 },
+
+const blockingPieceForWhite: Piece = {
+    figType: PieceType.Pawn,
+    cord: { x: 2, y: 4 },
+    side: Side.Black,
+    isMoved: true,
+};
+const blockingPiece2ForWhite: Piece = {
+    figType: PieceType.Pawn,
+    cord: { x: 4, y: 4 },
     side: Side.Black,
     isMoved: true,
 };
 
-export const blockingPiece3: Piece = { figType: PieceType.Pawn, cord: { x: 2, y: 4 }, side: Side.Black, isMoved: true };
-export const blockingPiece4: Piece = { figType: PieceType.Pawn, cord: { x: 4, y: 4 }, side: Side.Black, isMoved: true };
-
-export const currentBoardMoveWhite: ChessBoardRepresentation = [
+export const currentBoardPassantForWhite: ChessBoardRepresentation = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
-    [null, null, blockingPiece3, currentPawnWhite, blockingPiece4, null, null, null],
+    [null, null, blockingPieceForWhite, currentPawnWhite, blockingPiece2ForWhite, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
@@ -101,7 +105,7 @@ export const blockingPiece4Before: Piece = {
     isMoved: false,
 };
 
-export const currentBoardMoveWhiteBefore: ChessBoardRepresentation = [
+export const previousBoardMoveWhite: ChessBoardRepresentation = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
@@ -112,17 +116,17 @@ export const currentBoardMoveWhiteBefore: ChessBoardRepresentation = [
     [null, null, null, null, null, null, null, null],
 ];
 
-export const el3: CordWithMoveType = {
+const passantForWhiteResult: CordWithMoveType = {
     x: 2,
     y: 5,
     moveType: MoveType.EnPassant,
 };
-export const el4: CordWithMoveType = {
+const passantForWhiteResult2: CordWithMoveType = {
     x: 4,
     y: 5,
     moveType: MoveType.EnPassant,
 };
-export const passantWhiteResult: CordWithMoveType[] = [el3, el4];
+export const passantForWhiteResults: CordWithMoveType[] = [passantForWhiteResult, passantForWhiteResult2];
 
 export const pawnWhiteBySide: Piece = {
     figType: PieceType.Pawn,
@@ -130,7 +134,7 @@ export const pawnWhiteBySide: Piece = {
     side: Side.White,
     isMoved: true,
 };
-export const blockingPieceOneSide: Piece = {
+const blockingPieceOneSide: Piece = {
     figType: PieceType.Pawn,
     cord: { x: 1, y: 4 },
     side: Side.Black,
@@ -147,13 +151,13 @@ export const currentBoardMoveWhiteOneSide: ChessBoardRepresentation = [
     [null, null, null, null, null, null, null, null],
 ];
 
-export const blockingPieceOneSideBefore: Piece = {
+const blockingPieceOneSideBefore: Piece = {
     figType: PieceType.Pawn,
     cord: { x: 1, y: 6 },
     side: Side.Black,
     isMoved: false,
 };
-export const currentBoardMoveWhiteOneSideBefore: ChessBoardRepresentation = [
+export const previousBoardMoveWhiteOneSide: ChessBoardRepresentation = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
@@ -164,10 +168,10 @@ export const currentBoardMoveWhiteOneSideBefore: ChessBoardRepresentation = [
     [null, null, null, null, null, null, null, null],
 ];
 
-export const elOneside: CordWithMoveType = {
+const passantForWhiteOneSideResult: CordWithMoveType = {
     x: 1,
     y: 5,
     moveType: MoveType.EnPassant,
 };
 
-export const passantWhiteResultOneSide: CordWithMoveType[] = [elOneside];
+export const passantWhiteResultOneSide: CordWithMoveType[] = [passantForWhiteOneSideResult];

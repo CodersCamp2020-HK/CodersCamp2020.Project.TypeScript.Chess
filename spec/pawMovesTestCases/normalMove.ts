@@ -12,8 +12,8 @@ export const pawnNormalBlack: Piece = {
     side: Side.Black,
     isMoved: true,
 };
-export const blockingPiece: Piece = { figType: PieceType.Pawn, cord: { x: 1, y: 5 }, side: Side.Black, isMoved: true };
-export const currentBoardMoveBlack: ChessBoardRepresentation = [
+const blockingPiece: Piece = { figType: PieceType.Pawn, cord: { x: 1, y: 5 }, side: Side.Black, isMoved: true };
+export const currentBoardMoveForBlack: ChessBoardRepresentation = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
@@ -23,7 +23,7 @@ export const currentBoardMoveBlack: ChessBoardRepresentation = [
     [null, pawnNormalBlack, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
 ];
-export const currentBoardMoveBlackBlocked: ChessBoardRepresentation = [
+export const currentBoardMoveForBlackBlocked: ChessBoardRepresentation = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
@@ -33,12 +33,12 @@ export const currentBoardMoveBlackBlocked: ChessBoardRepresentation = [
     [null, pawnNormalBlack, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
 ];
-export const el1: CordWithMoveType = {
+export const moveForBlackResult: CordWithMoveType = {
     x: 1,
     y: 5,
     moveType: MoveType.NormalMove,
 };
-export const normalBlackResult: CordWithMoveType[] = [el1];
+export const moveForBlackResults: CordWithMoveType[] = [moveForBlackResult];
 
 //White
 
@@ -48,14 +48,14 @@ export const pawnNormalWhite: Piece = {
     side: Side.White,
     isMoved: true,
 };
-export const blockingPieceWhite: Piece = {
+const blockingPieceForWhite: Piece = {
     figType: PieceType.Bishop,
     cord: { x: 1, y: 7 },
     side: Side.Black,
     isMoved: true,
 };
 
-export const currentBoardMoveWhite: ChessBoardRepresentation = [
+export const currentBoardMoveForWhite: ChessBoardRepresentation = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
@@ -66,7 +66,7 @@ export const currentBoardMoveWhite: ChessBoardRepresentation = [
     [null, null, null, null, null, null, null, null],
 ];
 
-export const currentBoardMoveWhiteBlocked: ChessBoardRepresentation = [
+export const currentBoardMoveForWhiteBlocked: ChessBoardRepresentation = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
@@ -74,12 +74,12 @@ export const currentBoardMoveWhiteBlocked: ChessBoardRepresentation = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, pawnNormalWhite, null, null, null, null, null, null],
-    [null, blockingPieceWhite, null, null, null, null, null, null],
+    [null, blockingPieceForWhite, null, null, null, null, null, null],
 ];
 
-export const el2: CordWithMoveType = {
+const moveForWhiteResult: CordWithMoveType = {
     x: 1,
     y: 7,
     moveType: MoveType.NormalMove,
 };
-export const normalWhiteResult: CordWithMoveType[] = [el2];
+export const moveForWhiteResults: CordWithMoveType[] = [moveForWhiteResult];
