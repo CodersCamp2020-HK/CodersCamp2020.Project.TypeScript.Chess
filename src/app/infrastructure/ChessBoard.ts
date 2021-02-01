@@ -5,13 +5,17 @@ export class ChessBoard implements IChessBoard {
     board = generateDeafultChessboard();
 
     makeMove(piece: Piece, move: PieceMove): void {
-        throw new Error('Method not implemented.');
+        const { x: oldX, y: oldY } = move.from;
+        const { x: newX, y: newY } = move.from;
+        piece.cord = { x: newX, y: newY };
+        this.board[oldX][oldY] = null;
+        this.board[newX][newY] = piece;
     }
     hasPiece(cord: Cord): boolean {
-        throw new Error('Method not implemented.');
+        return this.board[cord.x][cord.y] !== null;
     }
 
-    public static createDefaultBoard(): IChessBoard {
+    public static createNewBoard(): IChessBoard {
         return new ChessBoard();
     }
 }
