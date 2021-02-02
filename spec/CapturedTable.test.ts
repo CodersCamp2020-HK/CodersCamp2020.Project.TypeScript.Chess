@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import { CapturedTable } from '../src/app/components/game/capturedTable/CapturedTable';
 
 describe('Generate table with captured pieces', () => {
@@ -13,8 +17,8 @@ describe('Generate table with captured pieces', () => {
     });
 
     it('should create correct class name', () => {
-        expect(sampleTablePlayerFull.element.className).toBe('player');
-        expect(sampleTableOpponentEmpty.element.className).toBe('opponent');
+        expect(sampleTablePlayerFull.element.className).toBe('capturedWrapper player');
+        expect(sampleTableOpponentEmpty.element.className).toBe('capturedWrapper opponent');
     });
 
     it('should create DIV element for each Captured Piece', () => {
