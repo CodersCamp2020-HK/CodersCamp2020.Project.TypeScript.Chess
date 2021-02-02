@@ -2,7 +2,7 @@ import styles from './Game.module.scss';
 import { Aside } from '../Aside/Aside';
 import rulesTxt from '../../../assets/rules.txt';
 import infoTxt from '../../../assets/info.txt';
-import { CapturedTable } from '../capturedTable/CapturedTable';
+import { CapturedTable } from './capturedTable/CapturedTable';
 
 export class Game {
     private __element: HTMLElement;
