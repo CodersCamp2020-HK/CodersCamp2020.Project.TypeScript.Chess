@@ -8,10 +8,10 @@ export class Label {
     constructor(labelColor: LabelColor, labelText: string) {
         this.__element = document.createElement('div');
         this.__element.textContent = labelText;
-        this.__element.classList.add(styles.labelwrapper);
+        this.__element.classList.add(styles.labelWrapper);
 
         const labelLine = document.createElement('div');
-        labelLine.classList.add(styles.labelline);
+        labelLine.classList.add(styles.labelLine);
         this.__element.appendChild(labelLine);
 
         this.__element.classList.add(styles[labelColor]);
