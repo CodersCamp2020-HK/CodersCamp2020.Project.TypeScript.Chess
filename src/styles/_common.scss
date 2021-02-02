@@ -51,4 +51,5 @@ $mobileMax: 900px;
    height: 100%;
  }
 
- %header-image{ background-image: url('../assets/UI/Header.svg');}
+//  %header-image{ background-image: url('/src/assets/UI/Header.svg');}
+$header-image: url("/src/assets/UI/Header.svg");

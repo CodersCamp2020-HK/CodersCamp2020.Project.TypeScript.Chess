@@ -1,0 +1,12 @@
+@use '../../../styles/common';
+
+.header {
+    background-image: common.$header-image;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 1px;
+    width: 100%;
+    height: 5rem;
+    border: red solid 2px;
+}
