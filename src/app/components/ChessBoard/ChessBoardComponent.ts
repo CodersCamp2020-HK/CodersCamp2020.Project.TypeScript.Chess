@@ -8,12 +8,12 @@ export interface PieceElement {
 
 export class ChessBoardComponent {
     public wrapper: HTMLDivElement;
-    private board: HTMLDivElement;
-    private verticalAxi: HTMLDivElement;
-    private horizontalAxi: HTMLDivElement;
-    private readonly blackTilesClassList: string;
-    private readonly whiteTilesClassList: string;
-    private tiles: Array<Array<null | HTMLDivElement>> = [
+    private _board: HTMLDivElement;
+    private _verticalAxi: HTMLDivElement;
+    private _horizontalAxi: HTMLDivElement;
+    private readonly _blackTilesClassList: string;
+    private readonly _whiteTilesClassList: string;
+    private _tiles: Array<Array<null | HTMLDivElement>> = [
         [null, null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null, null],
@@ -31,38 +31,38 @@ export class ChessBoardComponent {
     ) {
         this.wrapper = wrapper;
 
-        this.board = document.createElement('div');
-        this.board.className = styles.board;
+        this._board = document.createElement('div');
+        this._board.className = styles.board;
 
-        this.verticalAxi = document.createElement('div');
-        this.verticalAxi.className = styles.vertical__axi;
+        this._verticalAxi = document.createElement('div');
+        this._verticalAxi.className = styles.vertical__axi;
 
-        this.horizontalAxi = document.createElement('div');
-        this.horizontalAxi.className = styles.horizontal__axi;
+        this._horizontalAxi = document.createElement('div');
+        this._horizontalAxi.className = styles.horizontal__axi;
 
-        this.blackTilesClassList = `${styles.tile} ${styles.black__tile}`;
-        this.whiteTilesClassList = `${styles.tile} ${styles.white__tile}`;
+        this._blackTilesClassList = `${styles.tile} ${styles.black__tile}`;
+        this._whiteTilesClassList = `${styles.tile} ${styles.white__tile}`;
 
         this.piecesElements = piecesElements;
 
-        this.wrapper.appendChild(this.verticalAxi);
-        this.wrapper.appendChild(this.horizontalAxi);
-        this.wrapper.appendChild(this.board);
+        this.wrapper.appendChild(this._verticalAxi);
+        this.wrapper.appendChild(this._horizontalAxi);
+        this.wrapper.appendChild(this._board);
 
-        this.renderAxi(this.horizontalAxi, ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']);
-        this.renderAxi(this.verticalAxi, [1, 2, 3, 4, 5, 6, 7, 8]);
+        this.renderAxi(this._horizontalAxi, ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']);
+        this.renderAxi(this._verticalAxi, [1, 2, 3, 4, 5, 6, 7, 8]);
         this.renderBoard(chessBoardRepresentation);
     }
 
     renderBoard(chessBoardRepresentation: ChessBoardRepresentation): void {
         const blackTile = document.createElement('div');
-        blackTile.className = this.blackTilesClassList;
+        blackTile.className = this._blackTilesClassList;
 
         const whiteTile = document.createElement('div');
-        whiteTile.className = this.whiteTilesClassList;
+        whiteTile.className = this._whiteTilesClassList;
 
         let currentTile = blackTile;
-        this.board.innerHTML = '';
+        this._board.innerHTML = '';
 
         for (let row = 0; row < chessBoardRepresentation.length; row++) {
             if (row % 2 == 0) {
@@ -88,9 +88,9 @@ export class ChessBoardComponent {
                     }
                 }
 
-                this.tiles[row][column] = tileToAppend;
+                this._tiles[row][column] = tileToAppend;
 
-                this.board.appendChild(tileToAppend);
+                this._board.appendChild(tileToAppend);
 
                 currentTile = currentTile == blackTile ? whiteTile : blackTile;
             }
@@ -107,26 +107,42 @@ export class ChessBoardComponent {
         });
     }
     addTileClassList(cord: Cord, classList: string[]): void {
-        const selectedTile = this.tiles[cord.y][cord.x];
+        const selectedTile = this._tiles[cord.y][cord.x];
         classList.forEach((el) => {
             selectedTile?.classList.add(el);
         });
     }
 
     removeTileClassList(cord: Cord, classList: string[]): void {
-        const selectedTile = this.tiles[cord.y][cord.x];
+        const selectedTile = this._tiles[cord.y][cord.x];
         classList.forEach((el) => {
             selectedTile?.classList.remove(el);
         });
     }
 
     removeTileEvent(cord: Cord, eventName: string, eventCallback: () => void): void {
-        const selectedTile = this.tiles[cord.y][cord.x];
+        const selectedTile = this._tiles[cord.y][cord.x];
         selectedTile?.removeEventListener(eventName, eventCallback);
     }
 
     addTileEvent(cord: Cord, eventName: string, eventCallback: () => void): void {
-        const selectedTile = this.tiles[cord.y][cord.x];
+        const selectedTile = this._tiles[cord.y][cord.x];
         selectedTile?.addEventListener(eventName, eventCallback);
+    }
+
+    get board(): HTMLDivElement {
+        return this._board;
+    }
+
+    get verticalAxi(): HTMLDivElement {
+        return this._verticalAxi;
+    }
+
+    get horizontalAxi(): HTMLDivElement {
+        return this._horizontalAxi;
+    }
+
+    get tiles(): Array<Array<null | HTMLDivElement>> {
+        return this._tiles;
     }
 }
