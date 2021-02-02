@@ -2,7 +2,7 @@
 @use '../../../styles/common';
 @use '../../../styles/typography';
 
-.labelWrapper{
+.wrapper{
    width:100%;
    @extend %h4;
 
@@ -10,7 +10,7 @@
       color:colors.$red;
       @extend %shadow-red-text;
 
-      .labelLine{
+      .line{
          display:block;
          width:100%;
          height: 8px;
@@ -22,7 +22,7 @@
       color:colors.$yellow;
       @extend %shadow-yellow-text;
 
-      .labelLine{
+      .line{
          display:block;
          width:100%;
          height: 8px;
@@ -34,7 +34,7 @@
       color:colors.$blue;
       @extend %shadow-blue-text;
 
-      .labelLine{
+      .line{
          display:block;
          width:100%;
          height: 8px;
