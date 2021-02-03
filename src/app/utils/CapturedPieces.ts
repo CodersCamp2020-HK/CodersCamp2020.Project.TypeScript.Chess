@@ -34,3 +34,18 @@ export const getCapturedPieceCount = (
     }
     return pieceMap;
 };
+
+export const getCapturedPieceNames = (side: Side, boardState: IChessBoard) => {
+    const result = [];
+    for (let i = 0; i < 6; i++) {
+        const pieceCount = getCapturedPieceCount(side, boardState);
+        const piece = pieceCount.get(i);
+        if (piece) {
+            for (let j = piece.actualCount; j < piece.startingCount; j++) {
+                result.push(piece.name);
+            }
+        }
+    }
+
+    return result;
+};
