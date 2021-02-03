@@ -16,7 +16,7 @@ export class GameState {
         const blackPieceNames = getCapturedPieceNames(Side.Black, boardState);
         const whitePiecesNames = getCapturedPieceNames(Side.White, boardState);
 
-        const capturedPiece = { white: whitePiecesNames, black: blackPieceNames };
+        const capturedPiece = { black: whitePiecesNames, white: blackPieceNames };
         this.__capturedPieces.push(capturedPiece);
     }
 }

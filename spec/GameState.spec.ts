@@ -19,7 +19,7 @@ const firstMoveEmojiBoard = [
 describe(`Given: Starting chessboard: ${displayEmojiBoard(firstMoveEmojiBoard)}`, () => {
     describe('When: updateCapturedPieces on gameState object is invoked', () => {
         it(`Then: empty array for white and black pieces should be returned`, () => {
-            const expected = [{ white: [], black: [] }];
+            const expected = [{ black: [], white: [] }];
 
             const gameState = new GameState();
             chessboard.board = convertEmojiToRep(firstMoveEmojiBoard);
@@ -46,8 +46,8 @@ describe(`Given: Starting chessboard: ${displayEmojiBoard(secondMoveEmojiBoard)}
         it(`Then: empty array for white and black pieces should be returned`, () => {
             const expected = [
                 {
-                    white: ['knight', 'knight', 'bishop'],
-                    black: ['pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn'],
+                    black: ['knight', 'knight', 'bishop'],
+                    white: ['pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn'],
                 },
             ];
 
@@ -65,12 +65,12 @@ describe(`Given: Starting chessboard: ${displayEmojiBoard(firstMoveEmojiBoard)}`
         it(`Then: array with 2 objects should be returned`, () => {
             const expected = [
                 {
-                    white: [],
                     black: [],
+                    white: [],
                 },
                 {
-                    white: [],
-                    black: ['pawn'],
+                    black: [],
+                    white: ['pawn'],
                 },
             ];
 
