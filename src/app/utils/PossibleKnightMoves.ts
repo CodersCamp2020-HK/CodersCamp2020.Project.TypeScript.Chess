@@ -1,6 +1,5 @@
-import { CordWithMoveType, IChessBoard, Piece, PieceType, Side, Cord } from '../domain/basicChessTypes';
+import { Piece, PieceType, Side, Cord } from '../domain/basicChessTypes';
 import { ChessBoard } from '../infrastructure/ChessBoard';
-// import { ChessEngine } from '../infrastructure/ChessEngine';
 
 const chessboard = new ChessBoard();
 chessboard.board = [
@@ -23,7 +22,7 @@ const knight: Piece = {
 
 chessboard.board[knight.cord.x][knight.cord.y] = knight;
 
-function getPossibleMovesForKnight(cord: Cord, boardState: IChessBoard) {
+function getPossibleMovesForKnight(cord: Cord) {
     const possibleMoves = [];
     const possibleCombinations = [
         [1, 2],
@@ -32,25 +31,15 @@ function getPossibleMovesForKnight(cord: Cord, boardState: IChessBoard) {
         [-1, -2],
     ];
 
-    for (const combination in possibleCombinations) {
-        const actualKnightPositionX = knight.cord.x + combination[0];
-        const actualKnightPositionY = knight.cord.y + combination[1];
-
-        // if (actualKnightPositionX > 8 || actualKnightPositionX < 0 || actualKnightPositionY > 8 || actualKnightPositionY < 0 ){
-        //     break;
-        // }
-        possibleMoves.push({ x: actualKnightPositionX, y: actualKnightPositionY });
+    for (const combination of possibleCombinations) {
+        possibleMoves.push({ x: cord.x + combination[0], y: cord.y + combination[1] });
+        possibleMoves.push({ x: cord.x + combination[1], y: cord.y + combination[0] });
     }
 
-    for (const combination in possibleCombinations) {
-        const actualKnightPositionX = knight.cord.x + combination[1];
-        const actualKnightPositionY = knight.cord.y + combination[0];
-
-        possibleMoves.push({ x: actualKnightPositionX, y: actualKnightPositionY });
-    }
+    return possibleMoves;
 }
 
-getPossibleMovesForKnight(knight.cord, chessboard);
+getPossibleMovesForKnight(knight.cord);
 
 //     let possibleCords
 //     {
