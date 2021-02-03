@@ -1,6 +1,7 @@
 import { Game } from './components/game/Game';
 import { IChessBoard, PieceType, Side, Piece } from './domain/basicChessTypes';
 import { ChessEngine } from './infrastructure/ChessEngine';
+import { GameState } from './infrastructure/GameState';
 
 const App = (): void => {
     const game = new Game();
@@ -84,10 +85,14 @@ const App = (): void => {
 
     board.board[queen.cord.x][queen.cord.y] = queen;
     // board.board[bishop.cord.x][bishop.cord.y] = bishop;
-    // board.board[king.cord.x][king.cord.y] = king;
-    // board.board[rook.cord.x][rook.cord.y] = rook;
+    board.board[king.cord.x][king.cord.y] = king;
+    board.board[rook.cord.x][rook.cord.y] = rook;
 
     console.log(chessEngine.getPossibleMovesForPiece({ x: queen.cord.x, y: queen.cord.y }, board));
+
+    const gameState = new GameState();
+    gameState.updateCapturedPieces(board);
+    console.log(gameState.capturedPieces);
 };
 
 export default App;
