@@ -5,15 +5,14 @@ export class GameState {
     capturedPieces: { white: string[]; black: string[] }[];
 
     constructor() {
-        this.capturedPieces = [{ white: [], black: [] }];
+        this.capturedPieces = [];
     }
 
     updateCapturedPieces(boardState: IChessBoard): void {
         const blackPieceNames = getCapturedPieceNames(Side.Black, boardState);
         const whitePiecesNames = getCapturedPieceNames(Side.White, boardState);
 
-        const lastItemIndex = this.capturedPieces.length - 1 < 0 ? 0 : this.capturedPieces.length - 1;
-        this.capturedPieces[lastItemIndex].black.push(...blackPieceNames);
-        this.capturedPieces[lastItemIndex].white.push(...whitePiecesNames);
+        const capturedPiece = { white: whitePiecesNames, black: blackPieceNames };
+        this.capturedPieces.push(capturedPiece);
     }
 }

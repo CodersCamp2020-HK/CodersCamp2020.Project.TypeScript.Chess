@@ -92,6 +92,15 @@ const App = (): void => {
 
     const gameState = new GameState();
     gameState.updateCapturedPieces(board);
+
+    const rook2: Piece = {
+        figType: PieceType.Rook,
+        cord: { x: 0, y: 6 },
+        side: Side.Black,
+        isMoved: false,
+    };
+    board.board[rook2.cord.x][rook2.cord.y] = rook2;
+    gameState.updateCapturedPieces(board);
     console.log(gameState.capturedPieces);
 };
 
