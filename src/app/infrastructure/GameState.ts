@@ -2,10 +2,14 @@ import { IChessBoard, Side } from '../domain/basicChessTypes';
 import { getCapturedPieceNames } from '../utils/CapturedPieces';
 
 export class GameState {
-    capturedPieces: { white: string[]; black: string[] }[];
+    private __capturedPieces: { white: string[]; black: string[] }[];
 
     constructor() {
-        this.capturedPieces = [];
+        this.__capturedPieces = [];
+    }
+
+    public get capturedPieces(): { white: string[]; black: string[] }[] {
+        return this.__capturedPieces;
     }
 
     updateCapturedPieces(boardState: IChessBoard): void {
@@ -13,6 +17,6 @@ export class GameState {
         const whitePiecesNames = getCapturedPieceNames(Side.White, boardState);
 
         const capturedPiece = { white: whitePiecesNames, black: blackPieceNames };
-        this.capturedPieces.push(capturedPiece);
+        this.__capturedPieces.push(capturedPiece);
     }
 }
