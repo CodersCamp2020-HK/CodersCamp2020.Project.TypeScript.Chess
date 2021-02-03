@@ -3,15 +3,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Sarpanch:wght@600&display=swap');
 
-/*@font-face {
+@font-face {
    font-family: 'Cyberpunk';
    src: url('../assets/UI/Cyberpunk-Regular.woff') format('woff2'),
        url('../assets/UI/Cyberpunk-Regular.woff') format('woff');
-}*/
+}
 
 %font-main{font-family: 'Rajdhani', sans-serif;};
 %font-coderscamp{font-family: 'Sarpanch', sans-serif;};
-//%font-logo{ font-family: 'Cyberpunk';}
+%font-logo{ font-family: 'Cyberpunk';}
 
 %h1 {
    @extend %font-main;
