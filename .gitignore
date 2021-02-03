@@ -6,3 +6,4 @@ coverage
 .coverage
 .parcel-cache
 .DS_Store
+# *.scss.d.ts

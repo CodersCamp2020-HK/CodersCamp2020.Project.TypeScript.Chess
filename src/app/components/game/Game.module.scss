@@ -1,0 +1,63 @@
+ @use '../../../styles/common';
+
+.container {
+    @extend %background-gradient;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    color: #FBEC09;
+}
+
+.container::before {
+    @extend %background-photo-after;
+}
+
+.wrapper {
+    padding: 0 20px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    grid-template-rows: repeat(4, auto);
+    row-gap: 10px;
+    column-gap: 30px;
+    grid-template-areas: 
+        "chessboard opponent"
+        "chessboard player"
+        "chessboard moves"
+        "chessboard quit";
+}
+
+.wrapper > * {
+    border: 1px solid purple;
+}
+
+.wrapperText {
+    grid-area: text;
+    text-align: center;
+}
+
+.wrapperChessboard {
+    grid-area: chessboard;
+}
+
+.wrapperOpponent {
+    grid-area: opponent;
+}
+
+.wrapperPlayer {
+    grid-area: player;
+}
+
+.wrapperMoves {
+    grid-area: moves;
+}
+
+.wrapperQuit {
+    grid-area: quit;
+}
+
+.wrapperFooter {
+    grid-area: footer;
+    text-align: center;
+}
