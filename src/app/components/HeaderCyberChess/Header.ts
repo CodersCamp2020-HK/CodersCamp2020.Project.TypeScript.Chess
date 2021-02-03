@@ -7,15 +7,18 @@ export class Header {
         this.__element = document.createElement('div');
         this.__element.classList.add(styles.header);
 
+        const emptyDiv = document.createElement('div');
+        emptyDiv.classList.add(styles.cyberData);
+
         const cyberChess = document.createElement('div');
         cyberChess.classList.add(styles.cyberChess);
         cyberChess.textContent = 'Cyber Chess';
 
         const cyberData = document.createElement('div');
-        cyberData.classList.add(styles.cyberChess);
+        cyberData.classList.add(styles.cyberData);
         cyberData.textContent = '2021';
 
-        this.__element.append(cyberChess, cyberData);
+        this.__element.append(emptyDiv, cyberChess, cyberData);
     }
 
     public get element(): HTMLElement {
