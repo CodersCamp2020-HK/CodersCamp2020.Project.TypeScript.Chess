@@ -27,7 +27,7 @@ const chessBoardFilled: interfaces.ChessBoardRepresentation = [
         null,
         null,
         null,
-        { figType: interfaces.PieceType.Pawn, cord: { x: 0, y: 0 }, side: interfaces.Side.Black, isMoved: false },
+        { figType: interfaces.PieceType.Pawn, cord: { x: 2, y: 3 }, side: interfaces.Side.Black, isMoved: false },
         null,
         null,
         null,
@@ -37,7 +37,7 @@ const chessBoardFilled: interfaces.ChessBoardRepresentation = [
     [null, null, null, null, null, null, null, null],
     [
         null,
-        { figType: interfaces.PieceType.Bishop, cord: { x: 0, y: 0 }, side: interfaces.Side.White, isMoved: false },
+        { figType: interfaces.PieceType.Bishop, cord: { x: 5, y: 1 }, side: interfaces.Side.White, isMoved: false },
         null,
         null,
         null,
@@ -142,10 +142,10 @@ describe('ChessBoard Component', () => {
         test('should given tile has classlist without removed classes', () => {
             chessboard.addTileClassList({ x: 5, y: 0 }, ['qwe', 'asd']);
             chessboard.removeTileClassList({ x: 5, y: 0 }, ['qwe', 'black__tile']);
-            expect(chessboard.tiles[0][5]?.classList.length).toBe(2);
-            expect(chessboard.tiles[0][5]?.classList.contains('black__tile')).toBe(false);
-            expect(chessboard.tiles[0][5]?.classList.contains('qwe')).toBe(false);
-            expect(chessboard.tiles[0][5]?.classList.contains('asd')).toBe(true);
+            expect(chessboard.tiles[5][0]?.classList.length).toBe(2);
+            expect(chessboard.tiles[5][0]?.classList.contains('black__tile')).toBe(false);
+            expect(chessboard.tiles[5][0]?.classList.contains('qwe')).toBe(false);
+            expect(chessboard.tiles[5][0]?.classList.contains('asd')).toBe(true);
         });
     });
 });
