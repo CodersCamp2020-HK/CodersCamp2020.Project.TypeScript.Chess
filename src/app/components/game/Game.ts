@@ -35,19 +35,12 @@ export class Game {
 
         const opponentScoreWrapper = document.createElement('div');
         opponentScoreWrapper.classList.add(styles.wrapperOpponent);
-        const opponentCapturedTable = new CapturedTable('opponent', [
-            'queen',
-            'bishop',
-            'king',
-            'rook',
-            'pawn',
-            'knight',
-        ]);
+        const opponentCapturedTable = new CapturedTable('opponent', []);
         opponentScoreWrapper.append(opponentCapturedTable.element);
 
         const playerScoreWrapper = document.createElement('div');
         playerScoreWrapper.classList.add(styles.wrapperPlayer);
-        const playerCapturedTable = new CapturedTable('player', ['queen', 'bishop', 'king', 'rook', 'pawn', 'knight']);
+        const playerCapturedTable = new CapturedTable('player', []);
         playerScoreWrapper.append(playerCapturedTable.element);
 
         const previousMovesWrapper = document.createElement('div');

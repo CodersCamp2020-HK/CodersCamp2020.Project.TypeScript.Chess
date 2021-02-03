@@ -25,4 +25,11 @@ describe('Generate table with captured pieces', () => {
         expect(sampleTablePlayerFull.element.childNodes.length).toEqual(8);
         expect(sampleTableOpponentEmpty.element.childNodes.length).toEqual(0);
     });
+
+    it('should display updated pieces', () => {
+        sampleTablePlayerFull.update(['pawn', 'rook', 'king']);
+        sampleTableOpponentEmpty.update(['pawn', 'rook', 'king']);
+        expect(sampleTablePlayerFull.element.childNodes.length).toEqual(3);
+        expect(sampleTableOpponentEmpty.element.childNodes.length).toEqual(3);
+    });
 });

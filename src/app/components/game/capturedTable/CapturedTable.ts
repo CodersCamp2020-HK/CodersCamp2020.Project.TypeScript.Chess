@@ -10,14 +10,22 @@ export class CapturedTable {
     constructor(side: CapturedPiecesSide, capturedPieces: Piece[]) {
         this.__element = document.createElement('div');
         this.__element.classList.add(styles.capturedWrapper);
+        this.__element.classList.add(styles[side]);
 
         for (let i = 0; i < capturedPieces.length; i++) {
             const pieceImage = document.createElement('div');
             pieceImage.classList.add(styles[capturedPieces[i]]);
             this.__element.appendChild(pieceImage);
         }
+    }
 
-        this.__element.classList.add(styles[side]);
+    public update(updateCapturedPieces: Piece[]): void {
+        this.__element.innerHTML = '';
+        for (let i = 0; i < updateCapturedPieces.length; i++) {
+            const pieceImage = document.createElement('div');
+            pieceImage.classList.add(styles[updateCapturedPieces[i]]);
+            this.__element.appendChild(pieceImage);
+        }
     }
 
     public get element(): HTMLDivElement {
