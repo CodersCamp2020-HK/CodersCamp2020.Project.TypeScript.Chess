@@ -157,7 +157,11 @@ describe('Possible Moves for Pawn', () => {
         describe('for white piece', () => {
             test('blocked by black piece in front of', () => {
                 expect(
-                    possibleNormalMoves(doubleMove.currentPawnWhite.cord, -2, doubleMove.currentBoardMoveForWhiteBlocked),
+                    possibleNormalMoves(
+                        doubleMove.currentPawnWhite.cord,
+                        -2,
+                        doubleMove.currentBoardMoveForWhiteBlocked,
+                    ),
                 ).toEqual([]);
             });
             test('not blocked - empty tile in front of', () => {
@@ -184,7 +188,11 @@ describe('Possible Moves for Pawn', () => {
         describe('for white piece', () => {
             test('blocked by white piece in front of', () => {
                 expect(
-                    possibleNormalMoves(normalMove.pawnNormalWhite.cord, -1, normalMove.currentBoardMoveForWhiteBlocked),
+                    possibleNormalMoves(
+                        normalMove.pawnNormalWhite.cord,
+                        -1,
+                        normalMove.currentBoardMoveForWhiteBlocked,
+                    ),
                 ).toEqual([]);
             });
             test('not blocked - empty tile in front of', () => {
