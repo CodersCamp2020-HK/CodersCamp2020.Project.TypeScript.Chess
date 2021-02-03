@@ -1,4 +1,4 @@
-import { IChessBoard, ChessBoardView, Piece, PieceMove, Cord } from '../domain/basicChessTypes';
+import { IChessBoard, ChessBoardView, Piece, PieceMove, PieceType, Side, Cord } from '../domain/basicChessTypes';
 
 type ChessBoardRepresentation = Array<Array<Piece | null>>;
 
@@ -17,5 +17,13 @@ export class ChessBoard implements IChessBoard {
     }
     get board(): ChessBoardView {
         return this._board;
+    }
+
+    getPiece(side: Side, pieceType: PieceType): Piece | null {
+        return null;
+    }
+
+    getPiece(cord: Cord): Piece | null {
+        return null;
     }
 }

@@ -11,7 +11,7 @@ import {
 import _ from 'lodash';
 
 export class ChessEngine implements IChessEngine {
-    getMovesByPiece: Map<PieceType, (cord: Cord, boardState: IChessBoard) => CordWithMoveType[]>;
+    getMovesByPiece: Map<PieceType, (piece: Readonly<Piece>, boardState: IChessBoard) => CordWithMoveType[]>;
 
     constructor() {
         this.getMovesByPiece = new Map([
@@ -33,7 +33,7 @@ export class ChessEngine implements IChessEngine {
         if (!handler) {
             return [];
         }
-        return handler(cord, boardState);
+        return handler(piece, boardState);
     }
 
     isCheck(boardState: IChessBoard, side: Side): boolean {
@@ -56,26 +56,13 @@ export class ChessEngine implements IChessEngine {
 
         const f = notNull(hasSide(Side.Black), isFigure(PieceType.King));
 
-        const { board } = boardState;
-        boardState.board = [[]];
-        const allEnemyPieces = boardState.getPieces(); //_.flattenDeep(board).filter(notNull(hasSide(side)));
+        const { board } = (boardState as unknown) as { board: Piece[][] };
+        const allEnemyPieces = _.flattenDeep(board).filter(notNull(hasSide(side)));
         const allEnemyPiecesMoves = allEnemyPieces.map((piece) => {
             return this.getPossibleMovesForPiece({ x: piece.cord.x, y: piece.cord.y }, boardState);
         });
-        /*
-        const king = _.flattenDeep(board).find(
-            (item): item is Piece => item !== null && item.side === side && item.figType === PieceType.King,
-        );
-        */
 
-        const king = boardState.getPiece(Side.Black, PieceType.King);
-        getPiece() {
-            return { piece: pice, cord: {x: i, y: j}};
-        }
-        king.cord.x = 10;
-        const king = boardState.getPieceByCord({ x: 10, y: 20});
-
-        // const king = _.flattenDeep(board).find(notNull(hasSide(side), isFigure(PieceType.King)));
+        const king = _.flattenDeep(board).find(notNull(hasSide(side), isFigure(PieceType.King)));
         if (!king) throw new Error('Król zbiegł z pola bitwy');
         const result = _.flattenDeep(allEnemyPiecesMoves).some(
             (item) => item.x === king.cord.x && item.y === king.cord.y,
