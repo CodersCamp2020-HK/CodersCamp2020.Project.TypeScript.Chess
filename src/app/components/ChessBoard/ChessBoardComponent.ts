@@ -50,7 +50,7 @@ export class ChessBoardComponent {
         this.wrapper.appendChild(this._board);
 
         this.renderAxi(this._horizontalAxi, ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']);
-        this.renderAxi(this._verticalAxi, [1, 2, 3, 4, 5, 6, 7, 8]);
+        this.renderAxi(this._verticalAxi, [1, 2, 3, 4, 5, 6, 7, 8].reverse());
         this.renderBoard(chessBoardRepresentation);
     }
 
@@ -107,26 +107,26 @@ export class ChessBoardComponent {
         });
     }
     addTileClassList(cord: Cord, classList: string[]): void {
-        const selectedTile = this._tiles[cord.y][cord.x];
+        const selectedTile = this._tiles[cord.x][cord.y];
         classList.forEach((el) => {
             selectedTile?.classList.add(el);
         });
     }
 
     removeTileClassList(cord: Cord, classList: string[]): void {
-        const selectedTile = this._tiles[cord.y][cord.x];
+        const selectedTile = this._tiles[cord.x][cord.y];
         classList.forEach((el) => {
             selectedTile?.classList.remove(el);
         });
     }
 
     removeTileEvent(cord: Cord, eventName: string, eventCallback: () => void): void {
-        const selectedTile = this._tiles[cord.y][cord.x];
+        const selectedTile = this._tiles[cord.x][cord.y];
         selectedTile?.removeEventListener(eventName, eventCallback);
     }
 
     addTileEvent(cord: Cord, eventName: string, eventCallback: () => void): void {
-        const selectedTile = this._tiles[cord.y][cord.x];
+        const selectedTile = this._tiles[cord.x][cord.y];
         selectedTile?.addEventListener(eventName, eventCallback);
     }
 
