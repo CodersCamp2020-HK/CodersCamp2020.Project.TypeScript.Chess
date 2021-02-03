@@ -35,7 +35,7 @@ export const getCapturedPieceCount = (
     return pieceMap;
 };
 
-export const getCapturedPieceNames = (side: Side, boardState: IChessBoard) => {
+export const getCapturedPieceNames = (side: Side, boardState: IChessBoard): string[] => {
     const result = [];
     for (let i = 0; i < 6; i++) {
         const pieceCount = getCapturedPieceCount(side, boardState);
