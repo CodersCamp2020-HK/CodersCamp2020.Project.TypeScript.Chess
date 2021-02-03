@@ -1,7 +1,10 @@
-import { IChessBoard, ChessBoardRepresentation, Piece, PieceMove, Cord } from '../domain/basicChessTypes';
+import { IChessBoard, ChessBoardView, Piece, PieceMove, Cord } from '../domain/basicChessTypes';
+
+type ChessBoardRepresentation = Array<Array<Piece | null>>;
 
 export class ChessBoard implements IChessBoard {
-    board: ChessBoardRepresentation = [[]];
+    private _board: ChessBoardRepresentation = [[]];
+
     makeMove(piece: Piece, move: PieceMove): void {
         throw new Error('Method not implemented.');
     }
@@ -11,5 +14,8 @@ export class ChessBoard implements IChessBoard {
 
     public static createDefaultBoard(): IChessBoard {
         return new ChessBoard();
+    }
+    get board(): ChessBoardView {
+        return this._board;
     }
 }

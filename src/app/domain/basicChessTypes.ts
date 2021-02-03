@@ -46,10 +46,11 @@ export interface Piece {
     isMoved: boolean;
 }
 
-export type ChessBoardRepresentation = Array<Array<Piece | null>>;
+// domain/IChessBoard
+export type ChessBoardView = ReadonlyArray<ReadonlyArray<Readonly<Piece> | null>>;
 
 export interface IChessBoard {
-    board: ChessBoardRepresentation;
+    readonly board: ChessBoardView;
     // makeMove(piece: Piece, move: PieceMove): void;
     // hasPiece(cord: Cord): boolean;
 }
