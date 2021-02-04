@@ -1,4 +1,6 @@
-import { ChessBoardRepresentation, Piece, PieceType, Side } from '../domain/basicChessTypes';
+import { Piece, PieceType, Side } from '../domain/basicChessTypes';
+
+type ChessBoardRepresentation = Array<Array<Piece | null>>;
 
 export const generateDeafultChessboard = (): ChessBoardRepresentation => {
     const result: ChessBoardRepresentation = [
@@ -14,6 +16,7 @@ export const generateDeafultChessboard = (): ChessBoardRepresentation => {
     const whitePawns: Piece[] = [];
     const blackPawns: Piece[] = [];
     const pieces = [PieceType.Rook, PieceType.Knight, PieceType.Bishop, PieceType.Queen];
+
     for (let i = 0; i < 8; i++) {
         whitePawns.push({
             figType: PieceType.Pawn,
@@ -28,6 +31,7 @@ export const generateDeafultChessboard = (): ChessBoardRepresentation => {
             isMoved: false,
         } as Piece);
     }
+
     for (let i = 0; i < 4; i++) {
         result[0][i] = { figType: pieces[i], cord: { x: 0, y: i }, side: Side.Black, isMoved: false } as Piece;
         result[0][7 - i] = { figType: pieces[i], cord: { x: 0, y: 7 - i }, side: Side.Black, isMoved: false } as Piece;
