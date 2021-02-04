@@ -1,11 +1,11 @@
 // This file is generated automatically
+export const vertical__axi: string;
+export const horizontal__axi: string;
 export const board__wrapper: string;
 export const board: string;
 export const tile: string;
 export const black__tile: string;
 export const white__tile: string;
-export const vertical__axi: string;
-export const horizontal__axi: string;
 export const selected: string;
 export const possible__move__black: string;
 export const possible__move__white: string;

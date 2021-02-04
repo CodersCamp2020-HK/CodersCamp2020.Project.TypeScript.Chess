@@ -1,14 +1,16 @@
 @use '../../../styles/colors';
 @use '../../../styles/common';
-//@use '../../../styles/typography';
+@use '../../../styles/typography';
 
-$board__size: 50vw;
+$board__size: 30vw;
 
 .board__wrapper {
     display: grid;
     grid-template-areas: 
     'vertical board'
     '. horizontal';
+    grid-template-columns: 1fr $board__size;
+    grid-template-rows: $board__size 1fr;
 }
 
 .board {
@@ -35,10 +37,14 @@ $board__size: 50vw;
 
 .black__tile {
     border: 2px solid colors.$red;
+     //shadow-blue-2 with inset
+    box-shadow: inset 0px 0px 12px #FD6059, 0px 0px 5px #FD6059, 0px 0px 2px #FD6059;
 }
 
 .white__tile {
     border: 2px solid colors.$blue;
+    //shadow-blue-2 with inset
+    box-shadow: inset 0px 0px 12px #1EC8C8, 0px 0px 5px #1EC8C8, 0px 0px 2px #1EC8C8;
 }
 
 .vertical__axi {
@@ -49,8 +55,12 @@ $board__size: 50vw;
     justify-content: space-around;
     color: colors.$blue;
     height: $board__size;
-    margin-right: 5px;
-    //@extend %h4;
+    margin-right: 8px; 
+    @extend %h4;
+
+    span {
+        @extend %shadow-blue-text;
+       } 
 }
 
 .horizontal__axi {
@@ -61,8 +71,20 @@ $board__size: 50vw;
     justify-content: space-around;
     color: colors.$red;
     width: $board__size;
-    //@extend %h4;
+    @extend %h4;
+   
+    span {
+    @extend %shadow-red-text;
+   } 
 }
+
+// .player {
+
+// }
+
+// .opponent {
+
+// }
 
 .selected {
     border-style: double;
