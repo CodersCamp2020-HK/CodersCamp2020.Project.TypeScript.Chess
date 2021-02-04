@@ -1,5 +1,11 @@
  @use '../../../styles/common';
 
+ * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 .container {
     @extend %background-gradient;
     min-height: 100vh;

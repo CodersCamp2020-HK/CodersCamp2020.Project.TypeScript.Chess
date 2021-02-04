@@ -9,8 +9,7 @@ export class CapturedTable {
 
     constructor(side: CapturedPiecesSide, capturedPieces: Piece[]) {
         this.__element = document.createElement('div');
-        this.__element.classList.add(styles.capturedWrapper);
-        this.__element.classList.add(styles[side]);
+        this.__element.classList.add(styles.capturedWrapper, styles[side]);
 
         for (let i = 0; i < capturedPieces.length; i++) {
             const pieceImage = document.createElement('div');
