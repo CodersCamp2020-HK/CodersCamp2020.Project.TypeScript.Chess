@@ -1,12 +1,6 @@
-import {
-    ChessBoardRepresentation,
-    CordWithMoveType,
-    MoveType,
-    Piece,
-    PieceType,
-    PossibleCords,
-    Side,
-} from '../src/app/domain/basicChessTypes';
+import { CordWithMoveType, MoveType, Piece, PieceType, PossibleCords, Side } from '../src/app/domain/basicChessTypes';
+
+type ChessBoardRepresentation = Array<Array<Piece | null>>;
 
 export const convertEmojiToRep = (emojiBoard: string[][]): ChessBoardRepresentation => {
     const result: ChessBoardRepresentation = [[], [], [], [], [], [], [], []];

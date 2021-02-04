@@ -1,7 +1,7 @@
 import { Cord, CordWithMoveType } from '../src/app/domain/basicChessTypes';
 import { ChessBoard } from '../src/app/infrastructure/ChessBoard';
 import { ChessEngine } from '../src/app/infrastructure/ChessEngine';
-import { convertEmojiToRep, convertEmojitoCordWithMoveType, displayEmojiBoard } from './Display';
+import { convertEmojitoCordWithMoveType, convertEmojiToRep, displayEmojiBoard } from './Display';
 
 const emojiBoard = [
     ['♜', '♚', '♛', '.', '.', '.', '.', '.'],
@@ -15,7 +15,7 @@ const emojiBoard = [
 ];
 
 const chessboard = new ChessBoard();
-chessboard.board = convertEmojiToRep(emojiBoard);
+jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(emojiBoard));
 const chessEngine = new ChessEngine();
 
 describe(`Given: Chessboard ${displayEmojiBoard(emojiBoard)}`, () => {

@@ -1,5 +1,6 @@
-import { Cord, CordWithMoveType, IChessBoard, MoveType, PossibleCords, Side } from '../domain/basicChessTypes';
+import { Cord, CordWithMoveType, MoveType, PossibleCords, Side } from '../domain/basicChessTypes';
 import _ from 'lodash';
+import { IChessBoard } from '../domain/IChessBoard';
 
 export function getBishopDirections(cord: Cord): Cord[] {
     const { x, y } = cord;

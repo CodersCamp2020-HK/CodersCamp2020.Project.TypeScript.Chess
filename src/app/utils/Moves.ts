@@ -1,4 +1,5 @@
-import { Cord, CordWithMoveType, IChessBoard, Piece } from '../domain/basicChessTypes';
+import { Cord, CordWithMoveType, Piece } from '../domain/basicChessTypes';
+import { IChessBoard } from '../domain/IChessBoard';
 import {
     getBishopDirections,
     getKingDirections,

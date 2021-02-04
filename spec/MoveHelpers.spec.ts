@@ -113,7 +113,7 @@ const emojiBoard = [
     ['.', '.', '.', '.', '.', '.', '.', '.'],
 ];
 const chessboard = new ChessBoard();
-chessboard.board = convertEmojiToRep(emojiBoard);
+jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(emojiBoard));
 
 describe(`Given: chessboard: ${displayEmojiBoard(emojiBoard)}`, () => {
     describe('When: getOtherPiecesCord is invoked for rook', () => {
