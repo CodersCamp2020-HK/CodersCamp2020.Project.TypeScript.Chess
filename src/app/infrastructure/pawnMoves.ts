@@ -18,27 +18,15 @@ enum MoveDirection {
 }
 
 function isOutsideBoard(cord: Cord['x'] | Cord['y']): boolean {
-    if (cord > 7 || cord < 0) {
-        return true;
-    }
-    return false;
+    return cord > 7 || cord < 0 ? true : false;
 }
 
 function isBlockedTile(tile: Piece | null): boolean {
-    if (tile != null && tile != undefined) {
-        return true;
-    }
-    return false;
+    return tile !== null ? true : false;
 }
 
 function isOppositePawn(currentPawn: Piece | null, pieceToComparison: Piece | null): boolean {
-    if (currentPawn === null || pieceToComparison == null) {
-        return false;
-    }
-    if (pieceToComparison.figType == PieceType.Pawn && pieceToComparison.side != currentPawn.side) {
-        return true;
-    }
-    return false;
+    return pieceToComparison?.figType == PieceType.Pawn && pieceToComparison.side != currentPawn?.side ? true : false;
 }
 
 export function possibleNormalMoves(
@@ -202,18 +190,12 @@ export function getPossibleMovesForPawn(
     const promotionMoveResult =
         promotionRow == cord.x ? possiblePromotionMoves(cord, moveDirection, currentBoardComponent.board) : [];
 
-    let result: CordWithMoveType[] = [
+    const result: CordWithMoveType[] = [
         ...singleMoveResult,
         ...doubleMoveResult,
         ...captureResult,
         ...enPassantMoveResult,
         ...promotionMoveResult,
     ];
-    result = result.filter((el) => {
-        if (el === null || el == undefined) {
-            return false;
-        }
-        return true;
-    });
-    return result;
+    return result.filter((el) => (el === null ? false : true));
 }
