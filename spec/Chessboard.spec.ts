@@ -2,6 +2,26 @@ import { Piece, PieceType, Side } from '../src/app/domain/basicChessTypes';
 import { ChessBoard } from '../src/app/infrastructure/ChessBoard';
 import { convertEmojiToRep, displayEmojiBoard } from './Display';
 
+const emojiBoard = [
+    ['.', '♞', '♝', '♛', '♚', '♝', '♞', '.'],
+    ['♟', '♟', '♟', '♟', '♟', '♟', '♟', '♟'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['♙', '♙', '♙', '♙', '♙', '♙', '♙', '♙'],
+    ['♖', '♘', '♗', '♕', '♔', '♗', '♘', '♖'],
+];
+describe(`Given: chessboard: \n${displayEmojiBoard(emojiBoard)}`, () => {
+    describe('When: getPieces( side = Side.Black, piece = PieceType.Rook) is invoked', () => {
+        it('Then: result should be null', () => {
+            const chessboard = ChessBoard.createNewBoard();
+            jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(emojiBoard));
+            const actual = chessboard.getPieces(Side.Black, PieceType.Rook);
+            expect(actual).toBeNull;
+        });
+    });
+});
 describe(`Given: Starting chessboard :`, () => {
     const chessboard = ChessBoard.createNewBoard();
     describe(`When: no piece has moved`, () => {
