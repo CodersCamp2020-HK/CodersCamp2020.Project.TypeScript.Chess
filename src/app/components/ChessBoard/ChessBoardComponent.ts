@@ -7,7 +7,7 @@ export interface PieceElement {
 }
 
 export class ChessBoardComponent {
-    public wrapper: HTMLDivElement;
+    private _wrapper: HTMLDivElement;
     private _board: HTMLDivElement;
     private _verticalAxi: HTMLDivElement;
     private _horizontalAxi: HTMLDivElement;
@@ -29,7 +29,7 @@ export class ChessBoardComponent {
         piecesElements: PieceElement[],
         chessBoardRepresentation: ChessBoardRepresentation,
     ) {
-        this.wrapper = wrapper;
+        this._wrapper = wrapper;
 
         this._board = document.createElement('div');
         this._board.className = styles.board;
@@ -45,9 +45,7 @@ export class ChessBoardComponent {
 
         this.piecesElements = piecesElements;
 
-        this.wrapper.appendChild(this._verticalAxi);
-        this.wrapper.appendChild(this._horizontalAxi);
-        this.wrapper.appendChild(this._board);
+        this._wrapper.append(this._verticalAxi, this._horizontalAxi, this._board);
 
         this.renderAxi(this._horizontalAxi, ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']);
         this.renderAxi(this._verticalAxi, [1, 2, 3, 4, 5, 6, 7, 8].reverse());
@@ -65,11 +63,7 @@ export class ChessBoardComponent {
         this._board.innerHTML = '';
 
         for (let row = 0; row < chessBoardRepresentation.length; row++) {
-            if (row % 2 == 0) {
-                currentTile = whiteTile;
-            } else {
-                currentTile = blackTile;
-            }
+            currentTile = row % 2 ? blackTile : whiteTile;
 
             for (let column = 0; column < chessBoardRepresentation[row].length; column++) {
                 const tileToAppend = currentTile.cloneNode(true) as HTMLDivElement;
@@ -144,5 +138,9 @@ export class ChessBoardComponent {
 
     get tiles(): Array<Array<null | HTMLDivElement>> {
         return this._tiles;
+    }
+
+    get wrapper(): HTMLDivElement {
+        return this._wrapper;
     }
 }
