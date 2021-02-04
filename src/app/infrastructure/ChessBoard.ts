@@ -1,6 +1,7 @@
-import { Piece, PieceMove, Cord } from '../domain/basicChessTypes';
+import { Piece, PieceMove, Cord, PieceType, Side } from '../domain/basicChessTypes';
 import { ChessBoardView, IChessBoard } from '../domain/IChessBoard';
 import { generateDeafultChessboard } from '../utils/ChessboardHelpers';
+import _ from 'lodash';
 
 type ChessBoardRepresentation = Array<Array<Piece | null>>;
 
@@ -14,9 +15,6 @@ export class ChessBoard implements IChessBoard {
         this.__board[oldX][oldY] = null;
         this.__board[newX][newY] = piece;
     }
-    hasPiece(cord: Cord): boolean {
-        return this.__board[cord.x][cord.y] !== null;
-    }
 
     static createNewBoard(): IChessBoard {
         return new ChessBoard();
@@ -26,11 +24,14 @@ export class ChessBoard implements IChessBoard {
         return this.__board;
     }
 
-    // getPiece(side: Side, pieceType: PieceType): Piece | null {
-    //     return null;
-    // }
+    getPieces(side: Side, pieceType: PieceType): Piece[] | null {
+        const result = _.flattenDeep(this.__board).filter(
+            (square): square is Piece => square !== null && square.side === side && square.figType === pieceType,
+        );
+        return result ? result : null;
+    }
 
-    // getPiece(cord: Cord): Piece | null {
-    //     return null;
-    // }
+    getPiece(cord: Cord): Piece | null {
+        return this.__board[cord.x][cord.y];
+    }
 }

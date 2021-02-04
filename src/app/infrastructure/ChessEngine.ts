@@ -1,4 +1,5 @@
-import { PieceType, Cord, IChessBoard, CordWithMoveType, Side } from '../domain/basicChessTypes';
+import { PieceType, Cord, CordWithMoveType, Side } from '../domain/basicChessTypes';
+import { IChessBoard } from '../domain/IChessBoard';
 import { IChessEngine } from '../domain/IChessEngine';
 
 export class ChessEngine implements IChessEngine {
