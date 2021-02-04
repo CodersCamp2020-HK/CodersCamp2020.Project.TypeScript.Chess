@@ -37,7 +37,7 @@ export const convertEmojiToRep = (emojiBoard: string[][]): ChessBoardRepresentat
                         const whitePawnCond = x == 6 && side == Side.White;
                         isMoved = blackPawnCond || whitePawnCond ? false : true;
                     } else {
-                        isMoved = true;
+                        isMoved = false;
                     }
                     result[x].push({ figType, cord: { x, y }, side, isMoved } as Piece);
                 }

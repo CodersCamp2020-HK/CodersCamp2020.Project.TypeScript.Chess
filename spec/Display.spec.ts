@@ -18,7 +18,7 @@ const blackRook: Piece = {
     figType: PieceType.Rook,
     cord: { x: 6, y: 0 },
     side: Side.Black,
-    isMoved: true,
+    isMoved: false,
 };
 
 const king: Piece = {
@@ -32,7 +32,7 @@ const queen: Piece = {
     figType: PieceType.Queen,
     cord: { x: 7, y: 2 },
     side: Side.Black,
-    isMoved: true,
+    isMoved: false,
 };
 
 const blackPawn: Piece = {
@@ -46,14 +46,14 @@ const whiteRook: Piece = {
     figType: PieceType.Rook,
     cord: { x: 3, y: 2 },
     side: Side.White,
-    isMoved: true,
+    isMoved: false,
 };
 
 const bishop: Piece = {
     figType: PieceType.Bishop,
     cord: { x: 3, y: 5 },
     side: Side.White,
-    isMoved: true,
+    isMoved: false,
 };
 
 const whitePawn: Piece = {
@@ -66,7 +66,7 @@ const blackKnight: Piece = {
     figType: PieceType.Knight,
     cord: { x: 0, y: 6 },
     side: Side.Black,
-    isMoved: true,
+    isMoved: false,
 };
 
 emptyChessboard[blackRook.cord.x][blackRook.cord.y] = blackRook;

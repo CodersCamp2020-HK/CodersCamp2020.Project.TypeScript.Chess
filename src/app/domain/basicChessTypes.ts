@@ -13,11 +13,6 @@ export enum Side {
     Black,
 }
 
-export interface PieceMove {
-    from: Cord;
-    to: Cord;
-}
-
 export enum MoveType {
     NormalMove,
     Capture,

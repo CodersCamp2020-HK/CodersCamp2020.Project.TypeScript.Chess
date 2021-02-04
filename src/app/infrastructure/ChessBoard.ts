@@ -1,4 +1,4 @@
-import { Piece, PieceMove, Cord, PieceType, Side } from '../domain/basicChessTypes';
+import { Piece, Cord, PieceType, Side } from '../domain/basicChessTypes';
 import { ChessBoardView, IChessBoard } from '../domain/IChessBoard';
 import { generateDeafultChessboard } from '../utils/ChessboardHelpers';
 import _ from 'lodash';
@@ -8,12 +8,12 @@ type ChessBoardRepresentation = Array<Array<Piece | null>>;
 export class ChessBoard implements IChessBoard {
     private __board: ChessBoardRepresentation = generateDeafultChessboard();
 
-    makeMove(piece: Piece, move: PieceMove): void {
-        const { x: oldX, y: oldY } = move.from;
-        const { x: newX, y: newY } = move.to;
-        piece.cord = { x: newX, y: newY };
-        this.__board[oldX][oldY] = null;
-        this.__board[newX][newY] = piece;
+    makeMove(piece: Piece, moveTo: Cord): void {
+        const { x, y } = moveTo;
+        piece.isMoved = true;
+        this.__board[piece.cord.x][piece.cord.y] = null;
+        piece.cord = { x, y };
+        this.__board[x][y] = piece;
     }
 
     static createNewBoard(): IChessBoard {
