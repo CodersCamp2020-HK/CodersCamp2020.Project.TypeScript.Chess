@@ -35,13 +35,13 @@ export class ChessBoardComponent {
         this._board.className = styles.board;
 
         this._verticalAxi = document.createElement('div');
-        this._verticalAxi.className = styles.vertical__axi;
+        this._verticalAxi.className = styles.verticalAxi;
 
         this._horizontalAxi = document.createElement('div');
-        this._horizontalAxi.className = styles.horizontal__axi;
+        this._horizontalAxi.className = styles.horizontalAxi;
 
-        this._blackTilesClassList = `${styles.tile} ${styles.black__tile}`;
-        this._whiteTilesClassList = `${styles.tile} ${styles.white__tile}`;
+        this._blackTilesClassList = `${styles.tile} ${styles.blackTile}`;
+        this._whiteTilesClassList = `${styles.tile} ${styles.whiteTile}`;
 
         this.piecesElements = piecesElements;
 

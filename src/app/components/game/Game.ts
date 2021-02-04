@@ -34,13 +34,13 @@ export class Game {
         cyberChessTextWrapper.textContent = 'Cyber Chess';
 
         const chessboardWrapper = document.createElement('div');
-        chessboardWrapper.classList.add(styles.wrapperChessboard, boardStyles.board__wrapper);
+        chessboardWrapper.classList.add(styles.wrapperChessboard, boardStyles.boardWrapper);
         this.chessboard = new ChessBoardComponent(
             chessboardWrapper,
             [{ element: document.createElement('div'), figType: PieceType.Bishop, side: Side.Black }],
             ChessBoard.createDefaultBoard().board,
         );
-        //this.chessboard.addTileClassList({ x: 1, y: 1 }, [boardStyles.possible__move__black___hover]);
+        this.chessboard.addTileClassList({ x: 1, y: 1 }, [boardStyles.opponent, boardStyles.possibleMoveHover]);
 
         const opponentScoreWrapper = document.createElement('div');
         opponentScoreWrapper.classList.add(styles.wrapperOpponent);
