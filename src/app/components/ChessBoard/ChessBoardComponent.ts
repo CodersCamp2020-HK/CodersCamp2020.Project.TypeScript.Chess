@@ -1,7 +1,7 @@
 import { ChessBoardRepresentation, Cord, Side, PieceType } from '../../domain/basicChessTypes';
 import styles from './chess.module.scss';
 export interface PieceElement {
-    element: HTMLElement;
+    element: HTMLElement | SVGSVGElement;
     figType: PieceType;
     side: Side;
 }

@@ -7,6 +7,12 @@ import { Label } from '../genericLabel/Label';
 import { ChessBoardComponent } from '../ChessBoard/ChessBoardComponent';
 import { ChessBoard } from '../../infrastructure/ChessBoard';
 import { PieceType, Side } from '../../domain/basicChessTypes';
+import bishopImage from './../../../assets/UI/pieces/Bishop.svg';
+import kingImage from './../../../assets/UI/pieces/King.svg';
+import knightImage from './../../../assets/UI/pieces/Knight.svg';
+import pawnImage from './../../../assets/UI/pieces/Pawn.svg';
+import queenImage from './../../../assets/UI/pieces/Queen.svg';
+import rookImage from './../../../assets/UI/pieces/Rook.svg';
 export class Game {
     private __element: HTMLElement;
     public chessboard: ChessBoardComponent | null = null;
@@ -35,9 +41,11 @@ export class Game {
 
         const chessboardWrapper = document.createElement('div');
         chessboardWrapper.classList.add(styles.wrapperChessboard, boardStyles.boardWrapper);
+        const bishoopImg = document.createElement('img');
+        bishoopImg.src = bishopImage;
         this.chessboard = new ChessBoardComponent(
             chessboardWrapper,
-            [{ element: document.createElement('div'), figType: PieceType.Bishop, side: Side.Black }],
+            [{ element: bishoopImg, figType: PieceType.Bishop, side: Side.Black }],
             ChessBoard.createDefaultBoard().board,
         );
         this.chessboard.addTileClassList({ x: 1, y: 1 }, [boardStyles.opponent, boardStyles.possibleMoveHover]);

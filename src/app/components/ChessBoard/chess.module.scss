@@ -31,8 +31,8 @@ $board__size: 30vw;
 }
 
 .tile * {
-    width: 100%;
-    height: auto;
+    width: $board__size / 10;
+    height: $board__size / 10;
 }
 
 .blackTile {

@@ -1,8 +1,25 @@
-import { IChessBoard, ChessBoardRepresentation, Piece, PieceMove, Cord } from '../domain/basicChessTypes';
+import {
+    IChessBoard,
+    ChessBoardRepresentation,
+    Piece,
+    PieceMove,
+    Cord,
+    PieceType,
+    Side,
+} from '../domain/basicChessTypes';
 
 export class ChessBoard implements IChessBoard {
     board: ChessBoardRepresentation = [
-        [null, null, null, null, null, null, null, null],
+        [
+            { cord: { x: 0, y: 0 }, figType: PieceType.Bishop, side: Side.Black } as Piece,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+        ],
         [null, null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null, null],
