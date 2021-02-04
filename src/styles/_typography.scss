@@ -5,8 +5,8 @@
 
 @font-face {
    font-family: 'Cyberpunk';
-   src: url('../assets/UI/Cyberpunk-Regular.woff') format('woff2'),
-       url('../assets/UI/Cyberpunk-Regular.woff') format('woff');
+   src: url('/src/assets/UI/Cyberpunk-Regular.woff') format('woff2'),
+       url('/src/assets/UI/Cyberpunk-Regular.woff') format('woff');
 }
 
 %font-main{font-family: 'Rajdhani', sans-serif;};
@@ -14,73 +14,73 @@
 %font-logo{ font-family: 'Cyberpunk';}
 
 %h1 {
-   font-family: $font-main;
+   @extend %font-main;
    font-style: normal;
    text-transform: uppercase;
    font-weight: 700;
    font-size: 44px;
    letter-spacing: 1.5px;
 
-   @media #{$mobile-max} {
+   @media only screen and (max-width: common.$mobileMax) {
        font-size: 38px;
    }
 }
 
 %h2 {
-   font-family: $font-main;
+    @extend %font-main;
    font-style: normal;
    text-transform: uppercase;
    font-weight: 700;
    font-size: 35px;
 
-   @media #{$mobile-max} {
+   @media only screen and (max-width: common.$mobileMax) {
        font-size: 30px;
    }
 }
 
 %h3 {
-   font-family: $font-main;
+    @extend %font-main;
    font-style: normal;
    text-transform: uppercase;
    font-weight: 500;
    font-size: 28px;
 
-   @media #{$mobile-max} {
+   @media only screen and (max-width: common.$mobileMax) {
        font-size: 24px;
    }
 }
 
 %h4 {
-   font-family: $font-main;
+    @extend %font-main;
    font-style: normal;
    text-transform: uppercase;
    font-weight: 400;
    font-size: 22.5px;
 
-   @media #{$mobile-max} {
+   @media only screen and (max-width: common.$mobileMax) {
        font-size: 20px;
    }
 }
 
 %h4-bold {
-   font-family: $font-main;
+    @extend %font-main;
    font-style: normal;
    text-transform: uppercase;
    font-weight: 500;
    font-size: 22.5px;
 
-   @media #{$mobile-max} {
+   @media only screen and (max-width: common.$mobileMax) {
        font-size: 20px;
    }
 }
 
 %p {
-   font-family: $font-main;
+    @extend %font-main;
    font-style: normal;
    font-weight: 400;
    font-size: 18px;
 
-   @media #{$mobile-max} {
+   @media only screen and (max-width: common.$mobileMax){
        font-size: 16px;
    }
 }
