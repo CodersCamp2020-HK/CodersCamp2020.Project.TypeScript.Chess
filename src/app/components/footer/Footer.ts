@@ -11,10 +11,7 @@ export class Footer {
 
         const footerTextWrapper = document.createElement('div');
         const codersCampText = document.createElement('p');
-        codersCampText.innerHTML = '.Coders';
-        const campText = document.createElement('span');
-        campText.innerHTML = 'Camp';
-        codersCampText.appendChild(campText);
+        codersCampText.innerHTML = '.Coders<span>Camp</span>';
         footerTextWrapper.appendChild(codersCampText);
 
         const footerImageRight = document.createElement('div');
@@ -23,9 +20,7 @@ export class Footer {
         footerImageRight.classList.add(styles.right);
         footerTextWrapper.classList.add(styles.textwrapper);
 
-        this.__element.appendChild(footerImageLeft);
-        this.__element.appendChild(footerTextWrapper);
-        this.__element.appendChild(footerImageRight);
+        this.__element.append(footerImageLeft, footerTextWrapper, footerImageRight);
     }
 
     public get element(): HTMLDivElement {
