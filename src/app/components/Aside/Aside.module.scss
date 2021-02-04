@@ -1,7 +1,8 @@
-$primaryColor: #FBEC09;
+@use '../../../styles/colors';
+@use '../../../styles/typography';
 
 .wrapper {
-    background-color: $primaryColor;
+    background-color: colors.$yellow;
     position: fixed;
     top: 0;
     width: 200px;
@@ -38,21 +39,19 @@ $primaryColor: #FBEC09;
     }    
 }
 
-
-
 .btn {
-    background-color: $primaryColor;
+    background-color: colors.$yellow;
     cursor: pointer;
     position: absolute;
-    height: 50px;
+    text-transform: UpperCase;
+    height: 40px;
     width: 150px;
     border: none;
     outline: none;
-    text-transform: uppercase;
+    @extend %p;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
-    font-size: 18px;
     img {
         padding: 4px;
     }
