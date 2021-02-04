@@ -83,23 +83,23 @@ describe('ChessBoard Component', () => {
             expect(chessboard.board.children.length).toBe(64);
         });
         test('should render 32 black tiles', () => {
-            expect(chessboard.board.querySelectorAll('.black__tile').length).toBe(32);
+            expect(chessboard.board.querySelectorAll('.blackTile').length).toBe(32);
         });
         test('should render 32 white tiles', () => {
-            expect(chessboard.board.querySelectorAll('.white__tile').length).toBe(32);
+            expect(chessboard.board.querySelectorAll('.whiteTile').length).toBe(32);
         });
         test('should render white tile on first place', () => {
-            expect(chessboard.board.children[0].classList.contains('white__tile')).toBe(true);
+            expect(chessboard.board.children[0].classList.contains('whiteTile')).toBe(true);
         });
         test('should render tiles alternately in row', () => {
-            expect(chessboard.board.children[0].classList.contains('white__tile')).toBe(true);
-            expect(chessboard.board.children[1].classList.contains('black__tile')).toBe(true);
-            expect(chessboard.board.children[2].classList.contains('white__tile')).toBe(true);
+            expect(chessboard.board.children[0].classList.contains('whiteTile')).toBe(true);
+            expect(chessboard.board.children[1].classList.contains('blackTile')).toBe(true);
+            expect(chessboard.board.children[2].classList.contains('whiteTile')).toBe(true);
         });
         test('should render tiles alternately in column', () => {
-            expect(chessboard.board.children[0].classList.contains('white__tile')).toBe(true);
-            expect(chessboard.board.children[8].classList.contains('black__tile')).toBe(true);
-            expect(chessboard.board.children[16].classList.contains('white__tile')).toBe(true);
+            expect(chessboard.board.children[0].classList.contains('whiteTile')).toBe(true);
+            expect(chessboard.board.children[8].classList.contains('blackTile')).toBe(true);
+            expect(chessboard.board.children[16].classList.contains('whiteTile')).toBe(true);
         });
         test('should render pieces in right places', () => {
             chessboard.renderBoard(chessBoardFilled);
@@ -133,7 +133,7 @@ describe('ChessBoard Component', () => {
         test('should given tile has current classlist with added classes', () => {
             chessboard.addTileClassList({ x: 0, y: 0 }, ['qwe', 'asd']);
             expect(chessboard.tiles[0][0]?.classList.length).toBe(4);
-            expect(chessboard.tiles[0][0]?.classList.contains('white__tile')).toBe(true);
+            expect(chessboard.tiles[0][0]?.classList.contains('whiteTile')).toBe(true);
             expect(chessboard.tiles[0][0]?.classList.contains('qwe')).toBe(true);
             expect(chessboard.tiles[0][0]?.classList.contains('asd')).toBe(true);
         });
@@ -141,9 +141,9 @@ describe('ChessBoard Component', () => {
     describe('removeTileClassList', () => {
         test('should given tile has classlist without removed classes', () => {
             chessboard.addTileClassList({ x: 5, y: 0 }, ['qwe', 'asd']);
-            chessboard.removeTileClassList({ x: 5, y: 0 }, ['qwe', 'black__tile']);
+            chessboard.removeTileClassList({ x: 5, y: 0 }, ['qwe', 'blackTile']);
             expect(chessboard.tiles[5][0]?.classList.length).toBe(2);
-            expect(chessboard.tiles[5][0]?.classList.contains('black__tile')).toBe(false);
+            expect(chessboard.tiles[5][0]?.classList.contains('blackTile')).toBe(false);
             expect(chessboard.tiles[5][0]?.classList.contains('qwe')).toBe(false);
             expect(chessboard.tiles[5][0]?.classList.contains('asd')).toBe(true);
         });
