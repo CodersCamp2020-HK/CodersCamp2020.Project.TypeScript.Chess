@@ -1,10 +1,15 @@
 import styles from './Game.module.scss';
+import boardStyles from '../ChessBoard/chess.module.scss';
 import { Aside } from '../Aside/Aside';
 import rulesTxt from '../../../assets/rules.txt';
 import infoTxt from '../../../assets/info.txt';
 import { Label } from '../genericLabel/Label';
+import { ChessBoardComponent } from '../ChessBoard/ChessBoardComponent';
+import { ChessBoard } from '../../infrastructure/ChessBoard';
+import { PieceType, Side } from '../../domain/basicChessTypes';
 export class Game {
     private __element: HTMLElement;
+    public chessboard: ChessBoardComponent | null = null;
 
     constructor() {
         this.__element = this.createGameWrapper();
@@ -29,8 +34,13 @@ export class Game {
         cyberChessTextWrapper.textContent = 'Cyber Chess';
 
         const chessboardWrapper = document.createElement('div');
-        chessboardWrapper.classList.add(styles.wrapperChessboard);
-        chessboardWrapper.textContent = 'Szachownica';
+        chessboardWrapper.classList.add(styles.wrapperChessboard, boardStyles.board__wrapper);
+        //chessboardWrapper.textContent = 'Szachownica';
+        this.chessboard = new ChessBoardComponent(
+            chessboardWrapper,
+            [{ element: document.createElement('div'), figType: PieceType.Bishop, side: Side.Black }],
+            ChessBoard.createDefaultBoard().board,
+        );
 
         const opponentScoreWrapper = document.createElement('div');
         opponentScoreWrapper.classList.add(styles.wrapperOpponent);

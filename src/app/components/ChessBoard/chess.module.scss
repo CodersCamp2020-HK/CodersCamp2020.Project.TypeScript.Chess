@@ -57,7 +57,7 @@ $board__size: 50vw;
     grid-area: horizontal;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-around;
     color: colors.$red;
     width: $board__size;
