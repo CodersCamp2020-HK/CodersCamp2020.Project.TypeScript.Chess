@@ -1,10 +1,11 @@
 import { Game } from './components/game/Game';
 import { IChessBoard, PieceType, Side, Piece } from './domain/basicChessTypes';
 import { ChessEngine } from './infrastructure/ChessEngine';
+import { Input } from './components/Input/input';
 
 const App = (): void => {
     const game = new Game();
-    document.body.appendChild(game.element);
+    document.body.appendChild(new Input('asd').element);
 
     const chessEngine = new ChessEngine();
 
