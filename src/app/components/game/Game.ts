@@ -1,10 +1,19 @@
 import styles from './Game.module.scss';
+import boardStyles from '../ChessBoard/chess.module.scss';
 import { Aside } from '../Aside/Aside';
 import rulesTxt from '../../../assets/rules.txt';
 import infoTxt from '../../../assets/info.txt';
+import { CapturedTable } from './capturedTable/CapturedTable';
+import { Header } from '../HeaderCyberChess/Header';
 import { Label } from '../genericLabel/Label';
+import { ChessBoardComponent } from '../ChessBoard/ChessBoardComponent';
+import { ChessBoard } from '../../infrastructure/ChessBoard';
+import { piecesArray } from '../PiecesElements/piecesElements';
+import { Footer } from '../footer/Footer';
+
 export class Game {
     private __element: HTMLElement;
+    public chessboard: ChessBoardComponent | null = null;
 
     constructor() {
         this.__element = this.createGameWrapper();
@@ -26,21 +35,30 @@ export class Game {
 
         const cyberChessTextWrapper = document.createElement('div');
         cyberChessTextWrapper.classList.add(styles.wrapperText);
-        cyberChessTextWrapper.textContent = 'Cyber Chess';
+        const header = new Header();
+        cyberChessTextWrapper.append(header.element);
+        // cyberChessTextWrapper.textContent = 'Cyber Chess';
 
         const chessboardWrapper = document.createElement('div');
-        chessboardWrapper.classList.add(styles.wrapperChessboard);
-        chessboardWrapper.textContent = 'Szachownica';
+        // DO ZMIANY, POWINNO BYĆ W KONTROLERZE \/\/`
+        const chessboard = ChessBoard.createNewBoard();
+        chessboardWrapper.classList.add(styles.wrapperChessboard, boardStyles.boardWrapper);
+        this.chessboard = new ChessBoardComponent(chessboardWrapper, [...piecesArray], chessboard.board);
 
         const opponentScoreWrapper = document.createElement('div');
         opponentScoreWrapper.classList.add(styles.wrapperOpponent);
+        const opponentCapturedTable = new CapturedTable('opponent', []);
         const opponentLabel = new Label('blue', 'Opponent');
         opponentScoreWrapper.append(opponentLabel.element);
 
+        opponentScoreWrapper.append(opponentCapturedTable.element);
+
         const playerScoreWrapper = document.createElement('div');
         playerScoreWrapper.classList.add(styles.wrapperPlayer);
+        const playerCapturedTable = new CapturedTable('player', []);
         const playerLabel = new Label('red', 'Player');
         playerScoreWrapper.append(playerLabel.element);
+        playerScoreWrapper.append(playerCapturedTable.element);
 
         const previousMovesWrapper = document.createElement('div');
         previousMovesWrapper.classList.add(styles.wrapperMoves);
@@ -53,7 +71,8 @@ export class Game {
 
         const footerWrapper = document.createElement('div');
         footerWrapper.classList.add(styles.wrapperFooter);
-        footerWrapper.textContent = 'Coders Camp';
+        const footerImage = new Footer();
+        footerWrapper.appendChild(footerImage.element);
 
         wrapper.append(
             chessboardWrapper,

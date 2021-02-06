@@ -46,3 +46,11 @@ export const generateDeafultChessboard = (): ChessBoardRepresentation => {
 
     return result;
 };
+
+export const flattenChessboard = <T>(board: ReadonlyArray<ReadonlyArray<T | null>>): Array<T | null> => {
+    const result: Array<T | null> = [];
+    for (const row of board) {
+        result.push(...row.map((item) => item));
+    }
+    return result;
+};

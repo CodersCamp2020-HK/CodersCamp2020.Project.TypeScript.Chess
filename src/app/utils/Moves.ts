@@ -1,6 +1,7 @@
 import { Cord, CordWithMoveType, Piece } from '../domain/basicChessTypes';
 import { IChessBoard } from '../domain/IChessBoard';
 import {
+    getKnightDirections,
     getBishopDirections,
     getKingDirections,
     getRookDirections,
@@ -23,7 +24,13 @@ export function getPossibleMovesForRook(cord: Cord, boardState: IChessBoard): Co
 }
 
 export function getPossibleMovesForKnight(cord: Cord, boardState: IChessBoard): CordWithMoveType[] {
-    return [];
+    const square = boardState.board[cord.x][cord.y] as Piece;
+    const directions = getKnightDirections(cord);
+    const moves = removeMovesOutsideChessBoard(directions);
+    const properMoves = removeMovesBlockedByPiece(cord, moves, boardState);
+    const result = getMoveTypesForPiece(properMoves, square.side, boardState);
+
+    return result;
 }
 
 export function getPossibleMovesForBishop(cord: Cord, boardState: IChessBoard): CordWithMoveType[] {
