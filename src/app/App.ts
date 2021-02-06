@@ -84,7 +84,7 @@ const App = (): void => {
     // board.board[pawn4.cord.x][pawn4.cord.y] = pawn4;
 
     board.board[queen.cord.x][queen.cord.y] = queen;
-    // board.board[bishop.cord.x][bishop.cord.y] = bishop;
+    board.board[bishop.cord.x][bishop.cord.y] = bishop;
     board.board[king.cord.x][king.cord.y] = king;
     board.board[rook.cord.x][rook.cord.y] = rook;
 
