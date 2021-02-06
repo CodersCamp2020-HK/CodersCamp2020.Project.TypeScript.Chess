@@ -2,8 +2,12 @@ import styles from './Game.module.scss';
 import { Aside } from '../Aside/Aside';
 import rulesTxt from '../../../assets/rules.txt';
 import infoTxt from '../../../assets/info.txt';
+<<<<<<< HEAD
 import { Timer } from '../timer/Timer';
 
+=======
+import { Label } from '../genericLabel/Label';
+>>>>>>> master
 export class Game {
     private __element: HTMLElement;
 
@@ -35,19 +39,26 @@ export class Game {
 
         const opponentScoreWrapper = document.createElement('div');
         opponentScoreWrapper.classList.add(styles.wrapperOpponent);
-        opponentScoreWrapper.textContent = 'Nazwa przeciwnika, czas przeciwnika, zbite pionki';
+        const opponentLabel = new Label('blue', 'Opponent');
+        opponentScoreWrapper.append(opponentLabel.element);
 
         const playerScoreWrapper = document.createElement('div');
         playerScoreWrapper.classList.add(styles.wrapperPlayer);
+<<<<<<< HEAD
         playerScoreWrapper.textContent = 'Nazwa gracza, czas gracza, zbite pionki';
         const timer = new Timer(10, 2, () => {
             console.log('Callback timer');
         });
         playerScoreWrapper.appendChild(timer.element);
+=======
+        const playerLabel = new Label('red', 'Player');
+        playerScoreWrapper.append(playerLabel.element);
+>>>>>>> master
 
         const previousMovesWrapper = document.createElement('div');
         previousMovesWrapper.classList.add(styles.wrapperMoves);
-        previousMovesWrapper.textContent = 'Poprzednie ruchy';
+        const movesLabel = new Label('yellow', 'previous moves');
+        previousMovesWrapper.append(movesLabel.element);
 
         const quitButtonWrapper = document.createElement('div');
         quitButtonWrapper.classList.add(styles.wrapperQuit);
