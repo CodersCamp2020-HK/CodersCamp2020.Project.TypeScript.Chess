@@ -46,7 +46,6 @@ export class Game {
         const playerScoreWrapper = document.createElement('div');
         playerScoreWrapper.classList.add(styles.wrapperPlayer);
         const playerCapturedTable = new CapturedTable('player', []);
-        const playerScoreWrapper = document.createElement('div');
         const playerLabel = new Label('red', 'Player');
         playerScoreWrapper.append(playerLabel.element);
         playerScoreWrapper.append(playerCapturedTable.element);
