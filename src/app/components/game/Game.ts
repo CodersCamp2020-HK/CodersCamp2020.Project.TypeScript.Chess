@@ -3,6 +3,7 @@ import { Aside } from '../Aside/Aside';
 import rulesTxt from '../../../assets/rules.txt';
 import infoTxt from '../../../assets/info.txt';
 import { CapturedTable } from './capturedTable/CapturedTable';
+import { Header } from '../HeaderCyberChess/Header';
 import { Label } from '../genericLabel/Label';
 import { Footer } from '../footer/Footer';
 
@@ -29,7 +30,9 @@ export class Game {
 
         const cyberChessTextWrapper = document.createElement('div');
         cyberChessTextWrapper.classList.add(styles.wrapperText);
-        cyberChessTextWrapper.textContent = 'Cyber Chess';
+        const header = new Header();
+        cyberChessTextWrapper.append(header.element);
+        // cyberChessTextWrapper.textContent = 'Cyber Chess';
 
         const chessboardWrapper = document.createElement('div');
         chessboardWrapper.classList.add(styles.wrapperChessboard);
