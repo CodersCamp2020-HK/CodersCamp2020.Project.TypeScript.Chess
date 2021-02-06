@@ -27,7 +27,7 @@ export class Timer {
 
     stop(): void {
         window.clearInterval(this.actualTimer);
-        // this.actualTimer = undefined;
+        this.gameTimeInSec += this.addedTimeInSec;
     }
 
     private convertTime(): string {
