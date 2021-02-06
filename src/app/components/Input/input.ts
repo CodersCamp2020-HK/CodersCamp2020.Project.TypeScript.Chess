@@ -1,4 +1,5 @@
 import styles from './input.module.scss';
+import { pseudoStyle } from './pseudoStyle';
 
 interface InputError {
     valid: boolean;
@@ -10,6 +11,7 @@ export class Input {
     private _maxLength = 20;
     private _minLength = 3;
     private _element: HTMLInputElement;
+    private _errorsElement: HTMLDivElement;
     private _wrapper: HTMLDivElement;
     private _errors: InputError[];
     constructor(placeholder: string, minLength?: number, maxLength?: number) {
@@ -29,6 +31,8 @@ export class Input {
         this._wrapper.appendChild(this._element);
 
         this._errors = [];
+        this._errorsElement = document.createElement('div');
+        this._errorsElement.classList.add(styles.errors);
     }
 
     onChange(): void {
@@ -45,7 +49,16 @@ export class Input {
 
         const allErrors = possibleErorrs.filter((err) => !err.valid);
         this._errors = [...allErrors];
-        console.log(allErrors);
+        this.updateErrorsElement();
+        if (this._errors.length > 0) {
+            this._wrapper.classList.add(styles.wrong);
+            this._element.classList.add(styles.wrong);
+            pseudoStyle(this._wrapper, 'before', 'background-color', '#FD6059');
+        } else {
+            this._wrapper.classList.remove(styles.wrong);
+            this._element.classList.remove(styles.wrong);
+            pseudoStyle(this._wrapper, 'before', 'background-color', '#44E0DB');
+        }
     }
 
     isValid(): boolean {
@@ -55,7 +68,10 @@ export class Input {
         }
         if (!this.isEmpty().valid) {
             this._errors.push(this.isEmpty());
-            //this.renderErrorBox();
+            this.updateErrorsElement();
+            this._wrapper.classList.add(styles.wrong);
+            this._element.classList.add(styles.wrong);
+            pseudoStyle(this._wrapper, 'before', 'background-color', '#FD6059');
             this._element.focus();
             return false;
         }
@@ -97,6 +113,17 @@ export class Input {
         };
     }
 
+    updateErrorsElement(): void {
+        this._errorsElement.innerHTML = '';
+        const ol = document.createElement('ol');
+        this._errors.forEach((singleError) => {
+            const li = document.createElement('li');
+            li.append(singleError.message);
+            ol.appendChild(li);
+        });
+        this._errorsElement.innerHTML = ol.innerHTML;
+    }
+
     get value(): string {
         return this._value;
     }
@@ -107,5 +134,9 @@ export class Input {
 
     get errors(): InputError[] {
         return this._errors;
+    }
+
+    get errorsElement(): HTMLDivElement {
+        return this._errorsElement;
     }
 }
