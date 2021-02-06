@@ -52,5 +52,13 @@
     },
     "dependencies": {
         "lodash": "^4.17.20"
+    },
+    "staticFiles": {
+        "staticPath": [
+            {
+                "staticPath": "./src/assets/favicon.ico",
+                "staticOutDir": "/"
+            }
+        ]
     }
 }
