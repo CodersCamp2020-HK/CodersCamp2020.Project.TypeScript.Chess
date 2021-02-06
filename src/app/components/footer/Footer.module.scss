@@ -1,0 +1,37 @@
+@use '../../../styles/colors';
+@use '../../../styles/common';
+@use '../../../styles/typography';
+
+.wrapper{
+   width:100%;
+   height: 10vh;
+   display:flex;
+
+   .left{
+      background-image: url("/src/assets/UI/Footer-left.svg");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: bottom left;
+      width:100%;
+   }
+
+   .right{
+      background-image: url("/src/assets/UI/Footer-right.svg");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: bottom right;
+      width:100%;
+   }
+
+   .textwrapper{
+      @extend %font-coderscamp;
+      z-index: 2;
+      position: absolute;
+      bottom:1.5vh;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      span{
+         color: colors.$blue;
+      }
+   }
+}

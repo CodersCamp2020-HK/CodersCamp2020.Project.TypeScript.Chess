@@ -97,3 +97,69 @@ describe(`Given: Starting chessboard: ${displayEmojiBoard(firstMoveEmojiBoard)}`
         });
     });
 });
+
+const firstEmoji = [
+    ['♜', '♞', '♝', '♛', '♚', '♝', '♞', '♜'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['♙', '♙', '♙', '♙', '♙', '♙', '♙', '♙'],
+    ['♖', '.', '.', '♕', '♔', '♗', '.', '♖'],
+];
+const secondEmoji = [
+    ['♜', '♞', '♝', '♛', '♚', '♝', '♞', '♜'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '♙', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['♙', '.', '♙', '♙', '♙', '♙', '♙', '♙'],
+    ['♖', '.', '.', '♕', '♔', '♗', '.', '♖'],
+];
+const thirdEmoji = [
+    ['♜', '.', '♝', '♛', '♚', '♝', '♞', '♜'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['♞', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['♙', '♙', '♙', '♙', '♙', '♙', '♙', '♙'],
+    ['♖', '.', '.', '♕', '♔', '♗', '.', '♖'],
+];
+
+describe(`Given: Starting chessboard ${displayEmojiBoard(firstMoveEmojiBoard)}`, () => {
+    describe('When: updatePreviousBoards is invoked on starting chessboard', () => {
+        const expected = convertEmojiToRep(firstMoveEmojiBoard);
+        const gameState = new GameState();
+        chessboard.board = convertEmojiToRep(firstMoveEmojiBoard);
+        gameState.updatePreviousBoards(chessboard.board);
+        it(`Then: previousBoards at index 0 should be: `, () => {
+            const actual = gameState.previousBoards[0];
+            expect(actual).toEqual(expect.arrayContaining(expected));
+        });
+        it('Then: previousBoards should contain only 1 element', () => {
+            const actual = gameState.previousBoards.length;
+            expect(actual).toBe(1);
+        });
+    });
+    describe('When: updatePreviousBoards is invoked 3 times on 3 different boards', () => {
+        const gameState = new GameState();
+        const expected = convertEmojiToRep(thirdEmoji);
+        chessboard.board = convertEmojiToRep(firstMoveEmojiBoard);
+        gameState.updatePreviousBoards(chessboard.board);
+        chessboard.board = convertEmojiToRep(secondEmoji);
+        gameState.updatePreviousBoards(chessboard.board);
+        chessboard.board = convertEmojiToRep(thirdEmoji);
+        gameState.updatePreviousBoards(chessboard.board);
+        it('Then: previousBoards at index 2 should be: ', () => {
+            const actual = gameState.previousBoards[2];
+            expect(actual).toEqual(expect.arrayContaining(expected));
+        });
+        it('Then: previousBoards should contain 3 elements', () => {
+            const actual = gameState.previousBoards.length;
+            expect(actual).toBe(3);
+        });
+    });
+});
