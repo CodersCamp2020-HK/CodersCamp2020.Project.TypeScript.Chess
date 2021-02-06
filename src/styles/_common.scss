@@ -13,12 +13,13 @@ $mobileMax: 900px;
 
 %shadow-blue-flat{box-shadow: 4px 2px 0px #44E0DB;}
 
+%shadow-blue-flat-text{text-shadow: 2px 1.5px 0px #44E0DB;}
+
 %shadow-blue-text{text-shadow:0px 0px 12px #1EC8C8, 0px 0px 5px #1EC8C8, 0px 0px 2px #1EC8C8;}
 
 %shadow-red-1{box-shadow: 0px 0px 20px #FF658A;}
 
 %shadow-red-2{box-shadow: 0px 0px 12px #FD6059, 0px 0px 5px #FD6059, 0px 0px 2px #FD6059;}
-%shadow-red-focus {box-shadow: 0px 0px 40px #FD6059, 0px 0px 20px #E2524A, 0px 0px 10px #E2524A, 0px 0px 4px #E2524A;}
 
 %shadow-red-text{text-shadow:0px 0px 12px #FD6059, 0px 0px 5px #FD6059, 0px 0px 2px #FD6059;}
 
@@ -58,4 +59,11 @@ $mobileMax: 900px;
    height: 100%;
  }
 
- %header-image{ background-image: url('../assets/UI/Header.svg');}
+//  %header-image{ background-image: url('/src/assets/UI/Header.svg');}
+%header-image{
+   background-image: url("/src/assets/UI/Header.svg");
+   background-size: cover;
+   background-repeat: no-repeat;
+   background-position: center;
+   position: relative;
+}
