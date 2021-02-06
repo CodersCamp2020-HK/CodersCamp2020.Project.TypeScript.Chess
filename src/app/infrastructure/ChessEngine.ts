@@ -1,4 +1,4 @@
-import { PieceType, Cord, IChessBoard, CordWithMoveType, Side } from '../domain/basicChessTypes';
+import {Piece, PieceType, Cord, IChessBoard, CordWithMoveType, Side } from '../domain/basicChessTypes';
 import { IChessEngine } from '../domain/IChessEngine';
 import {
     getPossibleMovesForBishop,
@@ -8,6 +8,7 @@ import {
     getPossibleMovesForQueen,
     getPossibleMovesForRook,
 } from '../utils/Moves';
+import _ from 'lodash';
 
 export class ChessEngine implements IChessEngine {
     getMovesByPiece: Map<PieceType, (cord: Cord, boardState: IChessBoard) => CordWithMoveType[]>;
@@ -35,9 +36,19 @@ export class ChessEngine implements IChessEngine {
         return handler(cord, boardState);
     }
 
-    isCheck(boardState: IChessBoard, side: Side): boolean {
-        throw new Error('Method not implemented.');
-    }
+    isCheck(boardState: IChessBoard, side: Side): boolean  {
+        const { board } = boardState;
+        const allEnemyPieces = _.flattenDeep(board).filter((item) => item !== null && item.side !== side);
+        const allEnemyPiecesMoves = allEnemyPieces.map((piece) => {
+            const PIECE = piece as Piece;
+            return this.getPossibleMovesForPiece({ x: PIECE.cord.x, y: PIECE.cord.y }, boardState);
+        });
+        const king = _.flattenDeep(board).find(
+            (item) => item !== null && item.side === side && item.figType === PieceType.King,
+        ) as Piece;
+        const result = _.flattenDeep(allEnemyPiecesMoves).some((item) => item.x === king.cord.x && item.y === king.cord.y);
+        return result;
+    };
     isCheckmate(boardState: IChessBoard, side: Side): boolean {
         throw new Error('Method not implemented.');
     }
