@@ -2,7 +2,11 @@ import styles from './Game.module.scss';
 import { Aside } from '../Aside/Aside';
 import rulesTxt from '../../../assets/rules.txt';
 import infoTxt from '../../../assets/info.txt';
+import { Header } from '../HeaderCyberChess/Header';
 import { Label } from '../genericLabel/Label';
+
+import { Footer } from '../footer/Footer';
+
 export class Game {
     private __element: HTMLElement;
 
@@ -26,7 +30,9 @@ export class Game {
 
         const cyberChessTextWrapper = document.createElement('div');
         cyberChessTextWrapper.classList.add(styles.wrapperText);
-        cyberChessTextWrapper.textContent = 'Cyber Chess';
+        const header = new Header();
+        cyberChessTextWrapper.append(header.element);
+        // cyberChessTextWrapper.textContent = 'Cyber Chess';
 
         const chessboardWrapper = document.createElement('div');
         chessboardWrapper.classList.add(styles.wrapperChessboard);
@@ -53,7 +59,8 @@ export class Game {
 
         const footerWrapper = document.createElement('div');
         footerWrapper.classList.add(styles.wrapperFooter);
-        footerWrapper.textContent = 'Coders Camp';
+        const footerImage = new Footer();
+        footerWrapper.appendChild(footerImage.element);
 
         wrapper.append(
             chessboardWrapper,
