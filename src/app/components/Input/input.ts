@@ -48,7 +48,19 @@ export class Input {
         console.log(allErrors);
     }
 
-    onSubmit(): void {}
+    isValid(): boolean {
+        if (this._errors.length > 0) {
+            this._element.focus();
+            return false;
+        }
+        if (!this.isEmpty().valid) {
+            this._errors.push(this.isEmpty());
+            //this.renderErrorBox();
+            this._element.focus();
+            return false;
+        }
+        return true;
+    }
 
     doesStartWithWhiteSpaces(): InputError {
         return {
@@ -91,5 +103,9 @@ export class Input {
 
     get wrapper(): HTMLDivElement {
         return this._wrapper;
+    }
+
+    get errors(): InputError[] {
+        return this._errors;
     }
 }
