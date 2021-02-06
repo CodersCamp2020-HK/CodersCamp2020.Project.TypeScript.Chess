@@ -1,5 +1,6 @@
 import { ChessBoardRepresentation, IChessBoard, Side } from '../domain/basicChessTypes';
 import { getCapturedPieceNames } from '../utils/CapturedPieces';
+import _ from 'lodash';
 
 export class GameState {
     private __capturedPieces: { white: string[]; black: string[] }[];
@@ -14,10 +15,8 @@ export class GameState {
         return this.__capturedPieces;
     }
 
-    getPreviousBoards(moveNumber: number): ChessBoardRepresentation {
-        if (moveNumber < 0 || moveNumber > this.__previousBoards.length - 1)
-            throw new Error(`There is no move with number: ${moveNumber} `);
-        return this.__previousBoards[moveNumber];
+    public get previousBoards(): ChessBoardRepresentation[] {
+        return this.__previousBoards;
     }
 
     updateCapturedPieces(boardState: IChessBoard): void {
@@ -28,7 +27,14 @@ export class GameState {
         this.__capturedPieces.push(capturedPiece);
     }
 
-    updatePreviousBoards(chessboard: IChessBoard): void {
-        this.__previousBoards.push(chessboard.board);
+    getPreviousBoard(moveNumber: number): ChessBoardRepresentation {
+        if (moveNumber < 0 || moveNumber > this.__previousBoards.length - 1)
+            throw new Error(`There is no move with number: ${moveNumber} `);
+        return this.__previousBoards[moveNumber];
+    }
+
+    updatePreviousBoards(chessboard: ChessBoardRepresentation): void {
+        const copiedArray = _.cloneDeep(chessboard);
+        this.__previousBoards.push(copiedArray);
     }
 }

@@ -91,7 +91,13 @@ const App = (): void => {
     console.log(chessEngine.getPossibleMovesForPiece({ x: queen.cord.x, y: queen.cord.y }, board));
 
     const gameState = new GameState();
+    gameState.updatePreviousBoards(board.board);
     gameState.updateCapturedPieces(board);
+
+    board.board[pawn1.cord.x][pawn1.cord.y] = pawn1;
+    board.board[pawn2.cord.x][pawn2.cord.y] = pawn2;
+    board.board[pawn3.cord.x][pawn3.cord.y] = pawn3;
+    board.board[pawn4.cord.x][pawn4.cord.y] = pawn4;
 
     const rook2: Piece = {
         figType: PieceType.Rook,
@@ -100,7 +106,9 @@ const App = (): void => {
         isMoved: false,
     };
     board.board[rook2.cord.x][rook2.cord.y] = rook2;
+    gameState.updatePreviousBoards(board.board);
     gameState.updateCapturedPieces(board);
+    console.log(gameState.previousBoards);
     console.log(gameState.capturedPieces);
 };
 
