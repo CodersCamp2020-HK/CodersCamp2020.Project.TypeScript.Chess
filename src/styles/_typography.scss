@@ -5,8 +5,8 @@
 
 @font-face {
    font-family: 'Cyberpunk';
-   src: url('../assets/UI/Cyberpunk-Regular.woff') format('woff2'),
-       url('../assets/UI/Cyberpunk-Regular.woff') format('woff');
+   src: url('/src/assets/UI/Cyberpunk-Regular.woff') format('woff2'),
+       url('/src/assets/UI/Cyberpunk-Regular.woff') format('woff');
 }
 
 %font-main{font-family: 'Rajdhani', sans-serif;};
