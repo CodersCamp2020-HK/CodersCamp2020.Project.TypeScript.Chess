@@ -28,7 +28,6 @@ export class GameState {
     }
 
     updatePreviousBoards(chessboard: ChessBoardRepresentation): void {
-        const copiedArray = _.cloneDeep(chessboard);
-        this.__previousBoards.push(copiedArray);
+        this.__previousBoards.push(_.cloneDeep(chessboard));
     }
 }
