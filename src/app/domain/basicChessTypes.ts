@@ -1,3 +1,8 @@
+export interface PossibleCords {
+    x: number | undefined;
+    y: number | undefined;
+}
+
 export interface Cord {
     x: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
     y: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
@@ -45,8 +50,8 @@ export type ChessBoardRepresentation = Array<Array<Piece | null>>;
 
 export interface IChessBoard {
     board: ChessBoardRepresentation;
-    makeMove(piece: Piece, move: PieceMove): void;
-    hasPiece(cord: Cord): boolean;
+    // makeMove(piece: Piece, move: PieceMove): void;
+    // hasPiece(cord: Cord): boolean;
 }
 
 export type PickSide = () => Side;
