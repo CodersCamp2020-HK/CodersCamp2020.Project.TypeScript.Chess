@@ -1,0 +1,41 @@
+@use '../../../styles/common';
+@use '../../../styles/typography';
+@use '../../../styles/colors';
+
+.input {
+    background-color: black;
+    position: relative;
+    padding: 16px;
+    color: colors.$blue;
+    border: 1px solid colors.$blue;
+    @extend %font-main;
+    @extend %p;
+}
+
+.input:focus {
+    outline: none;
+    @extend %shadow-blue-focus;
+    @extend %shadow-blue-text;
+}
+
+.input:focus::placeholder {
+    opacity: 0;
+}
+
+.wrapper {
+    position: relative;
+    float: right;
+    @extend %shadow-blue-1;
+}
+
+.wrapper::before {
+    content: "";
+    display: flex;
+    width: 9px;
+    height: 100%;
+    background-color: colors.$blue;
+    position: absolute;
+    top: 0;
+    left: -9px;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%,  0% 90%, 30% 80%, 30% 20%, 0% 10%);
+}
