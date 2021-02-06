@@ -3,6 +3,7 @@ import { Aside } from '../Aside/Aside';
 import rulesTxt from '../../../assets/rules.txt';
 import infoTxt from '../../../assets/info.txt';
 import { CapturedTable } from './capturedTable/CapturedTable';
+import { Label } from '../genericLabel/Label';
 
 export class Game {
     private __element: HTMLElement;
@@ -36,16 +37,23 @@ export class Game {
         const opponentScoreWrapper = document.createElement('div');
         opponentScoreWrapper.classList.add(styles.wrapperOpponent);
         const opponentCapturedTable = new CapturedTable('opponent', []);
+        const opponentLabel = new Label('blue', 'Opponent');
+        opponentScoreWrapper.append(opponentLabel.element);
+
         opponentScoreWrapper.append(opponentCapturedTable.element);
 
         const playerScoreWrapper = document.createElement('div');
         playerScoreWrapper.classList.add(styles.wrapperPlayer);
         const playerCapturedTable = new CapturedTable('player', []);
+        const playerScoreWrapper = document.createElement('div');
+        const playerLabel = new Label('red', 'Player');
+        playerScoreWrapper.append(playerLabel.element);
         playerScoreWrapper.append(playerCapturedTable.element);
 
         const previousMovesWrapper = document.createElement('div');
         previousMovesWrapper.classList.add(styles.wrapperMoves);
-        previousMovesWrapper.textContent = 'Poprzednie ruchy';
+        const movesLabel = new Label('yellow', 'previous moves');
+        previousMovesWrapper.append(movesLabel.element);
 
         const quitButtonWrapper = document.createElement('div');
         quitButtonWrapper.classList.add(styles.wrapperQuit);
