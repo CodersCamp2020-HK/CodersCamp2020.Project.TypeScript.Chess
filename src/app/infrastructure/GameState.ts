@@ -27,12 +27,6 @@ export class GameState {
         this.__capturedPieces.push(capturedPiece);
     }
 
-    getPreviousBoard(moveNumber: number): ChessBoardRepresentation {
-        if (moveNumber < 0 || moveNumber > this.__previousBoards.length - 1)
-            throw new Error(`There is no move with number: ${moveNumber} `);
-        return this.__previousBoards[moveNumber];
-    }
-
     updatePreviousBoards(chessboard: ChessBoardRepresentation): void {
         const copiedArray = _.cloneDeep(chessboard);
         this.__previousBoards.push(copiedArray);
