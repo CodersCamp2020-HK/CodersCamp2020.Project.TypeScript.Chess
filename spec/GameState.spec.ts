@@ -76,19 +76,20 @@ describe(`Given: Starting chessboard: ${displayEmojiBoard(firstMoveEmojiBoard)}`
 
             const newChessboard = ChessBoard.createNewBoard();
             const gameState = new GameState();
-            jest.spyOn(newChessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(firstMoveEmojiBoard));
 
-            const knight = newChessboard.board[7][1] as Piece;
+            const knight = newChessboard.getPiece({ x: 7, y: 1 }) as Piece;
             newChessboard.makeMove(knight, { x: 5, y: 2 });
 
-            const pawn = newChessboard.board[1][3] as Piece;
+            const pawn = newChessboard.getPiece({ x: 1, y: 3 }) as Piece;
             newChessboard.makeMove(pawn, { x: 3, y: 3 });
             gameState.updateCapturedPieces(newChessboard);
 
             newChessboard.makeMove(knight, { x: 3, y: 3 });
+            console.log(JSON.stringify(newChessboard.board, null, 4));
             gameState.updateCapturedPieces(newChessboard);
+
             const actual = gameState.capturedPieces;
-            // expect(actual).toEqual(expect.arrayContaining(expected));
+            expect(actual).toEqual(expect.arrayContaining(expected));
         });
     });
 });
