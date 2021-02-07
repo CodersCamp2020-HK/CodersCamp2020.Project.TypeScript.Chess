@@ -66,7 +66,7 @@ export class Radios {
         });
     }
 
-    renderOptionContainers() {
+    renderOptionContainers(): void {
         this._options = [];
         this._data.forEach((singleData, index) => {
             const container = document.createElement('div');
