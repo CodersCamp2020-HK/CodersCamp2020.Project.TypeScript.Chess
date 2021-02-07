@@ -1,4 +1,5 @@
-import { IChessBoard, Side, Cord, CordWithMoveType } from './basicChessTypes';
+import { Side, Cord, CordWithMoveType } from './basicChessTypes';
+import { IChessBoard } from './IChessBoard';
 
 export interface IChessEngine {
     isCheck(boardState: IChessBoard, side: Side): boolean;

@@ -1,11 +1,5 @@
-import {
-    CordWithMoveType,
-    MoveType,
-    ChessBoardRepresentation,
-    PieceType,
-    Side,
-    Piece,
-} from '../../src/app/domain/basicChessTypes';
+import { CordWithMoveType, MoveType, PieceType, Side, Piece } from '../../src/app/domain/basicChessTypes';
+import { ChessBoardView } from '../../src/app/domain/IChessBoard';
 export const currentPawnBlack: Piece = {
     figType: PieceType.Pawn,
     cord: { x: 2, y: 2 },
@@ -14,7 +8,7 @@ export const currentPawnBlack: Piece = {
 };
 const blockingPiece: Piece = { figType: PieceType.Rook, cord: { x: 3, y: 1 }, side: Side.White, isMoved: true };
 const blockingPiece2: Piece = { figType: PieceType.Pawn, cord: { x: 3, y: 3 }, side: Side.White, isMoved: true };
-export const currentBoardCaptureBlack: ChessBoardRepresentation = [
+export const currentBoardCaptureBlack: ChessBoardView = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, currentPawnBlack, null, null, null, null, null],
@@ -53,7 +47,7 @@ const blockingPiece4: Piece = {
     isMoved: true,
 };
 
-export const currentBoardCaptureForWhite: ChessBoardRepresentation = [
+export const currentBoardCaptureForWhite: ChessBoardView = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
@@ -88,7 +82,7 @@ export const currentPawnWhiteOneSide: Piece = {
     side: Side.White,
     isMoved: true,
 };
-export const currentBoardMoveWhiteOneSide: ChessBoardRepresentation = [
+export const currentBoardMoveWhiteOneSide: ChessBoardView = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],

@@ -2,6 +2,8 @@
  * @jest-environment jsdom
  */
 
+import { ChessBoardView } from '../src/app/domain/IChessBoard';
+
 test('test', () => {
     expect(true).toBeTruthy();
 });
@@ -9,7 +11,7 @@ test('test', () => {
 import { ChessBoardComponent, PieceElement } from '../src/app/components/ChessBoard/ChessBoardComponent';
 import * as interfaces from '../src/app/domain/basicChessTypes';
 
-const chessBoardEmpty: interfaces.ChessBoardRepresentation = [
+const chessBoardEmpty: ChessBoardView = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
@@ -20,7 +22,7 @@ const chessBoardEmpty: interfaces.ChessBoardRepresentation = [
     [null, null, null, null, null, null, null, null],
 ];
 
-const chessBoardFilled: interfaces.ChessBoardRepresentation = [
+const chessBoardFilled: ChessBoardView = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [

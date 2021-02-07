@@ -1,11 +1,6 @@
-import {
-    CordWithMoveType,
-    MoveType,
-    ChessBoardRepresentation,
-    PieceType,
-    Side,
-    Piece,
-} from '../../src/app/domain/basicChessTypes';
+import { CordWithMoveType, MoveType, PieceType, Side, Piece } from '../../src/app/domain/basicChessTypes';
+import { ChessBoardView } from '../../src/app/domain/IChessBoard';
+
 export const currentPawnBlack: Piece = {
     figType: PieceType.Pawn,
     cord: { x: 4, y: 2 },
@@ -14,7 +9,7 @@ export const currentPawnBlack: Piece = {
 };
 const blockingPiece: Piece = { figType: PieceType.Pawn, cord: { x: 4, y: 1 }, side: Side.White, isMoved: true };
 const blockingPiece2: Piece = { figType: PieceType.Pawn, cord: { x: 4, y: 3 }, side: Side.White, isMoved: true };
-export const currentBoardPassantForBlack: ChessBoardRepresentation = [
+export const currentBoardPassantForBlack: ChessBoardView = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
@@ -37,7 +32,7 @@ const blockingPiece2Before: Piece = {
     side: Side.White,
     isMoved: false,
 };
-export const previousBoardPassantForBlack: ChessBoardRepresentation = [
+export const previousBoardPassantForBlack: ChessBoardView = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
@@ -81,7 +76,7 @@ const blockingPiece2ForWhite: Piece = {
     isMoved: true,
 };
 
-export const currentBoardPassantForWhite: ChessBoardRepresentation = [
+export const currentBoardPassantForWhite: ChessBoardView = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
@@ -105,7 +100,7 @@ export const blockingPiece4Before: Piece = {
     isMoved: false,
 };
 
-export const previousBoardMoveWhite: ChessBoardRepresentation = [
+export const previousBoardMoveWhite: ChessBoardView = [
     [null, null, null, null, null, null, null, null],
     [null, null, blockingPiece3Before, null, blockingPiece4Before, null, null, null],
     [null, null, null, null, null, null, null, null],
@@ -140,7 +135,7 @@ const blockingPieceOneSide: Piece = {
     side: Side.Black,
     isMoved: true,
 };
-export const currentBoardMoveWhiteOneSide: ChessBoardRepresentation = [
+export const currentBoardMoveWhiteOneSide: ChessBoardView = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
@@ -157,7 +152,7 @@ const blockingPieceOneSideBefore: Piece = {
     side: Side.Black,
     isMoved: false,
 };
-export const previousBoardMoveWhiteOneSide: ChessBoardRepresentation = [
+export const previousBoardMoveWhiteOneSide: ChessBoardView = [
     [null, null, null, null, null, null, null, null],
     [null, blockingPieceOneSideBefore, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],

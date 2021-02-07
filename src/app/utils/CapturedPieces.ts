@@ -1,4 +1,5 @@
-import { IChessBoard, PieceType, Side } from '../domain/basicChessTypes';
+import { PieceType, Side } from '../domain/basicChessTypes';
+import { IChessBoard } from '../domain/IChessBoard';
 
 export const getCapturedPieceCount = (
     side: Side,
