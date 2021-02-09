@@ -40,12 +40,10 @@ export class Game {
         // cyberChessTextWrapper.textContent = 'Cyber Chess';
 
         const chessboardWrapper = document.createElement('div');
+        // DO ZMIANY, POWINNO BYĆ W KONTROLERZE \/\/`
+        const chessboard = ChessBoard.createNewBoard();
         chessboardWrapper.classList.add(styles.wrapperChessboard, boardStyles.boardWrapper);
-        this.chessboard = new ChessBoardComponent(
-            chessboardWrapper,
-            [...piecesArray],
-            ChessBoard.createDefaultBoard().board,
-        );
+        this.chessboard = new ChessBoardComponent(chessboardWrapper, [...piecesArray], chessboard.board);
 
         const opponentScoreWrapper = document.createElement('div');
         opponentScoreWrapper.classList.add(styles.wrapperOpponent);

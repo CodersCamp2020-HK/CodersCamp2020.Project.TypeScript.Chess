@@ -1,4 +1,5 @@
-import { ChessBoardRepresentation, Cord, Side, PieceType } from '../../domain/basicChessTypes';
+import { Cord, Side, PieceType } from '../../domain/basicChessTypes';
+import { ChessBoardView } from '../../domain/IChessBoard';
 import styles from './chess.module.scss';
 export interface PieceElement {
     element: HTMLElement | SVGSVGElement;
@@ -24,11 +25,7 @@ export class ChessBoardComponent {
         [null, null, null, null, null, null, null, null],
     ];
     piecesElements: PieceElement[];
-    constructor(
-        wrapper: HTMLDivElement,
-        piecesElements: PieceElement[],
-        chessBoardRepresentation: ChessBoardRepresentation,
-    ) {
+    constructor(wrapper: HTMLDivElement, piecesElements: PieceElement[], chessBoardRepresentation: ChessBoardView) {
         this._wrapper = wrapper;
 
         this._board = document.createElement('div');
@@ -52,7 +49,7 @@ export class ChessBoardComponent {
         this.renderBoard(chessBoardRepresentation);
     }
 
-    renderBoard(chessBoardRepresentation: ChessBoardRepresentation): void {
+    renderBoard(chessBoardRepresentation: ChessBoardView): void {
         const blackTile = document.createElement('div');
         blackTile.className = this._blackTilesClassList;
 

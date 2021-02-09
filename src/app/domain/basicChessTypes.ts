@@ -13,11 +13,6 @@ export enum Side {
     Black,
 }
 
-export interface PieceMove {
-    from: Cord;
-    to: Cord;
-}
-
 export enum MoveType {
     NormalMove,
     Capture,
@@ -44,14 +39,6 @@ export interface Piece {
     cord: Cord;
     side: Side;
     isMoved: boolean;
-}
-
-export type ChessBoardRepresentation = Array<Array<Piece | null>>;
-
-export interface IChessBoard {
-    board: ChessBoardRepresentation;
-    // makeMove(piece: Piece, move: PieceMove): void;
-    // hasPiece(cord: Cord): boolean;
 }
 
 export type PickSide = () => Side;

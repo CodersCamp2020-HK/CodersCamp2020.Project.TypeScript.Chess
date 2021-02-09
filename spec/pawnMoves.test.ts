@@ -4,13 +4,14 @@ import {
     possibleNormalMoves,
     possibleCaptureMoves,
     getPossibleMovesForPawn,
-} from '../src/app/infrastructure/pawnMoves';
+} from '../src/app/utils/pawnMoves';
 import * as normalMove from './pawMovesTestCases/normalMove';
 import * as doubleMove from './pawMovesTestCases/doubleMove';
 import * as captureMove from './pawMovesTestCases/captureMove';
 import * as passantMove from './pawMovesTestCases/enPassantMove';
 import * as promotionMove from './pawMovesTestCases/promotionMove';
 import * as allMoves from './pawMovesTestCases/allMoves';
+import { ChessBoard } from '../src/app/infrastructure/ChessBoard';
 
 describe('Possible Moves for Pawn', () => {
     describe('promotion', () => {
@@ -200,24 +201,11 @@ describe('Possible Moves for Pawn', () => {
     });
 });
 
-const ichess = {
-    board: allMoves.currentBoardCaptureBlack,
-    makeMove: () => {
-        return true;
-    },
-    hasPiece: () => {
-        return true;
-    },
-};
-const ichessprevious = {
-    board: allMoves.currentBoardCaptureBlackBefore,
-    makeMove: () => {
-        return true;
-    },
-    hasPiece: () => {
-        return true;
-    },
-};
+const ichess = ChessBoard.createNewBoard();
+jest.spyOn(ichess, 'board', 'get').mockReturnValue(allMoves.currentBoardCaptureBlack);
+
+const ichessprevious = ChessBoard.createNewBoard();
+jest.spyOn(ichessprevious, 'board', 'get').mockReturnValue(allMoves.currentBoardCaptureBlackBefore);
 
 describe('All possible moves', () => {
     describe('should return capture, normal and passant move possible', () => {

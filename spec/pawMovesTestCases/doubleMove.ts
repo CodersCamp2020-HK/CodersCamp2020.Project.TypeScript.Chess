@@ -1,11 +1,5 @@
-import {
-    CordWithMoveType,
-    MoveType,
-    ChessBoardRepresentation,
-    PieceType,
-    Side,
-    Piece,
-} from '../../src/app/domain/basicChessTypes';
+import { CordWithMoveType, MoveType, PieceType, Side, Piece } from '../../src/app/domain/basicChessTypes';
+import { ChessBoardView } from '../../src/app/domain/IChessBoard';
 export const currentPawnBlack: Piece = {
     figType: PieceType.Pawn,
     cord: { x: 1, y: 1 },
@@ -13,7 +7,7 @@ export const currentPawnBlack: Piece = {
     isMoved: false,
 };
 const blockingPiece: Piece = { figType: PieceType.Pawn, cord: { x: 3, y: 1 }, side: Side.Black, isMoved: true };
-export const currentBoardMoveForBlack: ChessBoardRepresentation = [
+export const currentBoardMoveForBlack: ChessBoardView = [
     [null, null, null, null, null, null, null, null],
     [null, currentPawnBlack, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
@@ -23,7 +17,7 @@ export const currentBoardMoveForBlack: ChessBoardRepresentation = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
 ];
-export const currentBoardMoveBlackBlocked: ChessBoardRepresentation = [
+export const currentBoardMoveBlackBlocked: ChessBoardView = [
     [null, null, null, null, null, null, null, null],
     [null, currentPawnBlack, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
@@ -55,7 +49,7 @@ const blockingPieceForWhite: Piece = {
     isMoved: true,
 };
 
-export const currentBoardMoveForWhite: ChessBoardRepresentation = [
+export const currentBoardMoveForWhite: ChessBoardView = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
@@ -66,7 +60,7 @@ export const currentBoardMoveForWhite: ChessBoardRepresentation = [
     [null, null, null, null, null, null, null, null],
 ];
 
-export const currentBoardMoveForWhiteBlocked: ChessBoardRepresentation = [
+export const currentBoardMoveForWhiteBlocked: ChessBoardView = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],

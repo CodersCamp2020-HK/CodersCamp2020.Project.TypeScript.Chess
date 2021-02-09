@@ -3,7 +3,7 @@ import { ChessBoard } from '../src/app/infrastructure/ChessBoard';
 import { convertEmojiToRep, convertEmojitoCordWithMoveType, displayEmojiBoard } from './Display';
 
 const chessboard = new ChessBoard();
-chessboard.board = [
+const emptyChessboard: Array<Array<Piece | null>> = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
@@ -18,7 +18,7 @@ const blackRook: Piece = {
     figType: PieceType.Rook,
     cord: { x: 6, y: 0 },
     side: Side.Black,
-    isMoved: true,
+    isMoved: false,
 };
 
 const king: Piece = {
@@ -32,7 +32,7 @@ const queen: Piece = {
     figType: PieceType.Queen,
     cord: { x: 7, y: 2 },
     side: Side.Black,
-    isMoved: true,
+    isMoved: false,
 };
 
 const blackPawn: Piece = {
@@ -46,14 +46,14 @@ const whiteRook: Piece = {
     figType: PieceType.Rook,
     cord: { x: 3, y: 2 },
     side: Side.White,
-    isMoved: true,
+    isMoved: false,
 };
 
 const bishop: Piece = {
     figType: PieceType.Bishop,
     cord: { x: 3, y: 5 },
     side: Side.White,
-    isMoved: true,
+    isMoved: false,
 };
 
 const whitePawn: Piece = {
@@ -66,17 +66,19 @@ const blackKnight: Piece = {
     figType: PieceType.Knight,
     cord: { x: 0, y: 6 },
     side: Side.Black,
-    isMoved: true,
+    isMoved: false,
 };
 
-chessboard.board[blackRook.cord.x][blackRook.cord.y] = blackRook;
-chessboard.board[king.cord.x][king.cord.y] = king;
-chessboard.board[queen.cord.x][queen.cord.y] = queen;
-chessboard.board[blackPawn.cord.x][blackPawn.cord.y] = blackPawn;
-chessboard.board[whiteRook.cord.x][whiteRook.cord.y] = whiteRook;
-chessboard.board[bishop.cord.x][bishop.cord.y] = bishop;
-chessboard.board[whitePawn.cord.x][whitePawn.cord.y] = whitePawn;
-chessboard.board[blackKnight.cord.x][blackKnight.cord.y] = blackKnight;
+emptyChessboard[blackRook.cord.x][blackRook.cord.y] = blackRook;
+emptyChessboard[king.cord.x][king.cord.y] = king;
+emptyChessboard[queen.cord.x][queen.cord.y] = queen;
+emptyChessboard[blackPawn.cord.x][blackPawn.cord.y] = blackPawn;
+emptyChessboard[whiteRook.cord.x][whiteRook.cord.y] = whiteRook;
+emptyChessboard[bishop.cord.x][bishop.cord.y] = bishop;
+emptyChessboard[whitePawn.cord.x][whitePawn.cord.y] = whitePawn;
+emptyChessboard[blackKnight.cord.x][blackKnight.cord.y] = blackKnight;
+
+jest.spyOn(chessboard, 'board', 'get').mockReturnValue(emptyChessboard);
 
 const emojiBoard = [
     ['.', '♚', '.', '.', '.', '.', '♞', '.'],
