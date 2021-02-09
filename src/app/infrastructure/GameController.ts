@@ -1,4 +1,4 @@
-import { Cord, CordWithMoveType, MoveType, Piece, Side } from '../domain/basicChessTypes';
+import { Cord, CordWithMoveType, MoveType, Piece, Score, Side } from '../domain/basicChessTypes';
 import { ChessBoardView } from '../domain/IChessBoard';
 import { IChessEngine } from '../domain/IChessEngine';
 import { IChessBoardPresenter } from '../domain/IPresenter';
@@ -8,6 +8,7 @@ import { ReadonlyMovesWithDisplayType, CordWithDisplayType, ChessBoardSquareDisp
 
 export class GameController {
     constructor(
+        private onEndGame: (score: Score) => void,
         private currentTurn: Side,
         private lastBoardState: ChessBoardView,
         private pieceIsSelected: boolean,
@@ -55,10 +56,11 @@ export class GameController {
                     { x: cord.x, y: cord.y, display: ChessBoardSquareDisplayType.Move },
                 ]);
             }
+        } else {
+            this.chessboardPresenter.clearMarkedFields();
+            const moves = this.chessEngine.getPossibleMovesForPiece(cord, this.chessboardState, this.lastBoardState);
+            this.chessboardPresenter.markFields(this.convertMovesToDisplayType(moves));
         }
-        this.chessboardPresenter.clearMarkedFields();
-        const moves = this.chessEngine.getPossibleMovesForPiece(cord, this.chessboardState, this.lastBoardState);
-        this.chessboardPresenter.markFields(this.convertMovesToDisplayType(moves));
     }
 
     handleOnClick(cord: Cord): void {
@@ -80,12 +82,13 @@ export class GameController {
             if (hasMove) {
                 this.chessboardState.makeMove(this.currentSelectedPiece, cord);
                 this.currentTurn === Side.Black ? Side.White : Side.Black;
-                // if (this.chessEngine.isCheckmate) {
-                //     console.log('Koniec');
-                // }
-                // if (this.chessEngine.isStealemate) {
-                //     console.log('Remis');
-                // }
+                if (this.chessEngine.isCheckmate(this.chessboardState, this.currentTurn)) {
+                    const winner = this.currentTurn === Side.Black ? Score.WhiteWon : Score.BlackWon;
+                    this.onEndGame(winner);
+                }
+                if (this.chessEngine.isStealemate(this.chessboardState, this.currentTurn)) {
+                    this.onEndGame(Score.Draw);
+                }
                 if (this.chessEngine.isCheck(this.chessboardState, this.currentTurn)) {
                     this.chessboardPresenter.markFields([{ x: 0, y: 0, display: ChessBoardSquareDisplayType.Check }]);
                 }

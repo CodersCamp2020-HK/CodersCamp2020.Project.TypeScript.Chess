@@ -41,4 +41,10 @@ export interface Piece {
     isMoved: boolean;
 }
 
+export enum Score {
+    WhiteWon,
+    BlackWon,
+    Draw,
+}
+
 export type PickSide = () => Side;
