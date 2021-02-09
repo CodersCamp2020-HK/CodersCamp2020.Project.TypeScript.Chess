@@ -6,9 +6,9 @@ $board__size: 30vw;
 
 .boardWrapper {
     display: grid;
-    grid-template-areas: 
-    'vertical board'
-    '. horizontal';
+    grid-template-areas:
+        'vertical board'
+        '. horizontal';
     grid-template-columns: 1fr $board__size;
     grid-template-rows: $board__size 1fr;
 }
@@ -37,14 +37,14 @@ $board__size: 30vw;
 
 .blackTile {
     border: 2px solid colors.$red;
-     //shadow-blue-2 with inset
-    box-shadow: inset 0px 0px 12px #FD6059, 0px 0px 5px #FD6059, 0px 0px 2px #FD6059;
+    //shadow-blue-2 with inset
+    box-shadow: inset 0px 0px 12px #fd6059, 0px 0px 5px #fd6059, 0px 0px 2px #fd6059;
 }
 
 .whiteTile {
     border: 2px solid colors.$blue;
     //shadow-blue-2 with inset
-    box-shadow: inset 0px 0px 12px #1EC8C8, 0px 0px 5px #1EC8C8, 0px 0px 2px #1EC8C8;
+    box-shadow: inset 0px 0px 12px #1ec8c8, 0px 0px 5px #1ec8c8, 0px 0px 2px #1ec8c8;
 }
 
 .verticalAxi {
@@ -55,12 +55,12 @@ $board__size: 30vw;
     justify-content: space-around;
     color: colors.$blue;
     height: $board__size;
-    margin-right: 8px; 
+    margin-right: 8px;
     @extend %h4;
 
     span {
         @extend %shadow-blue-text;
-       } 
+    }
 }
 
 .horizontalAxi {
@@ -72,14 +72,15 @@ $board__size: 30vw;
     color: colors.$red;
     width: $board__size;
     @extend %h4;
-   
+
     span {
-    @extend %shadow-red-text;
-   } 
+        @extend %shadow-red-text;
+    }
 }
 
 .player {
     &.possibleMove {
+        //Piece not selected
         background-image: url('./images/blackSide/circle.svg');
         background-position: center;
         background-size: 50% auto;
@@ -87,11 +88,12 @@ $board__size: 30vw;
     }
 
     &.possibleMoveHover {
-        background-image: url('./images/blackSide/hollow-circle.svg'), url('./images/blackSide/hollow-circle.svg'), url('./images/blackSide/circle.svg');
+        //Piece selected
+        background-image: url('./images/blackSide/hollow-circle.svg'), url('./images/blackSide/hollow-circle.svg'),
+            url('./images/blackSide/circle.svg');
         background-position: center;
         background-size: 100%, 80%, 40%;
         background-repeat: no-repeat;
-    
     }
 
     &.capture {
@@ -118,7 +120,10 @@ $board__size: 30vw;
         background-size: 30%;
         background-repeat: repeat-x;
         position: absolute;
-        top: 0; right: 0; bottom: 0; left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
         content: '';
     }
 
@@ -126,17 +131,18 @@ $board__size: 30vw;
         position: relative;
     }
 
-    
     &.castlingLeft::after {
         background-image: url('./images/blackSide/arrow-left.svg');
         background-position: 100% 95%;
         background-size: 30%;
         background-repeat: repeat-x;
         position: absolute;
-        top: 0; right: 0; bottom: 0; left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
         content: '';
     }
-
 }
 
 .opponent {
@@ -144,15 +150,15 @@ $board__size: 30vw;
         background-image: url('./images/whiteSide/circle.svg');
         background-position: center;
         background-size: 50% auto;
-        background-repeat: no-repeat;    
+        background-repeat: no-repeat;
     }
 
-    &.possibleMoveHover{
-        background-image: url('./images/whiteSide/hollow-circle.svg'), url('./images/whiteSide/hollow-circle.svg'), url('./images/whiteSide/circle.svg');
+    &.possibleMoveHover {
+        background-image: url('./images/whiteSide/hollow-circle.svg'), url('./images/whiteSide/hollow-circle.svg'),
+            url('./images/whiteSide/circle.svg');
         background-position: center;
         background-size: 100%, 80%, 40%;
         background-repeat: no-repeat;
-    
     }
 
     &.capture {
@@ -179,7 +185,10 @@ $board__size: 30vw;
         background-size: 30%;
         background-repeat: repeat-x;
         position: absolute;
-        top: 0; right: 0; bottom: 0; left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
         content: '';
     }
 
@@ -193,7 +202,10 @@ $board__size: 30vw;
         background-size: 30%;
         background-repeat: repeat-x;
         position: absolute;
-        top: 0; right: 0; bottom: 0; left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
         content: '';
     }
 }
