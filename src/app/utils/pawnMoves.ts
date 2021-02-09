@@ -162,7 +162,7 @@ export function possiblePromotionMoves(
 export function getPossibleMovesForPawn(
     cord: Cord,
     currentBoardComponent: IChessBoard,
-    previousBoardComponent: IChessBoard,
+    previousBoardComponent: ChessBoardView,
 ): CordWithMoveType[] {
     const currentPiece = currentBoardComponent.board[cord.x][cord.y];
     const pieceSide = currentPiece?.side;
@@ -177,7 +177,7 @@ export function getPossibleMovesForPawn(
 
     const enPassantMoveResult =
         enPassantRow == cord.x
-            ? possibleEnPassantMoves(cord, moveDirection, currentBoardComponent.board, previousBoardComponent.board)
+            ? possibleEnPassantMoves(cord, moveDirection, currentBoardComponent.board, previousBoardComponent)
             : [];
     const promotionMoveResult =
         promotionRow == cord.x ? possiblePromotionMoves(cord, moveDirection, currentBoardComponent.board) : [];

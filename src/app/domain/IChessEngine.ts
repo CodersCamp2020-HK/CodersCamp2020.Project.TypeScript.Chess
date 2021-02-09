@@ -1,5 +1,5 @@
 import { Side, Cord, CordWithMoveType } from './basicChessTypes';
-import { IChessBoard } from './IChessBoard';
+import { ChessBoardView, IChessBoard } from './IChessBoard';
 
 export interface IChessEngine {
     isCheck(boardState: IChessBoard, side: Side): boolean;
@@ -7,5 +7,9 @@ export interface IChessEngine {
     isStealemate(boardState: IChessBoard, side: Side): boolean;
 
     // getPossibleMovesForPiece będzie uruchamiała funkcje w zalezności od figury
-    getPossibleMovesForPiece(cord: Cord, boardState: IChessBoard): CordWithMoveType[];
+    getPossibleMovesForPiece(
+        cord: Cord,
+        boardState: IChessBoard,
+        previousBoardState?: ChessBoardView,
+    ): CordWithMoveType[];
 }

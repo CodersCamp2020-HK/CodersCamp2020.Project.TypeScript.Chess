@@ -1,6 +1,6 @@
 import { PieceType, Cord, CordWithMoveType, Side, Piece } from '../domain/basicChessTypes';
 import { flattenChessboard } from '../utils/ChessboardHelpers';
-import { IChessBoard } from '../domain/IChessBoard';
+import { ChessBoardView, IChessBoard } from '../domain/IChessBoard';
 import { IChessEngine } from '../domain/IChessEngine';
 import { getPossibleMovesForPawn } from '../utils/pawnMoves';
 import {
@@ -27,7 +27,7 @@ export class ChessEngine implements IChessEngine {
     getPossibleMovesForPiece(
         cord: Cord,
         boardState: IChessBoard,
-        previousBoardState?: IChessBoard,
+        previousBoardState?: ChessBoardView,
     ): CordWithMoveType[] {
         const piece = boardState.board[cord.x][cord.y];
         if (!piece) {

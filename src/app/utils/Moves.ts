@@ -27,8 +27,7 @@ export function getPossibleMovesForKnight(cord: Cord, boardState: IChessBoard): 
     const square = boardState.board[cord.x][cord.y] as Piece;
     const directions = getKnightDirections(cord);
     const moves = removeMovesOutsideChessBoard(directions);
-    const properMoves = removeMovesBlockedByPiece(cord, moves, boardState);
-    const result = getMoveTypesForPiece(properMoves, square.side, boardState);
+    const result = getMoveTypesForPiece(moves, square.side, boardState);
 
     return result;
 }
