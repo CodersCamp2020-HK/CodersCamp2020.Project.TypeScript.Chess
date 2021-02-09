@@ -1,0 +1,14 @@
+@use '../../../styles/colors';
+@use '../../../styles/typography';
+.radio {
+    display: block;
+}
+
+.label {
+    color: colors.$blue;
+    @extend %p;
+}
+
+.option {
+    display: flex;
+}

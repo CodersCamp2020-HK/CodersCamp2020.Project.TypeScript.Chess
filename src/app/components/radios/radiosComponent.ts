@@ -1,4 +1,5 @@
 import { container } from '../game/Game.module.scss';
+import styles from '../radios/radios.module.scss';
 
 interface Data {
     value: string;
@@ -46,7 +47,7 @@ export class Radios {
                 radio.checked = true;
             }
 
-            radio.classList.add('single-radio');
+            radio.classList.add(styles.radio);
 
             this._radios.push(radio);
         });
@@ -61,7 +62,7 @@ export class Radios {
             label.setAttribute('for', singleData.value);
             label.textContent = singleData.label;
 
-            label.classList.add('single-label');
+            label.classList.add(styles.label);
             this._labels.push(label);
         });
     }
@@ -71,8 +72,8 @@ export class Radios {
         this._data.forEach((singleData, index) => {
             const container = document.createElement('div');
 
-            container.append(this._labels[index], this._radios[index]);
-            container.classList.add('single-option');
+            container.append(this._radios[index], this._labels[index]);
+            container.classList.add(styles.option);
             this._options.push(container);
         });
     }
