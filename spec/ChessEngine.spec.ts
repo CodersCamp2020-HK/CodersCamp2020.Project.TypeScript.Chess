@@ -5,7 +5,7 @@ import { convertEmojitoCordWithMoveType, convertEmojiToRep, displayEmojiBoard } 
 
 const emojiBoard = [
     ['♜', '♚', '♛', '.', '.', '.', '.', '.'],
-    ['.', '.', '♟', '.', '.', '.', '.', '.'],
+    ['.', '.', '♟', '♞', '.', '.', '.', '.'],
     ['.', '.', '.', '.', '.', '.', '.', '.'],
     ['.', '.', '♖', '.', '.', '♗', '.', '.'],
     ['.', '.', '.', '.', '♙', '.', '.', '.'],
@@ -22,7 +22,7 @@ describe(`Given: Chessboard ${displayEmojiBoard(emojiBoard)}`, () => {
     describe(`When: getPossibleMovesForPiece for black rook is invoked`, () => {
         const emojiExpectedBoard = [
             ['♜', '♚', '♛', '.', '.', '.', '.', '.'],
-            ['👟', '.', '♟', '.', '.', '.', '.', '.'],
+            ['👟', '.', '♟', '♞', '.', '.', '.', '.'],
             ['👟', '.', '.', '.', '.', '.', '.', '.'],
             ['👟', '.', '♖', '.', '.', '♗', '.', '.'],
             ['👟', '.', '.', '.', '♙', '.', '.', '.'],
@@ -40,7 +40,7 @@ describe(`Given: Chessboard ${displayEmojiBoard(emojiBoard)}`, () => {
     describe(`When: getPossibleMovesForPiece for black king is invoked`, () => {
         const emojiExpectedBoard = [
             ['♜', '♚', '♛', '.', '.', '.', '.', '.'],
-            ['👟', '👟', '♟', '.', '.', '.', '.', '.'],
+            ['👟', '👟', '♟', '♞', '.', '.', '.', '.'],
             ['.', '.', '.', '.', '.', '.', '.', '.'],
             ['.', '.', '♖', '.', '.', '♗', '.', '.'],
             ['.', '.', '.', '.', '♙', '.', '.', '.'],
@@ -58,9 +58,9 @@ describe(`Given: Chessboard ${displayEmojiBoard(emojiBoard)}`, () => {
     describe(`When: getPossibleMovesForPiece for black queen is invoked`, () => {
         const emojiExpectedBoard = [
             ['♜', '♚', '♛', '👟', '👟', '👟', '👟', '👟'],
-            ['.', '👟', '♟', '👟', '.', '.', '.', '.'],
-            ['👟', '.', '.', '.', '👟', '.', '.', '.'],
-            ['.', '.', '♖', '.', '.', '⚔️', '.', '.'],
+            ['.', '👟', '♟', '♞', '.', '.', '.', '.'],
+            ['👟', '.', '.', '.', '.', '.', '.', '.'],
+            ['.', '.', '♖', '.', '.', '.', '.', '.'],
             ['.', '.', '.', '.', '♙', '.', '.', '.'],
             ['.', '.', '.', '.', '.', '.', '.', '.'],
             ['.', '.', '.', '.', '.', '.', '.', '.'],
@@ -76,7 +76,7 @@ describe(`Given: Chessboard ${displayEmojiBoard(emojiBoard)}`, () => {
     describe(`When: getPossibleMovesForPiece for white rook is invoked`, () => {
         const emojiExpectedBoard = [
             ['♜', '♚', '♛', '.', '.', '.', '.', '.'],
-            ['.', '.', '♟', '.', '.', '.', '.', '.'],
+            ['.', '.', '♟', '♞', '.', '.', '.', '.'],
             ['.', '.', '👟', '.', '.', '.', '.', '.'],
             ['👟', '👟', '♖', '👟', '👟', '♗', '.', '.'],
             ['.', '.', '👟', '.', '♙', '.', '.', '.'],
@@ -93,8 +93,8 @@ describe(`Given: Chessboard ${displayEmojiBoard(emojiBoard)}`, () => {
     });
     describe(`When: getPossibleMovesForPiece for white bishop is invoked`, () => {
         const emojiExpectedBoard = [
-            ['♜', '♚', '⚔️', '.', '.', '.', '.', '.'],
-            ['.', '.', '♟', '👟', '.', '.', '.', '👟'],
+            ['♜', '♚', '♛', '.', '.', '.', '.', '.'],
+            ['.', '.', '♟', '⚔️', '.', '.', '.', '👟'],
             ['.', '.', '.', '.', '👟', '.', '👟', '.'],
             ['.', '.', '♖', '.', '.', '♗', '.', '.'],
             ['.', '.', '.', '.', '♙', '.', '👟', '.'],
@@ -105,6 +105,24 @@ describe(`Given: Chessboard ${displayEmojiBoard(emojiBoard)}`, () => {
         const expected: CordWithMoveType[] = convertEmojitoCordWithMoveType(emojiExpectedBoard);
         it(`Then: possible moves for white bishop should be:\n${displayEmojiBoard(emojiExpectedBoard)}`, () => {
             const cord: Cord = { x: 3, y: 5 };
+            const actual = chessEngine.getPossibleMovesForPiece(cord, chessboard);
+            expect(actual).toEqual(expect.arrayContaining(expected));
+        });
+    });
+    describe(`When: getPossibleMovesForPiece for black knight is invoked`, () => {
+        const emojiExpectedBoard = [
+            ['♜', '♚', '♛', '.', '.', '👟', '.', '.'],
+            ['.', '.', '♟', '♞', '.', '.', '.', '.'],
+            ['.', '👟', '.', '.', '.', '👟', '.', '.'],
+            ['.', '.', '⚔️', '.', '👟', '♗', '.', '.'],
+            ['.', '.', '.', '.', '♙', '.', '.', '.'],
+            ['.', '.', '.', '.', '.', '.', '.', '.'],
+            ['.', '.', '.', '.', '.', '.', '.', '.'],
+            ['.', '.', '.', '.', '.', '.', '.', '.'],
+        ];
+        const expected: CordWithMoveType[] = convertEmojitoCordWithMoveType(emojiExpectedBoard);
+        it(`Then: possible moves for white bishop should be:\n${displayEmojiBoard(emojiExpectedBoard)}`, () => {
+            const cord: Cord = { x: 1, y: 3 };
             const actual = chessEngine.getPossibleMovesForPiece(cord, chessboard);
             expect(actual).toEqual(expect.arrayContaining(expected));
         });
