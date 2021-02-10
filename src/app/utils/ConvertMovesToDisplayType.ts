@@ -11,10 +11,8 @@ export const convertMovesToDisplayType = (moves: CordWithMoveType[]): ReadonlyMo
     ]);
     const result: Array<CordWithDisplayType> = [];
     moves.forEach((move) => {
-        if (move) {
-            const displayType = moveTypeToDisplayType.get(move.moveType);
-            if (displayType) result.push({ x: move.x, y: move.y, display: displayType });
-        }
+        const displayType = moveTypeToDisplayType.get(move.moveType);
+        if (displayType !== undefined) result.push({ ...move, display: displayType });
     });
     return result;
 };

@@ -13,6 +13,7 @@ import { piecesArray } from '../PiecesElements/piecesElements';
 import { Cord, allBoardCords } from '../../domain/basicChessTypes';
 import { Side } from '../../domain/basicChessTypes';
 import { ChessBoardDomInputDevice } from './ChessBoardDomInputDevice';
+import { generateDeafultChessboard } from '../../utils/ChessboardHelpers';
 
 const displayToStyle = new Map<ChessBoardSquareDisplayType, string>([
     [ChessBoardSquareDisplayType.Normal, boardStyles.possibleMove],
@@ -28,12 +29,13 @@ export class ChessBoardPresenter implements IChessBoardPresenter {
     private chessboardWrapper: HTMLDivElement;
     private inputDevice: ChessBoardDomInputDevice;
 
-    constructor(chessboard: ChessBoardView) {
+    constructor(chessboard: ChessBoardView = generateDeafultChessboard()) {
         this.chessboardWrapper = document.createElement('div');
         this.chessboardWrapper.classList.add(styles.wrapperChessboard, boardStyles.boardWrapper);
         this.chessboardComponent = new ChessBoardComponent(this.chessboardWrapper, [...piecesArray], chessboard);
         this.inputDevice = new ChessBoardDomInputDevice(this.chessboardComponent);
     }
+
     onHover(callback: OnHoverHandler): void {
         this.inputDevice.onHover(callback);
     }
