@@ -1,5 +1,6 @@
 import { convertEmojiToRep } from '../../spec/Display';
 import { Game } from '../app/components/game/Game';
+import { GameController } from '../app/infrastructure/GameController';
 import { ChessBoardPresenter } from './components/ChessBoardPresenter/ChessBoardPresenter';
 import { Side } from './domain/basicChessTypes';
 import { ChessBoardSquareDisplayType, CordWithDisplayType, IChessBoardPresenter } from './domain/IPresenter';
@@ -16,6 +17,7 @@ const App = (): void => {
         ['.', '.', '.', '.', '.', '.', '.', '.'],
         ['.', '.', '.', '.', '.', '.', '.', '.'],
     ];
+    const gameController = new GameController();
     const board = convertEmojiToRep(emojiBoard);
 
     const presenter: IChessBoardPresenter = new ChessBoardPresenter();

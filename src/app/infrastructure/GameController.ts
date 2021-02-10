@@ -7,22 +7,20 @@ import { GameState } from './GameState';
 import { ChessBoardSquareDisplayType } from '../domain/IPresenter';
 import { convertMovesToDisplayType } from '../utils/ConvertMovesToDisplayType';
 import { Timer } from '../components/timer/Timer';
+import { ChessEngine } from './ChessEngine';
 
 export class GameController {
-    constructor(
-        private whiteTimer: Timer,
-        private blackTimer: Timer,
-        private turnCounter: number,
-        private onEndGame: (score: Score) => void,
-        private currentTurn: Side,
-        private lastBoardState: ChessBoardView,
-        private pieceIsSelected: boolean,
-        private currentSelectedPiece: Piece | null,
-        private chessboardState: ChessBoard,
-        private gameState: GameState,
-        public chessEngine: IChessEngine,
-        public chessboardPresenter: IChessBoardPresenter,
-    ) {
+    private whiteTimer: Timer;
+    private blackTimer: Timer;
+    private turnCounter: number;
+    private currentTurn: Side;
+    private lastBoardState: ChessBoardView;
+    private pieceIsSelected: boolean;
+    private currentSelectedPiece: Piece | null = null;
+    private chessboardState = new ChessBoard();
+    private gameState: GameState = new GameState();
+    public chessEngine: IChessEngine = new ChessEngine();
+    constructor(public chessboardPresenter: IChessBoardPresenter, private onEndGame: (score: Score) => void) {
         this.whiteTimer = new Timer(300, 3, () => onEndGame(Score.BlackWon));
         this.blackTimer = new Timer(300, 3, () => onEndGame(Score.WhiteWon));
         this.turnCounter = 0;

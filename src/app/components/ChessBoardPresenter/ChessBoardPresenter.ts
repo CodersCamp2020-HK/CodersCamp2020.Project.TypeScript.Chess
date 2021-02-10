@@ -1,4 +1,4 @@
-import { ChessBoardView } from '../../domain/IChessBoard';
+import { ChessBoardView, IChessBoard } from '../../domain/IChessBoard';
 import {
     IChessBoardPresenter,
     ReadonlyMovesWithDisplayType,
@@ -27,9 +27,8 @@ export class ChessBoardPresenter implements IChessBoardPresenter {
     private chessboardComponent: ChessBoardComponent;
     private chessboardWrapper: HTMLDivElement;
 
-    constructor() {
+    constructor(chessboard: IChessBoard) {
         this.chessboardWrapper = document.createElement('div');
-        const chessboard = ChessBoard.createNewBoard();
         this.chessboardWrapper.classList.add(styles.wrapperChessboard, boardStyles.boardWrapper);
         this.chessboardComponent = new ChessBoardComponent(this.chessboardWrapper, [...piecesArray], chessboard.board);
     }
@@ -141,6 +140,7 @@ export class ChessBoardPresenter implements IChessBoardPresenter {
         return this.chessboardWrapper;
     }
 
-    onHover(callback: OnHoverHandler): void { }
-    onClick(callback: OnClickHandler): void { }
+    onHover(callback: OnHoverHandler): void {}
+
+    onClick(callback: OnClickHandler): void {}
 }
