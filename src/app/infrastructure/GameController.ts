@@ -69,21 +69,17 @@ export class GameController {
     }
 
     handleOnHover(cord: Cord): void {
-        const piece = this.chessboardState.getPiece(cord);
-        if (piece && piece.side === this.currentTurn) {
-            if (this.currentSelectedPiece && this.hasMove(cord)) {
-                this.chessboardPresenter.clearMarkedFields();
-                const moves = this.chessEngine.getPossibleMovesForPiece(
-                    this.currentSelectedPiece.cord,
-                    this.chessboardState,
-                    this.lastBoardState,
-                );
-                this.chessboardPresenter.markFields(convertMovesToDisplayType(moves), this.currentTurn);
+        if (this.currentSelectedPiece) {
+            if (this.hasMove(cord)) {
+                this.rerenderCurrentSelectedPiece();
                 this.chessboardPresenter.markFields(
-                    [{ x: cord.x, y: cord.y, display: ChessBoardSquareDisplayType.Move }],
+                    [{ ...cord, display: ChessBoardSquareDisplayType.Move }],
                     this.currentTurn,
                 );
-            } else {
+            }
+        } else {
+            const piece = this.chessboardState.getPiece(cord);
+            if (piece && piece.side === this.currentTurn) {
                 this.chessboardPresenter.clearMarkedFields();
                 const moves = this.chessEngine.getPossibleMovesForPiece(
                     cord,
@@ -98,43 +94,71 @@ export class GameController {
     handleOnClick(cord: Cord): void {
         const piece = this.chessboardState.getPiece(cord);
         if (piece && piece.side === this.currentTurn) {
-            this.chessboardPresenter.clearMarkedFields();
-            this.pieceIsSelected = !this.pieceIsSelected;
             this.currentSelectedPiece = piece;
-            // this.chessboardPresenter.clearMarkedFields();
-            this.chessboardPresenter.markFields(
-                [{ x: piece.cord.x, y: piece.cord.y, display: ChessBoardSquareDisplayType.Selected }],
-                this.currentTurn,
-            );
-        } else if (this.pieceIsSelected && this.currentSelectedPiece) {
-            if (this.hasMove(cord)) {
-                this.chessboardState.makeMove(this.currentSelectedPiece, cord);
-                this.currentTurn === Side.Black ? Side.White : Side.Black;
-                this.turnCounter++;
-                this.updateTimer();
-                // if (this.chessEngine.isCheckmate(this.chessboardState, this.currentTurn)) {
-                //     const winner = this.currentTurn === Side.Black ? Score.WhiteWon : Score.BlackWon;
-                //     this.onEndGame(winner);
-                //     this.blackTimer.stop();
-                //     this.whiteTimer.stop();
-                // }
-                // if (this.chessEngine.isStealemate(this.chessboardState, this.currentTurn)) {
-                //     this.onEndGame(Score.Draw);
-                //     this.blackTimer.stop();
-                //     this.whiteTimer.stop();
-                // }
-                if (this.chessEngine.isCheck(this.chessboardState, this.currentTurn)) {
-                    this.chessboardPresenter.markFields(
-                        [{ x: 0, y: 0, display: ChessBoardSquareDisplayType.Check }],
-                        this.currentTurn,
-                    );
-                }
-            }
-            this.chessboardPresenter.render(this.chessboardState.board);
-            this.updateGameState();
+            this.rerenderCurrentSelectedPiece();
+        } else {
             this.chessboardPresenter.clearMarkedFields();
             this.currentSelectedPiece = null;
-            this.pieceIsSelected = false;
         }
     }
+
+    private rerenderCurrentSelectedPiece(): void {
+        if (this.currentSelectedPiece) {
+            const piece = this.currentSelectedPiece;
+            this.chessboardPresenter.clearMarkedFields();
+            const moves = this.chessEngine.getPossibleMovesForPiece(
+                piece.cord,
+                this.chessboardState,
+                this.lastBoardState,
+            );
+            this.chessboardPresenter.markFields(convertMovesToDisplayType(moves), piece.side);
+            this.chessboardPresenter.markFields(
+                [{ ...piece.cord, display: ChessBoardSquareDisplayType.Selected }],
+                piece.side,
+            );
+        }
+    }
+
+    // handleOnClick(cord: Cord): void {
+    //     const piece = this.chessboardState.getPiece(cord);
+    //     if (piece && piece.side === this.currentTurn) {
+    //         this.chessboardPresenter.clearMarkedFields();
+    //         this.pieceIsSelected = !this.pieceIsSelected;
+    //         this.currentSelectedPiece = piece;
+    //         // this.chessboardPresenter.clearMarkedFields();
+    //         this.chessboardPresenter.markFields(
+    //             [{ x: piece.cord.x, y: piece.cord.y, display: ChessBoardSquareDisplayType.Selected }],
+    //             this.currentTurn,
+    //         );
+    //     } else if (this.pieceIsSelected && this.currentSelectedPiece) {
+    //         if (this.hasMove(cord)) {
+    //             this.chessboardState.makeMove(this.currentSelectedPiece, cord);
+    //             this.currentTurn = this.currentTurn === Side.Black ? Side.White : Side.Black;
+    //             this.turnCounter++;
+    //             this.updateTimer();
+    //             // if (this.chessEngine.isCheckmate(this.chessboardState, this.currentTurn)) {
+    //             //     const winner = this.currentTurn === Side.Black ? Score.WhiteWon : Score.BlackWon;
+    //             //     this.onEndGame(winner);
+    //             //     this.blackTimer.stop();
+    //             //     this.whiteTimer.stop();
+    //             // }
+    //             // if (this.chessEngine.isStealemate(this.chessboardState, this.currentTurn)) {
+    //             //     this.onEndGame(Score.Draw);
+    //             //     this.blackTimer.stop();
+    //             //     this.whiteTimer.stop();
+    //             // }
+    //             if (this.chessEngine.isCheck(this.chessboardState, this.currentTurn)) {
+    //                 this.chessboardPresenter.markFields(
+    //                     [{ x: 0, y: 0, display: ChessBoardSquareDisplayType.Check }],
+    //                     this.currentTurn,
+    //                 );
+    //             }
+    //         }
+    //         this.chessboardPresenter.render(this.chessboardState.board);
+    //         this.updateGameState();
+    //         this.chessboardPresenter.clearMarkedFields();
+    //         this.currentSelectedPiece = null;
+    //         this.pieceIsSelected = false;
+    //     }
+    // }
 }
