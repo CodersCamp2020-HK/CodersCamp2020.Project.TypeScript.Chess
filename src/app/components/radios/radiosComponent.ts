@@ -1,5 +1,6 @@
 import { container } from '../game/Game.module.scss';
 import styles from '../radios/radios.module.scss';
+import { pseudoStyle } from './pseudoStyle';
 
 interface Data {
     value: string;
@@ -49,6 +50,41 @@ export class Radios {
 
             radio.classList.add(styles.radio);
 
+            radio.addEventListener('mouseover', () => {
+                const current = radio;
+                if (!current.checked) {
+                    console.log('asd');
+                    pseudoStyle(current, 'before', 'content', '');
+                    pseudoStyle(
+                        current,
+                        'before',
+                        'box-shadow',
+                        'inset 0px 0px 8px 0px #44E0DB, 0px 0px 16px 0px #44E0DB',
+                    );
+                } else {
+                    pseudoStyle(current, 'before', 'content', '');
+                    pseudoStyle(current, 'before', 'box-shadow', 'none');
+                }
+            });
+
+            radio.addEventListener('mouseout', () => {
+                const current = radio;
+                if (!current.checked) {
+                    pseudoStyle(current, 'before', 'content', '');
+                    pseudoStyle(current, 'before', 'box-shadow', 'none');
+                } else {
+                    pseudoStyle(current, 'before', 'content', '');
+                    pseudoStyle(current, 'before', 'box-shadow', 'none');
+                }
+            });
+
+            radio.addEventListener('click', () => {
+                const current = radio;
+                if (current.checked) {
+                    pseudoStyle(current, 'before', 'content', '');
+                    pseudoStyle(current, 'before', 'box-shadow', 'none');
+                }
+            });
             this._radios.push(radio);
         });
     }
