@@ -73,14 +73,15 @@ export class GameController {
     handleOnHover(cord: Cord): void {
         if (this.currentSelectedPiece) {
             if (this.hasMove(cord)) {
-                this.chessboardPresenter.markFields([
-                    { x: cord.x, y: cord.y, display: ChessBoardSquareDisplayType.Move },
-                ]);
+                this.chessboardPresenter.markFields(
+                    [{ x: cord.x, y: cord.y, display: ChessBoardSquareDisplayType.Move }],
+                    this.currentTurn,
+                );
             }
         } else {
             this.chessboardPresenter.clearMarkedFields();
             const moves = this.chessEngine.getPossibleMovesForPiece(cord, this.chessboardState, this.lastBoardState);
-            this.chessboardPresenter.markFields(convertMovesToDisplayType(moves));
+            this.chessboardPresenter.markFields(convertMovesToDisplayType(moves), this.currentTurn);
         }
     }
 
@@ -90,9 +91,10 @@ export class GameController {
             this.pieceIsSelected = !this.pieceIsSelected;
             this.currentSelectedPiece = piece;
             // this.chessboardPresenter.clearMarkedFields(); ???????
-            this.chessboardPresenter.markFields([
-                { x: piece.cord.x, y: piece.cord.y, display: ChessBoardSquareDisplayType.Selected },
-            ]);
+            this.chessboardPresenter.markFields(
+                [{ x: piece.cord.x, y: piece.cord.y, display: ChessBoardSquareDisplayType.Selected }],
+                this.currentTurn,
+            );
         } else if (this.pieceIsSelected && this.currentSelectedPiece) {
             if (this.hasMove(cord)) {
                 this.chessboardState.makeMove(this.currentSelectedPiece, cord);
@@ -111,7 +113,10 @@ export class GameController {
                     this.whiteTimer.stop();
                 }
                 if (this.chessEngine.isCheck(this.chessboardState, this.currentTurn)) {
-                    this.chessboardPresenter.markFields([{ x: 0, y: 0, display: ChessBoardSquareDisplayType.Check }]);
+                    this.chessboardPresenter.markFields(
+                        [{ x: 0, y: 0, display: ChessBoardSquareDisplayType.Check }],
+                        this.currentTurn,
+                    );
                 }
             }
             this.updateGameState();

@@ -6,16 +6,11 @@ import infoTxt from '../../../assets/info.txt';
 import { CapturedTable } from './capturedTable/CapturedTable';
 import { Header } from '../HeaderCyberChess/Header';
 import { Label } from '../genericLabel/Label';
-import { ChessBoardComponent } from '../ChessBoard/ChessBoardComponent';
-import { ChessBoard } from '../../infrastructure/ChessBoard';
-import { piecesArray } from '../PiecesElements/piecesElements';
 import { Footer } from '../footer/Footer';
-
 export class Game {
     private __element: HTMLElement;
-    public chessboard: ChessBoardComponent | null = null;
 
-    constructor() {
+    constructor(public readonly gameBoardView: HTMLElement) {
         this.__element = this.createGameWrapper();
     }
 
@@ -38,12 +33,6 @@ export class Game {
         const header = new Header();
         cyberChessTextWrapper.append(header.element);
         // cyberChessTextWrapper.textContent = 'Cyber Chess';
-
-        const chessboardWrapper = document.createElement('div');
-        // DO ZMIANY, POWINNO BYĆ W KONTROLERZE \/\/`
-        const chessboard = ChessBoard.createNewBoard();
-        chessboardWrapper.classList.add(styles.wrapperChessboard, boardStyles.boardWrapper);
-        this.chessboard = new ChessBoardComponent(chessboardWrapper, [...piecesArray], chessboard.board);
 
         const opponentScoreWrapper = document.createElement('div');
         opponentScoreWrapper.classList.add(styles.wrapperOpponent);
@@ -75,7 +64,7 @@ export class Game {
         footerWrapper.appendChild(footerImage.element);
 
         wrapper.append(
-            chessboardWrapper,
+            this.gameBoardView,
             opponentScoreWrapper,
             playerScoreWrapper,
             previousMovesWrapper,
