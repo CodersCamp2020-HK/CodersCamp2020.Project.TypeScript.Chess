@@ -1,8 +1,13 @@
-@use '../../../styles/colors';
 @use '../../../styles/typography';
+@use '../../../styles/colors';
+@use '../../../styles/common';
+
+//box-shadow: inset 0px 0px 16px 0px colors.$blue, 0px 0px 16px 0px colors.$blue;
+
 .radio {
     box-sizing: border-box;
     margin: 0px;
+    display: block;
     position: relative;
     top: 0;
     left: 0;
@@ -13,7 +18,10 @@
     margin-bottom: 5px;
 }
 
-.radio::before {
+.radio:not(:checked):hover {
+   cursor: pointer;
+
+   .radio:not(:checked)::before {
     box-sizing: border-box;
     margin: 0px;
     content: '';
@@ -27,6 +35,41 @@
     left: 0;
     right: 0;
     bottom: 0;
+    box-shadow: inset 0px 0px 8px 0px colors.$blue, 0px 0px 16px 0px colors.$blue;
+}
+}
+
+.radio:checked::before {
+    box-sizing: border-box;
+    margin: 0px;
+    content: '';
+    visibility: visible;
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border: 2px solid colors.$blue;
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.radio:not(:checked)::before {
+    box-sizing: border-box;
+    margin: 0px;
+    content: '';
+    visibility: visible;
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border: 2px solid colors.$blue;
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    //box-shadow: inset 0px 0px 8px 0px colors.$blue, 0px 0px 16px 0px colors.$blue;
 }
 
 .radio:checked::after {
