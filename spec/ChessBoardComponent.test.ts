@@ -143,7 +143,7 @@ describe('ChessBoard Component', () => {
     describe('removeTileClassList', () => {
         test('should given tile has classlist without removed classes', () => {
             chessboard.addTileClassList({ x: 5, y: 0 }, ['qwe', 'asd']);
-            chessboard.clearTileClassList({ x: 5, y: 0 }, ['qwe', 'blackTile']);
+            chessboard.removeTileClassList({ x: 5, y: 0 }, ['qwe', 'blackTile']);
             expect(chessboard.tiles[5][0]?.classList.length).toBe(2);
             expect(chessboard.tiles[5][0]?.classList.contains('blackTile')).toBe(false);
             expect(chessboard.tiles[5][0]?.classList.contains('qwe')).toBe(false);

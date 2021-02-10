@@ -1,5 +1,6 @@
 import { Cord } from './basicChessTypes';
 import { ChessBoardView } from './IChessBoard';
+import { Side } from './basicChessTypes';
 
 export enum ChessBoardSquareDisplayType {
     Normal,
@@ -14,7 +15,7 @@ export enum ChessBoardSquareDisplayType {
     Stealemate,
 }
 
-interface CordWithDisplayType extends Cord {
+export interface CordWithDisplayType extends Cord {
     display: ChessBoardSquareDisplayType;
 }
 
@@ -25,7 +26,7 @@ export type OnClickHandler = (cord: Readonly<Cord>) => void;
 export interface IChessBoardPresenter {
     readonly element: HTMLElement;
     render(chessBoard: ChessBoardView): void;
-    markFields(fields: ReadonlyMovesWithDisplayType): void;
+    markFields(fields: ReadonlyMovesWithDisplayType, side: Side): void;
     clearMarkedFields(fields?: readonly Readonly<Cord>[]): void;
     onHover(callback: OnHoverHandler): void;
     onClick(callback: OnClickHandler): void;

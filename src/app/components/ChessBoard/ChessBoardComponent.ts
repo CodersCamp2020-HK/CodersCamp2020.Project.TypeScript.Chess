@@ -105,7 +105,7 @@ export class ChessBoardComponent {
     clearTileClassList(cord: Cord): void {
         const selectedTile = this._tiles[cord.x][cord.y];
         if (selectedTile !== null) {
-            selectedTile.className = '';
+            selectedTile.className = `${selectedTile.classList[0]} ${selectedTile.classList[1]}`;
         }
     }
 

@@ -114,10 +114,10 @@ $board__size: 30vw;
         position: relative;
     }
 
-    &.castlingRight::after {
+    &.castlingRight::before {
         background-image: url('./images/blackSide/arrow-right.svg');
         background-position: 100% 95%;
-        background-size: 30%;
+        background-size: 40%;
         background-repeat: repeat-x;
         position: absolute;
         top: 0;
@@ -133,8 +133,8 @@ $board__size: 30vw;
 
     &.castlingLeft::after {
         background-image: url('./images/blackSide/arrow-left.svg');
-        background-position: 100% 95%;
-        background-size: 30%;
+        background-position: 100% 0%;
+        background-size: 40%;
         background-repeat: repeat-x;
         position: absolute;
         top: 0;

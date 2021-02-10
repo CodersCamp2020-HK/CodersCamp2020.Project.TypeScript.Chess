@@ -4,23 +4,26 @@ import {
     ReadonlyMovesWithDisplayType,
     OnHoverHandler,
     OnClickHandler,
-    ChessBoardSquareDisplayType
+    ChessBoardSquareDisplayType,
 } from '../../domain/IPresenter';
 import { ChessBoardComponent } from '../ChessBoard/ChessBoardComponent';
 import styles from '../game/Game.module.scss';
 import boardStyles from '../ChessBoard/chess.module.scss';
 import { ChessBoard } from '../../infrastructure/ChessBoard';
 import { piecesArray } from '../PiecesElements/piecesElements';
-import { Cord } from '../../domain/basicChessTypes';
-import styles from '../ChessBoard/chess.module.scss';
+import { Cord, allBoardCords } from '../../domain/basicChessTypes';
+import { Side } from '../../domain/basicChessTypes';
 
-
-const displayToStyle = new Map([
-    [ChessBoardSquareDisplayType.],
-    [ChessBoardSquareDisplayType.Castling, styles.castling]
+const displayToStyle = new Map<ChessBoardSquareDisplayType, string>([
+    [ChessBoardSquareDisplayType.Normal, boardStyles.possibleMove],
+    [ChessBoardSquareDisplayType.Move, boardStyles.possibleMoveHover],
+    [ChessBoardSquareDisplayType.Selected, boardStyles.selected],
+    [ChessBoardSquareDisplayType.Capture, boardStyles.capture],
+    [ChessBoardSquareDisplayType.Castling, boardStyles.possibleMoveHover],
+    [ChessBoardSquareDisplayType.EnPassant, boardStyles.enPassant],
 ]);
 
-class ChessBoardPresenter implements IChessBoardPresenter {
+export class ChessBoardPresenter implements IChessBoardPresenter {
     private chessboardComponent: ChessBoardComponent;
     private chessboardWrapper: HTMLDivElement;
 
@@ -35,17 +38,109 @@ class ChessBoardPresenter implements IChessBoardPresenter {
         this.chessboardComponent.renderBoard(chessBoard);
     }
 
-    markFields(fields: ReadonlyMovesWithDisplayType): void {}
+    markFields(fields: ReadonlyMovesWithDisplayType, side: Side): void {
+        const currentColorToAdd = side == Side.White ? boardStyles.opponent : boardStyles.player;
+        fields.forEach((field) => {
+            const cssClass = displayToStyle.get(field.display);
 
-    clearMarkedFields(fields?: readonly Readonly<Cord>[]): void {}
+            if (cssClass !== undefined) {
+                this.chessboardComponent.addTileClassList({ x: field.x, y: field.y }, [currentColorToAdd, cssClass]);
+            }
+        });
 
-    onHover(callback: OnHoverHandler): void {}
+        const castlingFields = fields.filter((x) => x.display === ChessBoardSquareDisplayType.Castling);
+        for (const field of castlingFields) {
+            if (field.x == 0 && field.y == 2) {
+                const leftArrows: Cord[] = [
+                    { x: 0, y: 2 },
+                    { x: 0, y: 3 },
+                    { x: 0, y: 4 },
+                ];
+                leftArrows.forEach((cord) =>
+                    this.chessboardComponent.addTileClassList(cord, [currentColorToAdd, boardStyles.castlingLeft]),
+                );
+                const rightArrows: Cord[] = [
+                    { x: 0, y: 0 },
+                    { x: 0, y: 1 },
+                    { x: 0, y: 2 },
+                    { x: 0, y: 3 },
+                ];
+                rightArrows.forEach((cord) =>
+                    this.chessboardComponent.addTileClassList(cord, [currentColorToAdd, boardStyles.castlingRight]),
+                );
+            }
 
-    onClick(callback: OnClickHandler): void {}
+            if (field.x == 0 && field.y == 6) {
+                const leftArrows: Cord[] = [
+                    { x: 0, y: 5 },
+                    { x: 0, y: 6 },
+                    { x: 0, y: 7 },
+                ];
+                leftArrows.forEach((cord) =>
+                    this.chessboardComponent.addTileClassList(cord, [currentColorToAdd, boardStyles.castlingLeft]),
+                );
+                const rightArrows: Cord[] = [
+                    { x: 0, y: 4 },
+                    { x: 0, y: 5 },
+                    { x: 0, y: 6 },
+                ];
+                rightArrows.forEach((cord) =>
+                    this.chessboardComponent.addTileClassList(cord, [currentColorToAdd, boardStyles.castlingRight]),
+                );
+            }
+
+            if (field.x == 7 && field.y == 2) {
+                const leftArrows: Cord[] = [
+                    { x: 7, y: 2 },
+                    { x: 7, y: 3 },
+                    { x: 7, y: 4 },
+                ];
+                leftArrows.forEach((cord) =>
+                    this.chessboardComponent.addTileClassList(cord, [currentColorToAdd, boardStyles.castlingLeft]),
+                );
+                const rightArrows: Cord[] = [
+                    { x: 7, y: 0 },
+                    { x: 7, y: 1 },
+                    { x: 7, y: 2 },
+                    { x: 7, y: 3 },
+                ];
+                rightArrows.forEach((cord) =>
+                    this.chessboardComponent.addTileClassList(cord, [currentColorToAdd, boardStyles.castlingRight]),
+                );
+            }
+
+            if (field.x == 0 && field.y == 6) {
+                const leftArrows: Cord[] = [
+                    { x: 7, y: 5 },
+                    { x: 7, y: 6 },
+                    { x: 7, y: 7 },
+                ];
+                leftArrows.forEach((cord) =>
+                    this.chessboardComponent.addTileClassList(cord, [currentColorToAdd, boardStyles.castlingLeft]),
+                );
+                const rightArrows: Cord[] = [
+                    { x: 7, y: 4 },
+                    { x: 7, y: 5 },
+                    { x: 7, y: 6 },
+                ];
+                rightArrows.forEach((cord) =>
+                    this.chessboardComponent.addTileClassList(cord, [currentColorToAdd, boardStyles.castlingRight]),
+                );
+            }
+        }
+    }
+
+    clearMarkedFields(fields?: readonly Readonly<Cord>[]): void {
+        const cordsToClear = fields ?? allBoardCords;
+        for (const cord of cordsToClear) {
+            this.chessboardComponent.clearTileClassList(cord);
+        }
+    }
 
     get element(): HTMLElement {
         return this.chessboardWrapper;
     }
-}
 
-export { ChessBoardPresenter };
+    onHover(callback: OnHoverHandler): void { }
+    onClick(callback: OnClickHandler): void { }
+}
