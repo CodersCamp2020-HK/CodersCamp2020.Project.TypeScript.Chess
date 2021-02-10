@@ -10,6 +10,7 @@ import {
     getPossibleMovesForQueen,
     getPossibleMovesForRook,
 } from '../utils/Moves';
+import _ from 'lodash';
 
 export class ChessEngine implements IChessEngine {
     getMovesByPiece: Map<PieceType, (cord: Cord, boardState: IChessBoard) => CordWithMoveType[]>;
@@ -33,11 +34,16 @@ export class ChessEngine implements IChessEngine {
         if (!piece) {
             return [];
         }
-        if (piece.figType === PieceType.Pawn && previousBoardState)
+        if (piece.figType === PieceType.Pawn && previousBoardState) {
             return getPossibleMovesForPawn(cord, boardState, previousBoardState);
+        }
         const handler = this.getMovesByPiece.get(piece.figType);
         if (!handler) {
             return [];
+        }
+        if (piece.figType === PieceType.King) {
+            const moves = handler(cord, boardState);
+            return this.excludeMovesOnAttackedSquaresForKing(piece.cord, moves, boardState);
         }
         return handler(cord, boardState);
     }
@@ -64,5 +70,22 @@ export class ChessEngine implements IChessEngine {
     }
     isStealemate(boardState: IChessBoard, side: Side): boolean {
         throw new Error('Method not implemented.');
+    }
+
+    excludeMovesOnAttackedSquaresForKing(
+        pieceCord: Cord,
+        possibleMoves: CordWithMoveType[],
+        boardState: IChessBoard,
+    ): CordWithMoveType[] {
+        const copiedBoardState = _.cloneDeep(boardState);
+        const king = copiedBoardState.getPiece(pieceCord);
+        if (!king) throw new Error('Król zbiegł z pola bitwy');
+
+        const result: CordWithMoveType[] = possibleMoves.filter((move) => {
+            copiedBoardState.makeMove(king, { x: move.x, y: move.y });
+            return !this.isCheck(copiedBoardState, king.side);
+        });
+
+        return result;
     }
 }
