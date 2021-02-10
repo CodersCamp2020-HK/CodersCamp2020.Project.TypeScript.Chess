@@ -17,10 +17,10 @@ const App = (): void => {
         ['.', '.', '.', '.', '.', '.', '.', '.'],
         ['.', '.', '.', '.', '.', '.', '.', '.'],
     ];
+    const presenter: IChessBoardPresenter = new ChessBoardPresenter();
     const gameController = new GameController();
     const board = convertEmojiToRep(emojiBoard);
 
-    const presenter: IChessBoardPresenter = new ChessBoardPresenter();
     const game = new Game(presenter.element);
     document.body.append(game.element);
     const board2 = new ChessBoard();
