@@ -10,7 +10,7 @@ interface Data {
 
 export class Radios {
     private _currentSelected: Data;
-    _element: HTMLDivElement;
+    private _element: HTMLDivElement;
     private _radios: HTMLInputElement[] = [];
     private _labels: HTMLLabelElement[] = [];
     private _options: HTMLDivElement[] = [];
@@ -87,7 +87,6 @@ export class Radios {
                 if (foundedData) {
                     this._currentSelected = foundedData;
                 }
-                console.log(this._currentSelected);
             });
 
             this._radios.push(radio);
@@ -117,5 +116,13 @@ export class Radios {
             container.classList.add(styles.option);
             this._options.push(container);
         });
+    }
+
+    get element(): HTMLDivElement {
+        return this._element;
+    }
+
+    get currentSelected(): Data {
+        return this._currentSelected;
     }
 }
