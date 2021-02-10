@@ -2,8 +2,13 @@
 @use '../../../styles/typography';
 @use '../../../styles/common';
 
+.wrapper {
+    border: 1px solid colors.$yellow;
+}
+
 .listItem {
     @extend %p;
+    color: colors.$yellow;
 }
 
 .player {
