@@ -1,0 +1,15 @@
+@use '../../../styles/colors';
+@use '../../../styles/typography';
+@use '../../../styles/common';
+
+.listItem {
+    @extend %p;
+}
+
+.player {
+    color: colors.$red;
+}
+
+.opponent {
+    color: colors.$blue;
+}
