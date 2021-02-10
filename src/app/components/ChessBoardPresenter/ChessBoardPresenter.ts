@@ -9,10 +9,10 @@ import {
 import { ChessBoardComponent } from '../ChessBoard/ChessBoardComponent';
 import styles from '../game/Game.module.scss';
 import boardStyles from '../ChessBoard/chess.module.scss';
-import { ChessBoard } from '../../infrastructure/ChessBoard';
 import { piecesArray } from '../PiecesElements/piecesElements';
 import { Cord, allBoardCords } from '../../domain/basicChessTypes';
 import { Side } from '../../domain/basicChessTypes';
+import { ChessBoardDomInputDevice } from './ChessBoardDomInputDevice';
 
 const displayToStyle = new Map<ChessBoardSquareDisplayType, string>([
     [ChessBoardSquareDisplayType.Normal, boardStyles.possibleMove],
@@ -26,15 +26,25 @@ const displayToStyle = new Map<ChessBoardSquareDisplayType, string>([
 export class ChessBoardPresenter implements IChessBoardPresenter {
     private chessboardComponent: ChessBoardComponent;
     private chessboardWrapper: HTMLDivElement;
+    private inputDevice: ChessBoardDomInputDevice;
 
-    constructor(chessboard: IChessBoard) {
+    constructor(chessboard: ChessBoardView) {
         this.chessboardWrapper = document.createElement('div');
         this.chessboardWrapper.classList.add(styles.wrapperChessboard, boardStyles.boardWrapper);
-        this.chessboardComponent = new ChessBoardComponent(this.chessboardWrapper, [...piecesArray], chessboard.board);
+        this.chessboardComponent = new ChessBoardComponent(this.chessboardWrapper, [...piecesArray], chessboard);
+        this.inputDevice = new ChessBoardDomInputDevice(this.chessboardComponent);
+    }
+    onHover(callback: OnHoverHandler): void {
+        this.inputDevice.onHover(callback);
+    }
+
+    onClick(callback: OnClickHandler): void {
+        this.inputDevice.onClick(callback);
     }
 
     render(chessBoard: ChessBoardView): void {
         this.chessboardComponent.renderBoard(chessBoard);
+        this.inputDevice.update();
     }
 
     markFields(fields: ReadonlyMovesWithDisplayType, side: Side): void {
@@ -139,8 +149,4 @@ export class ChessBoardPresenter implements IChessBoardPresenter {
     get element(): HTMLElement {
         return this.chessboardWrapper;
     }
-
-    onHover(callback: OnHoverHandler): void {}
-
-    onClick(callback: OnClickHandler): void {}
 }

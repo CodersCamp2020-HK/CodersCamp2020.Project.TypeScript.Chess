@@ -12,6 +12,7 @@ export const possibleMoveHover: string;
 export const capture: string;
 export const enPasant: string;
 export const castlingRight: string;
+export const forward: string;
 export const castlingLeft: string;
 export const opponent: string;
 export const enPassant: string;
