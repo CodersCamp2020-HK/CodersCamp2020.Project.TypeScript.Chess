@@ -53,7 +53,6 @@ export class Radios {
             radio.addEventListener('mouseover', () => {
                 const current = radio;
                 if (!current.checked) {
-                    console.log('asd');
                     pseudoStyle(current, 'before', 'content', '');
                     pseudoStyle(
                         current,
@@ -78,13 +77,19 @@ export class Radios {
                 }
             });
 
-            radio.addEventListener('click', () => {
+            radio.addEventListener('change', () => {
                 const current = radio;
                 if (current.checked) {
                     pseudoStyle(current, 'before', 'content', '');
                     pseudoStyle(current, 'before', 'box-shadow', 'none');
                 }
+                const foundedData = this._data.find((el) => el.value == radio.value);
+                if (foundedData) {
+                    this._currentSelected = foundedData;
+                }
+                console.log(this._currentSelected);
             });
+
             this._radios.push(radio);
         });
     }
