@@ -1,0 +1,79 @@
+@use '../../../../styles/colors';
+@use '../../../../styles/common';
+@use '../../../../styles/typography';
+
+body{
+   width:100vw;
+   height:100vh;
+   background-color: turquoise;
+}
+
+.modal {
+  background-color: red;
+  width: 500px;
+  height: 500px;
+  @extend %border-modal;
+
+  &.box{
+   background-color: black;
+   border-radius: 5px;
+   box-sizing: border-box;
+   padding: 2px;
+   width:30px;
+   height:30px;
+  }
+
+  &.player {
+    &.rook {
+       background-image:url("../../../../assets/UI/pieces/Rook.svg");
+       background-position:center;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+    &.knight {
+      background-image:url("../../../../assets/UI/pieces/Rook.svg");
+      background-position:center;
+     background-repeat: no-repeat;
+     background-size: contain;
+    &.queen {
+      background-image:url("../../../../assets/UI/pieces/Rook.svg");
+      background-position:center;
+     background-repeat: no-repeat;
+     background-size: contain;
+    }
+    &.bishop {
+      background-image:url("../../../../assets/UI/pieces/Rook.svg");
+      background-position:center;
+     background-repeat: no-repeat;
+     background-size: contain;
+    }
+  }
+
+  &.opponent {
+   &.rook {
+      background-image:url("../../../../assets/UI/pieces/Rook.svg");
+      background-position:center;
+     background-repeat: no-repeat;
+     background-size: contain;
+   }
+   &.knight {
+      background-image:url("../../../../assets/UI/pieces/Rook.svg");
+      background-position:center;
+     background-repeat: no-repeat;
+     background-size: contain;
+   }
+   &.queen {
+      background-image:url("../../../../assets/UI/pieces/Rook.svg");
+      background-position:center;
+     background-repeat: no-repeat;
+     background-size: contain;
+   }
+   &.bishop {
+      background-image:url("../../../../assets/UI/pieces/Rook.svg");
+      background-position:center;
+     background-repeat: no-repeat;
+     background-size: contain;
+   }
+ }
+  }
+}
