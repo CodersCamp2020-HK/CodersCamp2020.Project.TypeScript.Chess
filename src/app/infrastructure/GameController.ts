@@ -118,47 +118,4 @@ export class GameController {
             );
         }
     }
-
-    // handleOnClick(cord: Cord): void {
-    //     const piece = this.chessboardState.getPiece(cord);
-    //     if (piece && piece.side === this.currentTurn) {
-    //         this.chessboardPresenter.clearMarkedFields();
-    //         this.pieceIsSelected = !this.pieceIsSelected;
-    //         this.currentSelectedPiece = piece;
-    //         // this.chessboardPresenter.clearMarkedFields();
-    //         this.chessboardPresenter.markFields(
-    //             [{ x: piece.cord.x, y: piece.cord.y, display: ChessBoardSquareDisplayType.Selected }],
-    //             this.currentTurn,
-    //         );
-    //     } else if (this.pieceIsSelected && this.currentSelectedPiece) {
-    //         if (this.hasMove(cord)) {
-    //             this.chessboardState.makeMove(this.currentSelectedPiece, cord);
-    //             this.currentTurn = this.currentTurn === Side.Black ? Side.White : Side.Black;
-    //             this.turnCounter++;
-    //             this.updateTimer();
-    //             // if (this.chessEngine.isCheckmate(this.chessboardState, this.currentTurn)) {
-    //             //     const winner = this.currentTurn === Side.Black ? Score.WhiteWon : Score.BlackWon;
-    //             //     this.onEndGame(winner);
-    //             //     this.blackTimer.stop();
-    //             //     this.whiteTimer.stop();
-    //             // }
-    //             // if (this.chessEngine.isStealemate(this.chessboardState, this.currentTurn)) {
-    //             //     this.onEndGame(Score.Draw);
-    //             //     this.blackTimer.stop();
-    //             //     this.whiteTimer.stop();
-    //             // }
-    //             if (this.chessEngine.isCheck(this.chessboardState, this.currentTurn)) {
-    //                 this.chessboardPresenter.markFields(
-    //                     [{ x: 0, y: 0, display: ChessBoardSquareDisplayType.Check }],
-    //                     this.currentTurn,
-    //                 );
-    //             }
-    //         }
-    //         this.chessboardPresenter.render(this.chessboardState.board);
-    //         this.updateGameState();
-    //         this.chessboardPresenter.clearMarkedFields();
-    //         this.currentSelectedPiece = null;
-    //         this.pieceIsSelected = false;
-    //     }
-    // }
 }
