@@ -2,11 +2,12 @@ import { getCapturedPieceNames } from '../utils/CapturedPieces';
 import { ChessBoardView, IChessBoard } from '../domain/IChessBoard';
 import _ from 'lodash';
 import { CordWithMoveType, MoveType, Piece, PieceType, Side } from '../domain/basicChessTypes';
+import { IChessEngine } from '../domain/IChessEngine';
 
 export class GameState {
     private __capturedPieces: { white: string[]; black: string[] }[] = [];
     private __previousBoards: ChessBoardView[] = [];
-    private __previousMoves: { white: string[]; black: string[] }[] = [];
+    private __previousMoves: { white: string; black: string }[] = [{ white: '', black: '' }];
 
     public get capturedPieces(): { white: string[]; black: string[] }[] {
         return this.__capturedPieces;
@@ -16,7 +17,7 @@ export class GameState {
         return this.__previousBoards;
     }
 
-    public get previousMoves(): { white: string[]; black: string[] }[] {
+    public get previousMoves(): { white: string; black: string }[] {
         return this.__previousMoves;
     }
 
@@ -32,7 +33,23 @@ export class GameState {
         this.__previousBoards.push(_.cloneDeep(chessboard));
     }
 
-    updatePreviousMoves(piece: Piece, moveTo: CordWithMoveType): void {
+    updatePreviousMoves(
+        piece: Piece,
+        moveTo: CordWithMoveType,
+        chessEngine: IChessEngine,
+        chessboard: IChessBoard,
+    ): void {
+        const move = [];
+        const convertCordToLetter = new Map([
+            [0, 'a'],
+            [1, 'b'],
+            [2, 'c'],
+            [3, 'd'],
+            [4, 'e'],
+            [5, 'f'],
+            [6, 'g'],
+            [7, 'h'],
+        ]);
         const convertPieceToString = new Map([
             [PieceType.Pawn, 'P'],
             [PieceType.Bishop, 'B'],
@@ -44,7 +61,46 @@ export class GameState {
         const covnertMoveType = new Map([
             [MoveType.NormalMove, ''],
             [MoveType.Capture, 'x'],
-            [MoveType.Promotion, '='],
+            [MoveType.EnPassant, 'x'],
+            [MoveType.Promotion, ''],
         ]);
+        const lastIndex = this.__previousMoves.length - 1;
+        if (this.__previousMoves[lastIndex].white.length > 0 && this.__previousMoves[lastIndex].black.length > 0) {
+            this.__previousMoves.push({ white: '', black: '' });
+        }
+        if (!piece) throw new Error('Piece not provided.');
+        const pieceLetter = convertPieceToString.get(piece.figType);
+        const cordFromLetter = convertCordToLetter.get(piece.cord.x);
+        const cordToLetter = convertCordToLetter.get(moveTo.x);
+        if (pieceLetter && cordFromLetter && cordToLetter) {
+            move.push(pieceLetter, cordFromLetter, piece.cord.y + 1, cordToLetter, moveTo.y + 1);
+        }
+        const algebraicMoveType = covnertMoveType.get(moveTo.moveType);
+        if (algebraicMoveType) move.push(algebraicMoveType);
+        const enemySide = piece.side === Side.Black ? Side.White : Side.Black;
+        if (chessEngine.isCheckmate(chessboard, enemySide)) {
+            move.push('#');
+            const joinedMove = move.join();
+            piece.side === Side.White
+                ? (this.__previousMoves[lastIndex].white = joinedMove)
+                : (this.__previousMoves[lastIndex].black = joinedMove);
+            return;
+        }
+        if (chessEngine.isStealemate(chessboard, enemySide)) {
+            piece.side === Side.White
+                ? (this.__previousMoves[lastIndex].white = '½-½')
+                : (this.__previousMoves[lastIndex].black = '½-½');
+            return;
+        }
+        if (chessEngine.isCheck(chessboard, enemySide)) {
+            move.push('+');
+            const joinedMove = move.join();
+            piece.side === Side.White
+                ? (this.__previousMoves[lastIndex].white = joinedMove)
+                : (this.__previousMoves[lastIndex].black = joinedMove);
+        }
+        if (moveTo.moveType === MoveType.Castling) {
+            moveTo.x === 6 ? move.push('0-0') : move.push('0-0-0');
+        }
     }
 }
