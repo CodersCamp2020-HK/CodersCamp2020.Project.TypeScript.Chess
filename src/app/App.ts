@@ -29,9 +29,27 @@ const App = (): void => {
         { x: 5, y: 2, display: ChessBoardSquareDisplayType.Normal },
     ];
     presenter.markFields(cords, Side.Black);
+
     window.setTimeout(() => {
-        presenter.clearMarkedFields();
+        presenter.onClick((cord) => {
+            presenter.clearMarkedFields();
+            presenter.markFields([{ ...cord, display: ChessBoardSquareDisplayType.Move }], Side.Black);
+            console.log(`Click on (${cord.x}, ${cord.y})`);
+        });
+        presenter.onHover((cord) => {
+            presenter.clearMarkedFields();
+            presenter.markFields([{ ...cord, display: ChessBoardSquareDisplayType.Normal }], Side.Black);
+            console.log(`Hover on (${cord.x}, ${cord.y})`);
+        });
     }, 5000);
+
+    window.setTimeout(() => {
+        presenter.render(board);
+    }, 10000);
+
+    window.setTimeout(() => {
+        presenter.render(board2.board);
+    }, 20000);
 };
 
 export default App;

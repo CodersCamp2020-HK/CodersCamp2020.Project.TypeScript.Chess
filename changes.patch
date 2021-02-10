@@ -1,0 +1,446 @@
+diff --git a/src/app/App.ts b/src/app/App.ts
+index 3ed885e..6f8634b 100644
+--- a/src/app/App.ts
++++ b/src/app/App.ts
+@@ -29,9 +29,27 @@ const App = (): void => {
+         { x: 5, y: 2, display: ChessBoardSquareDisplayType.Normal },
+     ];
+     presenter.markFields(cords, Side.Black);
++
+     window.setTimeout(() => {
+-        presenter.clearMarkedFields();
++        presenter.onClick((cord) => {
++            presenter.clearMarkedFields();
++            presenter.markFields([{ ...cord, display: ChessBoardSquareDisplayType.Move }], Side.Black);
++            console.log(`Click on (${cord.x}, ${cord.y})`);
++        });
++        presenter.onHover((cord) => {
++            presenter.clearMarkedFields();
++            presenter.markFields([{ ...cord, display: ChessBoardSquareDisplayType.Normal }], Side.Black);
++            console.log(`Hover on (${cord.x}, ${cord.y})`);
++        });
+     }, 5000);
++
++    window.setTimeout(() => {
++        presenter.render(board);
++    }, 10000);
++
++    window.setTimeout(() => {
++        presenter.render(board2.board);
++    }, 20000);
+ };
+ 
+ export default App;
+diff --git a/src/app/app.scss b/src/app/app.scss
+index f36978d..0753751 100644
+--- a/src/app/app.scss
++++ b/src/app/app.scss
+@@ -5,4 +5,3 @@
+     padding: 0;
+     box-sizing: border-box;
+ }
+-
+diff --git a/src/app/components/ChessBoard/chess.module.scss b/src/app/components/ChessBoard/chess.module.scss
+index 9be0b43..d88b575 100644
+--- a/src/app/components/ChessBoard/chess.module.scss
++++ b/src/app/components/ChessBoard/chess.module.scss
+@@ -11,6 +11,7 @@ $board__size: 30vw;
+         '. horizontal';
+     grid-template-columns: 1fr $board__size;
+     grid-template-rows: $board__size 1fr;
++    user-select: none;
+ }
+ 
+ .board {
+@@ -117,7 +118,7 @@ $board__size: 30vw;
+     &.castlingRight::before {
+         background-image: url('./images/blackSide/arrow-right.svg');
+         background-position: 100% 95%;
+-        background-size: 40%;
++        background-size: 35%;
+         background-repeat: repeat-x;
+         position: absolute;
+         top: 0;
+@@ -125,16 +126,36 @@ $board__size: 30vw;
+         bottom: 0;
+         left: 0;
+         content: '';
++        animation: forward 1s linear 0s infinite reverse;
+     }
+ 
+     &.castlingLeft {
+         position: relative;
+     }
+ 
++    @keyframes forward {
++        0% {
++            transform: translateX(0px);
++            opacity: 1;
++        }
++        50% {
++            transform: translateX(-10px);
++            opacity: 0;
++        }
++        51% {
++            transform: translateX(10px);
++            opacity: 0;
++        }
++        100% {
++            transform: translateX(0px);
++            opacity: 1;
++        }
++    }
++
+     &.castlingLeft::after {
+         background-image: url('./images/blackSide/arrow-left.svg');
+         background-position: 100% 0%;
+-        background-size: 40%;
++        background-size: 35%;
+         background-repeat: repeat-x;
+         position: absolute;
+         top: 0;
+@@ -142,6 +163,7 @@ $board__size: 30vw;
+         bottom: 0;
+         left: 0;
+         content: '';
++        animation: forward 1s linear 0s infinite normal;
+     }
+ }
+ 
+@@ -213,4 +235,4 @@ $board__size: 30vw;
+ .selected {
+     border-style: double;
+     border-width: 6px;
+-}
+\ No newline at end of file
++}
+diff --git a/src/app/components/ChessBoard/chess.module.scss.d.ts b/src/app/components/ChessBoard/chess.module.scss.d.ts
+index fdf00a5..5e87baa 100644
+--- a/src/app/components/ChessBoard/chess.module.scss.d.ts
++++ b/src/app/components/ChessBoard/chess.module.scss.d.ts
+@@ -12,6 +12,7 @@ export const possibleMoveHover: string;
+ export const capture: string;
+ export const enPasant: string;
+ export const castlingRight: string;
++export const forward: string;
+ export const castlingLeft: string;
+ export const opponent: string;
+ export const enPassant: string;
+diff --git a/src/app/components/ChessBoard/images/blackSide/arrow-left.svg b/src/app/components/ChessBoard/images/blackSide/arrow-left.svg
+index 3081e48..de34be6 100644
+--- a/src/app/components/ChessBoard/images/blackSide/arrow-left.svg
++++ b/src/app/components/ChessBoard/images/blackSide/arrow-left.svg
+@@ -1 +1 @@
+-<svg width="2048" height="2048" viewBox="0 0 2048 2048" xmlns="http://www.w3.org/2000/svg"><path  fill="#FD6059" d="M1331 672q0 13-10 23l-393 393 393 393q10 10 10 23t-10 23l-50 50q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l50 50q10 10 10 23z"/></svg>
+\ No newline at end of file
++<svg width="2048" height="2048" viewBox="0 0 2048 2048" xmlns="http://www.w3.org/2000/svg"><path  fill="#FFFF00" d="M1331 672q0 13-10 23l-393 393 393 393q10 10 10 23t-10 23l-50 50q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l50 50q10 10 10 23z"/></svg>
+\ No newline at end of file
+diff --git a/src/app/components/ChessBoardPresenter/ChessBoardDomInputDevice.ts b/src/app/components/ChessBoardPresenter/ChessBoardDomInputDevice.ts
+new file mode 100644
+index 0000000..a49d0f0
+--- /dev/null
++++ b/src/app/components/ChessBoardPresenter/ChessBoardDomInputDevice.ts
+@@ -0,0 +1,56 @@
++import { allBoardCords } from '../../domain/basicChessTypes';
++import { OnClickHandler, OnHoverHandler } from '../../domain/IPresenter';
++import { ChessBoardComponent } from '../ChessBoard/ChessBoardComponent';
++
++export class ChessBoardDomInputDevice {
++    private onHoverHandler?: OnHoverHandler;
++    private onHoverHandlers: (() => void)[] = [...Array(allBoardCords.length)];
++
++    private onClickHandler?: OnHoverHandler;
++    private onClickHandlers: (() => void)[] = [...Array(allBoardCords.length)];
++
++    constructor(private chessboardComponent: ChessBoardComponent) { }
++
++    onHover(callback: OnHoverHandler): void {
++        if (this.onHoverHandler) {
++            this.unregisterCallbacks('mouseover');
++        }
++        this.onHoverHandler = callback;
++        this.registerCallbacks('mouseover');
++    }
++
++    onClick(callback: OnClickHandler): void {
++        if (this.onClickHandler) {
++            this.unregisterCallbacks('click');
++        }
++        this.onClickHandler = callback;
++        this.registerCallbacks('click');
++    }
++
++    update(): void {
++        if (this.onHoverHandler) {
++            this.registerCallbacks('mouseover');
++        }
++        if (this.onClickHandler) {
++            this.registerCallbacks('click');
++        }
++    }
++
++    private registerCallbacks(name: 'click' | 'mouseover') {
++        let i = 0;
++        const handlers = name === 'click' ? this.onClickHandlers : this.onHoverHandlers;
++        for (const cord of allBoardCords) {
++            const handler = name === 'click' ? () => this.onClickHandler?.(cord) : () => this.onHoverHandler?.(cord);
++            handlers[i++] = handler;
++            this.chessboardComponent.addTileEvent(cord, name, handler);
++        }
++    }
++
++    private unregisterCallbacks(name: 'click' | 'mouseover') {
++        let i = 0;
++        const handlers = name === 'click' ? this.onClickHandlers : this.onHoverHandlers;
++        for (const cord of allBoardCords) {
++            this.chessboardComponent.addTileEvent(cord, name, handlers[i++]);
++        }
++    }
++}
+diff --git a/src/app/components/ChessBoardPresenter/ChessBoardPresenter.ts b/src/app/components/ChessBoardPresenter/ChessBoardPresenter.ts
+index 24dee38..da36d30 100644
+--- a/src/app/components/ChessBoardPresenter/ChessBoardPresenter.ts
++++ b/src/app/components/ChessBoardPresenter/ChessBoardPresenter.ts
+@@ -13,6 +13,7 @@ import { ChessBoard } from '../../infrastructure/ChessBoard';
+ import { piecesArray } from '../PiecesElements/piecesElements';
+ import { Cord, allBoardCords } from '../../domain/basicChessTypes';
+ import { Side } from '../../domain/basicChessTypes';
++import { ChessBoardDomInputDevice } from './ChessBoardDomInputDevice';
+ 
+ const displayToStyle = new Map<ChessBoardSquareDisplayType, string>([
+     [ChessBoardSquareDisplayType.Normal, boardStyles.possibleMove],
+@@ -26,16 +27,26 @@ const displayToStyle = new Map<ChessBoardSquareDisplayType, string>([
+ export class ChessBoardPresenter implements IChessBoardPresenter {
+     private chessboardComponent: ChessBoardComponent;
+     private chessboardWrapper: HTMLDivElement;
++    private inputDevice: ChessBoardDomInputDevice;
+ 
+     constructor() {
+         this.chessboardWrapper = document.createElement('div');
+         const chessboard = ChessBoard.createNewBoard();
+         this.chessboardWrapper.classList.add(styles.wrapperChessboard, boardStyles.boardWrapper);
+         this.chessboardComponent = new ChessBoardComponent(this.chessboardWrapper, [...piecesArray], chessboard.board);
++        this.inputDevice = new ChessBoardDomInputDevice(this.chessboardComponent);
++    }
++    onHover(callback: OnHoverHandler): void {
++        this.inputDevice.onHover(callback);
++    }
++
++    onClick(callback: OnClickHandler): void {
++        this.inputDevice.onClick(callback);
+     }
+ 
+     render(chessBoard: ChessBoardView): void {
+         this.chessboardComponent.renderBoard(chessBoard);
++        this.inputDevice.update();
+     }
+ 
+     markFields(fields: ReadonlyMovesWithDisplayType, side: Side): void {
+@@ -140,7 +151,4 @@ export class ChessBoardPresenter implements IChessBoardPresenter {
+     get element(): HTMLElement {
+         return this.chessboardWrapper;
+     }
+-
+-    onHover(callback: OnHoverHandler): void { }
+-    onClick(callback: OnClickHandler): void { }
+ }
+diff --git a/src/app/components/game/Game.module.scss b/src/app/components/game/Game.module.scss
+index 2a0a53a..dfa45db 100644
+--- a/src/app/components/game/Game.module.scss
++++ b/src/app/components/game/Game.module.scss
+@@ -1,12 +1,12 @@
+- @use '../../../styles/common';
+- 
+- * {
++@use '../../../styles/common';
++
++* {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+ }
+ 
+- * {
++* {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+@@ -18,11 +18,13 @@
+     width: 100%;
+     display: flex;
+     flex-direction: column;
+-    color: #FBEC09;
++    color: #fbec09;
++    z-index: 1;
+ }
+ 
+-.container::before {
++.container::after {
+     @extend %background-photo-after;
++    z-index: -1;
+ }
+ 
+ .wrapper {
+@@ -33,11 +35,11 @@
+     grid-template-rows: repeat(4, auto);
+     row-gap: 10px;
+     column-gap: 30px;
+-    grid-template-areas: 
+-        "chessboard opponent"
+-        "chessboard player"
+-        "chessboard moves"
+-        "chessboard quit";
++    grid-template-areas:
++        'chessboard opponent'
++        'chessboard player'
++        'chessboard moves'
++        'chessboard quit';
+ }
+ 
+ .wrapper > * {
+@@ -72,4 +74,4 @@
+ .wrapperFooter {
+     grid-area: footer;
+     text-align: center;
+-}
+\ No newline at end of file
++}
+diff --git a/src/app/components/genericButton/Button.module.scss.d.ts b/src/app/components/genericButton/Button.module.scss.d.ts
+index 347105c..67536e3 100644
+--- a/src/app/components/genericButton/Button.module.scss.d.ts
++++ b/src/app/components/genericButton/Button.module.scss.d.ts
+@@ -1 +1 @@
+-export const button: string;
++export const button: string;
+diff --git a/src/styles/_common.scss b/src/styles/_common.scss
+index 5dc2be4..14077fe 100644
+--- a/src/styles/_common.scss
++++ b/src/styles/_common.scss
+@@ -5,65 +5,87 @@
+ $mobileMax: 900px;
+ 
+ //Shadows
+-%shadow-blue-1{box-shadow: 0px 0px 20px #54BCE0;}
++%shadow-blue-1 {
++    box-shadow: 0px 0px 20px #54bce0;
++}
+ 
+-%shadow-blue-2{box-shadow: 0px 0px 12px #1EC8C8, 0px 0px 5px #1EC8C8, 0px 0px 2px #1EC8C8;}
++%shadow-blue-2 {
++    box-shadow: 0px 0px 12px #1ec8c8, 0px 0px 5px #1ec8c8, 0px 0px 2px #1ec8c8;
++}
+ 
+-%shadow-blue-focus{box-shadow: 0px 0px 40px #44E0DB, 0px 0px 20px #1EC8C8, 0px 0px 10px #1EC8C8, 0px 0px 4px #1EC8C8;}
++%shadow-blue-focus {
++    box-shadow: 0px 0px 40px #44e0db, 0px 0px 20px #1ec8c8, 0px 0px 10px #1ec8c8, 0px 0px 4px #1ec8c8;
++}
+ 
+-%shadow-blue-flat{box-shadow: 4px 2px 0px #44E0DB;}
++%shadow-blue-flat {
++    box-shadow: 4px 2px 0px #44e0db;
++}
+ 
+-%shadow-blue-flat-text{text-shadow: 2px 1.5px 0px #44E0DB;}
++%shadow-blue-flat-text {
++    text-shadow: 2px 1.5px 0px #44e0db;
++}
+ 
+-%shadow-blue-text{text-shadow:0px 0px 12px #1EC8C8, 0px 0px 5px #1EC8C8, 0px 0px 2px #1EC8C8;}
++%shadow-blue-text {
++    text-shadow: 0px 0px 12px #1ec8c8, 0px 0px 5px #1ec8c8, 0px 0px 2px #1ec8c8;
++}
+ 
+-%shadow-red-1{box-shadow: 0px 0px 20px #FF658A;}
++%shadow-red-1 {
++    box-shadow: 0px 0px 20px #ff658a;
++}
+ 
+-%shadow-red-2{box-shadow: 0px 0px 12px #FD6059, 0px 0px 5px #FD6059, 0px 0px 2px #FD6059;}
++%shadow-red-2 {
++    box-shadow: 0px 0px 12px #fd6059, 0px 0px 5px #fd6059, 0px 0px 2px #fd6059;
++}
+ 
+-%shadow-red-text{text-shadow:0px 0px 12px #FD6059, 0px 0px 5px #FD6059, 0px 0px 2px #FD6059;}
++%shadow-red-text {
++    text-shadow: 0px 0px 12px #fd6059, 0px 0px 5px #fd6059, 0px 0px 2px #fd6059;
++}
+ 
+-%shadow-yellow-1{box-shadow: 0px 0px 12px #FBEC09, 0px 0px 5px #DACE1A, 0px 0px 2px #DACE1A;}
++%shadow-yellow-1 {
++    box-shadow: 0px 0px 12px #fbec09, 0px 0px 5px #dace1a, 0px 0px 2px #dace1a;
++}
+ 
+-%shadow-yellow-text{text-shadow:0px 0px 12px #FBEC09, 0px 0px 5px #DACE1A, 0px 0px 2px #DACE1A;}
++%shadow-yellow-text {
++    text-shadow: 0px 0px 12px #fbec09, 0px 0px 5px #dace1a, 0px 0px 2px #dace1a;
++}
+ 
+ //Modals
+-%border-modal{
+-   border: 2px solid colors.$blue;
+-   border-radius: 20px;
++%border-modal {
++    border: 2px solid colors.$blue;
++    border-radius: 20px;
+ }
+ 
+ //Body
+-%background-gradient{
+-   background: linear-gradient(180deg, rgba(63, 221, 217, 0.15) 0%, rgba(0, 8, 12, 0.15) 32.54%), 
+-   linear-gradient(0deg, rgba(253, 96, 89, 0.15) 0%, rgba(0, 8, 12, 0.15) 37.72%), #00080C;
+-   border: 15px solid colors.$yellow;
+-   position: relative;
++%background-gradient {
++    background: linear-gradient(180deg, rgba(63, 221, 217, 0.15) 0%, rgba(0, 8, 12, 0.15) 32.54%),
++        linear-gradient(0deg, rgba(253, 96, 89, 0.15) 0%, rgba(0, 8, 12, 0.15) 37.72%), #00080c;
++    border: 15px solid colors.$yellow;
++    position: relative;
+ }
+ 
+ //Body::after
+ %background-photo-after {
+-   content: "";
+-   // background-image: url("../assets/UI/Background-cyber.jpg");
+-   background-image: url("/src/assets/UI/Background-cyber.jpg");
+-   background-size: cover;
+-   background-repeat: no-repeat;
+-   background-position: center;
+-   opacity: 0.15;
+-   position: absolute;
+-   top: 0;
+-   left: 0;
+-   bottom: 0;
+-   right: 0;
+-   width: 100%;
+-   height: 100%;
+- }
++    content: '';
++    // background-image: url("../assets/UI/Background-cyber.jpg");
++    background-image: url('/src/assets/UI/Background-cyber.jpg');
++    background-size: cover;
++    background-repeat: no-repeat;
++    background-position: center;
++    opacity: 0.15;
++    position: absolute;
++    top: 0;
++    left: 0;
++    bottom: 0;
++    right: 0;
++    width: 100%;
++    height: 100%;
++}
+ 
+ //  %header-image{ background-image: url('/src/assets/UI/Header.svg');}
+-%header-image{
+-   background-image: url("/src/assets/UI/Header.svg");
+-   background-size: cover;
+-   background-repeat: no-repeat;
+-   background-position: center;
+-   position: relative;
++%header-image {
++    background-image: url('/src/assets/UI/Header.svg');
++    background-size: cover;
++    background-repeat: no-repeat;
++    background-position: center;
++    position: relative;
+ }
