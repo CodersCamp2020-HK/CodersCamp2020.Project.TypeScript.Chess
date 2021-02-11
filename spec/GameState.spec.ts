@@ -103,7 +103,7 @@ describe(`Given: Starting chessboard: ${displayEmojiBoard(firstMoveEmojiBoard)}`
                 black: 'Pa7a6',
             },
         ];
-        it(`Then: array should be: ${JSON.stringify(expected, null, 4)}`, () => {
+        it(`Then: previous moves should be: ${JSON.stringify(expected, null, 4)}`, () => {
             const newChessboard = ChessBoard.createNewBoard();
             const gameState = new GameState();
             const chessEngine = new ChessEngine();
@@ -201,6 +201,52 @@ describe(`Given: Starting chessboard ${displayEmojiBoard(firstMoveEmojiBoard)}`,
         it('Then: previousBoards should contain 3 elements', () => {
             const actual = gameState.previousBoards.length;
             expect(actual).toBe(3);
+        });
+    });
+});
+
+const checkEmojiBoard = [
+    ['♜', '.', '.', '.', '.', '.', '♖', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '♔', '.', '.', '♖'],
+];
+const checkMoveEmojiBoard = [
+    ['.', '.', '.', '.', '.', '.', '♜', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '♖', '♔', '.'],
+];
+describe(`Given: Chessboard ${displayEmojiBoard(checkEmojiBoard)}`, () => {
+    describe('When: after moves: 0-0 ♜a8g8+', () => {
+        const expected = [
+            {
+                white: '0-0',
+                black: 'Ra8g8x+',
+            },
+        ];
+        it(`Then: algebraic notation should be" ${JSON.stringify(expected, null, 4)}`, () => {
+            jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(checkEmojiBoard));
+            const gameState = new GameState();
+            const chessEngine = new ChessEngine();
+
+            const king = chessboard.getPiece({ x: 7, y: 4 }) as Piece;
+            gameState.updatePreviousMoves(king, { x: 7, y: 6, moveType: MoveType.Castling }, chessEngine, chessboard);
+
+            const rook = chessboard.getPiece({ x: 0, y: 0 }) as Piece;
+            gameState.updatePreviousMoves(rook, { x: 0, y: 6, moveType: MoveType.Capture }, chessEngine, chessboard);
+            jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(checkMoveEmojiBoard));
+
+            const actual = gameState.previousMoves;
+            expect(actual).toEqual(expect.arrayContaining(expected));
         });
     });
 });

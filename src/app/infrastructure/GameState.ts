@@ -41,7 +41,6 @@ export class GameState {
         chessboard: IChessBoard,
     ): void {
         const move = moveToNotation(piece, moveTo);
-        const enemySide = piece.side === Side.Black ? Side.White : Side.Black;
 
         let lastIndex = this.__previousMoves.length - 1;
         if (this.__previousMoves[lastIndex].white.length > 0 && this.__previousMoves[lastIndex].black.length > 0) {
@@ -63,7 +62,7 @@ export class GameState {
         //         : (this.__previousMoves[lastIndex].black = '½-½');
         //     return;
         // }
-        if (chessEngine.isCheck(chessboard, enemySide)) {
+        if (chessEngine.isCheck(chessboard, piece.side)) {
             move.push('+');
             const joinedMove = move.join('');
             piece.side === Side.White
@@ -71,12 +70,20 @@ export class GameState {
                 : (this.__previousMoves[lastIndex].black = joinedMove);
         }
         if (moveTo.moveType === MoveType.Castling) {
-            moveTo.x === 6 ? move.push('0-0') : move.push('0-0-0');
+            if (moveTo.y === 6) {
+                piece.side === Side.White
+                    ? (this.__previousMoves[lastIndex].white = '0-0')
+                    : (this.__previousMoves[lastIndex].black = '0-0');
+            } else {
+                piece.side === Side.White
+                    ? (this.__previousMoves[lastIndex].white = '0-0-0')
+                    : (this.__previousMoves[lastIndex].black = '0-0-0');
+            }
+        } else {
+            const joinedMove = move.join('');
+            piece.side === Side.White
+                ? (this.__previousMoves[lastIndex].white = joinedMove)
+                : (this.__previousMoves[lastIndex].black = joinedMove);
         }
-
-        const joinedMove = move.join('');
-        piece.side === Side.White
-            ? (this.__previousMoves[lastIndex].white = joinedMove)
-            : (this.__previousMoves[lastIndex].black = joinedMove);
     }
 }
