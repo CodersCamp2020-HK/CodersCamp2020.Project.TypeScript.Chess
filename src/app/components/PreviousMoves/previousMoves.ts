@@ -51,7 +51,17 @@ export class PreviousMoves {
                 const span = document.createElement('span');
 
                 if (notation[color] == '0-0') {
+                    span.textContent = 'Roszada';
+                    span.classList.add(styles[currentClassName]);
+                    li.append(span);
+                    continue;
+                }
 
+                if (notation[color] == '0-0-0') {
+                    span.textContent = 'Długa roszada';
+                    span.classList.add(styles[currentClassName]);
+                    li.append(span);
+                    continue;
                 }
 
                 const pieceAbbreviation: string = notation[color][0];
