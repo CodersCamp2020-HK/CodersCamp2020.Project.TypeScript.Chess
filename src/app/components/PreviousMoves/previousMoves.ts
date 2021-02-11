@@ -40,12 +40,19 @@ export class PreviousMoves {
 
             const actionsMap = new Map([
                 ['x', 'Bicie'],
-                ['o', 'Roszada'],
+                ['+', 'Szach'],
+                ['#', 'Mat'],
             ]);
 
             for (const color in notation) {
                 const sideColor = color == 'white' ? Side.White : Side.Black;
                 const currentClassName = color == 'white' ? 'player' : 'opponent';
+
+                const span = document.createElement('span');
+
+                if (notation[color] == '0-0') {
+
+                }
 
                 const pieceAbbreviation: string = notation[color][0];
                 const currentFigType = piecesMap.get(pieceAbbreviation);
@@ -61,7 +68,6 @@ export class PreviousMoves {
                 const pieceImage = pieceElement.element.cloneNode(true) as HTMLImageElement;
                 pieceImage.classList.add(styles.pieceImage);
 
-                const span = document.createElement('span');
                 span.append(pieceImage, `${pieceOrigin} > ${pieceDestination} `);
                 span.classList.add(styles[currentClassName]);
 
