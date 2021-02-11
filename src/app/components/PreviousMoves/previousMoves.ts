@@ -39,6 +39,7 @@ export class PreviousMoves {
             ]);
 
             const actionsMap = new Map([
+                ['=', 'Promocja'],
                 ['x', 'Bicie'],
                 ['+', 'Szach'],
                 ['#', 'Mat'],
@@ -84,6 +85,19 @@ export class PreviousMoves {
                 for (const action of actionsMap.keys()) {
                     if (notation[color].includes(action)) {
                         const currentAction = actionsMap.get(action) as string;
+                        if (currentAction == 'Promocja') {
+                            const promotionPieceId = notation[color].indexOf('=') + 1;
+                            const promotionPieceAbbreviation = notation[color][promotionPieceId];
+                            const currentPromotionFigType = piecesMap.get(promotionPieceAbbreviation);
+                            const promotionPieceElement: PieceElement | undefined = piecesArray.filter((element) => {
+                                if (element.figType == currentPromotionFigType && element.side == sideColor) {
+                                    return true;
+                                }
+                            })[0];
+                            promotionPieceElement.element.classList.add(styles.pieceImage);
+                            span.append(currentAction + ' > ', promotionPieceElement.element);
+                            continue;
+                        }
                         span.append(currentAction + ' ');
                     }
                 }
