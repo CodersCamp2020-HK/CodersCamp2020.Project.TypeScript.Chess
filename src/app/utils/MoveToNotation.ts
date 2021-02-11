@@ -1,6 +1,10 @@
-import { CordWithMoveType, MoveType, Piece, PieceType } from '../domain/basicChessTypes';
+import { CordWithMoveTypes, MoveType, Piece, PieceType } from '../domain/basicChessTypes';
 
-export function moveToNotation(piece: Piece, moveTo: CordWithMoveType): Array<string | number> {
+export function moveToNotation(
+    piece: Piece,
+    moveTo: CordWithMoveTypes,
+    promotionPiece: PieceType,
+): Array<string | number> {
     const move = [];
     const convertXCordToLetter = new Map([
         [0, 8],
@@ -34,7 +38,7 @@ export function moveToNotation(piece: Piece, moveTo: CordWithMoveType): Array<st
         [MoveType.NormalMove, ''],
         [MoveType.Capture, 'x'],
         [MoveType.EnPassant, 'x'],
-        [MoveType.Promotion, ''],
+        [MoveType.Promotion, '='],
     ]);
 
     if (!piece) throw new Error('Piece not provided.');
@@ -48,8 +52,13 @@ export function moveToNotation(piece: Piece, moveTo: CordWithMoveType): Array<st
         move.push(pieceLetter, cordYFromLetter, cordXFromLetter, cordYToLetter, cordXToLetter);
     }
 
-    const algebraicMoveType = covnertMoveType.get(moveTo.moveType);
-    if (algebraicMoveType !== undefined) move.push(algebraicMoveType);
+    moveTo.moveType.forEach((moveType) => {
+        const promoted = convertPieceToString.get(promotionPiece);
+        const algebraicMoveType = covnertMoveType.get(moveType);
+        if (algebraicMoveType && promoted) {
+            algebraicMoveType === '=' ? move.push(algebraicMoveType, promoted) : move.push(algebraicMoveType);
+        }
+    });
 
     return move;
 }

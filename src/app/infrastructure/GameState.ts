@@ -1,7 +1,7 @@
 import { getCapturedPieceNames } from '../utils/CapturedPieces';
 import { ChessBoardView, IChessBoard } from '../domain/IChessBoard';
 import _ from 'lodash';
-import { CordWithMoveType, MoveType, Piece, Side } from '../domain/basicChessTypes';
+import { CordWithMoveTypes, MoveType, Piece, PieceType, Side } from '../domain/basicChessTypes';
 import { IChessEngine } from '../domain/IChessEngine';
 import { moveToNotation } from '../utils/MoveToNotation';
 
@@ -36,11 +36,12 @@ export class GameState {
 
     updatePreviousMoves(
         piece: Piece,
-        moveTo: CordWithMoveType,
+        moveTo: CordWithMoveTypes,
         chessEngine: IChessEngine,
         chessboard: IChessBoard,
+        promotionPiece: PieceType,
     ): void {
-        const move = moveToNotation(piece, moveTo);
+        const move = moveToNotation(piece, moveTo, promotionPiece);
 
         let lastIndex = this.__previousMoves.length - 1;
         if (this.__previousMoves[lastIndex].white.length > 0 && this.__previousMoves[lastIndex].black.length > 0) {
@@ -48,34 +49,37 @@ export class GameState {
             lastIndex++;
         }
 
-        // if (chessEngine.isCheckmate(chessboard, enemySide)) {
-        //     move.push('#');
-        //     const joinedMove = move.join();
-        //     piece.side === Side.White
-        //         ? (this.__previousMoves[lastIndex].white = joinedMove)
-        //         : (this.__previousMoves[lastIndex].black = joinedMove);
-        //     return;
-        // }
-        // if (chessEngine.isStealemate(chessboard, enemySide)) {
-        //     piece.side === Side.White
-        //         ? (this.__previousMoves[lastIndex].white = '½-½')
-        //         : (this.__previousMoves[lastIndex].black = '½-½');
-        //     return;
-        // }
-        if (chessEngine.isCheck(chessboard, piece.side)) {
-            move.push('+');
-            const joinedMove = move.join('');
-            this.updateMove(joinedMove, piece.side, lastIndex);
-        }
-        if (moveTo.moveType === MoveType.Castling) {
-            if (moveTo.y === 6) {
-                this.updateMove('0-0', piece.side, lastIndex);
-            } else {
-                this.updateMove('0-0-0', piece.side, lastIndex);
+        for (const moveType of moveTo.moveType) {
+            // if (chessEngine.isCheckmate(chessboard, enemySide)) {
+            //     move.push('#');
+            //     const joinedMove = move.join();
+            //     piece.side === Side.White
+            //         ? (this.__previousMoves[lastIndex].white = joinedMove)
+            //         : (this.__previousMoves[lastIndex].black = joinedMove);
+            //     return;
+            // }
+            // if (chessEngine.isStealemate(chessboard, enemySide)) {
+            //     piece.side === Side.White
+            //         ? (this.__previousMoves[lastIndex].white = '½-½')
+            //         : (this.__previousMoves[lastIndex].black = '½-½');
+            //     return;
+            // }
+            if (chessEngine.isCheck(chessboard, piece.side)) {
+                move.push('+');
+                const joinedMove = move.join('');
+                this.updateMove(joinedMove, piece.side, lastIndex);
             }
-        } else {
-            const joinedMove = move.join('');
-            this.updateMove(joinedMove, piece.side, lastIndex);
+            if (moveType === MoveType.Castling) {
+                if (moveTo.y === 6) {
+                    this.updateMove('0-0', piece.side, lastIndex);
+                } else {
+                    this.updateMove('0-0-0', piece.side, lastIndex);
+                }
+                return;
+            } else {
+                const joinedMove = move.join('');
+                this.updateMove(joinedMove, piece.side, lastIndex);
+            }
         }
     }
 

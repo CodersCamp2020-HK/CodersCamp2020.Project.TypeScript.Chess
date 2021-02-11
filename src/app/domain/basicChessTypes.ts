@@ -42,3 +42,7 @@ export interface Piece {
 }
 
 export type PickSide = () => Side;
+
+export interface CordWithMoveTypes extends Cord {
+    moveType: MoveType[];
+}

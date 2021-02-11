@@ -1,4 +1,4 @@
-import { MoveType, Piece } from '../src/app/domain/basicChessTypes';
+import { MoveType, Piece, PieceType, Side } from '../src/app/domain/basicChessTypes';
 import { ChessBoard } from '../src/app/infrastructure/ChessBoard';
 import { ChessEngine } from '../src/app/infrastructure/ChessEngine';
 import { GameState } from '../src/app/infrastructure/GameState';
@@ -111,25 +111,39 @@ describe(`Given: Starting chessboard: ${displayEmojiBoard(firstMoveEmojiBoard)}`
             const knight = newChessboard.getPiece({ x: 7, y: 1 }) as Piece;
             gameState.updatePreviousMoves(
                 knight,
-                { x: 5, y: 2, moveType: MoveType.NormalMove },
+                { x: 5, y: 2, moveType: [MoveType.NormalMove] },
                 chessEngine,
                 chessboard,
+                PieceType.Queen,
             );
             newChessboard.makeMove(knight, { x: 5, y: 2 });
 
             const pawn = newChessboard.getPiece({ x: 1, y: 3 }) as Piece;
-            gameState.updatePreviousMoves(pawn, { x: 3, y: 3, moveType: MoveType.NormalMove }, chessEngine, chessboard);
+            gameState.updatePreviousMoves(
+                pawn,
+                { x: 3, y: 3, moveType: [MoveType.NormalMove] },
+                chessEngine,
+                chessboard,
+                PieceType.Queen,
+            );
             newChessboard.makeMove(pawn, { x: 3, y: 3 });
 
-            gameState.updatePreviousMoves(knight, { x: 3, y: 3, moveType: MoveType.Capture }, chessEngine, chessboard);
+            gameState.updatePreviousMoves(
+                knight,
+                { x: 3, y: 3, moveType: [MoveType.Capture] },
+                chessEngine,
+                chessboard,
+                PieceType.Queen,
+            );
             newChessboard.makeMove(knight, { x: 3, y: 3 });
 
             const pawn2 = newChessboard.getPiece({ x: 1, y: 0 }) as Piece;
             gameState.updatePreviousMoves(
                 pawn2,
-                { x: 2, y: 0, moveType: MoveType.NormalMove },
+                { x: 2, y: 0, moveType: [MoveType.NormalMove] },
                 chessEngine,
                 chessboard,
+                PieceType.Queen,
             );
             newChessboard.makeMove(pawn2, { x: 2, y: 0 });
 
@@ -239,10 +253,22 @@ describe(`Given: Chessboard ${displayEmojiBoard(checkEmojiBoard)}`, () => {
             const chessEngine = new ChessEngine();
 
             const king = chessboard.getPiece({ x: 7, y: 4 }) as Piece;
-            gameState.updatePreviousMoves(king, { x: 7, y: 6, moveType: MoveType.Castling }, chessEngine, chessboard);
+            gameState.updatePreviousMoves(
+                king,
+                { x: 7, y: 6, moveType: [MoveType.Castling] },
+                chessEngine,
+                chessboard,
+                PieceType.Queen,
+            );
 
             const rook = chessboard.getPiece({ x: 0, y: 0 }) as Piece;
-            gameState.updatePreviousMoves(rook, { x: 0, y: 6, moveType: MoveType.Capture }, chessEngine, chessboard);
+            gameState.updatePreviousMoves(
+                rook,
+                { x: 0, y: 6, moveType: [MoveType.Capture] },
+                chessEngine,
+                chessboard,
+                PieceType.Queen,
+            );
             jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(checkMoveEmojiBoard));
 
             const actual = gameState.previousMoves;
@@ -271,7 +297,8 @@ const afterQueenSideCastlingEmojiBoard = [
     ['.', '.', '.', '.', '.', '.', '.', '.'],
     ['.', '.', '♔', '♖', '.', '.', '.', '.'],
 ];
-describe(`Given: Chessboard ${displayEmojiBoard(beforeQueenSideCastlingEmojiBoard)}`, () => {
+describe(`Given: Chessboard ${displayEmojiBoard(beforeQueenSideCastlingEmojiBoard)}
+${displayEmojiBoard(afterQueenSideCastlingEmojiBoard)}`, () => {
     describe('When: after moves: 0-0 ♜a8g8+', () => {
         const expected = [
             {
@@ -287,9 +314,74 @@ describe(`Given: Chessboard ${displayEmojiBoard(beforeQueenSideCastlingEmojiBoar
             const chessEngine = new ChessEngine();
 
             const king = chessboard.getPiece({ x: 7, y: 4 }) as Piece;
-            gameState.updatePreviousMoves(king, { x: 7, y: 2, moveType: MoveType.Castling }, chessEngine, chessboard);
+            gameState.updatePreviousMoves(
+                king,
+                { x: 7, y: 2, moveType: [MoveType.Castling] },
+                chessEngine,
+                chessboard,
+                PieceType.Queen,
+            );
 
             jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(afterQueenSideCastlingEmojiBoard));
+
+            const actual = gameState.previousMoves;
+            expect(actual).toEqual(expect.arrayContaining(expected));
+        });
+    });
+});
+
+const beforePawnPromotionEmojiBoard = [
+    ['.', '.', '.', '.', '.', '.', '.', '♜'],
+    ['.', '.', '.', '.', '.', '.', '♙', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['♟', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+];
+const afterPawnPromotionEmojiBoard = [
+    ['.', '.', '.', '.', '.', '.', '.', '♕'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['♞', '.', '.', '.', '.', '.', '.', '.'],
+];
+describe(`Given: Chessboard ${displayEmojiBoard(beforePawnPromotionEmojiBoard)}
+${displayEmojiBoard(afterPawnPromotionEmojiBoard)}`, () => {
+    describe('When: after move: Pg7h8+=Q', () => {
+        const expected = [
+            {
+                white: 'Pg7h8x=Q',
+                black: 'Pa2a1=N',
+            },
+        ];
+        it(`Then: algebraic notation should be" ${JSON.stringify(expected, null, 4)}`, () => {
+            const gameState = new GameState();
+            const chessEngine = new ChessEngine();
+
+            jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(beforePawnPromotionEmojiBoard));
+
+            const whitePiece = chessboard.board[1][6] as Piece;
+            gameState.updatePreviousMoves(
+                whitePiece,
+                { x: 0, y: 7, moveType: [MoveType.Capture, MoveType.Promotion] },
+                chessEngine,
+                chessboard,
+                PieceType.Queen,
+            );
+
+            const blackPiece = chessboard.board[6][0] as Piece;
+            gameState.updatePreviousMoves(
+                blackPiece,
+                { x: 7, y: 0, moveType: [MoveType.NormalMove, MoveType.Promotion] },
+                chessEngine,
+                chessboard,
+                PieceType.Knight,
+            );
 
             const actual = gameState.previousMoves;
             expect(actual).toEqual(expect.arrayContaining(expected));
