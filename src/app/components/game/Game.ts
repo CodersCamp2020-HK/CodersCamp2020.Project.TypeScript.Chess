@@ -10,6 +10,7 @@ import { ChessBoardComponent } from '../ChessBoard/ChessBoardComponent';
 import { ChessBoard } from '../../infrastructure/ChessBoard';
 import { piecesArray } from '../PiecesElements/piecesElements';
 import { Footer } from '../footer/Footer';
+import { Button } from '../genericButton/Button';
 
 export class Game {
     private __element: HTMLElement;
@@ -67,7 +68,14 @@ export class Game {
 
         const quitButtonWrapper = document.createElement('div');
         quitButtonWrapper.classList.add(styles.wrapperQuit);
-        quitButtonWrapper.textContent = 'Wyjście z gry';
+        const quitButton = new Button(
+            'QUIT',
+            function () {
+                console.log('animated button');
+            },
+            true,
+        );
+        quitButtonWrapper.append(quitButton.button);
 
         const footerWrapper = document.createElement('div');
         footerWrapper.classList.add(styles.wrapperFooter);
