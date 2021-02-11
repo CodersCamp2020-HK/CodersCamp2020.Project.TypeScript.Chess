@@ -1,5 +1,6 @@
-import { Piece } from '../src/app/domain/basicChessTypes';
+import { MoveType, Piece } from '../src/app/domain/basicChessTypes';
 import { ChessBoard } from '../src/app/infrastructure/ChessBoard';
+import { ChessEngine } from '../src/app/infrastructure/ChessEngine';
 import { GameState } from '../src/app/infrastructure/GameState';
 import { convertEmojiToRep, displayEmojiBoard } from './Display';
 
@@ -61,7 +62,7 @@ describe(`Given: Starting chessboard: ${displayEmojiBoard(secondMoveEmojiBoard)}
 });
 
 describe(`Given: Starting chessboard: ${displayEmojiBoard(firstMoveEmojiBoard)}`, () => {
-    describe('When: after moves: ♘c3 d5, ♘xd5 a6', () => {
+    describe('When: updateCapturedPieces is invoked after moves: ♘c3 d5, ♘xd5 a6', () => {
         it(`Then: array with 2 objects should be returned`, () => {
             const expected = [
                 {
@@ -85,10 +86,59 @@ describe(`Given: Starting chessboard: ${displayEmojiBoard(firstMoveEmojiBoard)}`
             gameState.updateCapturedPieces(newChessboard);
 
             newChessboard.makeMove(knight, { x: 3, y: 3 });
-            console.log(JSON.stringify(newChessboard.board, null, 4));
             gameState.updateCapturedPieces(newChessboard);
 
             const actual = gameState.capturedPieces;
+            expect(actual).toEqual(expect.arrayContaining(expected));
+        });
+    });
+    describe('When: updatePreviousMoves is invoked after moves: ♘c3 d5, ♘xd5 a6', () => {
+        const expected = [
+            {
+                white: 'Nb1c3',
+                black: 'Pd7d5',
+            },
+            {
+                white: 'Nc3d5x',
+                black: 'Pa7a6',
+            },
+        ];
+        it(`Then: array should be: ${JSON.stringify(expected, null, 4)}`, () => {
+            const newChessboard = ChessBoard.createNewBoard();
+            const gameState = new GameState();
+            const chessEngine = new ChessEngine();
+
+            const knight = newChessboard.getPiece({ x: 7, y: 1 }) as Piece;
+            gameState.updatePreviousMoves(
+                knight,
+                { x: 5, y: 2, moveType: MoveType.NormalMove },
+                chessEngine,
+                chessboard,
+            );
+            newChessboard.makeMove(knight, { x: 5, y: 2 });
+
+            const pawn = newChessboard.getPiece({ x: 1, y: 3 }) as Piece;
+            gameState.updatePreviousMoves(pawn, { x: 3, y: 3, moveType: MoveType.NormalMove }, chessEngine, chessboard);
+            newChessboard.makeMove(pawn, { x: 3, y: 3 });
+
+            gameState.updatePreviousMoves(
+                knight,
+                { x: 3, y: 3, moveType: MoveType.NormalMove },
+                chessEngine,
+                chessboard,
+            );
+            newChessboard.makeMove(knight, { x: 3, y: 3 });
+
+            const pawn2 = newChessboard.getPiece({ x: 1, y: 0 }) as Piece;
+            gameState.updatePreviousMoves(
+                pawn2,
+                { x: 2, y: 0, moveType: MoveType.NormalMove },
+                chessEngine,
+                chessboard,
+            );
+            newChessboard.makeMove(pawn2, { x: 2, y: 0 });
+
+            const actual = gameState.previousMoves;
             expect(actual).toEqual(expect.arrayContaining(expected));
         });
     });

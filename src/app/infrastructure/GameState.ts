@@ -40,7 +40,17 @@ export class GameState {
         chessboard: IChessBoard,
     ): void {
         const move = [];
-        const convertCordToLetter = new Map([
+        const convertXCordToLetter = new Map([
+            [0, 8],
+            [1, 7],
+            [2, 6],
+            [3, 5],
+            [4, 4],
+            [5, 3],
+            [6, 2],
+            [7, 1],
+        ]);
+        const convertYCordToLetter = new Map([
             [0, 'a'],
             [1, 'b'],
             [2, 'c'],
@@ -70,31 +80,39 @@ export class GameState {
         }
         if (!piece) throw new Error('Piece not provided.');
         const pieceLetter = convertPieceToString.get(piece.figType);
-        const cordFromLetter = convertCordToLetter.get(piece.cord.x);
-        const cordToLetter = convertCordToLetter.get(moveTo.x);
-        if (pieceLetter && cordFromLetter && cordToLetter) {
-            move.push(pieceLetter, cordFromLetter, piece.cord.y + 1, cordToLetter, moveTo.y + 1);
+        const cordXFromLetter = convertXCordToLetter.get(piece.cord.x);
+        const cordXToLetter = convertXCordToLetter.get(moveTo.x);
+        const cordYFromLetter = convertYCordToLetter.get(piece.cord.y);
+        const cordYToLetter = convertYCordToLetter.get(moveTo.y);
+        if (
+            pieceLetter !== undefined &&
+            cordXFromLetter !== undefined &&
+            cordXToLetter !== undefined &&
+            cordYFromLetter !== undefined &&
+            cordYToLetter !== undefined
+        ) {
+            move.push(pieceLetter, cordYFromLetter, cordXFromLetter, cordYToLetter, cordXToLetter);
         }
         const algebraicMoveType = covnertMoveType.get(moveTo.moveType);
-        if (algebraicMoveType) move.push(algebraicMoveType);
+        if (algebraicMoveType !== undefined) move.push(algebraicMoveType);
         const enemySide = piece.side === Side.Black ? Side.White : Side.Black;
-        if (chessEngine.isCheckmate(chessboard, enemySide)) {
-            move.push('#');
-            const joinedMove = move.join();
-            piece.side === Side.White
-                ? (this.__previousMoves[lastIndex].white = joinedMove)
-                : (this.__previousMoves[lastIndex].black = joinedMove);
-            return;
-        }
-        if (chessEngine.isStealemate(chessboard, enemySide)) {
-            piece.side === Side.White
-                ? (this.__previousMoves[lastIndex].white = '½-½')
-                : (this.__previousMoves[lastIndex].black = '½-½');
-            return;
-        }
+        // if (chessEngine.isCheckmate(chessboard, enemySide)) {
+        //     move.push('#');
+        //     const joinedMove = move.join();
+        //     piece.side === Side.White
+        //         ? (this.__previousMoves[lastIndex].white = joinedMove)
+        //         : (this.__previousMoves[lastIndex].black = joinedMove);
+        //     return;
+        // }
+        // if (chessEngine.isStealemate(chessboard, enemySide)) {
+        //     piece.side === Side.White
+        //         ? (this.__previousMoves[lastIndex].white = '½-½')
+        //         : (this.__previousMoves[lastIndex].black = '½-½');
+        //     return;
+        // }
         if (chessEngine.isCheck(chessboard, enemySide)) {
             move.push('+');
-            const joinedMove = move.join();
+            const joinedMove = move.join('');
             piece.side === Side.White
                 ? (this.__previousMoves[lastIndex].white = joinedMove)
                 : (this.__previousMoves[lastIndex].black = joinedMove);
@@ -102,5 +120,9 @@ export class GameState {
         if (moveTo.moveType === MoveType.Castling) {
             moveTo.x === 6 ? move.push('0-0') : move.push('0-0-0');
         }
+        const joinedMove = move.join('');
+        piece.side === Side.White
+            ? (this.__previousMoves[lastIndex].white = joinedMove)
+            : (this.__previousMoves[lastIndex].black = joinedMove);
     }
 }
