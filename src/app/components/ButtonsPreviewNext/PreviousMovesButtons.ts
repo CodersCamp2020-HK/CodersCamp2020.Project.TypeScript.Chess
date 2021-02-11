@@ -3,32 +3,28 @@ import { Button } from '../genericButton/Button';
 export class PreviousMovesButtons {
     private __element: HTMLElement;
 
-    constructor() {
+    constructor(
+        onHomeCb: () => void,
+        onPreviousCb: () => void,
+        onClickCb: () => void,
+        onNextCb: () => void,
+        onEndCb: () => void,
+    ) {
         this.__element = document.createElement('div');
 
-        const homeButton = new Button('<<', function () {
-            console.log('homeButton');
-        });
+        const homeButton = new Button('<<', () => onHomeCb());
         homeButton.button.classList.add('homeButton', 'functionalButton');
 
-        const previousButton = new Button('<', function () {
-            console.log('previousButton');
-        });
+        const previousButton = new Button('<', () => onPreviousCb());
         previousButton.button.classList.add('previousButton', 'functionalButton');
 
-        const playButton = new Button('▷', function () {
-            console.log('playButton');
-        });
+        const playButton = new Button('▷', () => onClickCb());
         playButton.button.classList.add('playButton', 'functionalButton');
 
-        const nextButton = new Button('>', function () {
-            console.log('nextButton');
-        });
+        const nextButton = new Button('>', () => onNextCb());
         nextButton.button.classList.add('nextButton', 'functionalButton');
 
-        const endButton = new Button('>>', function () {
-            console.log('endButton');
-        });
+        const endButton = new Button('>>', () => onEndCb());
         endButton.button.classList.add('endButton', 'functionalButton');
 
         this.__element.append(
@@ -39,7 +35,7 @@ export class PreviousMovesButtons {
             endButton.button,
         );
     }
-    public get functionalButton(): HTMLElement {
+    public get element(): HTMLElement {
         return this.__element;
     }
 }
