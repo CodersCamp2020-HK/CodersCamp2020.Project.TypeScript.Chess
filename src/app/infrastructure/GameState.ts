@@ -65,25 +65,23 @@ export class GameState {
         if (chessEngine.isCheck(chessboard, piece.side)) {
             move.push('+');
             const joinedMove = move.join('');
-            piece.side === Side.White
-                ? (this.__previousMoves[lastIndex].white = joinedMove)
-                : (this.__previousMoves[lastIndex].black = joinedMove);
+            this.updateMove(joinedMove, piece.side, lastIndex);
         }
         if (moveTo.moveType === MoveType.Castling) {
             if (moveTo.y === 6) {
-                piece.side === Side.White
-                    ? (this.__previousMoves[lastIndex].white = '0-0')
-                    : (this.__previousMoves[lastIndex].black = '0-0');
+                this.updateMove('0-0', piece.side, lastIndex);
             } else {
-                piece.side === Side.White
-                    ? (this.__previousMoves[lastIndex].white = '0-0-0')
-                    : (this.__previousMoves[lastIndex].black = '0-0-0');
+                this.updateMove('0-0-0', piece.side, lastIndex);
             }
         } else {
             const joinedMove = move.join('');
-            piece.side === Side.White
-                ? (this.__previousMoves[lastIndex].white = joinedMove)
-                : (this.__previousMoves[lastIndex].black = joinedMove);
+            this.updateMove(joinedMove, piece.side, lastIndex);
         }
+    }
+
+    private updateMove(move: string, side: Side, lastIndex: number): void {
+        side === Side.White
+            ? (this.__previousMoves[lastIndex].white = move)
+            : (this.__previousMoves[lastIndex].black = move);
     }
 }
