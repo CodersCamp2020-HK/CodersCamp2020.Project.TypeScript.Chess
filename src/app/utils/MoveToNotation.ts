@@ -1,6 +1,6 @@
 import { CordWithMoveType, MoveType, Piece, PieceType } from '../domain/basicChessTypes';
 
-export function moveToNotation(piece: Piece, moveTo: CordWithMoveType) {
+export function moveToNotation(piece: Piece, moveTo: CordWithMoveType): Array<string | number> {
     const move = [];
     const convertXCordToLetter = new Map([
         [0, 8],
@@ -44,13 +44,7 @@ export function moveToNotation(piece: Piece, moveTo: CordWithMoveType) {
     const cordYFromLetter = convertYCordToLetter.get(piece.cord.y);
     const cordYToLetter = convertYCordToLetter.get(moveTo.y);
 
-    if (
-        pieceLetter !== undefined &&
-        cordXFromLetter !== undefined &&
-        cordXToLetter !== undefined &&
-        cordYFromLetter !== undefined &&
-        cordYToLetter !== undefined
-    ) {
+    if (pieceLetter && cordXFromLetter && cordXToLetter && cordYFromLetter && cordYToLetter) {
         move.push(pieceLetter, cordYFromLetter, cordXFromLetter, cordYToLetter, cordXToLetter);
     }
 
