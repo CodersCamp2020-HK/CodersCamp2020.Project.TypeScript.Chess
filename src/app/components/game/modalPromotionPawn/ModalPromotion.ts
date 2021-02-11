@@ -8,12 +8,16 @@ export class ModalPromotion {
     constructor(side: Side) {
         this.__element = document.createElement('dialog');
         this.__element.classList.add(styles.modal);
-        const labelPromotion = new Label('blue', 'By which piece will you replace the pawn?');
-        this.__element.append(labelPromotion.element);
+        const modalWrapper = document.createElement('div');
+        this.__element.append(modalWrapper);
+        modalWrapper.classList.add(styles.modalWrapper);
 
-        side === Side.White
-            ? this.__element.classList.add(styles.player)
-            : this.__element.classList.add(styles.opponent);
+        const labelPromotion = new Label('blue', 'By which piece will you replace the pawn?');
+
+        const piecesWrapper = document.createElement('div');
+        piecesWrapper.classList.add(styles.piecesWrapper);
+
+        side === Side.White ? piecesWrapper.classList.add(styles.player) : piecesWrapper.classList.add(styles.opponent);
 
         const buttonRook = document.createElement('div');
         buttonRook.classList.add(styles.box, styles.rook);
@@ -24,9 +28,19 @@ export class ModalPromotion {
         const buttonBishop = document.createElement('div');
         buttonBishop.classList.add(styles.box, styles.bishop);
 
-        this.__element.append(buttonRook, buttonKnight, buttonQueen, buttonBishop);
+        modalWrapper.append(labelPromotion.element, piecesWrapper);
+        piecesWrapper.append(buttonRook, buttonKnight, buttonQueen, buttonBishop);
     }
+
     public get element(): HTMLDialogElement {
         return this.__element;
+    }
+
+    public open() {
+        this.__element.open = true;
+    }
+
+    public close() {
+        this.__element.open = false;
     }
 }

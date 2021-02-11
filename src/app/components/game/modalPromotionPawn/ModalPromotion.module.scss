@@ -2,46 +2,60 @@
 @use '../../../../styles/common';
 @use '../../../../styles/typography';
 
-body{
-   width:100vw;
-   height:100vh;
-   background-color: turquoise;
-}
-
 .modal {
-  background-color: red;
-  width: 500px;
-  height: 500px;
-  @extend %border-modal;
+  background-color: rgba(colors.$black, 0.7);
+  width: 100vw;
+  height: 100vh;
+  z-index: 3;
+  left: 0;
+  top: 0;
+  position:fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  &.box{
+.modalWrapper{
+  background-color:colors.$black;
+  @extend %border-modal; 
+  padding:2vw;
+  max-width:500px;
+  max-height:500px;
+
+  .box{
    background-color: black;
    border-radius: 5px;
    box-sizing: border-box;
-   padding: 2px;
-   width:30px;
-   height:30px;
+   padding: 5px;
+   width:50px;
+   height:50px;
   }
 
+  .piecesWrapper{
+  display:flex;
+  justify-content: space-between;
+  margin-top:30px;
+
   &.player {
-    &.rook {
+    .box{border: 1px solid colors.$red;}
+
+    .rook {
        background-image:url("../../../../assets/UI/pieces/Rook.svg");
        background-position:center;
       background-repeat: no-repeat;
       background-size: contain;
     }
-    &.knight {
+    .knight {
       background-image:url("../../../../assets/UI/pieces/Rook.svg");
       background-position:center;
      background-repeat: no-repeat;
      background-size: contain;
-    &.queen {
+    .queen {
       background-image:url("../../../../assets/UI/pieces/Rook.svg");
       background-position:center;
      background-repeat: no-repeat;
      background-size: contain;
     }
-    &.bishop {
+    .bishop {
       background-image:url("../../../../assets/UI/pieces/Rook.svg");
       background-position:center;
      background-repeat: no-repeat;
@@ -50,30 +64,32 @@ body{
   }
 
   &.opponent {
-   &.rook {
+   .rook {
       background-image:url("../../../../assets/UI/pieces/Rook.svg");
       background-position:center;
      background-repeat: no-repeat;
      background-size: contain;
    }
-   &.knight {
+   .knight {
       background-image:url("../../../../assets/UI/pieces/Rook.svg");
       background-position:center;
      background-repeat: no-repeat;
      background-size: contain;
    }
-   &.queen {
+   .queen {
       background-image:url("../../../../assets/UI/pieces/Rook.svg");
       background-position:center;
      background-repeat: no-repeat;
      background-size: contain;
    }
-   &.bishop {
+   .bishop {
       background-image:url("../../../../assets/UI/pieces/Rook.svg");
       background-position:center;
      background-repeat: no-repeat;
      background-size: contain;
    }
- }
   }
+ }
+}
+}
 }
