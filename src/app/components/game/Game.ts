@@ -10,6 +10,8 @@ import { ChessBoardComponent } from '../ChessBoard/ChessBoardComponent';
 import { ChessBoard } from '../../infrastructure/ChessBoard';
 import { piecesArray } from '../PiecesElements/piecesElements';
 import { Footer } from '../footer/Footer';
+import { ModalPromotion } from './modalPromotionPawn/ModalPromotion';
+import { Side } from '../../domain/basicChessTypes';
 
 export class Game {
     private __element: HTMLElement;
@@ -73,6 +75,9 @@ export class Game {
         footerWrapper.classList.add(styles.wrapperFooter);
         const footerImage = new Footer();
         footerWrapper.appendChild(footerImage.element);
+        const modalPromotion = new ModalPromotion(Side.White);
+        modalPromotion.openModal();
+        console.log(modalPromotion.pieceChosen);
 
         wrapper.append(
             chessboardWrapper,
@@ -81,7 +86,14 @@ export class Game {
             previousMovesWrapper,
             quitButtonWrapper,
         );
-        container.append(rules.element, info.element, cyberChessTextWrapper, wrapper, footerWrapper);
+        container.append(
+            rules.element,
+            info.element,
+            cyberChessTextWrapper,
+            wrapper,
+            footerWrapper,
+            modalPromotion.element,
+        );
 
         return container;
     }

@@ -4,10 +4,12 @@ import { Side } from '../../../domain/basicChessTypes';
 
 export class ModalPromotion {
     private __element: HTMLDialogElement;
+    private __pieceChosen: string;
 
     constructor(side: Side) {
+        this.__pieceChosen = '';
         this.__element = document.createElement('dialog');
-        this.__element.classList.add(styles.modal);
+        this.__element.classList.add(styles.modalInvisible);
         const modalWrapper = document.createElement('div');
         this.__element.append(modalWrapper);
         modalWrapper.classList.add(styles.modalWrapper);
@@ -16,31 +18,39 @@ export class ModalPromotion {
 
         const piecesWrapper = document.createElement('div');
         piecesWrapper.classList.add(styles.piecesWrapper);
+        modalWrapper.append(labelPromotion.element, piecesWrapper);
 
         side === Side.White ? piecesWrapper.classList.add(styles.player) : piecesWrapper.classList.add(styles.opponent);
 
-        const buttonRook = document.createElement('div');
-        buttonRook.classList.add(styles.box, styles.rook);
-        const buttonKnight = document.createElement('div');
-        buttonKnight.classList.add(styles.box, styles.knight);
-        const buttonQueen = document.createElement('div');
-        buttonQueen.classList.add(styles.box, styles.queen);
-        const buttonBishop = document.createElement('div');
-        buttonBishop.classList.add(styles.box, styles.bishop);
+        type Piece = 'rook' | 'knight' | 'queen' | 'bishop';
+        const piecesPossiblePromotion: Piece[] = ['rook', 'knight', 'queen', 'bishop'];
 
-        modalWrapper.append(labelPromotion.element, piecesWrapper);
-        piecesWrapper.append(buttonRook, buttonKnight, buttonQueen, buttonBishop);
+        for (let i = 0; i < piecesPossiblePromotion.length; i++) {
+            const buttonPiece = document.createElement('div');
+            buttonPiece.classList.add(styles.box);
+            const imagePiece = document.createElement('div');
+            imagePiece.classList.add(styles[piecesPossiblePromotion[i]]);
+            buttonPiece.append(imagePiece);
+            piecesWrapper.append(buttonPiece);
+
+            buttonPiece.addEventListener('click', () => {
+                this.__element.classList.remove(styles.modal);
+                this.__element.classList.add(styles.modalInvisible);
+                this.__pieceChosen = piecesPossiblePromotion[i];
+            });
+        }
     }
 
     public get element(): HTMLDialogElement {
         return this.__element;
     }
 
-    public open() {
-        this.__element.open = true;
+    public openModal(): void {
+        this.__element.classList.remove(styles.modalInvisible);
+        this.__element.classList.add(styles.modal);
     }
 
-    public close() {
-        this.__element.open = false;
+    public get pieceChosen(): string {
+        return this.__pieceChosen;
     }
 }
