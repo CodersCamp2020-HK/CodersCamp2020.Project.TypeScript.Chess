@@ -6,6 +6,7 @@ import {
     getOtherPiecesCord,
     excludeMovesBehindPiece,
     getMoveTypesForPiece,
+    getKnightDirections,
 } from '../src/app/utils/MoveHelpers';
 import { convertEmojiToRep, displayEmojiBoard, displayMoves } from './Display';
 import { ChessBoard } from '../src/app/infrastructure/ChessBoard';
@@ -72,6 +73,22 @@ describe(`Given: Cords ${testCordDirections}`, () => {
             expect(actual).toEqual(expect.arrayContaining(expected));
         });
     });
+    describe(`When: getKnightDirections( cord = ${JSON.stringify(testCordDirections)}) is invoked`, () => {
+        const expected: Cord[] = [
+            { x: 1, y: 2 },
+            { x: 1, y: 4 },
+            { x: 5, y: 2 },
+            { x: 5, y: 4 },
+            { x: 2, y: 1 },
+            { x: 4, y: 1 },
+            { x: 2, y: 5 },
+            { x: 4, y: 5 },
+        ];
+        it('Then: possible moves should be: ', () => {
+            const actual = getKnightDirections(testCordDirections);
+            expect(actual).toEqual(expect.arrayContaining(expected));
+        });
+    });
 });
 
 const testCordsOutsideBoard: PossibleCords[] = [
@@ -113,7 +130,7 @@ const emojiBoard = [
     ['.', '.', '.', '.', '.', '.', '.', '.'],
 ];
 const chessboard = new ChessBoard();
-chessboard.board = convertEmojiToRep(emojiBoard);
+jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(emojiBoard));
 
 describe(`Given: chessboard: ${displayEmojiBoard(emojiBoard)}`, () => {
     describe('When: getOtherPiecesCord is invoked for rook', () => {

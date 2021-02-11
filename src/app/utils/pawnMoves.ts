@@ -1,13 +1,5 @@
-import {
-    Cord,
-    IChessBoard,
-    CordWithMoveType,
-    MoveType,
-    ChessBoardRepresentation,
-    PieceType,
-    Piece,
-    Side,
-} from '../domain/basicChessTypes';
+import { Cord, CordWithMoveType, MoveType, PieceType, Piece, Side } from '../domain/basicChessTypes';
+import { ChessBoardView, IChessBoard } from '../domain/IChessBoard';
 //import { IChessEngine } from '../domain/IChessEngine';
 
 enum MoveDirection {
@@ -32,7 +24,7 @@ function isOppositePawn(currentPawn: Piece | null, pieceToComparison: Piece | nu
 export function possibleNormalMoves(
     cord: Cord,
     moveDirection: MoveDirection,
-    currentBoardState: ChessBoardRepresentation,
+    currentBoardState: ChessBoardView,
 ): CordWithMoveType[] {
     if (isOutsideBoard((cord.x - moveDirection) as Cord['x'])) {
         return [];
@@ -51,7 +43,7 @@ export function possibleNormalMoves(
 export function possibleCaptureMoves(
     cord: Cord,
     moveDirection: MoveDirection,
-    currentBoardState: ChessBoardRepresentation,
+    currentBoardState: ChessBoardView,
 ): CordWithMoveType[] {
     const result: CordWithMoveType[] = [];
 
@@ -87,8 +79,8 @@ export function possibleCaptureMoves(
 export function possibleEnPassantMoves(
     cord: Cord,
     moveDirection: MoveDirection,
-    currentBoardState: ChessBoardRepresentation,
-    previousBoardState: ChessBoardRepresentation,
+    currentBoardState: ChessBoardView,
+    previousBoardState: ChessBoardView,
 ): CordWithMoveType[] {
     const result: CordWithMoveType[] = [];
     const enPassantDirections = [];
@@ -144,7 +136,7 @@ export function possibleEnPassantMoves(
 export function possiblePromotionMoves(
     cord: Cord,
     moveDirection: MoveDirection,
-    currentBoardState: ChessBoardRepresentation,
+    currentBoardState: ChessBoardView,
 ): CordWithMoveType[] {
     const result: CordWithMoveType[] = [];
     if (isOutsideBoard((cord.x - moveDirection) as Cord['x'])) {

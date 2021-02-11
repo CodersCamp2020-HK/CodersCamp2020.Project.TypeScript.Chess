@@ -10,6 +10,7 @@ import { ChessBoardComponent } from '../ChessBoard/ChessBoardComponent';
 import { ChessBoard } from '../../infrastructure/ChessBoard';
 import { piecesArray } from '../PiecesElements/piecesElements';
 import { Footer } from '../footer/Footer';
+import { Button } from '../genericButton/Button';
 
 export class Game {
     private __element: HTMLElement;
@@ -40,12 +41,10 @@ export class Game {
         // cyberChessTextWrapper.textContent = 'Cyber Chess';
 
         const chessboardWrapper = document.createElement('div');
+        // DO ZMIANY, POWINNO BYĆ W KONTROLERZE \/\/`
+        const chessboard = ChessBoard.createNewBoard();
         chessboardWrapper.classList.add(styles.wrapperChessboard, boardStyles.boardWrapper);
-        this.chessboard = new ChessBoardComponent(
-            chessboardWrapper,
-            [...piecesArray],
-            ChessBoard.createDefaultBoard().board,
-        );
+        this.chessboard = new ChessBoardComponent(chessboardWrapper, [...piecesArray], chessboard.board);
 
         const opponentScoreWrapper = document.createElement('div');
         opponentScoreWrapper.classList.add(styles.wrapperOpponent);
@@ -69,7 +68,14 @@ export class Game {
 
         const quitButtonWrapper = document.createElement('div');
         quitButtonWrapper.classList.add(styles.wrapperQuit);
-        quitButtonWrapper.textContent = 'Wyjście z gry';
+        const quitButton = new Button(
+            'QUIT',
+            function () {
+                console.log('animated button');
+            },
+            true,
+        );
+        quitButtonWrapper.append(quitButton.button);
 
         const footerWrapper = document.createElement('div');
         footerWrapper.classList.add(styles.wrapperFooter);

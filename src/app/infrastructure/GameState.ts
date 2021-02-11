@@ -1,10 +1,11 @@
-import { ChessBoardRepresentation, IChessBoard, Side } from '../domain/basicChessTypes';
 import { getCapturedPieceNames } from '../utils/CapturedPieces';
+import { ChessBoardView, IChessBoard } from '../domain/IChessBoard';
 import _ from 'lodash';
+import { Side } from '../domain/basicChessTypes';
 
 export class GameState {
     private __capturedPieces: { white: string[]; black: string[] }[];
-    private __previousBoards: ChessBoardRepresentation[];
+    private __previousBoards: ChessBoardView[];
 
     constructor() {
         this.__capturedPieces = [];
@@ -15,7 +16,7 @@ export class GameState {
         return this.__capturedPieces;
     }
 
-    public get previousBoards(): ChessBoardRepresentation[] {
+    public get previousBoards(): ChessBoardView[] {
         return this.__previousBoards;
     }
 
@@ -27,7 +28,7 @@ export class GameState {
         this.__capturedPieces.push(capturedPiece);
     }
 
-    updatePreviousBoards(chessboard: ChessBoardRepresentation): void {
+    updatePreviousBoards(chessboard: ChessBoardView): void {
         this.__previousBoards.push(_.cloneDeep(chessboard));
     }
 }
