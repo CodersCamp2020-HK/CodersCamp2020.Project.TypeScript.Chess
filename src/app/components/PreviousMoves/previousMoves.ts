@@ -51,6 +51,13 @@ export class PreviousMoves {
 
                 const span = document.createElement('span');
 
+                if (notation[color] == '') {
+                    span.textContent = 'Brak';
+                    span.classList.add(styles[currentClassName]);
+                    li.append(span);
+                    continue;
+                }
+
                 if (notation[color] == '0-0') {
                     span.textContent = 'Roszada';
                     span.classList.add(styles[currentClassName]);
