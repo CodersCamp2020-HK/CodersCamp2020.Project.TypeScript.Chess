@@ -121,12 +121,7 @@ describe(`Given: Starting chessboard: ${displayEmojiBoard(firstMoveEmojiBoard)}`
             gameState.updatePreviousMoves(pawn, { x: 3, y: 3, moveType: MoveType.NormalMove }, chessEngine, chessboard);
             newChessboard.makeMove(pawn, { x: 3, y: 3 });
 
-            gameState.updatePreviousMoves(
-                knight,
-                { x: 3, y: 3, moveType: MoveType.NormalMove },
-                chessEngine,
-                chessboard,
-            );
+            gameState.updatePreviousMoves(knight, { x: 3, y: 3, moveType: MoveType.Capture }, chessEngine, chessboard);
             newChessboard.makeMove(knight, { x: 3, y: 3 });
 
             const pawn2 = newChessboard.getPiece({ x: 1, y: 0 }) as Piece;

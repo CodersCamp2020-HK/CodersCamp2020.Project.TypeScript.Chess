@@ -74,9 +74,10 @@ export class GameState {
             [MoveType.EnPassant, 'x'],
             [MoveType.Promotion, ''],
         ]);
-        const lastIndex = this.__previousMoves.length - 1;
+        let lastIndex = this.__previousMoves.length - 1;
         if (this.__previousMoves[lastIndex].white.length > 0 && this.__previousMoves[lastIndex].black.length > 0) {
             this.__previousMoves.push({ white: '', black: '' });
+            lastIndex++;
         }
         if (!piece) throw new Error('Piece not provided.');
         const pieceLetter = convertPieceToString.get(piece.figType);
