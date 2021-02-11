@@ -68,7 +68,10 @@ export class Game {
         previousMovesWrapper.append(movesLabel.element);
 
         const quitButtonWrapper = document.createElement('div');
-        const previousMovesButtons = new PreviousMovesButtons();
+        const fun = () => {
+            console.log(`x`);
+        };
+        const previousMovesButtons = new PreviousMovesButtons(fun, fun, fun, fun, fun);
         quitButtonWrapper.classList.add(styles.wrapperQuit);
         const quitButton = new Button(
             'QUIT',
@@ -77,7 +80,7 @@ export class Game {
             },
             true,
         );
-        quitButtonWrapper.append(previousMovesButtons.functionalButton, quitButton.button);
+        quitButtonWrapper.append(previousMovesButtons.element, quitButton.button);
 
         const footerWrapper = document.createElement('div');
         footerWrapper.classList.add(styles.wrapperFooter);
