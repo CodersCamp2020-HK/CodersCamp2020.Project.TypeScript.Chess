@@ -38,6 +38,11 @@ export class PreviousMoves {
                 ['P', PieceType.Pawn],
             ]);
 
+            const actionsMap = new Map([
+                ['x', 'Bicie'],
+                ['o', 'Roszada'],
+            ]);
+
             for (const color in notation) {
                 const sideColor = color == 'white' ? Side.White : Side.Black;
                 const currentClassName = color == 'white' ? 'player' : 'opponent';
@@ -59,6 +64,13 @@ export class PreviousMoves {
                 const span = document.createElement('span');
                 span.append(pieceImage, `${pieceOrigin} > ${pieceDestination} `);
                 span.classList.add(styles[currentClassName]);
+
+                for (const action of actionsMap.keys()) {
+                    if (notation[color].includes(action)) {
+                        const currentAction = actionsMap.get(action) as string;
+                        span.append(currentAction + ' ');
+                    }
+                }
 
                 li.append(span);
             }
