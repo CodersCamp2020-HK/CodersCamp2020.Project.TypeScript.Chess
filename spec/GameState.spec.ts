@@ -250,3 +250,49 @@ describe(`Given: Chessboard ${displayEmojiBoard(checkEmojiBoard)}`, () => {
         });
     });
 });
+
+const beforeQueenSideCastlingEmojiBoard = [
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['♖', '.', '.', '.', '♔', '.', '.', '.'],
+];
+const afterQueenSideCastlingEmojiBoard = [
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '♔', '♖', '.', '.', '.', '.'],
+];
+describe(`Given: Chessboard ${displayEmojiBoard(beforeQueenSideCastlingEmojiBoard)}`, () => {
+    describe('When: after moves: 0-0 ♜a8g8+', () => {
+        const expected = [
+            {
+                white: '0-0-0',
+                black: '',
+            },
+        ];
+        it(`Then: algebraic notation should be" ${JSON.stringify(expected, null, 4)}`, () => {
+            jest.spyOn(chessboard, 'board', 'get').mockReturnValue(
+                convertEmojiToRep(beforeQueenSideCastlingEmojiBoard),
+            );
+            const gameState = new GameState();
+            const chessEngine = new ChessEngine();
+
+            const king = chessboard.getPiece({ x: 7, y: 4 }) as Piece;
+            gameState.updatePreviousMoves(king, { x: 7, y: 2, moveType: MoveType.Castling }, chessEngine, chessboard);
+
+            jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(afterQueenSideCastlingEmojiBoard));
+
+            const actual = gameState.previousMoves;
+            expect(actual).toEqual(expect.arrayContaining(expected));
+        });
+    });
+});
