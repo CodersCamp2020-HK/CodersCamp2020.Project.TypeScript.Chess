@@ -1,4 +1,4 @@
-import { CordWithMoveType, Piece, PieceType } from '../domain/basicChessTypes';
+import { CordWithMoveType, MoveType, Piece, PieceType } from '../domain/basicChessTypes';
 
 export function moveToNotation(piece: Piece, moveTo: CordWithMoveType) {
     const move = [];
@@ -30,6 +30,12 @@ export function moveToNotation(piece: Piece, moveTo: CordWithMoveType) {
         [PieceType.King, 'K'],
         [PieceType.Queen, 'Q'],
     ]);
+    const covnertMoveType = new Map([
+        [MoveType.NormalMove, ''],
+        [MoveType.Capture, 'x'],
+        [MoveType.EnPassant, 'x'],
+        [MoveType.Promotion, ''],
+    ]);
 
     if (!piece) throw new Error('Piece not provided.');
     const pieceLetter = convertPieceToString.get(piece.figType);
@@ -47,6 +53,9 @@ export function moveToNotation(piece: Piece, moveTo: CordWithMoveType) {
     ) {
         move.push(pieceLetter, cordYFromLetter, cordXFromLetter, cordYToLetter, cordXToLetter);
     }
+
+    const algebraicMoveType = covnertMoveType.get(moveTo.moveType);
+    if (algebraicMoveType !== undefined) move.push(algebraicMoveType);
 
     return move;
 }

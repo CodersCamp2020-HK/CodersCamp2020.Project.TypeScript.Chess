@@ -41,22 +41,14 @@ export class GameState {
         chessboard: IChessBoard,
     ): void {
         const move = moveToNotation(piece, moveTo);
-
-        const covnertMoveType = new Map([
-            [MoveType.NormalMove, ''],
-            [MoveType.Capture, 'x'],
-            [MoveType.EnPassant, 'x'],
-            [MoveType.Promotion, ''],
-        ]);
+        const enemySide = piece.side === Side.Black ? Side.White : Side.Black;
 
         let lastIndex = this.__previousMoves.length - 1;
         if (this.__previousMoves[lastIndex].white.length > 0 && this.__previousMoves[lastIndex].black.length > 0) {
             this.__previousMoves.push({ white: '', black: '' });
             lastIndex++;
         }
-        const algebraicMoveType = covnertMoveType.get(moveTo.moveType);
-        if (algebraicMoveType !== undefined) move.push(algebraicMoveType);
-        const enemySide = piece.side === Side.Black ? Side.White : Side.Black;
+
         // if (chessEngine.isCheckmate(chessboard, enemySide)) {
         //     move.push('#');
         //     const joinedMove = move.join();
@@ -81,6 +73,7 @@ export class GameState {
         if (moveTo.moveType === MoveType.Castling) {
             moveTo.x === 6 ? move.push('0-0') : move.push('0-0-0');
         }
+
         const joinedMove = move.join('');
         piece.side === Side.White
             ? (this.__previousMoves[lastIndex].white = joinedMove)
