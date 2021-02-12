@@ -20,7 +20,7 @@
 }
 
 .description {
-    @extend %h4;
+    @extend %p;
     display: flex;
     text-align: justify;
     color: black;
@@ -65,7 +65,7 @@
 }
 
 .link {
-    @extend %h4;
+    @extend %p;
     display: flex;
     text-decoration: none;
     color: black;

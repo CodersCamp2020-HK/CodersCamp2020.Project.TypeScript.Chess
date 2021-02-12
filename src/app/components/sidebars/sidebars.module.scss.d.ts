@@ -1,12 +1,12 @@
 // This file is generated automatically
+export const description: string;
+export const link: string;
 export const pieceText: string;
 export const actionDescription: string;
 export const pieceName: string;
-export const description: string;
 export const mentor: string;
 export const team: string;
 export const linkWrapper: string;
-export const link: string;
 export const rulesLabel: string;
 export const actionName: string;
 export const logo: string;
