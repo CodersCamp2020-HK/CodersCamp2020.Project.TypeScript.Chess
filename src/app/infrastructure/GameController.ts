@@ -1,4 +1,4 @@
-import { Cord, Piece, Score, Side } from '../domain/basicChessTypes';
+import { Cord, MoveType, Piece, Score, Side } from '../domain/basicChessTypes';
 import { ChessBoardView } from '../domain/IChessBoard';
 import { IChessEngine } from '../domain/IChessEngine';
 import { IChessBoardPresenter } from '../domain/IPresenter';
@@ -26,9 +26,7 @@ export class GameController {
         this.turnCounter = 0;
         this.currentTurn = Side.White;
         this.pieceIsSelected = false;
-        this.gameState.previousBoards.length - 1 > 0
-            ? (this.lastBoardState = this.gameState.previousBoards[this.gameState.previousBoards.length - 1])
-            : (this.lastBoardState = []);
+        this.lastBoardState = [];
         chessboardPresenter.onHover((cord) => this.handleOnHover(cord));
         chessboardPresenter.onClick((cord) => this.handleOnClick(cord));
     }
@@ -49,8 +47,6 @@ export class GameController {
         if (this.turnCounter === 2) {
             this.turnCounter = 0;
             this.gameState.updateCapturedPieces(this.chessboardState);
-            this.gameState.updatePreviousBoards(this.chessboardState.board);
-            // Poprzednie ruchy
         }
     }
 
@@ -92,7 +88,7 @@ export class GameController {
     }
 
     handleOnClick(cord: Cord): void {
-        const piece = this.chessboardState.getPiece(cord);
+        let piece = this.chessboardState.getPiece(cord);
 
         if (this.currentSelectedPiece) {
             const moves = this.chessEngine.getPossibleMovesForPiece(
@@ -104,9 +100,22 @@ export class GameController {
             if (filteredMoves.length > 0) {
                 const { x, y, moveType } = filteredMoves[0];
                 if (cord.x === x && cord.y === y) {
-                    this.chessboardState.makeMove(this.currentSelectedPiece, cord);
+                    this.turnCounter++;
+                    this.gameState.updatePreviousBoards(this.chessboardState.board);
+                    this.lastBoardState = this.gameState.previousBoards[this.gameState.previousBoards.length - 1];
+                    if (moveType === MoveType.EnPassant) {
+                        this.chessboardState.makeEnPassant(this.currentSelectedPiece, cord);
+                    } else {
+                        this.chessboardState.makeMove(this.currentSelectedPiece, cord);
+                    }
                     this.chessboardPresenter.render(this.chessboardState.board);
                     this.currentTurn = this.currentTurn === Side.White ? Side.Black : Side.White;
+                    if (this.chessEngine.isCheck(this.chessboardState, this.currentTurn)) {
+                        console.log('Szach');
+                    }
+                    this.chessboardPresenter.clearMarkedFields();
+                    this.currentSelectedPiece = null;
+                    piece = null;
                 }
             }
         }
