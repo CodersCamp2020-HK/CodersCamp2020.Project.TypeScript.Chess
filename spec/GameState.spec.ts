@@ -21,7 +21,6 @@ describe(`Given: Starting chessboard: ${displayEmojiBoard(firstMoveEmojiBoard)}`
     describe('When: updateCapturedPieces on gameState object is invoked', () => {
         it(`Then: empty array for white and black pieces should be returned`, () => {
             const expected = [{ black: [], white: [] }];
-
             const gameState = new GameState();
             jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(firstMoveEmojiBoard));
             gameState.updateCapturedPieces(chessboard);

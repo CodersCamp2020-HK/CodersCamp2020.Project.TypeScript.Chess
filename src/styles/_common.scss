@@ -67,3 +67,11 @@ $mobileMax: 900px;
    background-position: center;
    position: relative;
 }
+
+//Button-yellow
+%button-yellow {
+   background-color: colors.$yellow;
+   height: 45px;
+   cursor: pointer;
+   position:relative;
+}
