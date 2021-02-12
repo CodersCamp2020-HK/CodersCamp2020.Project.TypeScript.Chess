@@ -94,6 +94,23 @@ export class GameController {
     handleOnClick(cord: Cord): void {
         const piece = this.chessboardState.getPiece(cord);
 
+        if (this.currentSelectedPiece) {
+            const moves = this.chessEngine.getPossibleMovesForPiece(
+                this.currentSelectedPiece.cord,
+                this.chessboardState,
+                this.lastBoardState,
+            );
+            const filteredMoves = moves.filter((move) => move.x === cord.x && move.y === cord.y);
+            if (filteredMoves.length > 0) {
+                const { x, y, moveType } = filteredMoves[0];
+                if (cord.x === x && cord.y === y) {
+                    this.chessboardState.makeMove(this.currentSelectedPiece, cord);
+                    this.chessboardPresenter.render(this.chessboardState.board);
+                    this.currentTurn = this.currentTurn === Side.White ? Side.Black : Side.White;
+                }
+            }
+        }
+
         if (this.currentSelectedPiece === piece) {
             this.chessboardPresenter.clearMarkedFields();
             this.currentSelectedPiece = null;
