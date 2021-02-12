@@ -93,7 +93,11 @@ export class GameController {
 
     handleOnClick(cord: Cord): void {
         const piece = this.chessboardState.getPiece(cord);
-        if (piece && piece.side === this.currentTurn) {
+
+        if (this.currentSelectedPiece === piece) {
+            this.chessboardPresenter.clearMarkedFields();
+            this.currentSelectedPiece = null;
+        } else if (piece && piece.side === this.currentTurn) {
             this.currentSelectedPiece = piece;
             this.rerenderCurrentSelectedPiece();
         } else {
