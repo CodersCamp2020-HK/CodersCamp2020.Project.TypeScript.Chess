@@ -103,6 +103,10 @@
     @extend %h4;
 }
 
+.rulesLabel:first-of-type {
+    margin-top: 20px;
+}
+
 .piecesContainer {
     display: flex;
     flex-direction: column;
