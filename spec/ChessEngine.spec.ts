@@ -1,7 +1,8 @@
-import { Cord, CordWithMoveType } from '../src/app/domain/basicChessTypes';
+import { Cord, CordWithMoveType, Side } from '../src/app/domain/basicChessTypes';
 import { ChessBoard } from '../src/app/infrastructure/ChessBoard';
 import { ChessEngine } from '../src/app/infrastructure/ChessEngine';
 import { convertEmojitoCordWithMoveType, convertEmojiToRep, displayEmojiBoard } from './Display';
+import _ from 'lodash';
 
 const emojiBoard = [
     ['♜', '♚', '♛', '.', '.', '.', '.', '.'],
@@ -128,3 +129,167 @@ describe(`Given: Chessboard ${displayEmojiBoard(emojiBoard)}`, () => {
         });
     });
 });
+
+// const whiteSideNoHasCheck = [
+//     [
+//         ['♜', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '♔'],
+//     ],
+//     [
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['♜', '.', '.', '♖', '.', '.', '.', '♔'],
+//     ],
+//     [
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '♔', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//     ],
+//     [
+//         ['♜', '♞', '♝', '♛', '♚', '♝', '♞', '♜'],
+//         ['♟', '♟', '♟', '♟', '♟', '♟', '♟', '♟'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['♙', '♙', '♙', '♙', '♙', '♙', '♙', '♙'],
+//         ['♖', '♘', '♗', '♕', '♔', '♗', '♘', '♖'],
+//     ],
+// ];
+// describe(`Given: Chessboard : `, () => {
+//     describe(`When: isCheck is invoked on given board`, () => {
+//         const expectedWhite = false;
+//         whiteSideNoHasCheck.map((emojiBoard) => {
+//             const chessboardCheck = ChessBoard.createNewBoard();
+//             jest.spyOn(chessboardCheck, 'board', 'get').mockReturnValue(convertEmojiToRep(emojiBoard));
+//             it(`Then: there is no check on white side`, () => {
+//                 const actual = chessEngine.isCheck(chessboardCheck, Side.White);
+//                 expect(actual).toBe(expectedWhite);
+//             });
+//         });
+//     });
+// });
+
+// const whiteSideHasCheck = [
+//     [
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['♜', '.', '.', '.', '.', '.', '.', '♔'],
+//     ],
+//     [
+//         ['.', '.', '.', '.', '.', '.', '.', '♜'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['♜', '.', '.', '.', '♖', '.', '.', '♔'],
+//     ],
+//     [
+//         ['♝', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['♜', '.', '.', '.', '♖', '.', '.', '♔'],
+//     ],
+// ];
+// describe(`Given: Chessboard : `, () => {
+//     describe(`When: isCheck is invoked on given board`, () => {
+//         const result = true;
+//         whiteSideHasCheck.map((emojiBoard) => {
+//             const chessboardCheck = ChessBoard.createNewBoard();
+//             jest.spyOn(chessboardCheck, 'board', 'get').mockReturnValue(convertEmojiToRep(emojiBoard));
+//             it(`Then: there is check on white side`, () => {
+//                 const actual = chessEngine.isCheck(chessboardCheck, Side.White);
+//                 expect(actual).toBe(result);
+//             });
+//         });
+//     });
+// });
+
+// const blackSideNoHasCheck = [
+//     [
+//         ['♜', '♞', '♝', '♛', '♚', '♝', '♞', '♜'],
+//         ['♟', '♟', '♟', '♟', '♟', '♟', '♟', '♟'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['♙', '♙', '♙', '♙', '♙', '♙', '♙', '♙'],
+//         ['♖', '♘', '♗', '♕', '♔', '♗', '♘', '♖'],
+//     ],
+//     [
+//         ['♖', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '♚', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//     ],
+// ];
+// describe(`Given: Chessboard : `, () => {
+//     describe(`When: isCheck is invoked on given board`, () => {
+//         const result = false;
+//         blackSideNoHasCheck.map((emojiBoard) => {
+//             const chessboardCheck = ChessBoard.createNewBoard();
+//             jest.spyOn(chessboardCheck, 'board', 'get').mockReturnValue(convertEmojiToRep(emojiBoard));
+//             it(`Then: there is no check on black side`, () => {
+//                 const actual = chessEngine.isCheck(chessboardCheck, Side.Black);
+//                 expect(actual).toBe(result);
+//             });
+//         });
+//     });
+// });
+
+// const blackSideHasCheck = [
+//     [
+//         ['♚', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['.', '.', '.', '.', '.', '.', '.', '.'],
+//         ['♖', '.', '.', '.', '.', '.', '.', '.'],
+//     ],
+// ];
+// describe(`Given: Chessboard : `, () => {
+//     describe(`When: isCheck is invoked on given board`, () => {
+//         const result = true;
+//         blackSideHasCheck.map((emojiBoard) => {
+//             const chessboardCheck = ChessBoard.createNewBoard();
+//             jest.spyOn(chessboardCheck, 'board', 'get').mockReturnValue(convertEmojiToRep(emojiBoard));
+//             it(`Then: there is check on black side`, () => {
+//                 const actual = chessEngine.isCheck(chessboardCheck, Side.Black);
+//                 expect(actual).toBe(result);
+//             });
+//         });
+//     });
+// });
