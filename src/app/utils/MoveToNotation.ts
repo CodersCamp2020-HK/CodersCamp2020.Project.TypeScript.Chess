@@ -1,9 +1,9 @@
-import { CordWithMoveTypes, MoveType, Piece, PieceType } from '../domain/basicChessTypes';
+import { CordWithMoveTypes, MoveType, Piece, PieceType, PromotionPieceType } from '../domain/basicChessTypes';
 
 export function moveToNotation(
     piece: Piece,
     moveTo: CordWithMoveTypes,
-    promotionPiece: PieceType,
+    promotionPiece: PromotionPieceType,
 ): Array<string | number> {
     const move = [];
     const convertXCordToLetter = new Map([
@@ -34,6 +34,13 @@ export function moveToNotation(
         [PieceType.King, 'K'],
         [PieceType.Queen, 'Q'],
     ]);
+
+    const convertPromotionPiece = new Map([
+        [PromotionPieceType.Bishop, 'B'],
+        [PromotionPieceType.Knight, 'N'],
+        [PromotionPieceType.Rook, 'R'],
+        [PromotionPieceType.Queen, 'Q'],
+    ]);
     const covnertMoveType = new Map([
         [MoveType.NormalMove, ''],
         [MoveType.Capture, 'x'],
@@ -53,7 +60,7 @@ export function moveToNotation(
     }
 
     moveTo.moveType.forEach((moveType) => {
-        const promoted = convertPieceToString.get(promotionPiece);
+        const promoted = convertPromotionPiece.get(promotionPiece);
         const algebraicMoveType = covnertMoveType.get(moveType);
         if (algebraicMoveType && promoted) {
             algebraicMoveType === '=' ? move.push(algebraicMoveType, promoted) : move.push(algebraicMoveType);

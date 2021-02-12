@@ -1,7 +1,7 @@
 import { getCapturedPieceNames } from '../utils/CapturedPieces';
 import { ChessBoardView, IChessBoard } from '../domain/IChessBoard';
 import _ from 'lodash';
-import { CordWithMoveTypes, MoveType, Piece, PieceType, Side } from '../domain/basicChessTypes';
+import { CordWithMoveTypes, MoveType, Piece, PieceType, Side, PromotionPieceType } from '../domain/basicChessTypes';
 import { IChessEngine } from '../domain/IChessEngine';
 import { moveToNotation } from '../utils/MoveToNotation';
 
@@ -39,7 +39,7 @@ export class GameState {
         moveTo: CordWithMoveTypes,
         chessEngine: IChessEngine,
         chessboard: IChessBoard,
-        promotionPiece: PieceType,
+        promotionPiece: PromotionPieceType,
     ): void {
         const move = moveToNotation(piece, moveTo, promotionPiece);
 

@@ -1,4 +1,4 @@
-import { MoveType, Piece, PieceType, Side } from '../src/app/domain/basicChessTypes';
+import { MoveType, Piece, PromotionPieceType } from '../src/app/domain/basicChessTypes';
 import { ChessBoard } from '../src/app/infrastructure/ChessBoard';
 import { ChessEngine } from '../src/app/infrastructure/ChessEngine';
 import { GameState } from '../src/app/infrastructure/GameState';
@@ -114,7 +114,7 @@ describe(`Given: Starting chessboard: ${displayEmojiBoard(firstMoveEmojiBoard)}`
                 { x: 5, y: 2, moveType: [MoveType.NormalMove] },
                 chessEngine,
                 chessboard,
-                PieceType.Queen,
+                PromotionPieceType.Queen,
             );
             newChessboard.makeMove(knight, { x: 5, y: 2 });
 
@@ -124,7 +124,7 @@ describe(`Given: Starting chessboard: ${displayEmojiBoard(firstMoveEmojiBoard)}`
                 { x: 3, y: 3, moveType: [MoveType.NormalMove] },
                 chessEngine,
                 chessboard,
-                PieceType.Queen,
+                PromotionPieceType.Queen,
             );
             newChessboard.makeMove(pawn, { x: 3, y: 3 });
 
@@ -133,7 +133,7 @@ describe(`Given: Starting chessboard: ${displayEmojiBoard(firstMoveEmojiBoard)}`
                 { x: 3, y: 3, moveType: [MoveType.Capture] },
                 chessEngine,
                 chessboard,
-                PieceType.Queen,
+                PromotionPieceType.Queen,
             );
             newChessboard.makeMove(knight, { x: 3, y: 3 });
 
@@ -143,7 +143,7 @@ describe(`Given: Starting chessboard: ${displayEmojiBoard(firstMoveEmojiBoard)}`
                 { x: 2, y: 0, moveType: [MoveType.NormalMove] },
                 chessEngine,
                 chessboard,
-                PieceType.Queen,
+                PromotionPieceType.Queen,
             );
             newChessboard.makeMove(pawn2, { x: 2, y: 0 });
 
@@ -258,7 +258,7 @@ describe(`Given: Chessboard ${displayEmojiBoard(checkEmojiBoard)}`, () => {
                 { x: 7, y: 6, moveType: [MoveType.Castling] },
                 chessEngine,
                 chessboard,
-                PieceType.Queen,
+                PromotionPieceType.Queen,
             );
 
             const rook = chessboard.getPiece({ x: 0, y: 0 }) as Piece;
@@ -267,7 +267,7 @@ describe(`Given: Chessboard ${displayEmojiBoard(checkEmojiBoard)}`, () => {
                 { x: 0, y: 6, moveType: [MoveType.Capture] },
                 chessEngine,
                 chessboard,
-                PieceType.Queen,
+                PromotionPieceType.Queen,
             );
             jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(checkMoveEmojiBoard));
 
@@ -319,7 +319,7 @@ ${displayEmojiBoard(afterQueenSideCastlingEmojiBoard)}`, () => {
                 { x: 7, y: 2, moveType: [MoveType.Castling] },
                 chessEngine,
                 chessboard,
-                PieceType.Queen,
+                PromotionPieceType.Queen,
             );
 
             jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(afterQueenSideCastlingEmojiBoard));
@@ -371,7 +371,7 @@ ${displayEmojiBoard(afterPawnPromotionEmojiBoard)}`, () => {
                 { x: 0, y: 7, moveType: [MoveType.Capture, MoveType.Promotion] },
                 chessEngine,
                 chessboard,
-                PieceType.Queen,
+                PromotionPieceType.Queen,
             );
 
             const blackPiece = chessboard.board[6][0] as Piece;
@@ -380,7 +380,7 @@ ${displayEmojiBoard(afterPawnPromotionEmojiBoard)}`, () => {
                 { x: 7, y: 0, moveType: [MoveType.NormalMove, MoveType.Promotion] },
                 chessEngine,
                 chessboard,
-                PieceType.Knight,
+                PromotionPieceType.Knight,
             );
 
             const actual = gameState.previousMoves;
