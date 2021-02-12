@@ -25,11 +25,7 @@ export class ChessEngine implements IChessEngine {
         ]);
     }
 
-    getPossibleMovesForPiece(
-        cord: Cord,
-        boardState: IChessBoard,
-        previousBoardState?: IChessBoard,
-    ): CordWithMoveType[] {
+    getPossibleMovesForPiece(cord: Cord, boardState: IChessBoard, previousBoardState: IChessBoard): CordWithMoveType[] {
         const piece = boardState.board[cord.x][cord.y];
         if (!piece) {
             return [];
@@ -43,7 +39,7 @@ export class ChessEngine implements IChessEngine {
         }
         if (piece.figType === PieceType.King) {
             const moves = handler(cord, boardState);
-            return this.excludeMovesOnAttackedSquaresForKing(piece.cord, moves, boardState);
+            return this.excludeMovesOnAttackedSquaresForKing(piece.cord, moves, boardState, previousBoardState);
         }
         return handler(cord, boardState);
     }
@@ -98,6 +94,7 @@ export class ChessEngine implements IChessEngine {
         pieceCord: Cord,
         possibleMoves: CordWithMoveType[],
         boardState: IChessBoard,
+        previousBoardState: IChessBoard,
     ): CordWithMoveType[] {
         const copiedBoardState = _.cloneDeep(boardState);
         const king = copiedBoardState.getPiece(pieceCord);
@@ -105,7 +102,7 @@ export class ChessEngine implements IChessEngine {
 
         const result: CordWithMoveType[] = possibleMoves.filter((move) => {
             copiedBoardState.makeMove(king, { x: move.x, y: move.y });
-            return !this.isCheck(copiedBoardState, king.side);
+            return !this.isCheck(copiedBoardState, king.side, previousBoardState);
         });
 
         return result;

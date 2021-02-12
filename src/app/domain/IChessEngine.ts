@@ -7,5 +7,5 @@ export interface IChessEngine {
     isStealemate(boardState: IChessBoard, side: Side, previousBoardState: IChessBoard): boolean;
 
     // getPossibleMovesForPiece będzie uruchamiała funkcje w zalezności od figury
-    getPossibleMovesForPiece(cord: Cord, boardState: IChessBoard): CordWithMoveType[];
+    getPossibleMovesForPiece(cord: Cord, boardState: IChessBoard, previousBoardState: IChessBoard): CordWithMoveType[];
 }
