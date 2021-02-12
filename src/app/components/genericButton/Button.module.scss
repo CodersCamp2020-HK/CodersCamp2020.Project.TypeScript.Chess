@@ -1,3 +1,114 @@
+@use '../../../styles/colors';
+@use '../../../styles/common';
+@use '../../../styles/typography';
+
 .button {
   outline: none;
+    @extend %h4;
+    @extend %button-yellow; 
+    font-weight: 700;
+
+  &.buttonAnimated {
+    letter-spacing: 2px;
+    clip-path: polygon(100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 0);
+    border-left: 2px solid colors.$blue;
+    width:100%;
+
+    &.buttonAnimated:hover,
+    &.buttonAnimated:focus {
+      animation-name: hover;
+      animation-duration: 800ms;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+    }
+
+    &.buttonAnimated:before {
+      content: "";
+      position: absolute;
+      display: none;
+      background-color: colors.$yellow;
+      width: calc(100% + (5px * 2));
+      height: 5px;
+      top: 0px;
+      left: -20px;
+      border-left: 2px solid colors.$blue;
+      border-right: 2px solid colors.$blue;
+    }
+
+    &.buttonAnimated:hover:before,
+    &.buttonAnimated:focus:before {
+      display: block;
+      animation-name: hoverbefore;
+      animation-duration: 800ms;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+    }
+
+    @keyframes hover {
+      0% {
+        transform: skew(0deg);
+      }
+      60% {
+        transform: skew(0deg);
+      }
+      61% {
+        transform: skew(10deg);
+      }
+      70% {
+        transform: skew(10deg);
+      }
+      71% {
+        transform: skew(0deg);
+      }
+      100% {
+        transform: skew(0deg);
+      }
+    }
+
+    @keyframes hoverbefore {
+      0% {
+        display: none;
+        top: 0px;
+      }
+      10% {
+        display: none;
+        top: 0px;
+      }
+      11% {
+        display: block;
+        top: 20px;
+        left: calc(0px - 0px - 6px);
+      }
+      29% {
+        top: 20px;
+      }
+      30% {
+        display: none;
+        top: 0px;
+      }
+      50% {
+        display: none;
+        top: 0px;
+      }
+      51% {
+        display: block;
+        top: 45px;
+        height: 22px;
+      }
+      90% {
+        display: block;
+        top: 45px;
+        height: 22px;
+      }
+      91% {
+        display: none;
+        top: 0px;
+        height: 12px;
+      }
+      100% {
+        display: none;
+        top: 0px;
+      }
+    }
+  }
 }
