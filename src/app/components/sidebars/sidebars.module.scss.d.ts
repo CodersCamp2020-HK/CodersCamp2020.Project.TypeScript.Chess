@@ -10,3 +10,4 @@ export const teamList: string;
 export const close: string;
 export const mainWrapper: string;
 export const label: string;
+export const rulesLabel: string;

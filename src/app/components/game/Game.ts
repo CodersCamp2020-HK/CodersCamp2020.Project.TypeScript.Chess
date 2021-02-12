@@ -3,6 +3,7 @@ import boardStyles from '../ChessBoard/chess.module.scss';
 import { Aside } from '../Aside/Aside';
 import rulesTxt from '../../../assets/rules.txt';
 import infoTxt from '../../../assets/info.txt';
+import { InfoContent, RulesContent } from '../sidebars/sidebars';
 import { CapturedTable } from './capturedTable/CapturedTable';
 import { Header } from '../HeaderCyberChess/Header';
 import { Label } from '../genericLabel/Label';
@@ -31,8 +32,8 @@ export class Game {
         const wrapper = document.createElement('div');
         wrapper.classList.add(styles.wrapper);
 
-        const rules = new Aside('Rules', 'left', rulesTxt);
-        const info = new Aside('Info', 'right', infoTxt);
+        const rules = new Aside('Rules', 'left', new RulesContent().element);
+        const info = new Aside('Info', 'right', new InfoContent().element);
 
         const cyberChessTextWrapper = document.createElement('div');
         cyberChessTextWrapper.classList.add(styles.wrapperText);

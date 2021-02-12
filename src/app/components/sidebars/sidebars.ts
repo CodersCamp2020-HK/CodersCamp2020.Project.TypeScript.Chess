@@ -65,3 +65,36 @@ export class InfoContent {
         this._element.append(logo, year, description, mentorWrapper, teamWrapper, linkWrapper);
     }
 }
+
+export class RulesContent {
+    private _element: HTMLDivElement = document.createElement('div');
+    constructor() {
+        this.render();
+    }
+
+    render(): void {
+        this._element.innerHTML = '';
+        this._element.classList.add(styles.mainWrapper);
+
+        const piecesLabel = document.createElement('label');
+        piecesLabel.textContent = 'Chess moves';
+        piecesLabel.classList.add(styles.rulesLabel);
+
+        const castlingLabel = document.createElement('label');
+        castlingLabel.textContent = 'Castling';
+        castlingLabel.classList.add(styles.rulesLabel);
+
+        const enPassantLabel = document.createElement('label');
+        enPassantLabel.textContent = 'enPassant';
+        enPassantLabel.classList.add(styles.rulesLabel);
+
+        const pawnPromotionLabel = document.createElement('label');
+        pawnPromotionLabel.textContent = 'enPassant';
+        pawnPromotionLabel.classList.add(styles.rulesLabel);
+
+        this._element.append(piecesLabel);
+    }
+    get element(): HTMLDivElement {
+        return this._element;
+    }
+}
