@@ -22,3 +22,4 @@ export const pieceImage: string;
 export const pieceDescription: string;
 export const actionsContainer: string;
 export const actionCard: string;
+export const actionImage: string;

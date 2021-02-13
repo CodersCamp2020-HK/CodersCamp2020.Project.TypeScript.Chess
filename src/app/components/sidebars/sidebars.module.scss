@@ -163,3 +163,9 @@
 .actionDescription {
     @extend %p;
 }
+
+.actionImage {
+    margin-top: 10px;
+    max-width: 100%;
+    align-self: center;
+}

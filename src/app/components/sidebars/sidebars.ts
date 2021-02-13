@@ -131,13 +131,12 @@ export class RulesContent {
             actionDescription.textContent = action.description;
             actionDescription.classList.add(styles.actionDescription);
 
-            actionCard.append(actionName, actionDescription);
+            const actionImage = action.img.cloneNode(true) as HTMLImageElement;
+            actionImage.classList.add(styles.actionImage);
+
+            actionCard.append(actionName, actionDescription, actionImage);
             actionsContainer.append(actionCard);
         });
-
-        const enPassantLabel = document.createElement('label');
-        enPassantLabel.textContent = 'enPassant';
-        enPassantLabel.classList.add(styles.rulesLabel);
 
         this._element.append(piecesLabel, piecesContainer, actionsContainer);
     }
