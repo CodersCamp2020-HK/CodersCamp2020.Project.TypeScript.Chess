@@ -12,7 +12,6 @@ import { ChessEngine } from './ChessEngine';
 export class GameController {
     private whiteTimer: Timer;
     private blackTimer: Timer;
-    private turnCounter: number;
     private currentTurn: Side;
     private lastBoardState: ChessBoardView;
     private pieceIsSelected: boolean;
@@ -23,7 +22,6 @@ export class GameController {
     constructor(public chessboardPresenter: IChessBoardPresenter, private onEndGame: (score: Score) => void) {
         this.whiteTimer = new Timer(300, 3, () => onEndGame(Score.BlackWon));
         this.blackTimer = new Timer(300, 3, () => onEndGame(Score.WhiteWon));
-        this.turnCounter = 0;
         this.currentTurn = Side.White;
         this.pieceIsSelected = false;
         this.lastBoardState = [];
@@ -44,10 +42,8 @@ export class GameController {
     }
 
     private updateGameState(): void {
-        if (this.turnCounter === 2) {
-            this.turnCounter = 0;
-            this.gameState.updateCapturedPieces(this.chessboardState);
-        }
+        this.gameState.updateCapturedPieces(this.chessboardState, this.currentTurn);
+        this.gameState.updatePreviousBoards(this.chessboardState.board);
     }
 
     private updateTimer(): void {
@@ -100,8 +96,8 @@ export class GameController {
             if (filteredMoves.length > 0) {
                 const { x, y, moveType } = filteredMoves[0];
                 if (cord.x === x && cord.y === y) {
-                    this.turnCounter++;
-                    this.gameState.updatePreviousBoards(this.chessboardState.board);
+                    // this.gameState.updatePreviousBoards(this.chessboardState.board);
+                    this.updateGameState();
                     this.lastBoardState = this.gameState.previousBoards[this.gameState.previousBoards.length - 1];
                     moveType === MoveType.EnPassant
                         ? this.chessboardState.makeEnPassant(this.currentSelectedPiece, cord)
