@@ -211,7 +211,7 @@ describe('All possible moves', () => {
     describe('should return capture, normal and passant move possible', () => {
         describe('for black piece', () => {
             test('not blocked - empty tile in front of, capture for left and passant for right', () => {
-                expect(getPossibleMovesForPawn(allMoves.currentPawnBlack.cord, ichess, ichessprevious)).toEqual(
+                expect(getPossibleMovesForPawn(allMoves.currentPawnBlack.cord, ichess, ichessprevious.board)).toEqual(
                     allMoves.captureBlackResult,
                 );
             });
