@@ -9,7 +9,8 @@ import { Label } from '../genericLabel/Label';
 import { Footer } from '../footer/Footer';
 import { Button } from '../genericButton/Button';
 import { PreviousMovesButtons } from '../ButtonsPreviewNext/PreviousMovesButtons';
-
+import { ModalGameOver } from '../modalGameOver/ModalGameOver';
+import { Side } from '../../domain/basicChessTypes';
 export class Game {
     private __element: HTMLElement;
 
@@ -76,6 +77,7 @@ export class Game {
         footerWrapper.classList.add(styles.wrapperFooter);
         const footerImage = new Footer();
         footerWrapper.appendChild(footerImage.element);
+        const modalGameOver = new ModalGameOver(Side.White, 43, '2:45', 'time control', 'Ania', 'Mateusz', fun, fun);
 
         wrapper.append(
             this.gameBoardView,
@@ -84,7 +86,14 @@ export class Game {
             previousMovesWrapper,
             quitButtonWrapper,
         );
-        container.append(rules.element, info.element, cyberChessTextWrapper, wrapper, footerWrapper);
+        container.append(
+            rules.element,
+            info.element,
+            cyberChessTextWrapper,
+            wrapper,
+            footerWrapper,
+            modalGameOver.element,
+        );
 
         return container;
     }
