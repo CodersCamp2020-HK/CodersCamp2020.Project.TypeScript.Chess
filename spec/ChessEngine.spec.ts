@@ -1,8 +1,7 @@
-import { Cord, CordWithMoveType, Side } from '../src/app/domain/basicChessTypes';
+import { Cord, CordWithMoveType } from '../src/app/domain/basicChessTypes';
 import { ChessBoard } from '../src/app/infrastructure/ChessBoard';
 import { ChessEngine } from '../src/app/infrastructure/ChessEngine';
 import { convertEmojitoCordWithMoveType, convertEmojiToRep, displayEmojiBoard } from './Display';
-import _ from 'lodash';
 
 const emojiBoard = [
     ['♜', '♚', '♛', '.', '.', '.', '.', '.'],
