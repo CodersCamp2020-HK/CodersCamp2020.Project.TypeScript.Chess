@@ -1,12 +1,12 @@
- @use '../../../styles/common';
- 
- * {
+@use '../../../styles/common';
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
- * {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -18,11 +18,13 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    color: #FBEC09;
+    color: #fbec09;
+    z-index: 1;
 }
 
-.container::before {
+.container::after {
     @extend %background-photo-after;
+    z-index: -1;
 }
 
 .wrapper {
@@ -33,11 +35,11 @@
     grid-template-rows: repeat(4, auto);
     row-gap: 10px;
     column-gap: 30px;
-    grid-template-areas: 
-        "chessboard opponent"
-        "chessboard player"
-        "chessboard moves"
-        "chessboard quit";
+    grid-template-areas:
+        'chessboard opponent'
+        'chessboard player'
+        'chessboard moves'
+        'chessboard quit';
 }
 
 .wrapper > * {

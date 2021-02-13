@@ -1,6 +1,6 @@
 import { PieceType, Cord, CordWithMoveType, Side, Piece } from '../domain/basicChessTypes';
 import { flattenChessboard } from '../utils/ChessboardHelpers';
-import { IChessBoard } from '../domain/IChessBoard';
+import { ChessBoardView, IChessBoard } from '../domain/IChessBoard';
 import { IChessEngine } from '../domain/IChessEngine';
 import { getPossibleMovesForPawn } from '../utils/pawnMoves';
 import {
@@ -25,7 +25,11 @@ export class ChessEngine implements IChessEngine {
         ]);
     }
 
-    getPossibleMovesForPiece(cord: Cord, boardState: IChessBoard, previousBoardState: IChessBoard): CordWithMoveType[] {
+    getPossibleMovesForPiece(
+        cord: Cord,
+        boardState: IChessBoard,
+        previousBoardState: ChessBoardView,
+    ): CordWithMoveType[] {
         const piece = boardState.board[cord.x][cord.y];
         if (!piece) {
             return [];
@@ -39,15 +43,15 @@ export class ChessEngine implements IChessEngine {
         }
         if (piece.figType === PieceType.King) {
             const moves = handler(cord, boardState);
-            return this.excludeMovesOnAttackedSquaresForKing(piece.cord, moves, boardState, previousBoardState);
+            return this.excludeMovesOnAttackedSquaresForKing(cord, moves, boardState, previousBoardState);
         }
         return handler(cord, boardState);
     }
 
-    isCheck(boardState: IChessBoard, side: Side, previousBoardState: IChessBoard): boolean {
+    isCheck(boardState: IChessBoard, side: Side, previousBoardState: ChessBoardView): boolean {
         const { board } = boardState;
         const allEnemyPieces = flattenChessboard(board).filter(
-            (item): item is Piece => item !== null && item.side !== side,
+            (item): item is Piece => item !== null && item.side !== side && item.figType !== PieceType.King,
         );
         const allEnemyPiecesMoves = allEnemyPieces.map((piece) => {
             return this.getPossibleMovesForPiece({ x: piece.cord.x, y: piece.cord.y }, boardState, previousBoardState);
@@ -60,13 +64,13 @@ export class ChessEngine implements IChessEngine {
         return filteredResult.some((item) => item.x === king[0].cord.x && item.y === king[0].cord.y);
     }
 
-    isCheckmate(boardState: IChessBoard, side: Side, previousBoardState: IChessBoard): boolean {
+    isCheckmate(boardState: IChessBoard, side: Side, previousBoardState: ChessBoardView): boolean {
         return this.isCheck(boardState, side, previousBoardState)
             ? this.isStealemate(boardState, side, previousBoardState)
             : false;
     }
 
-    isStealemate(boardState: IChessBoard, side: Side, previousBoardState: IChessBoard): boolean {
+    isStealemate(boardState: IChessBoard, side: Side, previousBoardState: ChessBoardView): boolean {
         const { board } = boardState;
         const checkmateArr: boolean[] = [];
         const allMyPieces = flattenChessboard(board).filter(
@@ -84,7 +88,7 @@ export class ChessEngine implements IChessEngine {
                 const copyBoardState = _.cloneDeep(boardState);
                 const copyPreviousBoardState = _.cloneDeep(boardState);
                 copyBoardState.makeMove(clonePiece, move);
-                checkmateArr.push(this.isCheck(copyBoardState, side, copyPreviousBoardState));
+                checkmateArr.push(this.isCheck(copyBoardState, side, copyPreviousBoardState.board));
             });
         });
         return checkmateArr.every((item) => item === true);
@@ -94,7 +98,7 @@ export class ChessEngine implements IChessEngine {
         pieceCord: Cord,
         possibleMoves: CordWithMoveType[],
         boardState: IChessBoard,
-        previousBoardState: IChessBoard,
+        previousBoardState: ChessBoardView,
     ): CordWithMoveType[] {
         const copiedBoardState = _.cloneDeep(boardState);
         const king = copiedBoardState.getPiece(pieceCord);
