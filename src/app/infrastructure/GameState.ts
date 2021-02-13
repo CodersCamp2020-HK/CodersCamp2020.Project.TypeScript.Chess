@@ -6,11 +6,16 @@ import { IChessEngine } from '../domain/IChessEngine';
 import { moveToNotation } from '../utils/MoveToNotation';
 
 export class GameState {
-    private __capturedPieces: { white: string[]; black: string[] }[] = [];
-    private __previousBoards: ChessBoardView[] = [];
     private __previousMoves: { white: string; black: string }[] = [{ white: '', black: '' }];
+    private __capturedPieces: { white: string[]; black: string[] };
+    private __previousBoards: ChessBoardView[];
 
-    public get capturedPieces(): { white: string[]; black: string[] }[] {
+    constructor() {
+        this.__capturedPieces = { white: [], black: [] };
+        this.__previousBoards = [];
+    }
+
+    public get capturedPieces(): { white: string[]; black: string[] } {
         return this.__capturedPieces;
     }
 
@@ -21,13 +26,10 @@ export class GameState {
     public get previousMoves(): { white: string; black: string }[] {
         return this.__previousMoves;
     }
+    updateCapturedPieces(boardState: IChessBoard, side: Side): void {
+        const pieceNames = getCapturedPieceNames(side, boardState);
 
-    updateCapturedPieces(boardState: IChessBoard): void {
-        const blackPieceNames = getCapturedPieceNames(Side.Black, boardState);
-        const whitePiecesNames = getCapturedPieceNames(Side.White, boardState);
-
-        const capturedPiece = { black: whitePiecesNames, white: blackPieceNames };
-        this.__capturedPieces.push(capturedPiece);
+        side === Side.White ? (this.__capturedPieces.black = pieceNames) : (this.__capturedPieces.white = pieceNames);
     }
 
     updatePreviousBoards(chessboard: ChessBoardView): void {
@@ -48,9 +50,11 @@ export class GameState {
             this.__previousMoves.push({ white: '', black: '' });
             lastIndex++;
         }
+        const lastBoard = this.__previousBoards[this.__previousBoards.length - 1];
+        const enemySide = piece.side === Side.White ? Side.Black : Side.White;
 
         for (const moveType of moveTo.moveType) {
-            // if (chessEngine.isCheckmate(chessboard, enemySide)) {
+            // if (chessEngine.isCheckmate(chessboard, enemySide, lastBoard)) {
             //     move.push('#');
             //     const joinedMove = move.join();
             //     piece.side === Side.White
@@ -58,13 +62,13 @@ export class GameState {
             //         : (this.__previousMoves[lastIndex].black = joinedMove);
             //     return;
             // }
-            // if (chessEngine.isStealemate(chessboard, enemySide)) {
+            // if (chessEngine.isStealemate(chessboard, enemySide, lastBoard)) {
             //     piece.side === Side.White
             //         ? (this.__previousMoves[lastIndex].white = '½-½')
             //         : (this.__previousMoves[lastIndex].black = '½-½');
             //     return;
             // }
-            if (chessEngine.isCheck(chessboard, piece.side)) {
+            if (chessEngine.isCheck(chessboard, piece.side, lastBoard)) {
                 move.push('+');
                 const joinedMove = move.join('');
                 this.updateMove(joinedMove, piece.side, lastIndex);
