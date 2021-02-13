@@ -56,3 +56,14 @@ export enum Score {
 }
 
 export type PickSide = () => Side;
+
+export interface CordWithMoveTypes extends Cord {
+    moveType: MoveType[];
+}
+
+export enum PromotionPieceType {
+    Rook,
+    Knight,
+    Bishop,
+    Queen,
+}
