@@ -110,7 +110,7 @@ export class GameController {
                     }
                     this.chessboardPresenter.render(this.chessboardState.board);
                     this.currentTurn = this.currentTurn === Side.White ? Side.Black : Side.White;
-                    if (this.chessEngine.isCheck(this.chessboardState, this.currentTurn)) {
+                    if (this.chessEngine.isCheck(this.chessboardState, this.currentTurn, this.lastBoardState)) {
                         console.log('Szach');
                     }
                     this.chessboardPresenter.clearMarkedFields();
