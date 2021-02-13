@@ -4,15 +4,15 @@ import _ from 'lodash';
 import { Side } from '../domain/basicChessTypes';
 
 export class GameState {
-    private __capturedPieces: { white: string[]; black: string[] }[];
+    private __capturedPieces: { white: string[]; black: string[] };
     private __previousBoards: ChessBoardView[];
 
     constructor() {
-        this.__capturedPieces = [];
+        this.__capturedPieces = { white: [], black: [] };
         this.__previousBoards = [];
     }
 
-    public get capturedPieces(): { white: string[]; black: string[] }[] {
+    public get capturedPieces(): { white: string[]; black: string[] } {
         return this.__capturedPieces;
     }
 
@@ -20,12 +20,10 @@ export class GameState {
         return this.__previousBoards;
     }
 
-    updateCapturedPieces(boardState: IChessBoard): void {
-        const blackPieceNames = getCapturedPieceNames(Side.Black, boardState);
-        const whitePiecesNames = getCapturedPieceNames(Side.White, boardState);
+    updateCapturedPieces(boardState: IChessBoard, side: Side): void {
+        const pieceNames = getCapturedPieceNames(side, boardState);
 
-        const capturedPiece = { black: whitePiecesNames, white: blackPieceNames };
-        this.__capturedPieces.push(capturedPiece);
+        side === Side.White ? (this.__capturedPieces.black = pieceNames) : (this.__capturedPieces.white = pieceNames);
     }
 
     updatePreviousBoards(chessboard: ChessBoardView): void {
