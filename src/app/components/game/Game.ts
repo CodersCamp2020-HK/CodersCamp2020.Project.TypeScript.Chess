@@ -75,9 +75,7 @@ export class Game {
         footerWrapper.classList.add(styles.wrapperFooter);
         const footerImage = new Footer();
         footerWrapper.appendChild(footerImage.element);
-        const modalPromotion = new ModalPromotion(Side.White);
-        modalPromotion.openModal();
-        console.log(modalPromotion.pieceChosen);
+        const modalPromotion = new ModalPromotion(Side.Black);
 
         wrapper.append(
             chessboardWrapper,

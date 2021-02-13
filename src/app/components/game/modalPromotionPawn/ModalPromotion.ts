@@ -4,7 +4,7 @@ import { Side } from '../../../domain/basicChessTypes';
 
 export class ModalPromotion {
     private __element: HTMLDialogElement;
-    private __pieceChosen: string;
+    private __pieceChosen = '';
 
     constructor(side: Side) {
         this.__pieceChosen = '';
@@ -14,20 +14,28 @@ export class ModalPromotion {
         this.__element.append(modalWrapper);
         modalWrapper.classList.add(styles.modalWrapper);
 
-        const labelPromotion = new Label('blue', 'By which piece will you replace the pawn?');
-
+        let labelPromotion: Label;
         const piecesWrapper = document.createElement('div');
         piecesWrapper.classList.add(styles.piecesWrapper);
-        modalWrapper.append(labelPromotion.element, piecesWrapper);
 
-        side === Side.White ? piecesWrapper.classList.add(styles.player) : piecesWrapper.classList.add(styles.opponent);
+        if (side === Side.White) {
+            modalWrapper.classList.add(styles.wrapperOpponent);
+            labelPromotion = new Label('red', 'By which piece will you replace the pawn?');
+            piecesWrapper.classList.add(styles.player);
+        } else {
+            modalWrapper.classList.add(styles.wrapperPlayer);
+            labelPromotion = new Label('blue', 'By which piece will you replace the pawn?');
+            piecesWrapper.classList.add(styles.opponent);
+        }
+        modalWrapper.append(labelPromotion.element, piecesWrapper);
 
         type Piece = 'rook' | 'knight' | 'queen' | 'bishop';
         const piecesPossiblePromotion: Piece[] = ['rook', 'knight', 'queen', 'bishop'];
 
         for (let i = 0; i < piecesPossiblePromotion.length; i++) {
+            const namePiece = piecesPossiblePromotion[i];
             const buttonPiece = document.createElement('div');
-            buttonPiece.classList.add(styles.box);
+            buttonPiece.classList.add(styles.box, piecesPossiblePromotion[i]);
             const imagePiece = document.createElement('div');
             imagePiece.classList.add(styles[piecesPossiblePromotion[i]]);
             buttonPiece.append(imagePiece);
@@ -36,7 +44,7 @@ export class ModalPromotion {
             buttonPiece.addEventListener('click', () => {
                 this.__element.classList.remove(styles.modal);
                 this.__element.classList.add(styles.modalInvisible);
-                this.__pieceChosen = piecesPossiblePromotion[i];
+                this.__pieceChosen = namePiece;
             });
         }
     }

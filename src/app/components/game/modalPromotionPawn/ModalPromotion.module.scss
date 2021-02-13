@@ -2,8 +2,8 @@
 @use '../../../../styles/common';
 @use '../../../../styles/typography';
 
-.modalInvisible{
-   display:none;  
+.modalInvisible {
+  display: none;
 }
 
 .modal {
@@ -17,22 +17,30 @@
   display: flex;
   justify-content: center;
   align-items: center;
- 
+
   .modalWrapper {
     background-color: colors.$black;
     @extend %border-modal;
-    padding: 2vw;
-    max-width: 500px;
+    padding: 3vw;
+    max-width: 600px;
     max-height: 500px;
+    
+    &.wrapperPlayer {
     @extend %shadow-blue-2;
+    }
+    
+    &.wrapperOpponent{
+      border-color: colors.$red;
+      @extend %shadow-red-2;
+    }
 
     .box {
       background-color: black;
       border-radius: 5px;
       box-sizing: border-box;
       padding: 5px;
-      width: 50px;
-      height: 50px;
+      width: 60px;
+      height: 60px;
       cursor: pointer;
     }
 
