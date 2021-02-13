@@ -25,20 +25,21 @@ export class ChessEngine implements IChessEngine {
         ]);
     }
 
-    getPossibleMovesForPiece(
-        cord: Cord,
-        boardState: IChessBoard,
-        previousBoardState?: IChessBoard,
-    ): CordWithMoveType[] {
+    getPossibleMovesForPiece(cord: Cord, boardState: IChessBoard, previousBoardState: IChessBoard): CordWithMoveType[] {
         const piece = boardState.board[cord.x][cord.y];
         if (!piece) {
             return [];
         }
-        if (piece.figType === PieceType.Pawn && previousBoardState)
+        if (piece.figType === PieceType.Pawn && previousBoardState) {
             return getPossibleMovesForPawn(cord, boardState, previousBoardState);
+        }
         const handler = this.getMovesByPiece.get(piece.figType);
         if (!handler) {
             return [];
+        }
+        if (piece.figType === PieceType.King) {
+            const moves = handler(cord, boardState);
+            return this.excludeMovesOnAttackedSquaresForKing(piece.cord, moves, boardState, previousBoardState);
         }
         return handler(cord, boardState);
     }
@@ -87,5 +88,23 @@ export class ChessEngine implements IChessEngine {
             });
         });
         return checkmateArr.every((item) => item === true);
+    }
+
+    excludeMovesOnAttackedSquaresForKing(
+        pieceCord: Cord,
+        possibleMoves: CordWithMoveType[],
+        boardState: IChessBoard,
+        previousBoardState: IChessBoard,
+    ): CordWithMoveType[] {
+        const copiedBoardState = _.cloneDeep(boardState);
+        const king = copiedBoardState.getPiece(pieceCord);
+        if (!king) throw new Error('Król zbiegł z pola bitwy');
+
+        const result: CordWithMoveType[] = possibleMoves.filter((move) => {
+            copiedBoardState.makeMove(king, { x: move.x, y: move.y });
+            return !this.isCheck(copiedBoardState, king.side, previousBoardState);
+        });
+
+        return result;
     }
 }

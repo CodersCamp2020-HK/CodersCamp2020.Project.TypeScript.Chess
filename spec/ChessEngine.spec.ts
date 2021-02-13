@@ -34,7 +34,7 @@ describe(`Given: Chessboard ${displayEmojiBoard(emojiBoard)}`, () => {
         const expected: CordWithMoveType[] = convertEmojitoCordWithMoveType(emojiExpectedBoard);
         it(`Then: possible moves for black rook should be:\n${displayEmojiBoard(emojiExpectedBoard)}`, () => {
             const cord: Cord = { x: 0, y: 0 };
-            const actual = chessEngine.getPossibleMovesForPiece(cord, chessboard);
+            const actual = chessEngine.getPossibleMovesForPiece(cord, chessboard, chessboard);
             expect(actual).toEqual(expect.arrayContaining(expected));
         });
     });
@@ -52,7 +52,7 @@ describe(`Given: Chessboard ${displayEmojiBoard(emojiBoard)}`, () => {
         const expected: CordWithMoveType[] = convertEmojitoCordWithMoveType(emojiExpectedBoard);
         it(`Then: possible moves for black king should be:\n${displayEmojiBoard(emojiExpectedBoard)}`, () => {
             const cord: Cord = { x: 0, y: 1 };
-            const actual = chessEngine.getPossibleMovesForPiece(cord, chessboard);
+            const actual = chessEngine.getPossibleMovesForPiece(cord, chessboard, chessboard);
             expect(actual).toEqual(expect.arrayContaining(expected));
         });
     });
@@ -70,7 +70,7 @@ describe(`Given: Chessboard ${displayEmojiBoard(emojiBoard)}`, () => {
         const expected: CordWithMoveType[] = convertEmojitoCordWithMoveType(emojiExpectedBoard);
         it(`Then: possible moves for black queen should be:\n${displayEmojiBoard(emojiExpectedBoard)}`, () => {
             const cord: Cord = { x: 0, y: 2 };
-            const actual = chessEngine.getPossibleMovesForPiece(cord, chessboard);
+            const actual = chessEngine.getPossibleMovesForPiece(cord, chessboard, chessboard);
             expect(actual).toEqual(expect.arrayContaining(expected));
         });
     });
@@ -88,7 +88,7 @@ describe(`Given: Chessboard ${displayEmojiBoard(emojiBoard)}`, () => {
         const expected: CordWithMoveType[] = convertEmojitoCordWithMoveType(emojiExpectedBoard);
         it(`Then: possible moves for white rook should be:\n${displayEmojiBoard(emojiExpectedBoard)}`, () => {
             const cord: Cord = { x: 3, y: 2 };
-            const actual = chessEngine.getPossibleMovesForPiece(cord, chessboard);
+            const actual = chessEngine.getPossibleMovesForPiece(cord, chessboard, chessboard);
             expect(actual).toEqual(expect.arrayContaining(expected));
         });
     });
@@ -106,7 +106,7 @@ describe(`Given: Chessboard ${displayEmojiBoard(emojiBoard)}`, () => {
         const expected: CordWithMoveType[] = convertEmojitoCordWithMoveType(emojiExpectedBoard);
         it(`Then: possible moves for white bishop should be:\n${displayEmojiBoard(emojiExpectedBoard)}`, () => {
             const cord: Cord = { x: 3, y: 5 };
-            const actual = chessEngine.getPossibleMovesForPiece(cord, chessboard);
+            const actual = chessEngine.getPossibleMovesForPiece(cord, chessboard, chessboard);
             expect(actual).toEqual(expect.arrayContaining(expected));
         });
     });
@@ -124,12 +124,83 @@ describe(`Given: Chessboard ${displayEmojiBoard(emojiBoard)}`, () => {
         const expected: CordWithMoveType[] = convertEmojitoCordWithMoveType(emojiExpectedBoard);
         it(`Then: possible moves for white bishop should be:\n${displayEmojiBoard(emojiExpectedBoard)}`, () => {
             const cord: Cord = { x: 1, y: 3 };
-            const actual = chessEngine.getPossibleMovesForPiece(cord, chessboard);
+            const actual = chessEngine.getPossibleMovesForPiece(cord, chessboard, chessboard);
             expect(actual).toEqual(expect.arrayContaining(expected));
         });
     });
 });
 
+const emojiBoardKingAttackedSquares = [
+    ['♜', '♚', '.', '.', '.', '.', '.', '.'],
+    ['♖', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+];
+
+const chessboardKingAttackedSquares = new ChessBoard();
+jest.spyOn(chessboardKingAttackedSquares, 'board', 'get').mockReturnValue(
+    convertEmojiToRep(emojiBoardKingAttackedSquares),
+);
+describe(`Given: Chessboard: ${displayEmojiBoard(emojiBoardKingAttackedSquares)}`, () => {
+    describe(`When: getPossibleMovesForPiece for black king is invoked`, () => {
+        const emojiExpectedBoard = [
+            ['♜', '♚', '👟', '.', '.', '.', '.', '.'],
+            ['⚔️', '.', '.', '.', '.', '.', '.', '.'],
+            ['.', '.', '.', '.', '.', '.', '.', '.'],
+            ['.', '.', '.', '.', '.', '.', '.', '.'],
+            ['.', '.', '.', '.', '.', '.', '.', '.'],
+            ['.', '.', '.', '.', '.', '.', '.', '.'],
+            ['.', '.', '.', '.', '.', '.', '.', '.'],
+            ['.', '.', '.', '.', '.', '.', '.', '.'],
+        ];
+        const expected = convertEmojitoCordWithMoveType(emojiExpectedBoard);
+        it(`Then: possible moves should ne ${displayEmojiBoard(emojiExpectedBoard)}`, () => {
+            const cord: Cord = { x: 0, y: 1 };
+            const actual = chessEngine.getPossibleMovesForPiece(cord, chessboardKingAttackedSquares, chessboard);
+            expect(actual).toEqual(expect.arrayContaining(expected));
+        });
+    });
+});
+
+const emojiBoardKingAttackedSquares2 = [
+    ['♜', '♚', '.', '.', '.', '.', '.', '.'],
+    ['♖', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['♖', '.', '♕', '.', '.', '.', '.', '.'],
+];
+
+const chessboardKingAttackedSquares2 = new ChessBoard();
+jest.spyOn(chessboardKingAttackedSquares2, 'board', 'get').mockReturnValue(
+    convertEmojiToRep(emojiBoardKingAttackedSquares2),
+);
+describe(`Given: Chessboard: ${displayEmojiBoard(emojiBoardKingAttackedSquares2)}`, () => {
+    describe(`When: getPossibleMovesForPiece for black king is invoked`, () => {
+        const emojiExpectedBoard = [
+            ['♜', '♚', '.', '.', '.', '.', '.', '.'],
+            ['♖', '.', '.', '.', '.', '.', '.', '.'],
+            ['.', '.', '.', '.', '.', '.', '.', '.'],
+            ['.', '.', '.', '.', '.', '.', '.', '.'],
+            ['.', '.', '.', '.', '.', '.', '.', '.'],
+            ['.', '.', '.', '.', '.', '.', '.', '.'],
+            ['.', '.', '.', '.', '.', '.', '.', '.'],
+            ['♖', '.', '♕', '.', '.', '.', '.', '.'],
+        ];
+        const expected = convertEmojitoCordWithMoveType(emojiExpectedBoard);
+        it(`Then: king can't move`, () => {
+            const cord: Cord = { x: 0, y: 1 };
+            const actual = chessEngine.getPossibleMovesForPiece(cord, chessboardKingAttackedSquares2, chessboard);
+            expect(actual).toEqual(expect.arrayContaining(expected));
+        });
+    });
+});
 // const whiteSideNoHasCheck = [
 //     [
 //         ['♜', '.', '.', '.', '.', '.', '.', '.'],
