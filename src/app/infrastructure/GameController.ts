@@ -108,6 +108,14 @@ export class GameController {
                         : this.chessboardState.makeMove(this.currentSelectedPiece, cord);
                     this.chessboardPresenter.render(this.chessboardState.board);
                     this.currentTurn = this.currentTurn === Side.White ? Side.Black : Side.White;
+                    if (this.chessEngine.isCheckmate(this.chessboardState, this.currentTurn, this.lastBoardState)) {
+                        console.log('Macik');
+                        return;
+                    }
+                    if (this.chessEngine.isStealemate(this.chessboardState, this.currentTurn, this.lastBoardState)) {
+                        console.log('Pacik');
+                        return;
+                    }
                     if (this.chessEngine.isCheck(this.chessboardState, this.currentTurn, this.lastBoardState)) {
                         console.log('Szach');
                     }

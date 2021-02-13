@@ -41,7 +41,7 @@ export class ChessEngine implements IChessEngine {
         if (!handler) {
             return [];
         }
-        if (piece.figType === PieceType.King) {
+        if (piece.figType === PieceType.King && previousBoardState) {
             const moves = handler(cord, boardState);
             return this.excludeMovesOnAttackedSquaresForKing(piece.cord, moves, boardState, previousBoardState);
         }
