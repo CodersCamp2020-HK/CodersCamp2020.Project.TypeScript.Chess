@@ -5,10 +5,20 @@ import { ChessBoardPresenter } from './components/ChessBoardPresenter/ChessBoard
 import { Side } from './domain/basicChessTypes';
 import { ChessBoardSquareDisplayType, CordWithDisplayType, IChessBoardPresenter } from './domain/IPresenter';
 import { ChessBoard } from './infrastructure/ChessBoard';
+import { ChessBoardVoiceInputDevice } from './infrastructure/ChessBoardVoiceInputDevice';
 
 const App = (): void => {
-    const presenter: IChessBoardPresenter = new ChessBoardPresenter();
-    const gameController = new GameController(presenter, (score) => console.log(score));
+    const presenter = new ChessBoardPresenter();
+
+    const voiceInputDevice = new ChessBoardVoiceInputDevice();
+    voiceInputDevice.onClick((cord) => {
+        console.log(`Click: ${cord.x}, ${cord.y}`);
+    });
+    voiceInputDevice.onHover((cord) => {
+        console.log(`Hover: ${cord.x}, ${cord.y}`);
+    });
+    voiceInputDevice.start();
+    const gameController = new GameController(presenter, voiceInputDevice, (score) => console.log(score));
     const game = new Game(presenter.element);
     document.body.append(game.element);
 };

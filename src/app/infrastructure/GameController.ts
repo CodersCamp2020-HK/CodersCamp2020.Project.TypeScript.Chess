@@ -8,6 +8,7 @@ import { ChessBoardSquareDisplayType } from '../domain/IPresenter';
 import { convertMovesToDisplayType } from '../utils/ConvertMovesToDisplayType';
 import { Timer } from '../components/timer/Timer';
 import { ChessEngine } from './ChessEngine';
+import { IChessBoardInputDevice } from '../domain/IChessBoardInputDevice';
 
 export class GameController {
     private whiteTimer: Timer;
@@ -18,13 +19,17 @@ export class GameController {
     private chessboardState = new ChessBoard();
     private gameState: GameState = new GameState();
     public chessEngine: IChessEngine = new ChessEngine();
-    constructor(public chessboardPresenter: IChessBoardPresenter, private onEndGame: (score: Score) => void) {
+    constructor(
+        public chessboardPresenter: IChessBoardPresenter,
+        public chessboardInputDevice: IChessBoardInputDevice,
+        private onEndGame: (score: Score) => void,
+    ) {
         this.whiteTimer = new Timer(300, 0, () => onEndGame(Score.BlackWon));
         this.blackTimer = new Timer(300, 0, () => onEndGame(Score.WhiteWon));
         this.currentTurn = Side.White;
         this.lastBoardState = [];
-        chessboardPresenter.onHover((cord) => this.handleOnHover(cord));
-        chessboardPresenter.onClick((cord) => this.handleOnClick(cord));
+        chessboardInputDevice.onHover((cord) => this.handleOnHover(cord));
+        chessboardInputDevice.onClick((cord) => this.handleOnClick(cord));
     }
 
     private hasMove(cord: Cord): boolean {
