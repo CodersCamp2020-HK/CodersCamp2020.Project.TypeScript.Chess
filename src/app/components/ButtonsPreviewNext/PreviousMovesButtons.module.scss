@@ -1,0 +1,47 @@
+@use '../../../styles/common';
+@use '../../../styles/colors';
+@use '../../../styles/typography';
+
+.functionalButtonsWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.functionalButton {
+    background-color: colors.$yellow;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+    border: 0px;
+    width: 100%;
+    height: 100%;
+    margin: 2px;
+
+}
+
+.homeButton {
+    background-color: colors.$yellow;
+    clip-path: polygon(0 0, 100% 0, 100% 35%, 90% 40%, 90% 65%, 100% 70%, 100% 100%, 0 100%);
+}
+
+.previousButton {
+    background-color: colors.$yellow;
+    clip-path: polygon(10% 0, 100% 0, 100% 35%, 90% 40%, 90% 65%, 100% 70%, 100% 100%, 10% 100%, 10% 70%, 0 65%, 0 40%, 10% 35%);
+}
+
+.playButton {
+    background-color: colors.$blue;
+    clip-path: polygon(10% 0, 90% 0, 90% 35%, 100% 40%, 100% 65%, 90% 70%, 90% 100%, 10% 100%, 10% 70%, 0 65%, 0 40%, 10% 35%);
+}
+
+.nextButton {
+    background-color: colors.$yellow;
+    clip-path: polygon(0 0, 90% 0, 90% 35%, 100% 40%, 100% 65%, 90% 70%, 90% 100%, 0 100%, 0 70%, 10% 65%, 10% 40%, 0 35%);
+}
+
+.endButton {
+    background-color: colors.$yellow;
+    clip-path: polygon(0 0, 90% 0, 100% 0, 100% 85%, 85% 100%, 0 100%, 0 70%, 10% 65%, 10% 40%, 0 35%);
+}
