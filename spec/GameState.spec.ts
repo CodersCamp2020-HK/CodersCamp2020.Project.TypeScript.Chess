@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { MoveType, Piece, PromotionPieceType, Side } from '../src/app/domain/basicChessTypes';
 import { ChessBoard } from '../src/app/infrastructure/ChessBoard';
 import { ChessEngine } from '../src/app/infrastructure/ChessEngine';
@@ -214,7 +215,7 @@ describe(`Given: Starting chessboard ${displayEmojiBoard(firstMoveEmojiBoard)}`,
 });
 
 const checkEmojiBoard = [
-    ['♜', '.', '.', '.', '.', '.', '♖', '.'],
+    ['♚', '♜', '.', '.', '.', '.', '♖', '.'],
     ['.', '.', '.', '.', '.', '.', '.', '.'],
     ['.', '.', '.', '.', '.', '.', '.', '.'],
     ['.', '.', '.', '.', '.', '.', '.', '.'],
@@ -224,7 +225,7 @@ const checkEmojiBoard = [
     ['.', '.', '.', '.', '♔', '.', '.', '♖'],
 ];
 const checkMoveEmojiBoard = [
-    ['.', '.', '.', '.', '.', '.', '♜', '.'],
+    ['♚', '.', '.', '.', '.', '.', '♜', '.'],
     ['.', '.', '.', '.', '.', '.', '.', '.'],
     ['.', '.', '.', '.', '.', '.', '.', '.'],
     ['.', '.', '.', '.', '.', '.', '.', '.'],
@@ -233,46 +234,9 @@ const checkMoveEmojiBoard = [
     ['.', '.', '.', '.', '.', '.', '.', '.'],
     ['.', '.', '.', '.', '.', '♖', '♔', '.'],
 ];
-describe(`Given: Chessboard ${displayEmojiBoard(checkEmojiBoard)}`, () => {
-    describe('When: after moves: 0-0 ♜a8g8+', () => {
-        const expected = [
-            {
-                white: '0-0',
-                black: 'Ra8g8x+',
-            },
-        ];
-        it(`Then: algebraic notation should be" ${JSON.stringify(expected, null, 4)}`, () => {
-            jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(checkEmojiBoard));
-            const gameState = new GameState();
-            const chessEngine = new ChessEngine();
-
-            const king = chessboard.getPiece({ x: 7, y: 4 }) as Piece;
-            gameState.updatePreviousMoves(
-                king,
-                { x: 7, y: 6, moveType: [MoveType.Castling] },
-                chessEngine,
-                chessboard,
-                PromotionPieceType.Queen,
-            );
-
-            const rook = chessboard.getPiece({ x: 0, y: 0 }) as Piece;
-            gameState.updatePreviousMoves(
-                rook,
-                { x: 0, y: 6, moveType: [MoveType.Capture] },
-                chessEngine,
-                chessboard,
-                PromotionPieceType.Queen,
-            );
-            jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(checkMoveEmojiBoard));
-
-            const actual = gameState.previousMoves;
-            expect(actual).toEqual(expect.arrayContaining(expected));
-        });
-    });
-});
 
 const beforeQueenSideCastlingEmojiBoard = [
-    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '♚', '.', '.', '♞', '.', '♞'],
     ['.', '.', '.', '.', '.', '.', '.', '.'],
     ['.', '.', '.', '.', '.', '.', '.', '.'],
     ['.', '.', '.', '.', '.', '.', '.', '.'],
@@ -282,7 +246,7 @@ const beforeQueenSideCastlingEmojiBoard = [
     ['♖', '.', '.', '.', '♔', '.', '.', '.'],
 ];
 const afterQueenSideCastlingEmojiBoard = [
-    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '♚', '.', '.', '.', '.', '.'],
     ['.', '.', '.', '.', '.', '.', '.', '.'],
     ['.', '.', '.', '.', '.', '.', '.', '.'],
     ['.', '.', '.', '.', '.', '.', '.', '.'],
@@ -325,32 +289,32 @@ ${displayEmojiBoard(afterQueenSideCastlingEmojiBoard)}`, () => {
 });
 
 const beforePawnPromotionEmojiBoard = [
-    ['.', '.', '.', '.', '.', '.', '.', '♜'],
+    ['♚', '.', '.', '.', '.', '.', '.', '♜'],
     ['.', '.', '.', '.', '.', '.', '♙', '.'],
     ['.', '.', '.', '.', '.', '.', '.', '.'],
     ['.', '.', '.', '.', '.', '.', '.', '.'],
     ['.', '.', '.', '.', '.', '.', '.', '.'],
     ['.', '.', '.', '.', '.', '.', '.', '.'],
     ['♟', '.', '.', '.', '.', '.', '.', '.'],
-    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '♔', '.', '.', '.'],
 ];
 const afterPawnPromotionEmojiBoard = [
-    ['.', '.', '.', '.', '.', '.', '.', '♕'],
+    ['♚', '.', '.', '.', '.', '.', '.', '♕'],
     ['.', '.', '.', '.', '.', '.', '.', '.'],
     ['.', '.', '.', '.', '.', '.', '.', '.'],
     ['.', '.', '.', '.', '.', '.', '.', '.'],
     ['.', '.', '.', '.', '.', '.', '.', '.'],
     ['.', '.', '.', '.', '.', '.', '.', '.'],
     ['.', '.', '.', '.', '.', '.', '.', '.'],
-    ['♞', '.', '.', '.', '.', '.', '.', '.'],
+    ['♞', '.', '.', '.', '♔', '.', '.', '.'],
 ];
 describe(`Given: Chessboard ${displayEmojiBoard(beforePawnPromotionEmojiBoard)}
 ${displayEmojiBoard(afterPawnPromotionEmojiBoard)}`, () => {
-    describe('When: after move: Pg7h8+=Q', () => {
+    describe('When: after move: Pg7h8x=Q', () => {
         const expected = [
             {
                 white: 'Pg7h8x=Q',
-                black: 'Pa2a1=N',
+                black: '',
             },
         ];
         it(`Then: algebraic notation should be" ${JSON.stringify(expected, null, 4)}`, () => {
@@ -368,13 +332,111 @@ ${displayEmojiBoard(afterPawnPromotionEmojiBoard)}`, () => {
                 PromotionPieceType.Queen,
             );
 
-            const blackPiece = chessboard.board[6][0] as Piece;
+            const actual = gameState.previousMoves;
+            expect(actual).toEqual(expect.arrayContaining(expected));
+        });
+    });
+});
+
+const defaultChessboard = ChessBoard.createNewBoard();
+describe(`Given: Starting chessboard: ${displayEmojiBoard(firstMoveEmojiBoard)}`, () => {
+    describe(`When: scholar's mate is made`, () => {
+        const expected = [
+            {
+                white: 'Pe2e4',
+                black: 'Pe7e5',
+            },
+            {
+                white: 'Bf1c4',
+                black: 'Nb8c6',
+            },
+            {
+                white: 'Qd1h5',
+                black: 'Ng8f6',
+            },
+            {
+                white: 'Qh5f7x#',
+                black: '',
+            },
+        ];
+        it(`Then: updatePreviousMoves should return:\n${JSON.stringify(expected, null, 4)}`, () => {
+            const gameState = new GameState();
+            const chessEngine = new ChessEngine();
+
+            const whitePawn = defaultChessboard.getPiece({ x: 6, y: 4 }) as Piece;
+            const whitePawnCopy = _.cloneDeep(whitePawn);
+            defaultChessboard.makeMove(whitePawn, { x: 4, y: 4 });
             gameState.updatePreviousMoves(
-                blackPiece,
-                { x: 7, y: 0, moveType: [MoveType.NormalMove, MoveType.Promotion] },
+                whitePawnCopy,
+                { ...whitePawn.cord, moveType: [MoveType.NormalMove] },
                 chessEngine,
-                chessboard,
-                PromotionPieceType.Knight,
+                defaultChessboard,
+                PromotionPieceType.Queen,
+            );
+
+            const blackPawn = defaultChessboard.getPiece({ x: 1, y: 4 }) as Piece;
+            const blackPawnCopy = _.cloneDeep(blackPawn);
+            defaultChessboard.makeMove(blackPawn, { x: 3, y: 4 });
+            gameState.updatePreviousMoves(
+                blackPawnCopy,
+                { ...blackPawn.cord, moveType: [MoveType.NormalMove] },
+                chessEngine,
+                defaultChessboard,
+                PromotionPieceType.Queen,
+            );
+
+            const bishop = defaultChessboard.getPiece({ x: 7, y: 5 }) as Piece;
+            const bishopCopy = _.cloneDeep(bishop);
+            defaultChessboard.makeMove(bishop, { x: 4, y: 2 });
+            gameState.updatePreviousMoves(
+                bishopCopy,
+                { ...bishop.cord, moveType: [MoveType.NormalMove] },
+                chessEngine,
+                defaultChessboard,
+                PromotionPieceType.Queen,
+            );
+
+            const blackKnight1 = defaultChessboard.getPiece({ x: 0, y: 1 }) as Piece;
+            const blackKnight1Copy = _.cloneDeep(blackKnight1);
+            defaultChessboard.makeMove(blackKnight1, { x: 2, y: 2 });
+            gameState.updatePreviousMoves(
+                blackKnight1Copy,
+                { ...blackKnight1.cord, moveType: [MoveType.NormalMove] },
+                chessEngine,
+                defaultChessboard,
+                PromotionPieceType.Queen,
+            );
+
+            const queen = defaultChessboard.getPiece({ x: 7, y: 3 }) as Piece;
+            let queenCopy = _.cloneDeep(queen);
+            defaultChessboard.makeMove(queen, { x: 3, y: 7 });
+            gameState.updatePreviousMoves(
+                queenCopy,
+                { ...queen.cord, moveType: [MoveType.NormalMove] },
+                chessEngine,
+                defaultChessboard,
+                PromotionPieceType.Queen,
+            );
+
+            const blackKnight2 = defaultChessboard.getPiece({ x: 0, y: 6 }) as Piece;
+            const blackKnight2Copy = _.cloneDeep(blackKnight2);
+            defaultChessboard.makeMove(blackKnight2, { x: 2, y: 5 });
+            gameState.updatePreviousMoves(
+                blackKnight2Copy,
+                { ...blackKnight2.cord, moveType: [MoveType.NormalMove] },
+                chessEngine,
+                defaultChessboard,
+                PromotionPieceType.Queen,
+            );
+
+            queenCopy = _.cloneDeep(queen);
+            defaultChessboard.makeMove(queen, { x: 1, y: 5 });
+            gameState.updatePreviousMoves(
+                queenCopy,
+                { ...queen.cord, moveType: [MoveType.Capture] },
+                chessEngine,
+                defaultChessboard,
+                PromotionPieceType.Queen,
             );
 
             const actual = gameState.previousMoves;
