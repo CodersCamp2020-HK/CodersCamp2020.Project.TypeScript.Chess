@@ -14,16 +14,14 @@ export class GameController {
     private blackTimer: Timer;
     private currentTurn: Side;
     private lastBoardState: ChessBoardView;
-    private pieceIsSelected: boolean;
     private currentSelectedPiece: Piece | null = null;
     private chessboardState = new ChessBoard();
     private gameState: GameState = new GameState();
     public chessEngine: IChessEngine = new ChessEngine();
     constructor(public chessboardPresenter: IChessBoardPresenter, private onEndGame: (score: Score) => void) {
-        this.whiteTimer = new Timer(300, 3, () => onEndGame(Score.BlackWon));
-        this.blackTimer = new Timer(300, 3, () => onEndGame(Score.WhiteWon));
+        this.whiteTimer = new Timer(300, 0, () => onEndGame(Score.BlackWon));
+        this.blackTimer = new Timer(300, 0, () => onEndGame(Score.WhiteWon));
         this.currentTurn = Side.White;
-        this.pieceIsSelected = false;
         this.lastBoardState = [];
         chessboardPresenter.onHover((cord) => this.handleOnHover(cord));
         chessboardPresenter.onClick((cord) => this.handleOnClick(cord));
@@ -39,11 +37,6 @@ export class GameController {
             return possibleMoves.some((item) => item.x === cord.x && item.y === cord.y);
         }
         return false;
-    }
-
-    private updateGameState(): void {
-        this.gameState.updateCapturedPieces(this.chessboardState, this.currentTurn);
-        this.gameState.updatePreviousBoards(this.chessboardState.board);
     }
 
     private updateTimer(): void {
@@ -79,6 +72,8 @@ export class GameController {
                     this.lastBoardState,
                 );
                 this.chessboardPresenter.markFields(convertMovesToDisplayType(moves), this.currentTurn);
+            } else {
+                this.chessboardPresenter.clearMarkedFields();
             }
         }
     }
@@ -96,14 +91,30 @@ export class GameController {
             if (filteredMoves.length > 0) {
                 const { x, y, moveType } = filteredMoves[0];
                 if (cord.x === x && cord.y === y) {
-                    // this.gameState.updatePreviousBoards(this.chessboardState.board);
-                    this.updateGameState();
+                    this.gameState.updatePreviousBoards(this.chessboardState.board);
                     this.lastBoardState = this.gameState.previousBoards[this.gameState.previousBoards.length - 1];
+
                     moveType === MoveType.EnPassant
                         ? this.chessboardState.makeEnPassant(this.currentSelectedPiece, cord)
                         : this.chessboardState.makeMove(this.currentSelectedPiece, cord);
+
                     this.chessboardPresenter.render(this.chessboardState.board);
                     this.currentTurn = this.currentTurn === Side.White ? Side.Black : Side.White;
+                    this.gameState.updateCapturedPieces(this.chessboardState, this.currentTurn);
+
+                    if (this.gameState.previousBoards.length === 1) {
+                        this.blackTimer.start(Score.WhiteWon);
+                    }
+                    if (this.gameState.previousBoards.length > 1) {
+                        if (this.currentTurn === Side.Black) {
+                            this.whiteTimer.stop();
+                            this.blackTimer.start(Score.WhiteWon);
+                        } else {
+                            this.blackTimer.stop();
+                            this.whiteTimer.start(Score.BlackWon);
+                        }
+                    }
+
                     if (this.chessEngine.isCheckmate(this.chessboardState, this.currentTurn, this.lastBoardState)) {
                         console.log('Macik');
                     }
