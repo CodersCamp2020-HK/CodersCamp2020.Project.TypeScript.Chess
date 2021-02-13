@@ -37,9 +37,9 @@
     column-gap: 30px;
     grid-template-areas:
         'chessboard opponent'
-        'chessboard player'
-        'chessboard moves'
-        'chessboard quit';
+        'chessboard opponent'
+        'chessboard opponent'
+        'chessboard opponent';
 }
 
 .wrapper > * {

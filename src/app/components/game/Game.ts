@@ -3,6 +3,7 @@ import boardStyles from '../ChessBoard/chess.module.scss';
 import { Aside } from '../Aside/Aside';
 import rulesTxt from '../../../assets/rules.txt';
 import infoTxt from '../../../assets/info.txt';
+import { InfoContent, RulesContent } from '../sidebars/sidebars';
 import { CapturedTable } from './capturedTable/CapturedTable';
 import { Header } from '../HeaderCyberChess/Header';
 import { Label } from '../genericLabel/Label';
@@ -14,7 +15,7 @@ import { ModalQuit } from '../game/modalQuit/ModalQuit';
 export class Game {
     private __element: HTMLElement;
 
-    constructor(public readonly gameBoardView: HTMLElement) {
+    constructor(public readonly gameBoardView: HTMLElement, public readonly gameStatsView: HTMLElement) {
         this.__element = this.createGameWrapper();
     }
 
@@ -29,8 +30,8 @@ export class Game {
         const wrapper = document.createElement('div');
         wrapper.classList.add(styles.wrapper);
 
-        const rules = new Aside('Rules', 'left', rulesTxt);
-        const info = new Aside('Info', 'right', infoTxt);
+        const rules = new Aside('Rules', 'left', new RulesContent().element);
+        const info = new Aside('Info', 'right', new InfoContent().element);
 
         const cyberChessTextWrapper = document.createElement('div');
         cyberChessTextWrapper.classList.add(styles.wrapperText);
@@ -38,37 +39,38 @@ export class Game {
         cyberChessTextWrapper.append(header.element);
         // cyberChessTextWrapper.textContent = 'Cyber Chess';
 
-        const opponentScoreWrapper = document.createElement('div');
-        opponentScoreWrapper.classList.add(styles.wrapperOpponent);
-        const opponentCapturedTable = new CapturedTable('opponent', []);
-        const opponentLabel = new Label('blue', 'Opponent');
-        opponentScoreWrapper.append(opponentLabel.element);
+        // const opponentScoreWrapper = document.createElement('div');
+        // opponentScoreWrapper.classList.add(styles.wrapperOpponent);
+        // const opponentCapturedTable = new CapturedTable('opponent', ['queen']);
+        // const opponentLabel = new Label('blue', 'Opponent');
+        // opponentScoreWrapper.append(opponentLabel.element);
+        // opponentScoreWrapper.append(opponentCapturedTable.element);
 
-        opponentScoreWrapper.append(opponentCapturedTable.element);
+        // const playerScoreWrapper = document.createElement('div');
+        // playerScoreWrapper.classList.add(styles.wrapperPlayer);
+        // const playerCapturedTable = new CapturedTable('player', []);
+        // const playerLabel = new Label('red', 'Player');
+        // playerScoreWrapper.append(playerLabel.element);
+        // playerScoreWrapper.append(playerCapturedTable.element);
 
-        const playerScoreWrapper = document.createElement('div');
-        playerScoreWrapper.classList.add(styles.wrapperPlayer);
-        const playerCapturedTable = new CapturedTable('player', []);
-        const playerLabel = new Label('red', 'Player');
-        playerScoreWrapper.append(playerLabel.element);
-        playerScoreWrapper.append(playerCapturedTable.element);
-
-        const previousMovesWrapper = document.createElement('div');
-        previousMovesWrapper.classList.add(styles.wrapperMoves);
-        const movesLabel = new Label('yellow', 'previous moves');
-        previousMovesWrapper.append(movesLabel.element);
-
-        const quitButtonWrapper = document.createElement('div');
-        const fun = () => {
-            console.log(`x`);
-        };
-        const previousMovesButtons = new PreviousMovesButtons(fun, fun, fun, fun, fun);
-        quitButtonWrapper.classList.add(styles.wrapperQuit);
-
-        const modalQuit = new ModalQuit(fun);
-
-        const quitButton = new Button('QUIT', () => modalQuit.openModal(), true);
-        quitButtonWrapper.append(previousMovesButtons.element, quitButton.button);
+        // const previousMovesWrapper = document.createElement('div');
+        // previousMovesWrapper.classList.add(styles.wrapperMoves);
+        // const movesLabel = new Label('yellow', 'previous moves');
+        // previousMovesWrapper.append(movesLabel.element);
+        // const quitButtonWrapper = document.createElement('div');
+        // const fun = () => {
+        //     console.log(`x`);
+        // };
+        // const previousMovesButtons = new PreviousMovesButtons(fun, fun, fun, fun, fun);
+        // quitButtonWrapper.classList.add(styles.wrapperQuit);
+        // const quitButton = new Button(
+        //     'QUIT',
+        //     function () {
+        //         console.log('animated button');
+        //     },
+        //     true,
+        // );
+        // quitButtonWrapper.append(previousMovesButtons.element, quitButton.button);
 
         const footerWrapper = document.createElement('div');
         footerWrapper.classList.add(styles.wrapperFooter);
@@ -77,10 +79,11 @@ export class Game {
 
         wrapper.append(
             this.gameBoardView,
-            opponentScoreWrapper,
-            playerScoreWrapper,
-            previousMovesWrapper,
-            quitButtonWrapper,
+            // opponentScoreWrapper,
+            // playerScoreWrapper,
+            // previousMovesWrapper,
+            // quitButtonWrapper,
+            this.gameStatsView,
         );
         container.append(rules.element, info.element, cyberChessTextWrapper, wrapper, footerWrapper, modalQuit.element);
 
