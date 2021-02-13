@@ -11,6 +11,7 @@ import { ChessBoard } from '../../infrastructure/ChessBoard';
 import { piecesArray } from '../PiecesElements/piecesElements';
 import { Footer } from '../footer/Footer';
 import { Button } from '../genericButton/Button';
+import { PreviousMovesButtons } from '../ButtonsPreviewNext/PreviousMovesButtons';
 
 export class Game {
     private __element: HTMLElement;
@@ -67,6 +68,10 @@ export class Game {
         previousMovesWrapper.append(movesLabel.element);
 
         const quitButtonWrapper = document.createElement('div');
+        const fun = () => {
+            console.log(`x`);
+        };
+        const previousMovesButtons = new PreviousMovesButtons(fun, fun, fun, fun, fun);
         quitButtonWrapper.classList.add(styles.wrapperQuit);
         const quitButton = new Button(
             'QUIT',
@@ -75,7 +80,7 @@ export class Game {
             },
             true,
         );
-        quitButtonWrapper.append(quitButton.button);
+        quitButtonWrapper.append(previousMovesButtons.element, quitButton.button);
 
         const footerWrapper = document.createElement('div');
         footerWrapper.classList.add(styles.wrapperFooter);
