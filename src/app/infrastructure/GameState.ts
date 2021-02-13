@@ -1,13 +1,21 @@
 import { getCapturedPieceNames } from '../utils/CapturedPieces';
 import { ChessBoardView, IChessBoard } from '../domain/IChessBoard';
 import _ from 'lodash';
-import { CordWithMoveTypes, MoveType, Piece, PieceType, Side, PromotionPieceType } from '../domain/basicChessTypes';
+import {
+    CordWithMoveTypes,
+    MoveType,
+    Piece,
+    PieceType,
+    Side,
+    PromotionPieceType,
+    StringPieces,
+} from '../domain/basicChessTypes';
 import { IChessEngine } from '../domain/IChessEngine';
 import { moveToNotation } from '../utils/MoveToNotation';
 
 export class GameState {
     private __previousMoves: { white: string; black: string }[] = [{ white: '', black: '' }];
-    private __capturedPieces: { white: string[]; black: string[] };
+    private __capturedPieces: { white: StringPieces[]; black: StringPieces[] };
     private __previousBoards: ChessBoardView[];
 
     constructor() {
@@ -15,7 +23,7 @@ export class GameState {
         this.__previousBoards = [];
     }
 
-    public get capturedPieces(): { white: string[]; black: string[] } {
+    public get capturedPieces(): { white: StringPieces[]; black: StringPieces[] } {
         return this.__capturedPieces;
     }
 
@@ -50,10 +58,7 @@ export class GameState {
             this.__previousMoves.push({ white: '', black: '' });
             lastIndex++;
         }
-        const lastBoard =
-            this.__previousBoards.length > 0
-                ? _.cloneDeep(chessboard.board)
-                : this.__previousBoards[this.__previousBoards.length - 1];
+
         const enemySide = piece.side === Side.White ? Side.Black : Side.White;
 
         for (const moveType of moveTo.moveType) {
@@ -74,13 +79,11 @@ export class GameState {
             piece.side === Side.White
                 ? (this.__previousMoves[lastIndex].white = joinedMove)
                 : (this.__previousMoves[lastIndex].black = joinedMove);
-        }
-        if (chessEngine.isStealemate(chessboard, piece.side, chessboard.board)) {
+        } else if (chessEngine.isStealemate(chessboard, enemySide, chessboard.board)) {
             piece.side === Side.White
                 ? (this.__previousMoves[lastIndex].white = '½-½')
                 : (this.__previousMoves[lastIndex].black = '½-½');
-        }
-        if (chessEngine.isCheck(chessboard, piece.side, chessboard.board)) {
+        } else if (chessEngine.isCheck(chessboard, enemySide, chessboard.board)) {
             move.push('+');
             const joinedMove = move.join('');
             this.updateMove(joinedMove, piece.side, lastIndex);

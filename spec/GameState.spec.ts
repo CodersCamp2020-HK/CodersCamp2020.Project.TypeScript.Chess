@@ -288,56 +288,6 @@ ${displayEmojiBoard(afterQueenSideCastlingEmojiBoard)}`, () => {
     });
 });
 
-const beforePawnPromotionEmojiBoard = [
-    ['♚', '.', '.', '.', '.', '.', '.', '♜'],
-    ['.', '.', '.', '.', '.', '.', '♙', '.'],
-    ['.', '.', '.', '.', '.', '.', '.', '.'],
-    ['.', '.', '.', '.', '.', '.', '.', '.'],
-    ['.', '.', '.', '.', '.', '.', '.', '.'],
-    ['.', '.', '.', '.', '.', '.', '.', '.'],
-    ['♟', '.', '.', '.', '.', '.', '.', '.'],
-    ['.', '.', '.', '.', '♔', '.', '.', '.'],
-];
-const afterPawnPromotionEmojiBoard = [
-    ['♚', '.', '.', '.', '.', '.', '.', '♕'],
-    ['.', '.', '.', '.', '.', '.', '.', '.'],
-    ['.', '.', '.', '.', '.', '.', '.', '.'],
-    ['.', '.', '.', '.', '.', '.', '.', '.'],
-    ['.', '.', '.', '.', '.', '.', '.', '.'],
-    ['.', '.', '.', '.', '.', '.', '.', '.'],
-    ['.', '.', '.', '.', '.', '.', '.', '.'],
-    ['♞', '.', '.', '.', '♔', '.', '.', '.'],
-];
-describe(`Given: Chessboard ${displayEmojiBoard(beforePawnPromotionEmojiBoard)}
-${displayEmojiBoard(afterPawnPromotionEmojiBoard)}`, () => {
-    describe('When: after move: Pg7h8x=Q', () => {
-        const expected = [
-            {
-                white: 'Pg7h8x=Q',
-                black: '',
-            },
-        ];
-        it(`Then: algebraic notation should be" ${JSON.stringify(expected, null, 4)}`, () => {
-            const gameState = new GameState();
-            const chessEngine = new ChessEngine();
-
-            jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(beforePawnPromotionEmojiBoard));
-
-            const whitePiece = chessboard.board[1][6] as Piece;
-            gameState.updatePreviousMoves(
-                whitePiece,
-                { x: 0, y: 7, moveType: [MoveType.Capture, MoveType.Promotion] },
-                chessEngine,
-                chessboard,
-                PromotionPieceType.Queen,
-            );
-
-            const actual = gameState.previousMoves;
-            expect(actual).toEqual(expect.arrayContaining(expected));
-        });
-    });
-});
-
 const defaultChessboard = ChessBoard.createNewBoard();
 describe(`Given: Starting chessboard: ${displayEmojiBoard(firstMoveEmojiBoard)}`, () => {
     describe(`When: scholar's mate is made`, () => {
