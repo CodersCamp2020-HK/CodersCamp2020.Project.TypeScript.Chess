@@ -1,10 +1,10 @@
 import { getCapturedPieceNames } from '../utils/CapturedPieces';
 import { ChessBoardView, IChessBoard } from '../domain/IChessBoard';
 import _ from 'lodash';
-import { Side } from '../domain/basicChessTypes';
+import { Side, StringPieces } from '../domain/basicChessTypes';
 
 export class GameState {
-    private __capturedPieces: { white: string[]; black: string[] };
+    private __capturedPieces: { white: StringPieces[]; black: StringPieces[] };
     private __previousBoards: ChessBoardView[];
 
     constructor() {
@@ -12,7 +12,7 @@ export class GameState {
         this.__previousBoards = [];
     }
 
-    public get capturedPieces(): { white: string[]; black: string[] } {
+    public get capturedPieces(): { white: StringPieces[]; black: StringPieces[] } {
         return this.__capturedPieces;
     }
 

@@ -56,3 +56,7 @@ export enum Score {
 }
 
 export type PickSide = () => Side;
+
+export type StringPieces = 'queen' | 'king' | 'pawn' | 'knight' | 'rook' | 'bishop';
+
+export type CapturedPiecesSide = 'player' | 'opponent';
