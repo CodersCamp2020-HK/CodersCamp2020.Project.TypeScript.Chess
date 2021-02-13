@@ -1,7 +1,15 @@
 import { getCapturedPieceNames } from '../utils/CapturedPieces';
 import { ChessBoardView, IChessBoard } from '../domain/IChessBoard';
 import _ from 'lodash';
-import { CordWithMoveTypes, MoveType, Piece, Side, PromotionPieceType, StringPieces } from '../domain/basicChessTypes';
+import {
+    CordWithMoveTypes,
+    MoveType,
+    Piece,
+    Side,
+    PromotionPieceType,
+    StringPieces,
+    PieceType,
+} from '../domain/basicChessTypes';
 import { IChessEngine } from '../domain/IChessEngine';
 import { moveToNotation } from '../utils/MoveToNotation';
 
@@ -43,6 +51,12 @@ export class GameState {
         chessboard: IChessBoard,
         promotionPiece: PromotionPieceType,
     ): void {
+        const convertPromotionPiece = new Map([
+            [PromotionPieceType.Bishop, 'B'],
+            [PromotionPieceType.Knight, 'N'],
+            [PromotionPieceType.Rook, 'R'],
+            [PromotionPieceType.Queen, 'Q'],
+        ]);
         const move = moveToNotation(piece, moveTo, promotionPiece);
 
         let lastIndex = this.__previousMoves.length - 1;
@@ -57,14 +71,22 @@ export class GameState {
             if (moveType === MoveType.Castling) {
                 if (moveTo.y === 6) {
                     this.updateMove('0-0', piece.side, lastIndex);
+                    return;
                 } else {
                     this.updateMove('0-0-0', piece.side, lastIndex);
+                    return;
                 }
-            } else {
-                const joinedMove = move.join('');
-                this.updateMove(joinedMove, piece.side, lastIndex);
+            } else if (piece.figType === PieceType.Pawn) {
+                const stringPromotionPiece = convertPromotionPiece.get(promotionPiece);
+                if (piece.side === Side.White && moveTo.x === 0 && stringPromotionPiece) {
+                    move.push(`=${stringPromotionPiece}`);
+                } else if (piece.side === Side.Black && moveTo.x === 7 && stringPromotionPiece) {
+                    move.push(`=${stringPromotionPiece}`);
+                }
             }
         }
+        const joinedMove = move.join('');
+        this.updateMove(joinedMove, piece.side, lastIndex);
         if (chessEngine.isCheckmate(chessboard, enemySide, chessboard.board)) {
             move.push('#');
             const joinedMove = move.join('');
