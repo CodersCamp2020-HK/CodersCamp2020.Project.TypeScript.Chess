@@ -103,11 +103,9 @@ export class GameController {
                     this.turnCounter++;
                     this.gameState.updatePreviousBoards(this.chessboardState.board);
                     this.lastBoardState = this.gameState.previousBoards[this.gameState.previousBoards.length - 1];
-                    if (moveType === MoveType.EnPassant) {
-                        this.chessboardState.makeEnPassant(this.currentSelectedPiece, cord);
-                    } else {
-                        this.chessboardState.makeMove(this.currentSelectedPiece, cord);
-                    }
+                    moveType === MoveType.EnPassant
+                        ? this.chessboardState.makeEnPassant(this.currentSelectedPiece, cord)
+                        : this.chessboardState.makeMove(this.currentSelectedPiece, cord);
                     this.chessboardPresenter.render(this.chessboardState.board);
                     this.currentTurn = this.currentTurn === Side.White ? Side.Black : Side.White;
                     if (this.chessEngine.isCheck(this.chessboardState, this.currentTurn, this.lastBoardState)) {
