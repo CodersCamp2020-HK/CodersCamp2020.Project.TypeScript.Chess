@@ -8,6 +8,7 @@ import { ChessBoardSquareDisplayType } from '../domain/IPresenter';
 import { convertMovesToDisplayType } from '../utils/ConvertMovesToDisplayType';
 import { Timer } from '../components/timer/Timer';
 import { ChessEngine } from './ChessEngine';
+import { IGameStatsPresenter } from '../domain/IGameStatsPresenter';
 
 export class GameController {
     private whiteTimer: Timer;
@@ -18,7 +19,11 @@ export class GameController {
     private chessboardState = new ChessBoard();
     private gameState: GameState = new GameState();
     public chessEngine: IChessEngine = new ChessEngine();
-    constructor(public chessboardPresenter: IChessBoardPresenter, private onEndGame: (score: Score) => void) {
+    constructor(
+        public chessboardPresenter: IChessBoardPresenter,
+        public gameStatsPresenter: IGameStatsPresenter,
+        private onEndGame: (score: Score) => void,
+    ) {
         this.whiteTimer = new Timer(300, 0, () => onEndGame(Score.BlackWon));
         this.blackTimer = new Timer(300, 0, () => onEndGame(Score.WhiteWon));
         this.currentTurn = Side.White;
@@ -100,7 +105,10 @@ export class GameController {
 
                     this.chessboardPresenter.render(this.chessboardState.board);
                     this.currentTurn = this.currentTurn === Side.White ? Side.Black : Side.White;
+
                     this.gameState.updateCapturedPieces(this.chessboardState, this.currentTurn);
+                    console.log(this.gameState.capturedPieces);
+                    this.gameStatsPresenter.updateCaptureTable(this.gameState.capturedPieces);
 
                     if (this.gameState.previousBoards.length === 1) {
                         this.blackTimer.start(Score.WhiteWon);

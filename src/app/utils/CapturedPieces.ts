@@ -1,4 +1,4 @@
-import { PieceType, Side } from '../domain/basicChessTypes';
+import { PieceType, Side, StringPieces } from '../domain/basicChessTypes';
 import { IChessBoard } from '../domain/IChessBoard';
 
 export const getCapturedPieceCount = (
@@ -12,7 +12,14 @@ export const getCapturedPieceCount = (
         name: string;
     }
 > => {
-    const pieceMap = new Map([
+    const pieceMap: Map<
+        PieceType,
+        {
+            startingCount: number;
+            actualCount: number;
+            name: StringPieces;
+        }
+    > = new Map([
         [PieceType.Pawn, { startingCount: 8, actualCount: 0, name: 'pawn' }],
         [PieceType.Rook, { startingCount: 2, actualCount: 0, name: 'rook' }],
         [PieceType.Knight, { startingCount: 2, actualCount: 0, name: 'knight' }],
@@ -36,14 +43,14 @@ export const getCapturedPieceCount = (
     return pieceMap;
 };
 
-export const getCapturedPieceNames = (side: Side, boardState: IChessBoard): string[] => {
-    const result = [];
+export const getCapturedPieceNames = (side: Side, boardState: IChessBoard): StringPieces[] => {
+    const result: StringPieces[] = [];
     for (let i = 0; i < 6; i++) {
         const pieceCount = getCapturedPieceCount(side, boardState);
         const piece = pieceCount.get(i);
         if (piece) {
             for (let j = piece.actualCount; j < piece.startingCount; j++) {
-                result.push(piece.name);
+                result.push(piece.name as StringPieces);
             }
         }
     }
