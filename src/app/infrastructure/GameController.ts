@@ -1,4 +1,4 @@
-import { Cord, MoveType, Piece, Score, Side } from '../domain/basicChessTypes';
+import { Cord, MoveType, Piece, PromotionPieceType, Score, Side } from '../domain/basicChessTypes';
 import { ChessBoardView } from '../domain/IChessBoard';
 import { IChessEngine } from '../domain/IChessEngine';
 import { IChessBoardPresenter } from '../domain/IPresenter';
@@ -9,6 +9,7 @@ import { convertMovesToDisplayType } from '../utils/ConvertMovesToDisplayType';
 import { Timer } from '../components/timer/Timer';
 import { ChessEngine } from './ChessEngine';
 import { IGameStatsPresenter } from '../domain/IGameStatsPresenter';
+import _ from 'lodash';
 
 export class GameController {
     private whiteTimer: Timer;
@@ -98,6 +99,7 @@ export class GameController {
                 if (cord.x === x && cord.y === y) {
                     this.gameState.updatePreviousBoards(this.chessboardState.board);
                     this.lastBoardState = this.gameState.previousBoards[this.gameState.previousBoards.length - 1];
+                    const lastPiece = _.cloneDeep(this.currentSelectedPiece);
 
                     moveType === MoveType.EnPassant
                         ? this.chessboardState.makeEnPassant(this.currentSelectedPiece, cord)
@@ -106,8 +108,16 @@ export class GameController {
                     this.chessboardPresenter.render(this.chessboardState.board);
                     this.currentTurn = this.currentTurn === Side.White ? Side.Black : Side.White;
 
+                    this.gameState.updatePreviousMoves(
+                        lastPiece,
+                        { x, y, moveType: [moveType] },
+                        this.chessEngine,
+                        this.chessboardState,
+                        PromotionPieceType.Queen,
+                    );
+                    console.log(this.gameState.previousMoves);
+
                     this.gameState.updateCapturedPieces(this.chessboardState, this.currentTurn);
-                    console.log(this.gameState.capturedPieces);
                     this.gameStatsPresenter.updateCaptureTable(this.gameState.capturedPieces);
 
                     if (this.gameState.previousBoards.length === 1) {

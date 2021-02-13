@@ -1,15 +1,7 @@
 import { getCapturedPieceNames } from '../utils/CapturedPieces';
 import { ChessBoardView, IChessBoard } from '../domain/IChessBoard';
 import _ from 'lodash';
-import {
-    CordWithMoveTypes,
-    MoveType,
-    Piece,
-    PieceType,
-    Side,
-    PromotionPieceType,
-    StringPieces,
-} from '../domain/basicChessTypes';
+import { CordWithMoveTypes, MoveType, Piece, Side, PromotionPieceType, StringPieces } from '../domain/basicChessTypes';
 import { IChessEngine } from '../domain/IChessEngine';
 import { moveToNotation } from '../utils/MoveToNotation';
 
