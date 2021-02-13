@@ -1,0 +1,36 @@
+@use '../../../../styles/colors';
+@use '../../../../styles/common';
+@use '../../../../styles/typography';
+
+.modalInvisible {
+  display: none;
+}
+
+.modal {
+  background-color: rgba(colors.$black, 0.8);
+  width: 100vw;
+  height: 100vh;
+  z-index: 3;
+  left: 0;
+  top: 0;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .modalWrapper {
+   background-color: colors.$black;
+   border: 1px solid colors.$blue;
+   @extend %border-modal;
+   @extend %shadow-blue-2;
+   padding: 3vw;
+   max-width: 600px;
+   max-height: 500px;
+   display:flex;
+   flex-direction: column;
+
+   button {
+      margin-top:20px;
+   }
+  }
+}

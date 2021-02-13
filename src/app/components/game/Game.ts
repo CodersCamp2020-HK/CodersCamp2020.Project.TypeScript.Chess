@@ -9,6 +9,7 @@ import { Label } from '../genericLabel/Label';
 import { Footer } from '../footer/Footer';
 import { Button } from '../genericButton/Button';
 import { PreviousMovesButtons } from '../ButtonsPreviewNext/PreviousMovesButtons';
+import { ModalQuit } from '../game/modalQuit/ModalQuit';
 
 export class Game {
     private __element: HTMLElement;
@@ -63,13 +64,10 @@ export class Game {
         };
         const previousMovesButtons = new PreviousMovesButtons(fun, fun, fun, fun, fun);
         quitButtonWrapper.classList.add(styles.wrapperQuit);
-        const quitButton = new Button(
-            'QUIT',
-            function () {
-                console.log('animated button');
-            },
-            true,
-        );
+
+        const modalQuit = new ModalQuit(fun);
+
+        const quitButton = new Button('QUIT', () => modalQuit.openModal(), true);
         quitButtonWrapper.append(previousMovesButtons.element, quitButton.button);
 
         const footerWrapper = document.createElement('div');
@@ -84,7 +82,7 @@ export class Game {
             previousMovesWrapper,
             quitButtonWrapper,
         );
-        container.append(rules.element, info.element, cyberChessTextWrapper, wrapper, footerWrapper);
+        container.append(rules.element, info.element, cyberChessTextWrapper, wrapper, footerWrapper, modalQuit.element);
 
         return container;
     }
