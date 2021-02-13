@@ -41,17 +41,17 @@ export class ChessEngine implements IChessEngine {
         if (!handler) {
             return [];
         }
-        // if (piece.figType === PieceType.King && previousBoardState) {
-        //     const moves = handler(cord, boardState);
-        //     return this.excludeMovesOnAttackedSquaresForKing(piece.cord, moves, boardState, previousBoardState);
-        // }
+        if (piece.figType === PieceType.King) {
+            const moves = handler(cord, boardState);
+            return this.excludeMovesOnAttackedSquaresForKing(cord, moves, boardState, previousBoardState);
+        }
         return handler(cord, boardState);
     }
 
     isCheck(boardState: IChessBoard, side: Side, previousBoardState: ChessBoardView): boolean {
         const { board } = boardState;
         const allEnemyPieces = flattenChessboard(board).filter(
-            (item): item is Piece => item !== null && item.side !== side,
+            (item): item is Piece => item !== null && item.side !== side && item.figType !== PieceType.King,
         );
         const allEnemyPiecesMoves = allEnemyPieces.map((piece) => {
             return this.getPossibleMovesForPiece({ x: piece.cord.x, y: piece.cord.y }, boardState, previousBoardState);
