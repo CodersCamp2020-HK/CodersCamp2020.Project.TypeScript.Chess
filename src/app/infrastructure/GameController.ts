@@ -1,4 +1,4 @@
-import { Cord, MoveType, Piece, Score, Side, StringPieces } from '../domain/basicChessTypes';
+import { Cord, MoveType, Piece, Score, Side } from '../domain/basicChessTypes';
 import { ChessBoardView } from '../domain/IChessBoard';
 import { IChessEngine } from '../domain/IChessEngine';
 import { IChessBoardPresenter } from '../domain/IPresenter';
