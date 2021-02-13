@@ -7,17 +7,14 @@ import { InfoContent, RulesContent } from '../sidebars/sidebars';
 import { CapturedTable } from './capturedTable/CapturedTable';
 import { Header } from '../HeaderCyberChess/Header';
 import { Label } from '../genericLabel/Label';
-import { ChessBoardComponent } from '../ChessBoard/ChessBoardComponent';
-import { ChessBoard } from '../../infrastructure/ChessBoard';
-import { piecesArray } from '../PiecesElements/piecesElements';
 import { Footer } from '../footer/Footer';
 import { Button } from '../genericButton/Button';
+import { PreviousMovesButtons } from '../ButtonsPreviewNext/PreviousMovesButtons';
 
 export class Game {
     private __element: HTMLElement;
-    public chessboard: ChessBoardComponent | null = null;
 
-    constructor() {
+    constructor(public readonly gameBoardView: HTMLElement) {
         this.__element = this.createGameWrapper();
     }
 
@@ -41,12 +38,6 @@ export class Game {
         cyberChessTextWrapper.append(header.element);
         // cyberChessTextWrapper.textContent = 'Cyber Chess';
 
-        const chessboardWrapper = document.createElement('div');
-        // DO ZMIANY, POWINNO BYĆ W KONTROLERZE \/\/`
-        const chessboard = ChessBoard.createNewBoard();
-        chessboardWrapper.classList.add(styles.wrapperChessboard, boardStyles.boardWrapper);
-        this.chessboard = new ChessBoardComponent(chessboardWrapper, [...piecesArray], chessboard.board);
-
         const opponentScoreWrapper = document.createElement('div');
         opponentScoreWrapper.classList.add(styles.wrapperOpponent);
         const opponentCapturedTable = new CapturedTable('opponent', []);
@@ -68,6 +59,10 @@ export class Game {
         previousMovesWrapper.append(movesLabel.element);
 
         const quitButtonWrapper = document.createElement('div');
+        const fun = () => {
+            console.log(`x`);
+        };
+        const previousMovesButtons = new PreviousMovesButtons(fun, fun, fun, fun, fun);
         quitButtonWrapper.classList.add(styles.wrapperQuit);
         const quitButton = new Button(
             'QUIT',
@@ -76,7 +71,7 @@ export class Game {
             },
             true,
         );
-        quitButtonWrapper.append(quitButton.button);
+        quitButtonWrapper.append(previousMovesButtons.element, quitButton.button);
 
         const footerWrapper = document.createElement('div');
         footerWrapper.classList.add(styles.wrapperFooter);
@@ -84,7 +79,7 @@ export class Game {
         footerWrapper.appendChild(footerImage.element);
 
         wrapper.append(
-            chessboardWrapper,
+            this.gameBoardView,
             opponentScoreWrapper,
             playerScoreWrapper,
             previousMovesWrapper,

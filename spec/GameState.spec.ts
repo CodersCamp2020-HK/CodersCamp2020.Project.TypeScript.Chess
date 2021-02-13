@@ -1,4 +1,4 @@
-import { Piece } from '../src/app/domain/basicChessTypes';
+import { Piece, Side } from '../src/app/domain/basicChessTypes';
 import { ChessBoard } from '../src/app/infrastructure/ChessBoard';
 import { GameState } from '../src/app/infrastructure/GameState';
 import { convertEmojiToRep, displayEmojiBoard } from './Display';
@@ -19,13 +19,13 @@ const firstMoveEmojiBoard = [
 describe(`Given: Starting chessboard: ${displayEmojiBoard(firstMoveEmojiBoard)}`, () => {
     describe('When: updateCapturedPieces on gameState object is invoked', () => {
         it(`Then: empty array for white and black pieces should be returned`, () => {
-            const expected = [{ black: [], white: [] }];
-
+            const expected = { black: [], white: [] };
             const gameState = new GameState();
             jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(firstMoveEmojiBoard));
-            gameState.updateCapturedPieces(chessboard);
+            gameState.updateCapturedPieces(chessboard, Side.Black);
+            gameState.updateCapturedPieces(chessboard, Side.White);
             const actual = gameState.capturedPieces;
-            expect(actual).toEqual(expect.arrayContaining(expected));
+            expect(actual).toEqual(expect.objectContaining(expected));
         });
     });
 });
@@ -44,18 +44,17 @@ const secondMoveEmojiBoard = [
 describe(`Given: Starting chessboard: ${displayEmojiBoard(secondMoveEmojiBoard)}`, () => {
     describe('When: updateCapturedPieces on gameState object is invoked', () => {
         it(`Then: empty array for white and black pieces should be returned`, () => {
-            const expected = [
-                {
-                    black: ['knight', 'knight', 'bishop'],
-                    white: ['pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn'],
-                },
-            ];
+            const expected = {
+                black: ['knight', 'knight', 'bishop'],
+                white: ['pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn'],
+            };
 
             const gameState = new GameState();
             jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(secondMoveEmojiBoard));
-            gameState.updateCapturedPieces(chessboard);
+            gameState.updateCapturedPieces(chessboard, Side.Black);
+            gameState.updateCapturedPieces(chessboard, Side.White);
             const actual = gameState.capturedPieces;
-            expect(actual).toEqual(expect.arrayContaining(expected));
+            expect(actual).toEqual(expect.objectContaining(expected));
         });
     });
 });
@@ -63,33 +62,27 @@ describe(`Given: Starting chessboard: ${displayEmojiBoard(secondMoveEmojiBoard)}
 describe(`Given: Starting chessboard: ${displayEmojiBoard(firstMoveEmojiBoard)}`, () => {
     describe('When: after moves: ♘c3 d5, ♘xd5 a6', () => {
         it(`Then: array with 2 objects should be returned`, () => {
-            const expected = [
-                {
-                    black: [],
-                    white: [],
-                },
-                {
-                    black: [],
-                    white: ['pawn'],
-                },
-            ];
+            const expected = {
+                black: [],
+                white: ['pawn'],
+            };
 
             const newChessboard = ChessBoard.createNewBoard();
             const gameState = new GameState();
 
             const knight = newChessboard.getPiece({ x: 7, y: 1 }) as Piece;
             newChessboard.makeMove(knight, { x: 5, y: 2 });
+            gameState.updateCapturedPieces(newChessboard, knight.side);
 
             const pawn = newChessboard.getPiece({ x: 1, y: 3 }) as Piece;
             newChessboard.makeMove(pawn, { x: 3, y: 3 });
-            gameState.updateCapturedPieces(newChessboard);
+            gameState.updateCapturedPieces(newChessboard, knight.side);
 
             newChessboard.makeMove(knight, { x: 3, y: 3 });
-            console.log(JSON.stringify(newChessboard.board, null, 4));
-            gameState.updateCapturedPieces(newChessboard);
+            gameState.updateCapturedPieces(newChessboard, pawn.side);
 
             const actual = gameState.capturedPieces;
-            expect(actual).toEqual(expect.arrayContaining(expected));
+            expect(actual).toEqual(expect.objectContaining(expected));
         });
     });
 });

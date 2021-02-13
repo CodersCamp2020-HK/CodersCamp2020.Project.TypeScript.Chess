@@ -16,6 +16,14 @@ export class ChessBoard implements IChessBoard {
         this.__board[x][y] = piece;
     }
 
+    makeEnPassant(piece: Piece, moveTo: Cord): void {
+        piece.isMoved = true;
+        const { x: newX, y: newY } = moveTo;
+        const { x: oldX } = piece.cord;
+        this.makeMove(piece, { x: oldX, y: newY });
+        this.makeMove(piece, { x: newX, y: newY });
+    }
+
     static createNewBoard(): IChessBoard {
         return new ChessBoard();
     }
