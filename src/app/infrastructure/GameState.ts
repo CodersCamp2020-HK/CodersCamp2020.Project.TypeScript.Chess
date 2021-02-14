@@ -78,6 +78,7 @@ export class GameState {
                 }
             } else if (piece.figType === PieceType.Pawn) {
                 const stringPromotionPiece = convertPromotionPiece.get(promotionPiece);
+                console.log(stringPromotionPiece);
                 if (piece.side === Side.White && moveTo.x === 0 && stringPromotionPiece) {
                     move.push(`=${stringPromotionPiece}`);
                 } else if (piece.side === Side.Black && moveTo.x === 7 && stringPromotionPiece) {

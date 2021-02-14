@@ -80,18 +80,27 @@ export class GameController {
         return [];
     }
 
-    private continueOnClick(lastPiece: Piece, { x, y, moveType }: CordWithMoveType, piece: Piece | null) {
+    private continueOnClick(lastPiece: Piece, { x, y, moveType }: CordWithMoveType, promotionPiece: PieceType) {
         this.chessboardPresenter.render(this.chessboardState.board);
         this.currentTurn = this.currentTurn === Side.White ? Side.Black : Side.White;
-
-        this.gameState.updatePreviousMoves(
-            lastPiece,
-            { x, y, moveType: [moveType] },
-            this.chessEngine,
-            this.chessboardState,
-            PromotionPieceType.Queen,
-        );
+        const promotionPieceType = new Map<PieceType, PromotionPieceType>([
+            [PieceType.Rook, PromotionPieceType.Rook],
+            [PieceType.Knight, PromotionPieceType.Knight],
+            [PieceType.Queen, PromotionPieceType.Queen],
+            [PieceType.Bishop, PromotionPieceType.Bishop],
+        ]);
+        const chosen = promotionPieceType.get(promotionPiece);
+        if (chosen !== undefined) {
+            this.gameState.updatePreviousMoves(
+                lastPiece,
+                { x, y, moveType: [moveType] },
+                this.chessEngine,
+                this.chessboardState,
+                chosen,
+            );
+        }
         this.gameStatsPresenter.updatePreviousMoves(this.gameState.previousMoves);
+        console.log(this.gameState.previousMoves);
 
         this.gameState.updateCapturedPieces(this.chessboardState, this.currentTurn);
         this.gameStatsPresenter.updateCaptureTable(this.gameState.capturedPieces);
@@ -170,12 +179,12 @@ export class GameController {
                             } else {
                                 throw new Error('Cannot promote piece.');
                             }
-                            this.continueOnClick(lastPiece, { x, y, moveType }, piece);
+                            this.continueOnClick(lastPiece, { x, y, moveType }, pieceChosen);
                         });
                         return;
                     }
 
-                    this.continueOnClick(lastPiece, { x, y, moveType }, piece);
+                    this.continueOnClick(lastPiece, { x, y, moveType }, PieceType.Queen);
                     piece = null;
                 }
             }
