@@ -11,6 +11,7 @@ export class ModalQuit {
         const modalWrapper = document.createElement('div');
         this.__element.append(modalWrapper);
         modalWrapper.classList.add(styles.modalWrapper);
+
         const labelHeader = new Label('blue', 'ARE YOU SURE YOU WANT TO QUIT THE GAME?');
         const buttonCancel = new Button(
             'Cancel',

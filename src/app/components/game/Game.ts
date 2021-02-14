@@ -58,9 +58,9 @@ export class Game {
         // const movesLabel = new Label('yellow', 'previous moves');
         // previousMovesWrapper.append(movesLabel.element);
         // const quitButtonWrapper = document.createElement('div');
-        // const fun = () => {
-        //     console.log(`x`);
-        // };
+        const fun = () => {
+            console.log(`x`);
+        };
         // const previousMovesButtons = new PreviousMovesButtons(fun, fun, fun, fun, fun);
         // quitButtonWrapper.classList.add(styles.wrapperQuit);
         // const quitButton = new Button(
@@ -76,7 +76,6 @@ export class Game {
         footerWrapper.classList.add(styles.wrapperFooter);
         const footerImage = new Footer();
         footerWrapper.appendChild(footerImage.element);
-
         wrapper.append(
             this.gameBoardView,
             // opponentScoreWrapper,
@@ -85,7 +84,7 @@ export class Game {
             // quitButtonWrapper,
             this.gameStatsView,
         );
-        container.append(rules.element, info.element, cyberChessTextWrapper, wrapper, footerWrapper, modalQuit.element);
+        container.append(rules.element, info.element, cyberChessTextWrapper, wrapper, footerWrapper);
 
         return container;
     }
