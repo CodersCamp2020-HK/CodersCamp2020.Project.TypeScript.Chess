@@ -12,7 +12,7 @@ export class Header {
 
         const cyberChess = document.createElement('div');
         cyberChess.classList.add(styles.cyberChess);
-        cyberChess.textContent = 'Cyber Chess';
+        cyberChess.innerHTML = '<span>C</span>yber <span>C</span>hess';
 
         const cyberData = document.createElement('div');
         cyberData.classList.add(styles.cyberData);

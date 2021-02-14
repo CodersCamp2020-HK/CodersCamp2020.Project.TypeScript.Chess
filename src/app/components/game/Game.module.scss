@@ -6,12 +6,6 @@
     box-sizing: border-box;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 .container {
     @extend %background-gradient;
     min-height: 100vh;
@@ -33,14 +27,10 @@
     margin: auto;
     display: grid;
     grid-template-columns: repeat(2, auto);
-    grid-template-rows: repeat(4, auto);
     row-gap: 10px;
     column-gap: 30px;
     grid-template-areas:
-        'chessboard opponent'
-        'chessboard opponent'
-        'chessboard opponent'
-        'chessboard opponent';
+        'chessboard gamestats';
 }
 
 .wrapper > * {
@@ -54,22 +44,6 @@
 
 .wrapperChessboard {
     grid-area: chessboard;
-}
-
-.wrapperOpponent {
-    grid-area: opponent;
-}
-
-.wrapperPlayer {
-    grid-area: player;
-}
-
-.wrapperMoves {
-    grid-area: moves;
-}
-
-.wrapperQuit {
-    grid-area: quit;
 }
 
 .wrapperFooter {
