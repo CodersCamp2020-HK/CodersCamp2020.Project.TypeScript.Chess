@@ -184,7 +184,7 @@ describe(`Given: Starting chessboard ${displayEmojiBoard(firstMoveEmojiBoard)}`,
         const expected = convertEmojiToRep(firstMoveEmojiBoard);
         const gameState = new GameState();
         jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(firstMoveEmojiBoard));
-        gameState.updatePreviousBoards(chessboard.board);
+        gameState.updatePreviousBoards(chessboard.board, Side.Black);
         it(`Then: previousBoards at index 0 should be: `, () => {
             const actual = gameState.previousBoards[0];
             expect(actual).toEqual(expect.arrayContaining(expected));
@@ -198,11 +198,11 @@ describe(`Given: Starting chessboard ${displayEmojiBoard(firstMoveEmojiBoard)}`,
         const gameState = new GameState();
         const expected = convertEmojiToRep(thirdEmoji);
         jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(firstEmoji));
-        gameState.updatePreviousBoards(chessboard.board);
+        gameState.updatePreviousBoards(chessboard.board, Side.Black);
         jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(secondEmoji));
-        gameState.updatePreviousBoards(chessboard.board);
+        gameState.updatePreviousBoards(chessboard.board, Side.Black);
         jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(thirdEmoji));
-        gameState.updatePreviousBoards(chessboard.board);
+        gameState.updatePreviousBoards(chessboard.board, Side.Black);
         it('Then: previousBoards at index 2 should be: ', () => {
             const actual = gameState.previousBoards[2];
             expect(actual).toEqual(expect.arrayContaining(expected));

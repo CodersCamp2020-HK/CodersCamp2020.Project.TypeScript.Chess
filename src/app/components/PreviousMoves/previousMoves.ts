@@ -2,7 +2,6 @@ import styles from './previousMoves.module.scss';
 import { piecesArray } from '../PiecesElements/piecesElements';
 import { PieceElement } from '../ChessBoard/ChessBoardComponent';
 import { Side, PieceType } from '../../domain/basicChessTypes';
-import { opponent } from '../game/capturedTable/CapturedTable.module.scss';
 
 interface Notation {
     white: string;
@@ -52,7 +51,7 @@ export class PreviousMoves {
                 const span = document.createElement('span');
 
                 if (notation[color] == '') {
-                    span.textContent = 'Brak';
+                    span.textContent = '';
                     span.classList.add(styles[currentClassName]);
                     li.append(span);
                     continue;

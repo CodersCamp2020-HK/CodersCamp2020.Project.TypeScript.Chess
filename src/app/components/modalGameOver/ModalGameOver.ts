@@ -5,17 +5,19 @@ import { Button } from '../genericButton/Button';
 
 export class ModalGameOver {
     private __element: HTMLDialogElement;
-
+    private time: number;
     constructor(
         winnerSide: Side,
         numberOfMoves: number,
-        time: string,
+        time: number,
         winWay: string,
         namePlayer: string,
         nameOpponent: string,
         onMainMenuCb: () => void,
         onPlayAgainCb: () => void,
     ) {
+        this.time = time;
+        const timeInString = time.toFixed(1);
         this.__element = document.createElement('dialog');
         this.__element.classList.add(styles.modalInvisible);
         const modalWrapper = document.createElement('div');
@@ -46,14 +48,14 @@ export class ModalGameOver {
             modalWrapper.classList.add(styles.wrapperPlayer);
             labelWin = new Label('red', `Win by: ${winWay}`);
             labelMoves = new Label('red', `Moves: ${numberOfMoves}`);
-            labelTime = new Label('red', `Time: ${time}`);
+            labelTime = new Label('red', `Time: ${timeInString}`);
         } else {
             labelHeader = new Label('yellow', `${nameOpponent} is a winner`);
             labelHeader.element.classList.add(styles.labelHeader);
             modalWrapper.classList.add(styles.wrapperOpponent);
             labelWin = new Label('blue', winWay);
-            labelMoves = new Label('blue', `${numberOfMoves}`);
-            labelTime = new Label('blue', `Time: ${time}`);
+            labelMoves = new Label('blue', `Moves: ${numberOfMoves}`);
+            labelTime = new Label('blue', `Time: ${timeInString}`);
         }
 
         labelWin.element.classList.add(styles.label);
@@ -62,8 +64,24 @@ export class ModalGameOver {
 
         const buttonWrapper = document.createElement('div');
         buttonWrapper.classList.add(styles.buttonWrapper);
-        const buttonMainMenu = new Button('Main Menu', onMainMenuCb, true);
-        const buttonPlayAgain = new Button('Play Again', onPlayAgainCb, true);
+        const buttonMainMenu = new Button(
+            'Main Menu',
+            () => {
+                this.__element.classList.remove(styles.modal);
+                this.__element.classList.add(styles.modalInvisible);
+                onMainMenuCb();
+            },
+            true,
+        );
+        const buttonPlayAgain = new Button(
+            'Play Again',
+            () => {
+                this.__element.classList.remove(styles.modal);
+                this.__element.classList.add(styles.modalInvisible);
+                onPlayAgainCb();
+            },
+            true,
+        );
         buttonWrapper.append(buttonMainMenu.button, buttonPlayAgain.button);
 
         modalWrapper.append(

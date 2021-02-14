@@ -4,18 +4,29 @@ import { CapturedTable } from '../game/capturedTable/CapturedTable';
 import { Label } from '../genericLabel/Label';
 import { PreviousMovesButtons } from '../ButtonsPreviewNext/PreviousMovesButtons';
 import { Button } from '../genericButton/Button';
-import { Side, StringPieces } from '../../domain/basicChessTypes';
+import { PieceType, Side, StringPieces } from '../../domain/basicChessTypes';
 import { ModalGameOver } from '../modalGameOver/ModalGameOver';
 import { ModalPromotion } from '../game/modalPromotionPawn/ModalPromotion';
+import { PreviousMoves } from '../PreviousMoves/previousMoves';
+import { Timer } from '../timer/Timer';
 
 export class GameStatsPresenter implements IGameStatsPresenter {
     private gameStatsWrapper: HTMLElement;
     private opponentCapturedTable;
     private playerCapturedTable;
-    constructor() {
-        const modalPromotion = new ModalPromotion(Side.Black);
+    private previousMoves = new PreviousMoves([]);
+    private modalPromotionBlack;
+    private modalPromotionWhite;
+    timerWhite: Timer;
+    timerBlack: Timer;
+    constructor(gameTimeInSec: number, addedTimeInSec: number) {
+        this.timerWhite = new Timer(gameTimeInSec, addedTimeInSec);
+        this.timerBlack = new Timer(gameTimeInSec, addedTimeInSec);
+
         this.gameStatsWrapper = document.createElement('div');
         this.gameStatsWrapper.classList.add(styles.wrapperGameStats);
+        this.modalPromotionWhite = new ModalPromotion(Side.White);
+        this.modalPromotionBlack = new ModalPromotion(Side.Black);
 
         const opponentScoreWrapper = document.createElement('div');
         const opponentLabel = new Label('blue', 'Opponent');
@@ -31,7 +42,7 @@ export class GameStatsPresenter implements IGameStatsPresenter {
 
         const previousMovesWrapper = document.createElement('div');
         const movesLabel = new Label('yellow', 'previous moves');
-        previousMovesWrapper.append(movesLabel.element);
+        previousMovesWrapper.append(movesLabel.element, this.previousMoves.element);
 
         const quitButtonWrapper = document.createElement('div');
         const fun = () => {
@@ -45,23 +56,73 @@ export class GameStatsPresenter implements IGameStatsPresenter {
             },
             true,
         );
-        quitButtonWrapper.append(previousMovesButtons.element, quitButton.button);
-
-        const modalGameOver = new ModalGameOver(Side.White, 43, '2:45', 'time control', 'Ania', 'Mateusz', fun, fun);
+        // quitButtonWrapper.append(previousMovesButtons.element, quitButton.button);
 
         this.gameStatsWrapper.append(
             opponentScoreWrapper,
-            opponentScoreWrapper,
+            this.timerBlack.element,
+            playerScoreWrapper,
+            this.timerWhite.element,
             previousMovesWrapper,
             quitButtonWrapper,
-            modalPromotion.element,
-            modalGameOver.element,
+            this.modalPromotionBlack.element,
+            this.modalPromotionWhite.element,
         );
     }
 
     updateCaptureTable(updateCapturedPieces: { white: StringPieces[]; black: StringPieces[] }): void {
         this.opponentCapturedTable.update(updateCapturedPieces.black);
         this.playerCapturedTable.update(updateCapturedPieces.white);
+    }
+
+    updatePreviousMoves(notationArray: { white: string; black: string; [key: string]: string }[]): void {
+        this.previousMoves.render(notationArray);
+    }
+
+    openPromotionModal(side: Side, onClick: (piece: PieceType) => void): string {
+        side === Side.White ? this.modalPromotionWhite.openModal(onClick) : this.modalPromotionBlack.openModal(onClick);
+        return side === Side.White ? this.modalPromotionWhite.pieceChosen : this.modalPromotionBlack.pieceChosen;
+    }
+
+    startTimer(side: Side, onTimerEndCb: () => void): void {
+        side === Side.White ? this.timerWhite.start(onTimerEndCb) : this.timerBlack.start(onTimerEndCb);
+    }
+
+    stopTimer(side: Side): void {
+        side === Side.White ? this.timerWhite.stop() : this.timerBlack.stop();
+    }
+
+    getRemainingTime(side: Side): number {
+        return side === Side.White ? this.timerWhite.remainingTime : this.timerBlack.remainingTime;
+    }
+
+    openModal(
+        winnerSide: Side,
+        numberOfMoves: number,
+        time: number,
+        winWay: string,
+        namePlayer: string,
+        nameOpponent: string,
+        onMainMenuCb: () => void,
+        onPlayAgainCb: () => void,
+    ): void {
+        const modal = new ModalGameOver(
+            winnerSide,
+            numberOfMoves,
+            time,
+            winWay,
+            namePlayer,
+            nameOpponent,
+            onMainMenuCb,
+            onPlayAgainCb,
+        );
+        this.gameStatsWrapper.appendChild(modal.element);
+        modal.openModal();
+    }
+
+    createPreviousButtons(fun: () => void): void {
+        const previousMovesButtons = new PreviousMovesButtons(fun, fun, fun, fun, fun);
+        this.gameStatsWrapper.appendChild(previousMovesButtons.element);
     }
 
     get element(): HTMLElement {
