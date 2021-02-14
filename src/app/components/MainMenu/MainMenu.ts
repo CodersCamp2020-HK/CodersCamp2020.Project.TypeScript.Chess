@@ -4,6 +4,8 @@ import { InfoContent, RulesContent } from '../sidebars/sidebars';
 import { Header } from '../HeaderCyberChess/Header';
 import { Footer } from '../footer/Footer';
 import { Button } from '../genericButton/Button';
+import { Label } from '../genericLabel/Label';
+import { Radios, Data } from '../radios/radiosComponent';
 import { create } from 'lodash';
 
 export interface StartGameParams {
@@ -45,47 +47,93 @@ export class MainMenu {
         mainMenuSettingsWrapper.classList.add(styles.mainMenuSettingsWrapper);
         mainMenuSettingsWrapper.addEventListener('submit', (event) => {
             const data = new FormData(mainMenuSettingsWrapper);
-            const params = { playWith: data.get('playWith') } as StartGameParams;
+            const params = {
+                playWith: data.get('playWithDiv'),
+                timePerPlayer: data.get('timePerPlayerDiv'),
+                playerName1: data.get('input1'),
+                playerName2: data.get('input2'),
+            } as StartGameParams;
             onStart(params);
             console.log(event);
             event.preventDefault();
         });
 
+        //1 DIV
         const playWithDiv = document.createElement('div');
         playWithDiv.classList.add(styles.playWithDiv);
-        playWithDiv.innerHTML = `<h4>PLAY WITH</h4>`;
-        const computer = document.createElement('input');
-        const computerLabel = document.createElement('label');
-        computerLabel.innerText = 'computer';
-        computer.type = 'radio';
-        computer.setAttribute('id', 'id1');
-        computer.value = 'computer';
-        computer.setAttribute('name', 'playWith');
-        computerLabel.setAttribute('for', 'id1');
+        const playWithLabel = new Label('blue', 'PLAY WITH');
+        const computer: Data[] = [
+            {
+                value: 'computer',
+                label: 'other user',
+                category: 'playWithDiv',
+            },
+        ];
+        const otherUser: Data[] = [
+            {
+                value: 'computer',
+                label: 'computer',
+                category: 'playWithDiv',
+            },
+        ];
+        playWithDiv.append(playWithLabel.element, new Radios(otherUser).element, new Radios(computer).element);
 
-        const otherUser = document.createElement('input');
-        const otherUserLabel = document.createElement('label');
-        otherUserLabel.innerText = 'other user';
-        otherUser.type = 'radio';
-        otherUser.setAttribute('id', 'id2');
-        otherUserLabel.setAttribute('for', 'id2');
-        otherUser.value = 'user';
-        otherUser.setAttribute('name', 'playWith');
-        playWithDiv.append(computer, computerLabel, otherUser, otherUserLabel);
-
+        //2 DIV
         const timePerPlayerDiv = document.createElement('div');
         timePerPlayerDiv.classList.add(styles.timePerPlayerDiv);
-        timePerPlayerDiv.innerHTML = `<h4>TIME PER PLAYER</h4>`;
+        const timePerPlayerLabel = new Label('blue', 'PLAY WITH');
+        const min3: Data[] = [
+            {
+                value: '3min',
+                label: '3min',
+                category: 'timePerPlayerDiv',
+            },
+        ];
+        const min5: Data[] = [
+            {
+                value: '5min',
+                label: '5min',
+                category: 'timePerPlayerDiv',
+            },
+        ];
+        const min10: Data[] = [
+            {
+                value: '10min',
+                label: '10min',
+                category: 'timePerPlayerDiv',
+            },
+        ];
+        const min30: Data[] = [
+            {
+                value: '30min',
+                label: '30min',
+                category: 'timePerPlayerDiv',
+            },
+        ];
+        timePerPlayerDiv.append(
+            timePerPlayerLabel.element,
+            new Radios(min3).element,
+            new Radios(min5).element,
+            new Radios(min10).element,
+            new Radios(min30).element,
+        );
 
+        //3 DIV
         const enterYourNameDiv = document.createElement('div');
         enterYourNameDiv.classList.add(styles.enterYourNameDiv);
-        enterYourNameDiv.innerHTML = `<h4>ENTER YOUR NAME</h4>`;
+        const enterYourNameLabel = new Label('blue', 'PLAY WITH');
         const input1 = document.createElement('input');
-        input1.setAttribute('name', 'input1');
         const input2 = document.createElement('input');
-        input2.setAttribute('name', 'input2');
-        enterYourNameDiv.append(input1, input2);
+        input1.setAttribute('id', 'xxx');
+        input2.setAttribute('id', 'xxx');
+        input1.placeholder = 'Player1';
+        input2.placeholder = 'Player2';
 
+        input1.setAttribute('name', 'input1');
+        input2.setAttribute('name', 'input2');
+        enterYourNameDiv.append(enterYourNameLabel.element, input1, input2);
+
+        // BUTTON
         const buttonDiv = document.createElement('div');
         buttonDiv.classList.add(styles.buttonDiv);
 

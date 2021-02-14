@@ -2,7 +2,7 @@ import { container } from '../game/Game.module.scss';
 import styles from '../radios/radios.module.scss';
 import { pseudoStyle } from './pseudoStyle';
 
-interface Data {
+export interface Data {
     value: string;
     label: string;
     category?: string;
