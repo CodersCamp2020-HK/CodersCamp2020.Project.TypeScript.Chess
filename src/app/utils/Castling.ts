@@ -1,7 +1,7 @@
 import { CordWithMoveType, MoveType, Piece, PieceType, Side } from '../domain/basicChessTypes';
 import { ChessBoardView, IChessBoard } from '../domain/IChessBoard';
 import { IChessEngine } from '../domain/IChessEngine';
-import { GameController } from '../infrastructure/GameController';
+import _ from 'lodash';
 
 export function possibleCastlingMoves(
     boardState: IChessBoard,
@@ -20,6 +20,30 @@ export function possibleCastlingMoves(
         return [];
     }
     const king = kingAr[0];
+    const possibleMovesLeft: CordWithMoveType[] = [
+        {
+            x: king.cord.x,
+            y: 3,
+            moveType: MoveType.NormalMove,
+        },
+        {
+            x: king.cord.x,
+            y: 2,
+            moveType: MoveType.NormalMove,
+        },
+    ];
+    const possibleMovesRight: CordWithMoveType[] = [
+        {
+            x: king.cord.x,
+            y: 5,
+            moveType: MoveType.NormalMove,
+        },
+        {
+            x: king.cord.x,
+            y: 6,
+            moveType: MoveType.NormalMove,
+        },
+    ];
     if (king.isMoved) {
         return [];
     }
@@ -48,16 +72,38 @@ export function possibleCastlingMoves(
         if (rookLeft.isMoved) {
             return [];
         }
-        if (castlingLeftCords.every((y) => boardState.board[rookLeft.cord.x][y] === null)) {
-            castlingCord.push({ x: rookLeft.cord.x, y: 2, moveType: MoveType.Castling } as CordWithMoveType);
+        if (
+            _.isEqualWith(
+                chessEngine.excludeMovesOnAttackedSquares(king.cord, possibleMovesLeft, boardState, previousBoardState),
+                possibleMovesLeft,
+                _.isEqual,
+            )
+        ) {
+            if (castlingLeftCords.every((y) => boardState.board[rookLeft.cord.x][y] === null)) {
+                castlingCord.push({ x: rookLeft.cord.x, y: 2, moveType: MoveType.Castling } as CordWithMoveType);
+            }
         }
     }
+
     if (rookRight) {
         if (rookRight.isMoved) {
             return [];
         }
-        if (castlingRightCords.every((y) => boardState.board[rookRight.cord.x][y] === null)) {
-            castlingCord.push({ x: rookRight.cord.x, y: 6, moveType: MoveType.Castling } as CordWithMoveType);
+        if (
+            _.isEqualWith(
+                chessEngine.excludeMovesOnAttackedSquares(
+                    king.cord,
+                    possibleMovesRight,
+                    boardState,
+                    previousBoardState,
+                ),
+                possibleMovesRight,
+                _.isEqual,
+            )
+        ) {
+            if (castlingRightCords.every((y) => boardState.board[rookRight.cord.x][y] === null)) {
+                castlingCord.push({ x: rookRight.cord.x, y: 6, moveType: MoveType.Castling } as CordWithMoveType);
+            }
         }
     }
     return castlingCord;
