@@ -16,6 +16,10 @@ export function possibleCastlingMoves(boardState: IChessBoard, side: Side): Cord
     if (king.isMoved) {
         return [];
     }
+
+    // if(isCheck()){
+    //     return [];
+    // }
     const rookLeft: Piece | undefined = rooks.find((rook) => {
         if (rook.side === Side.Black) {
             return rook.cord.x === 0 && rook.cord.y === 0 ? rook : [];
