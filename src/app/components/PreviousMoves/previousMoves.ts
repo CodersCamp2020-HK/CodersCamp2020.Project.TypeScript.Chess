@@ -3,6 +3,9 @@ import { piecesArray } from '../PiecesElements/piecesElements';
 import { PieceElement } from '../ChessBoard/ChessBoardComponent';
 import { Side, PieceType } from '../../domain/basicChessTypes';
 import { opponent } from '../game/capturedTable/CapturedTable.module.scss';
+import { sayText } from './sayText';
+import SimpleBar from 'simplebar';
+import 'simplebar/dist/simplebar.css';
 
 interface Notation {
     white: string;
@@ -25,7 +28,11 @@ export class PreviousMoves {
 
         const ol = document.createElement('ol');
 
-        notationArray.forEach((notation) => {
+        notationArray.forEach((notation, index) => {
+            const currentMadeMove = notation.black == '' ? notation.white : notation.black;
+            const twoEmpties = notation.black == '' && notation.white == '';
+            let markedEmpty = false;
+
             const li = document.createElement('li');
             li.classList.add(styles.listItem);
 
@@ -38,11 +45,30 @@ export class PreviousMoves {
                 ['P', PieceType.Pawn],
             ]);
 
+            const piecesNames = new Map([
+                ['K', 'Król'],
+                ['Q', 'Królowa'],
+                ['R', 'Wieża'],
+                ['B', 'Goniec'],
+                ['N', 'Skoczek'],
+                ['P', 'Pion'],
+            ]);
+
+            const piecesNamesPromotion = new Map([
+                ['K', 'Króla'],
+                ['Q', 'Królową'],
+                ['R', 'Wieżę'],
+                ['B', 'Goniec'],
+                ['N', 'Skoczka'],
+                ['P', 'Piona'],
+            ]);
+
             const actionsMap = new Map([
-                ['=', 'Promocja'],
                 ['x', 'Bicie'],
+                ['=', 'Promocja'],
                 ['+', 'Szach'],
                 ['#', 'Mat'],
+                ['½-½', 'Pat'],
             ]);
 
             for (const color in notation) {
@@ -55,6 +81,14 @@ export class PreviousMoves {
                     span.textContent = 'Brak';
                     span.classList.add(styles[currentClassName]);
                     li.append(span);
+
+                    if (twoEmpties) {
+                        if (!markedEmpty) {
+                            sayText('Gra rozpoczęta');
+                            markedEmpty = true;
+                        }
+                    }
+
                     continue;
                 }
 
@@ -62,6 +96,13 @@ export class PreviousMoves {
                     span.textContent = 'Roszada';
                     span.classList.add(styles[currentClassName]);
                     li.append(span);
+
+                    if (notationArray.length - 1 == index) {
+                        if (currentMadeMove == notation[color]) {
+                            sayText(span.textContent as string);
+                        }
+                    }
+
                     continue;
                 }
 
@@ -69,11 +110,19 @@ export class PreviousMoves {
                     span.textContent = 'Długa roszada';
                     span.classList.add(styles[currentClassName]);
                     li.append(span);
+
+                    if (notationArray.length - 1 == index) {
+                        if (currentMadeMove == notation[color]) {
+                            sayText(span.textContent as string);
+                        }
+                    }
+
                     continue;
                 }
 
                 const pieceAbbreviation: string = notation[color][0];
                 const currentFigType = piecesMap.get(pieceAbbreviation);
+                const currentFigName = piecesNames.get(pieceAbbreviation) as string;
                 const pieceOrigin = notation[color].slice(1, 3);
                 const pieceDestination = notation[color].slice(3, 5);
 
@@ -87,6 +136,13 @@ export class PreviousMoves {
                 pieceImage.classList.add(styles.pieceImage);
 
                 span.append(pieceImage, `${pieceOrigin} > ${pieceDestination} `);
+
+                if (notationArray.length - 1 == index) {
+                    if (currentMadeMove == notation[color]) {
+                        sayText(currentFigName + ' z ' + pieceOrigin + ' na ' + pieceDestination);
+                    }
+                }
+
                 span.classList.add(styles[currentClassName]);
 
                 for (const action of actionsMap.keys()) {
@@ -96,6 +152,9 @@ export class PreviousMoves {
                             const promotionPieceId = notation[color].indexOf('=') + 1;
                             const promotionPieceAbbreviation = notation[color][promotionPieceId];
                             const currentPromotionFigType = piecesMap.get(promotionPieceAbbreviation);
+                            const currentPromotionFigName = piecesNamesPromotion.get(
+                                promotionPieceAbbreviation,
+                            ) as string;
                             const promotionPieceElement: PieceElement | undefined = piecesArray.filter((element) => {
                                 if (element.figType == currentPromotionFigType && element.side == sideColor) {
                                     return true;
@@ -103,9 +162,21 @@ export class PreviousMoves {
                             })[0];
                             promotionPieceElement.element.classList.add(styles.pieceImage);
                             span.append(currentAction + ' > ', promotionPieceElement.element);
+
+                            if (notationArray.length - 1 == index) {
+                                if (currentMadeMove == notation[color]) {
+                                    sayText('Promocja na ' + currentPromotionFigName);
+                                }
+                            }
+
                             continue;
                         }
-                        span.append(currentAction + ' ');
+                        span.append(currentAction + '! ');
+                        if (notationArray.length - 1 == index) {
+                            if (currentMadeMove == notation[color]) {
+                                sayText(currentAction + '!');
+                            }
+                        }
                     }
                 }
 
@@ -119,5 +190,7 @@ export class PreviousMoves {
         });
 
         this.element.append(ol);
+
+        const scrollbar = new SimpleBar(this.element);
     }
 }

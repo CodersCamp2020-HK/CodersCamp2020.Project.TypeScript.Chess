@@ -9,6 +9,7 @@ import { convertMovesToDisplayType } from '../utils/ConvertMovesToDisplayType';
 import { Timer } from '../components/timer/Timer';
 import { ChessEngine } from './ChessEngine';
 import { IGameStatsPresenter } from '../domain/IGameStatsPresenter';
+import { sayText } from '../components/PreviousMoves/sayText';
 
 export class GameController {
     private whiteTimer: Timer;
