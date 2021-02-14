@@ -7,11 +7,13 @@ import { Button } from '../genericButton/Button';
 import { Side, StringPieces } from '../../domain/basicChessTypes';
 import { ModalGameOver } from '../modalGameOver/ModalGameOver';
 import { ModalPromotion } from '../game/modalPromotionPawn/ModalPromotion';
+import { PreviousMoves } from '../PreviousMoves/previousMoves';
 
 export class GameStatsPresenter implements IGameStatsPresenter {
     private gameStatsWrapper: HTMLElement;
     private opponentCapturedTable;
     private playerCapturedTable;
+    private previousMoves = new PreviousMoves([]);
     constructor() {
         const modalPromotion = new ModalPromotion(Side.Black);
         this.gameStatsWrapper = document.createElement('div');
@@ -31,7 +33,7 @@ export class GameStatsPresenter implements IGameStatsPresenter {
 
         const previousMovesWrapper = document.createElement('div');
         const movesLabel = new Label('yellow', 'previous moves');
-        previousMovesWrapper.append(movesLabel.element);
+        previousMovesWrapper.append(movesLabel.element, this.previousMoves.element);
 
         const quitButtonWrapper = document.createElement('div');
         const fun = () => {
@@ -62,6 +64,10 @@ export class GameStatsPresenter implements IGameStatsPresenter {
     updateCaptureTable(updateCapturedPieces: { white: StringPieces[]; black: StringPieces[] }): void {
         this.opponentCapturedTable.update(updateCapturedPieces.black);
         this.playerCapturedTable.update(updateCapturedPieces.white);
+    }
+
+    updatePreviousMoves(notationArray: { white: string; black: string; [key: string]: string }[]): void {
+        this.previousMoves.render(notationArray);
     }
 
     get element(): HTMLElement {

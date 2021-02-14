@@ -119,6 +119,7 @@ export class GameController {
                         this.chessboardState,
                         PromotionPieceType.Queen,
                     );
+                    this.gameStatsPresenter.updatePreviousMoves(this.gameState.previousMoves);
                     console.log(this.gameState.previousMoves);
 
                     this.gameState.updateCapturedPieces(this.chessboardState, this.currentTurn);
