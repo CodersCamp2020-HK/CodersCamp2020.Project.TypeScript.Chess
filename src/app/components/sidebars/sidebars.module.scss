@@ -8,6 +8,7 @@
     @extend %font-coderscamp;
     font-size: 40px;
     color: black;
+    justify-content: center;
 }
 
 .year {
@@ -15,6 +16,7 @@
     @extend %font-coderscamp;
     font-size: 20px;
     color: black;
+    justify-content: center;
 
     margin-bottom: 20px;
 }
@@ -77,20 +79,23 @@
     flex-direction: column;
     align-items: center;
     height: 100vh;
+    width: 50vw;
     overflow-y: auto;
-    margin-left: 50px;
-    margin-right:50px;
+    padding-left: 50px;
+    padding-right:50px;
     color: black;
 }
 
 .mainWrapperRules {
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
     height: 100vh;
+    width: 50vw;
     overflow-y: auto;
-    margin-left: 50px;
-    margin-right:50px;
+    padding-left: 50px;
+    padding-right:50px;
     color: black;
 }
 
@@ -104,6 +109,8 @@
 }
 
 .rulesLabel:first-of-type {
+    display: flex;
+    justify-content: center;
     margin-top: 20px;
 }
 

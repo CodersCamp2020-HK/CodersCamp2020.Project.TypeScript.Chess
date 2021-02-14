@@ -35,7 +35,8 @@ export class ChessEngine implements IChessEngine {
             return [];
         }
         if (piece.figType === PieceType.Pawn && previousBoardState) {
-            return getPossibleMovesForPawn(cord, boardState, previousBoardState);
+            const pawnMoves = getPossibleMovesForPawn(cord, boardState, previousBoardState);
+            return pawnMoves;
         }
         const handler = this.getMovesByPiece.get(piece.figType);
         if (!handler) {
