@@ -11,7 +11,7 @@ import { sayText } from './components/PreviousMoves/sayText';
 import { PreviousMoves } from './components/PreviousMoves/previousMoves';
 
 const App = (): void => {
-    const gameStatsPresenter: IGameStatsPresenter = new GameStatsPresenter();
+    const gameStatsPresenter: IGameStatsPresenter = new GameStatsPresenter(300, 0);
     const presenter: IChessBoardPresenter = new ChessBoardPresenter();
     const gameController = new GameController(presenter, gameStatsPresenter, (score) => console.log(score));
     const game = new Game(presenter.element, gameStatsPresenter.element);

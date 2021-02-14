@@ -4,16 +4,15 @@
 
 .wrapper {
     border: 1px solid colors.$yellow;
+    .pieceImage {
+        width: 18px;
+        height: 18px;
+    }
 }
 
 .listItem {
     @extend %p;
     color: colors.$yellow;
-}
-
-.pieceImage {
-    width: 18px;
-    height: 18px;
 }
 
 .player {

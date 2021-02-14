@@ -4,10 +4,15 @@ import { generateDeafultChessboard } from '../utils/ChessboardHelpers';
 import _ from 'lodash';
 
 
-type ChessBoardRepresentation = Array<Array<Piece | null>>;
+
+export type ChessBoardRepresentation = Array<Array<Piece | null>>;
 
 export class ChessBoard implements IChessBoard {
-    private __board: ChessBoardRepresentation = generateDeafultChessboard();
+    private __board: ChessBoardRepresentation;
+
+    constructor(board?: ChessBoardRepresentation) {
+        this.__board = board ? board : generateDeafultChessboard();
+    }
 
     makeMove(piece: Piece, moveTo: Cord): void {
         const { x, y } = moveTo;
@@ -25,8 +30,8 @@ export class ChessBoard implements IChessBoard {
         this.makeMove(piece, { x: newX, y: newY });
     }
 
-    static createNewBoard(): IChessBoard {
-        return new ChessBoard();
+    static createNewBoard(board?: ChessBoardView): IChessBoard {
+        return new ChessBoard(board as ChessBoardRepresentation);
     }
 
     get board(): ChessBoardView {
