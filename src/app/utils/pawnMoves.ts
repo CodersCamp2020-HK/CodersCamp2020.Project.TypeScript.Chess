@@ -47,13 +47,13 @@ export function possibleCaptureMoves(
 ): CordWithMoveType[] {
     const result: CordWithMoveType[] = [];
 
-    const leftCorner = currentBoardState[cord.x - moveDirection][cord.y - 1];
-    const rightCorner = currentBoardState[cord.x - moveDirection][cord.y + 1];
-    const currentPawn = currentBoardState[cord.x][cord.y];
-
     if (isOutsideBoard((cord.x - moveDirection) as Cord['x'])) {
         return [];
     }
+
+    const leftCorner = currentBoardState[cord.x - moveDirection][cord.y - 1];
+    const rightCorner = currentBoardState[cord.x - moveDirection][cord.y + 1];
+    const currentPawn = currentBoardState[cord.x][cord.y];
 
     const captureDirections = [];
     if (leftCorner) {
@@ -84,6 +84,11 @@ export function possibleEnPassantMoves(
 ): CordWithMoveType[] {
     const result: CordWithMoveType[] = [];
     const enPassantDirections = [];
+
+    if (isOutsideBoard((cord.x - moveDirection * 2) as Cord['x'])) {
+        return [];
+    }
+
     const leftSideTile = currentBoardState[cord.x][cord.y - 1];
     const rightSideTile = currentBoardState[cord.x][cord.y + 1];
 
@@ -111,10 +116,6 @@ export function possibleEnPassantMoves(
         });
     }
     const currentPawn = currentBoardState[cord.x][cord.y];
-
-    if (isOutsideBoard((cord.x - moveDirection * 2) as Cord['x'])) {
-        return [];
-    }
 
     enPassantDirections.forEach((enPassantDirection) => {
         const isCurrentOppositePawn = isOppositePawn(currentPawn, enPassantDirection.currentTile);
@@ -162,7 +163,7 @@ export function possiblePromotionMoves(
 export function getPossibleMovesForPawn(
     cord: Cord,
     currentBoardComponent: IChessBoard,
-    previousBoardComponent: IChessBoard,
+    previousBoardComponent: ChessBoardView,
 ): CordWithMoveType[] {
     const currentPiece = currentBoardComponent.board[cord.x][cord.y];
     const pieceSide = currentPiece?.side;
@@ -177,7 +178,7 @@ export function getPossibleMovesForPawn(
 
     const enPassantMoveResult =
         enPassantRow == cord.x
-            ? possibleEnPassantMoves(cord, moveDirection, currentBoardComponent.board, previousBoardComponent.board)
+            ? possibleEnPassantMoves(cord, moveDirection, currentBoardComponent.board, previousBoardComponent)
             : [];
     const promotionMoveResult =
         promotionRow == cord.x ? possiblePromotionMoves(cord, moveDirection, currentBoardComponent.board) : [];

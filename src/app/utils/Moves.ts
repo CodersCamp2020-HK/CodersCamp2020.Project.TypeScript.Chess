@@ -10,10 +10,6 @@ import {
     getMoveTypesForPiece,
 } from './MoveHelpers';
 
-export function getPossibleMovesForPawn(cord: Cord, boardState: IChessBoard): CordWithMoveType[] {
-    return [];
-}
-
 export function getPossibleMovesForRook(cord: Cord, boardState: IChessBoard): CordWithMoveType[] {
     const square = boardState.board[cord.x][cord.y] as Piece;
     const directions = getRookDirections(cord);

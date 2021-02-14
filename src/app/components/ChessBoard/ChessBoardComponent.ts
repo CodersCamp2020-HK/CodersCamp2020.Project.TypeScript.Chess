@@ -66,16 +66,13 @@ export class ChessBoardComponent {
                 const tileToAppend = currentTile.cloneNode(true) as HTMLDivElement;
 
                 if (chessBoardRepresentation[row][column] !== null) {
-                    const pieceElement: PieceElement | undefined = this.piecesElements.find((element) => {
-                        if (
+                    const pieceElement: PieceElement | undefined = this.piecesElements.find(
+                        (element) =>
                             element.figType == chessBoardRepresentation[row][column]?.figType &&
-                            element.side == chessBoardRepresentation[row][column]?.side
-                        ) {
-                            return true;
-                        }
-                    });
+                            element.side == chessBoardRepresentation[row][column]?.side,
+                    );
                     if (pieceElement) {
-                        tileToAppend.appendChild(pieceElement.element);
+                        tileToAppend.appendChild(pieceElement.element.cloneNode(true));
                     }
                 }
 
@@ -97,11 +94,19 @@ export class ChessBoardComponent {
             axi.appendChild(span);
         });
     }
+
     addTileClassList(cord: Cord, classList: string[]): void {
         const selectedTile = this._tiles[cord.x][cord.y];
         classList.forEach((el) => {
             selectedTile?.classList.add(el);
         });
+    }
+
+    clearTileClassList(cord: Cord): void {
+        const selectedTile = this._tiles[cord.x][cord.y];
+        if (selectedTile !== null) {
+            selectedTile.className = `${selectedTile.classList[0]} ${selectedTile.classList[1]}`;
+        }
     }
 
     removeTileClassList(cord: Cord, classList: string[]): void {
