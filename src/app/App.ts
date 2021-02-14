@@ -8,21 +8,15 @@ import { ChessBoard } from './infrastructure/ChessBoard';
 import { GameStatsPresenter } from '../app/components/GameStatsPresenter/GameStatsPresenter';
 import { IGameStatsPresenter } from './domain/IGameStatsPresenter';
 import { sayText } from './components/PreviousMoves/sayText';
+import { PreviousMoves } from './components/PreviousMoves/previousMoves';
 
 const App = (): void => {
     const gameStatsPresenter: IGameStatsPresenter = new GameStatsPresenter();
     const presenter: IChessBoardPresenter = new ChessBoardPresenter();
     const gameController = new GameController(presenter, gameStatsPresenter, (score) => console.log(score));
     const game = new Game(presenter.element, gameStatsPresenter.element);
-    //document.body.append(game.element);
-    // document.body.append(gameStatsPresenter.element);
-    const button = document.createElement('button');
-    button.textContent = 'Button';
-    button.addEventListener('click', () => {
-        sayText('Ala ma kota');
-    });
-
-    document.body.append(button);
+    document.body.append(game.element);
+    document.body.append(gameStatsPresenter.element);
 };
 
 export default App;

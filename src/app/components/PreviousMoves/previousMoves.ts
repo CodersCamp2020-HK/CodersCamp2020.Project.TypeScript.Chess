@@ -191,6 +191,6 @@ export class PreviousMoves {
 
         this.element.append(ol);
 
-        const scrollbar = new SimpleBar(this.element);
+        const scrollbar = new SimpleBar(this.element, { autoHide: true });
     }
 }
