@@ -77,6 +77,7 @@ export class Game {
         footerWrapper.classList.add(styles.wrapperFooter);
         const footerImage = new Footer();
         footerWrapper.appendChild(footerImage.element);
+        // const modalPromotion = new ModalPromotion(Side.Black);
 
         wrapper.append(
             this.gameBoardView,
@@ -86,7 +87,14 @@ export class Game {
             // quitButtonWrapper,
             this.gameStatsView,
         );
-        container.append(rules.element, info.element, cyberChessTextWrapper, wrapper, footerWrapper);
+        container.append(
+            rules.element,
+            info.element,
+            cyberChessTextWrapper,
+            wrapper,
+            footerWrapper,
+            // modalPromotion.element,
+        );
 
         return container;
     }

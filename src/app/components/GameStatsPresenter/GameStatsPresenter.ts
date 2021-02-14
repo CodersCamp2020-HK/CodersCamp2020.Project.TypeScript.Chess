@@ -4,14 +4,16 @@ import { CapturedTable } from '../game/capturedTable/CapturedTable';
 import { Label } from '../genericLabel/Label';
 import { PreviousMovesButtons } from '../ButtonsPreviewNext/PreviousMovesButtons';
 import { Button } from '../genericButton/Button';
-import { Piece, Side, StringPieces } from '../../domain/basicChessTypes';
+import { Side, StringPieces } from '../../domain/basicChessTypes';
 import { ModalGameOver } from '../modalGameOver/ModalGameOver';
+import { ModalPromotion } from '../game/modalPromotionPawn/ModalPromotion';
 
 export class GameStatsPresenter implements IGameStatsPresenter {
     private gameStatsWrapper: HTMLElement;
     private opponentCapturedTable;
     private playerCapturedTable;
     constructor() {
+        const modalPromotion = new ModalPromotion(Side.Black);
         this.gameStatsWrapper = document.createElement('div');
         this.gameStatsWrapper.classList.add(styles.wrapperGameStats);
 
@@ -49,9 +51,10 @@ export class GameStatsPresenter implements IGameStatsPresenter {
 
         this.gameStatsWrapper.append(
             opponentScoreWrapper,
-            playerScoreWrapper,
+            opponentScoreWrapper,
             previousMovesWrapper,
             quitButtonWrapper,
+            modalPromotion.element,
             modalGameOver.element,
         );
     }
