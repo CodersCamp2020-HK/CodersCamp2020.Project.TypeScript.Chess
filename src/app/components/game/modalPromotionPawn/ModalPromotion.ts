@@ -1,13 +1,18 @@
 import styles from './ModalPromotion.module.scss';
 import { Label } from '../../genericLabel/Label';
-import { Side } from '../../../domain/basicChessTypes';
+import { PieceType, Side } from '../../../domain/basicChessTypes';
+
+type StringPiece = 'rook' | 'knight' | 'queen' | 'bishop';
 
 export class ModalPromotion {
     private __element: HTMLDialogElement;
-    private __pieceChosen = '';
+    private __pieceChosen: StringPiece = 'queen';
+    private __onClick: (piece: PieceType) => void = () => {
+        console.log();
+    };
 
     constructor(side: Side) {
-        this.__pieceChosen = '';
+        this.__pieceChosen = 'queen';
         this.__element = document.createElement('dialog');
         this.__element.classList.add(styles.modalInvisible);
         const modalWrapper = document.createElement('div');
@@ -29,8 +34,13 @@ export class ModalPromotion {
         }
         modalWrapper.append(labelPromotion.element, piecesWrapper);
 
-        type Piece = 'rook' | 'knight' | 'queen' | 'bishop';
-        const piecesPossiblePromotion: Piece[] = ['rook', 'knight', 'queen', 'bishop'];
+        const piecesPossiblePromotion: StringPiece[] = ['rook', 'knight', 'queen', 'bishop'];
+        const stringToPieceType = new Map<StringPiece, PieceType>([
+            ['rook', PieceType.Rook],
+            ['knight', PieceType.Knight],
+            ['queen', PieceType.Queen],
+            ['bishop', PieceType.Bishop],
+        ]);
 
         for (let i = 0; i < piecesPossiblePromotion.length; i++) {
             const namePiece = piecesPossiblePromotion[i];
@@ -45,6 +55,8 @@ export class ModalPromotion {
                 this.__element.classList.remove(styles.modal);
                 this.__element.classList.add(styles.modalInvisible);
                 this.__pieceChosen = namePiece;
+                const pieceType = stringToPieceType.get(this.__pieceChosen);
+                if (pieceType) this.__onClick(pieceType);
             });
         }
     }
@@ -53,9 +65,10 @@ export class ModalPromotion {
         return this.__element;
     }
 
-    public openModal(): void {
+    public openModal(onClick: (piece: PieceType) => void): void {
         this.__element.classList.remove(styles.modalInvisible);
         this.__element.classList.add(styles.modal);
+        this.__onClick = onClick;
     }
 
     public get pieceChosen(): string {
