@@ -120,7 +120,7 @@ export class ChessBoardPresenter implements IChessBoardPresenter {
                 );
             }
 
-            if (field.x == 0 && field.y == 6) {
+            if (field.x == 7 && field.y == 6) {
                 const leftArrows: Cord[] = [
                     { x: 7, y: 5 },
                     { x: 7, y: 6 },
