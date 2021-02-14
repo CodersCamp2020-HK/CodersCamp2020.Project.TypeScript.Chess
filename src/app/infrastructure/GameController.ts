@@ -1,4 +1,13 @@
-import { Cord, MoveType, Piece, PromotionPieceType, Score, Side, CordWithMoveType } from '../domain/basicChessTypes';
+import {
+    Cord,
+    MoveType,
+    Piece,
+    PromotionPieceType,
+    Score,
+    Side,
+    CordWithMoveType,
+    PieceType,
+} from '../domain/basicChessTypes';
 import { ChessBoardView } from '../domain/IChessBoard';
 import { IChessEngine } from '../domain/IChessEngine';
 import { IChessBoardPresenter } from '../domain/IPresenter';
@@ -71,6 +80,49 @@ export class GameController {
         return [];
     }
 
+    private continueOnClick(lastPiece: Piece, { x, y, moveType }: CordWithMoveType, piece: Piece | null) {
+        this.chessboardPresenter.render(this.chessboardState.board);
+        this.currentTurn = this.currentTurn === Side.White ? Side.Black : Side.White;
+
+        this.gameState.updatePreviousMoves(
+            lastPiece,
+            { x, y, moveType: [moveType] },
+            this.chessEngine,
+            this.chessboardState,
+            PromotionPieceType.Queen,
+        );
+        this.gameStatsPresenter.updatePreviousMoves(this.gameState.previousMoves);
+        console.log(this.gameState.previousMoves);
+
+        this.gameState.updateCapturedPieces(this.chessboardState, this.currentTurn);
+        this.gameStatsPresenter.updateCaptureTable(this.gameState.capturedPieces);
+
+        if (this.gameState.previousBoards.length === 1) {
+            this.blackTimer.start(Score.WhiteWon);
+        }
+        if (this.gameState.previousBoards.length > 1) {
+            if (this.currentTurn === Side.Black) {
+                this.whiteTimer.stop();
+                this.blackTimer.start(Score.WhiteWon);
+            } else {
+                this.blackTimer.stop();
+                this.whiteTimer.start(Score.BlackWon);
+            }
+        }
+
+        if (this.chessEngine.isCheckmate(this.chessboardState, this.currentTurn, this.lastBoardState)) {
+            console.log('Macik');
+        }
+        if (this.chessEngine.isStealemate(this.chessboardState, this.currentTurn, this.lastBoardState)) {
+            console.log('Pacik');
+        }
+        if (this.chessEngine.isCheck(this.chessboardState, this.currentTurn, this.lastBoardState)) {
+            console.log('Szach');
+        }
+        this.chessboardPresenter.clearMarkedFields();
+        this.currentSelectedPiece = null;
+    }
+
     handleOnHover(cord: Cord): void {
         if (this.currentSelectedPiece) {
             if (this.hasMove(cord)) {
@@ -109,46 +161,22 @@ export class GameController {
                         ? this.chessboardState.makeEnPassant(this.currentSelectedPiece, cord)
                         : this.chessboardState.makeMove(this.currentSelectedPiece, cord);
 
-                    this.chessboardPresenter.render(this.chessboardState.board);
-                    this.currentTurn = this.currentTurn === Side.White ? Side.Black : Side.White;
-
-                    this.gameState.updatePreviousMoves(
-                        lastPiece,
-                        { x, y, moveType: [moveType] },
-                        this.chessEngine,
-                        this.chessboardState,
-                        PromotionPieceType.Queen,
-                    );
-                    this.gameStatsPresenter.updatePreviousMoves(this.gameState.previousMoves);
-                    console.log(this.gameState.previousMoves);
-
-                    this.gameState.updateCapturedPieces(this.chessboardState, this.currentTurn);
-                    this.gameStatsPresenter.updateCaptureTable(this.gameState.capturedPieces);
-
-                    if (this.gameState.previousBoards.length === 1) {
-                        this.blackTimer.start(Score.WhiteWon);
-                    }
-                    if (this.gameState.previousBoards.length > 1) {
-                        if (this.currentTurn === Side.Black) {
-                            this.whiteTimer.stop();
-                            this.blackTimer.start(Score.WhiteWon);
-                        } else {
-                            this.blackTimer.stop();
-                            this.whiteTimer.start(Score.BlackWon);
-                        }
+                    if (
+                        (cord.x === 0 && this.currentSelectedPiece.figType === PieceType.Pawn) ||
+                        (cord.x === 7 && this.currentSelectedPiece.figType === PieceType.Pawn)
+                    ) {
+                        this.gameStatsPresenter.openPromotionModal(this.currentTurn, (pieceChosen) => {
+                            if (this.currentSelectedPiece) {
+                                this.currentSelectedPiece.figType = pieceChosen;
+                            } else {
+                                throw new Error('Cannot promote piece.');
+                            }
+                            this.continueOnClick(lastPiece, { x, y, moveType }, piece);
+                        });
+                        return;
                     }
 
-                    if (this.chessEngine.isCheckmate(this.chessboardState, this.currentTurn, this.lastBoardState)) {
-                        console.log('Macik');
-                    }
-                    if (this.chessEngine.isStealemate(this.chessboardState, this.currentTurn, this.lastBoardState)) {
-                        console.log('Pacik');
-                    }
-                    if (this.chessEngine.isCheck(this.chessboardState, this.currentTurn, this.lastBoardState)) {
-                        console.log('Szach');
-                    }
-                    this.chessboardPresenter.clearMarkedFields();
-                    this.currentSelectedPiece = null;
+                    this.continueOnClick(lastPiece, { x, y, moveType }, piece);
                     piece = null;
                 }
             }

@@ -4,7 +4,7 @@ import { CapturedTable } from '../game/capturedTable/CapturedTable';
 import { Label } from '../genericLabel/Label';
 import { PreviousMovesButtons } from '../ButtonsPreviewNext/PreviousMovesButtons';
 import { Button } from '../genericButton/Button';
-import { Side, StringPieces } from '../../domain/basicChessTypes';
+import { PieceType, Side, StringPieces } from '../../domain/basicChessTypes';
 import { ModalGameOver } from '../modalGameOver/ModalGameOver';
 import { ModalPromotion } from '../game/modalPromotionPawn/ModalPromotion';
 import { PreviousMoves } from '../PreviousMoves/previousMoves';
@@ -14,10 +14,13 @@ export class GameStatsPresenter implements IGameStatsPresenter {
     private opponentCapturedTable;
     private playerCapturedTable;
     private previousMoves = new PreviousMoves([]);
+    private modalPromotionBlack;
+    private modalPromotionWhite;
     constructor() {
-        const modalPromotion = new ModalPromotion(Side.Black);
         this.gameStatsWrapper = document.createElement('div');
         this.gameStatsWrapper.classList.add(styles.wrapperGameStats);
+        this.modalPromotionWhite = new ModalPromotion(Side.White);
+        this.modalPromotionBlack = new ModalPromotion(Side.Black);
 
         const opponentScoreWrapper = document.createElement('div');
         const opponentLabel = new Label('blue', 'Opponent');
@@ -56,7 +59,8 @@ export class GameStatsPresenter implements IGameStatsPresenter {
             playerScoreWrapper,
             previousMovesWrapper,
             quitButtonWrapper,
-            modalPromotion.element,
+            this.modalPromotionBlack.element,
+            this.modalPromotionWhite.element,
             modalGameOver.element,
         );
     }
@@ -68,6 +72,11 @@ export class GameStatsPresenter implements IGameStatsPresenter {
 
     updatePreviousMoves(notationArray: { white: string; black: string; [key: string]: string }[]): void {
         this.previousMoves.render(notationArray);
+    }
+
+    openPromotionModal(side: Side, onClick: (piece: PieceType) => void): string {
+        side === Side.White ? this.modalPromotionWhite.openModal(onClick) : this.modalPromotionBlack.openModal(onClick);
+        return side === Side.White ? this.modalPromotionWhite.pieceChosen : this.modalPromotionBlack.pieceChosen;
     }
 
     get element(): HTMLElement {
