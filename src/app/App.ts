@@ -7,6 +7,7 @@ import { ChessBoardSquareDisplayType, CordWithDisplayType, IChessBoardPresenter 
 import { ChessBoard } from './infrastructure/ChessBoard';
 import { GameStatsPresenter } from '../app/components/GameStatsPresenter/GameStatsPresenter';
 import { IGameStatsPresenter } from './domain/IGameStatsPresenter';
+import { sayText } from './components/PreviousMoves/sayText';
 
 const App = (): void => {
     const gameStatsPresenter: IGameStatsPresenter = new GameStatsPresenter();
@@ -15,6 +16,7 @@ const App = (): void => {
     const game = new Game(presenter.element, gameStatsPresenter.element);
     document.body.append(game.element);
     // document.body.append(gameStatsPresenter.element);
+    sayText('Ala ma kota');
 };
 
 export default App;
