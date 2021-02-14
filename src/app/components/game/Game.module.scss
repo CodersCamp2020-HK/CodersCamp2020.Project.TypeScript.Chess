@@ -24,10 +24,11 @@
 
 .container::after {
     @extend %background-photo-after;
-    z-index: -1;
+    z-index: 0;
 }
 
 .wrapper {
+    z-index: 1;
     padding: 0 20px;
     margin: auto;
     display: grid;

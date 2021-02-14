@@ -12,4 +12,11 @@ export interface IChessEngine {
         boardState: IChessBoard,
         previousBoardState?: ChessBoardView,
     ): CordWithMoveType[];
+
+    getPossibleMovesForPieceWhenIsCheck(
+        cord: Cord,
+        boardState: IChessBoard,
+        previousBoardState: ChessBoardView,
+        possibleMoves: CordWithMoveType[],
+    ): CordWithMoveType[];
 }
