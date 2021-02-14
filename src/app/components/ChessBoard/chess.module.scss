@@ -80,7 +80,7 @@
   animation: capture 100ms ease-out infinite alternate;
 }
 
-$board__size: 32vw;
+$board__size: calc(90vh - 110px - 40px - 30px);
 
 .boardWrapper {
   display: grid;
@@ -89,17 +89,18 @@ $board__size: 32vw;
     ". horizontal";
   grid-template-columns: 1fr $board__size;
   grid-template-rows: $board__size 1fr;
+
   user-select: none;
 }
 
 .board {
   grid-area: board;
-  width: $board__size;
-  height: $board__size;
+  min-width: 320px;
+  min-height: 320px;
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   grid-template-rows: repeat(8, 1fr);
-  grid-gap: 2px;
+  grid-gap: 0.3vw;
   box-sizing: border-box;
   justify-items: center;
   align-items: center;
@@ -110,10 +111,10 @@ $board__size: 32vw;
   justify-items: center;
   align-items: flex-end;
   border-radius: 5px;
-  padding:2px;
+  padding:3px;
   box-sizing: border-box;
-  width: $board__size / 9;
-  height: $board__size / 9;
+  width: 100%;
+  height: 100%;
 }
 
 .tile * {

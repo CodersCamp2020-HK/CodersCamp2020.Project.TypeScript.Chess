@@ -23,18 +23,15 @@
 
 .wrapper {
     z-index: 1;
-    padding: 0 20px;
+    padding: 20px;
     margin: auto;
     display: grid;
     grid-template-columns: repeat(2, auto);
     row-gap: 10px;
     column-gap: 30px;
+    height:100%;
     grid-template-areas:
         'chessboard gamestats';
-}
-
-.wrapper > * {
-    border: 1px solid purple;
 }
 
 .wrapperText {

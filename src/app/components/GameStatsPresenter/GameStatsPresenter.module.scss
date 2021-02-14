@@ -1,5 +1,35 @@
+$board__size: calc(90vh - 110px - 40px - 30px);
+
 .wrapperGameStats {
-    // background-color: darkcyan;
     grid-area: gamestats;
-    width: 15vw;
+    min-width: 20vw;
+
+    .opponentScoreWrapper{
+        margin-bottom: 1vh;
+
+        :last-child{
+            margin-top: 1vh;
+        }
+    }
+
+    .playerScoreWrapper{
+        margin-bottom: 1vh;
+
+        :last-child{
+            margin-top: 1vh;
+        }
+    }
+
+    .previousMovesWrapper{
+        margin-bottom: 1vh;
+
+        :last-child{
+            margin-top: 1vh;
+        }
+    }
+
+    .quitButtonWrapper{
+        margin-bottom: 1vh;
+
+    }
 }
