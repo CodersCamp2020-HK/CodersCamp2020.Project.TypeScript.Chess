@@ -10,7 +10,8 @@ import { Label } from '../genericLabel/Label';
 import { Footer } from '../footer/Footer';
 import { Button } from '../genericButton/Button';
 import { PreviousMovesButtons } from '../ButtonsPreviewNext/PreviousMovesButtons';
-
+import { ModalGameOver } from '../modalGameOver/ModalGameOver';
+import { Side } from '../../domain/basicChessTypes';
 export class Game {
     private __element: HTMLElement;
 
