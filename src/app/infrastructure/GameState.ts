@@ -14,13 +14,18 @@ import { IChessEngine } from '../domain/IChessEngine';
 import { moveToNotation } from '../utils/MoveToNotation';
 
 export class GameState {
-    private __previousMoves: { white: string; black: string }[] = [{ white: '', black: '' }];
+    __previousMoves: { white: string; black: string }[] = [{ white: '', black: '' }];
     private __capturedPieces: { white: StringPieces[]; black: StringPieces[] };
     private __previousBoards: ChessBoardView[];
+    private __previousBoardsSide: { white: ChessBoardView[]; black: ChessBoardView[] };
 
     constructor() {
         this.__capturedPieces = { white: [], black: [] };
         this.__previousBoards = [];
+        this.__previousBoardsSide = {
+            white: [],
+            black: [],
+        };
     }
 
     public get capturedPieces(): { white: StringPieces[]; black: StringPieces[] } {
@@ -34,14 +39,22 @@ export class GameState {
     public get previousMoves(): { white: string; black: string }[] {
         return this.__previousMoves;
     }
+
+    public get previousMovesSide(): { white: ChessBoardView[]; black: ChessBoardView[] } {
+        return this.__previousBoardsSide;
+    }
+
     updateCapturedPieces(boardState: IChessBoard, side: Side): void {
         const pieceNames = getCapturedPieceNames(side, boardState);
 
         side === Side.White ? (this.__capturedPieces.black = pieceNames) : (this.__capturedPieces.white = pieceNames);
     }
 
-    updatePreviousBoards(chessboard: ChessBoardView): void {
+    updatePreviousBoards(chessboard: ChessBoardView, side: Side): void {
         this.__previousBoards.push(_.cloneDeep(chessboard));
+        side === Side.White
+            ? this.__previousBoardsSide.white.push(_.cloneDeep(chessboard))
+            : this.__previousBoardsSide.black.push(_.cloneDeep(chessboard));
     }
 
     updatePreviousMoves(
