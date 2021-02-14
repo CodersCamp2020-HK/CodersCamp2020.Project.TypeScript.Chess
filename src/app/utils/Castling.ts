@@ -1,7 +1,14 @@
 import { CordWithMoveType, MoveType, Piece, PieceType, Side } from '../domain/basicChessTypes';
-import { IChessBoard } from '../domain/IChessBoard';
+import { ChessBoardView, IChessBoard } from '../domain/IChessBoard';
+import { IChessEngine } from '../domain/IChessEngine';
+import { GameController } from '../infrastructure/GameController';
 
-export function possibleCastlingMoves(boardState: IChessBoard, side: Side): CordWithMoveType[] {
+export function possibleCastlingMoves(
+    boardState: IChessBoard,
+    chessEngine: IChessEngine,
+    side: Side,
+    previousBoardState: ChessBoardView,
+): CordWithMoveType[] {
     const { board } = boardState;
     const kingAr = boardState.getPieces(side, PieceType.King) ?? [];
     const rooks = boardState.getPieces(side, PieceType.Rook) ?? [];
@@ -17,9 +24,10 @@ export function possibleCastlingMoves(boardState: IChessBoard, side: Side): Cord
         return [];
     }
 
-    // if(isCheck()){
-    //     return [];
-    // }
+    if (chessEngine.isCheck(boardState, side, previousBoardState)) {
+        return [];
+    }
+
     const rookLeft: Piece | undefined = rooks.find((rook) => {
         if (rook.side === Side.Black) {
             return rook.cord.x === 0 && rook.cord.y === 0 ? rook : [];
@@ -54,24 +62,6 @@ export function possibleCastlingMoves(boardState: IChessBoard, side: Side): Cord
     }
     return castlingCord;
 }
-
-//     if (king.isMoved === false && rook.isMoved === false) {
-//         }
-
-//         if(!this.isCheck(board, side)){
-//             const allEnemyPieces = flattenChessboard(board).filter(
-//                 (item): item is Piece => item !== null && item.side !== side,
-//             );
-//             const allEnemyPiecesMoves = allEnemyPieces.map((piece) => {
-//                 const enemyMoves = this.getPossibleMovesForPiece({ x: piece.cord.x, y: piece.cord.y }, boardState);
-
-//             });
-//             if()
-//         }
-//     }
-
-// }
-// }
 
 //1. rook i king isMoved === false
 //2. pola pomiędzy nimi [1, 0] && [2,0] && [3,0] || [5,0] && [6,0] === null
