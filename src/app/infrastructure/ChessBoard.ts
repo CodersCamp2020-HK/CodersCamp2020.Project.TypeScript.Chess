@@ -3,6 +3,8 @@ import { ChessBoardView, IChessBoard } from '../domain/IChessBoard';
 import { generateDeafultChessboard } from '../utils/ChessboardHelpers';
 import _ from 'lodash';
 
+
+
 export type ChessBoardRepresentation = Array<Array<Piece | null>>;
 
 export class ChessBoard implements IChessBoard {
