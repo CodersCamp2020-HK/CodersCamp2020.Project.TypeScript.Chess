@@ -7,7 +7,9 @@ type StringPiece = 'rook' | 'knight' | 'queen' | 'bishop';
 export class ModalPromotion {
     private __element: HTMLDialogElement;
     private __pieceChosen: StringPiece = 'queen';
-    private __onClick: (piece: PieceType) => void = () => {};
+    private __onClick: (piece: PieceType) => void = () => {
+        console.log();
+    };
 
     constructor(side: Side) {
         this.__pieceChosen = 'queen';

@@ -92,7 +92,6 @@ export class GameController {
             PromotionPieceType.Queen,
         );
         this.gameStatsPresenter.updatePreviousMoves(this.gameState.previousMoves);
-        console.log(this.gameState.previousMoves);
 
         this.gameState.updateCapturedPieces(this.chessboardState, this.currentTurn);
         this.gameStatsPresenter.updateCaptureTable(this.gameState.capturedPieces);
