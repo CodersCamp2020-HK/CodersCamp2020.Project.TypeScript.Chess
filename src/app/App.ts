@@ -9,7 +9,7 @@ import { GameStatsPresenter } from '../app/components/GameStatsPresenter/GameSta
 import { IGameStatsPresenter } from './domain/IGameStatsPresenter';
 
 const App = (): void => {
-    const gameStatsPresenter: IGameStatsPresenter = new GameStatsPresenter(3, 0);
+    const gameStatsPresenter: IGameStatsPresenter = new GameStatsPresenter(300, 0);
     const presenter: IChessBoardPresenter = new ChessBoardPresenter();
     const gameController = new GameController(presenter, gameStatsPresenter, (score) => console.log(score));
     const game = new Game(presenter.element, gameStatsPresenter.element);

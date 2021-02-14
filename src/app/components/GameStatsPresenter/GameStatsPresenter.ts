@@ -4,7 +4,7 @@ import { CapturedTable } from '../game/capturedTable/CapturedTable';
 import { Label } from '../genericLabel/Label';
 import { PreviousMovesButtons } from '../ButtonsPreviewNext/PreviousMovesButtons';
 import { Button } from '../genericButton/Button';
-import { PieceType, Score, Side, StringPieces } from '../../domain/basicChessTypes';
+import { PieceType, Side, StringPieces } from '../../domain/basicChessTypes';
 import { ModalGameOver } from '../modalGameOver/ModalGameOver';
 import { ModalPromotion } from '../game/modalPromotionPawn/ModalPromotion';
 import { PreviousMoves } from '../PreviousMoves/previousMoves';
@@ -56,7 +56,7 @@ export class GameStatsPresenter implements IGameStatsPresenter {
             },
             true,
         );
-        quitButtonWrapper.append(previousMovesButtons.element, quitButton.button);
+        // quitButtonWrapper.append(previousMovesButtons.element, quitButton.button);
 
         this.gameStatsWrapper.append(
             opponentScoreWrapper,
@@ -118,6 +118,11 @@ export class GameStatsPresenter implements IGameStatsPresenter {
         );
         this.gameStatsWrapper.appendChild(modal.element);
         modal.openModal();
+    }
+
+    createPreviousButtons(fun: () => void): void {
+        const previousMovesButtons = new PreviousMovesButtons(fun, fun, fun, fun, fun);
+        this.gameStatsWrapper.appendChild(previousMovesButtons.element);
     }
 
     get element(): HTMLElement {

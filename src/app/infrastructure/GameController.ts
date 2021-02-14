@@ -11,7 +11,7 @@ import {
 import { ChessBoardView } from '../domain/IChessBoard';
 import { IChessEngine } from '../domain/IChessEngine';
 import { IChessBoardPresenter } from '../domain/IPresenter';
-import { ChessBoard } from './ChessBoard';
+import { ChessBoard, ChessBoardRepresentation } from './ChessBoard';
 import { GameState } from './GameState';
 import { ChessBoardSquareDisplayType } from '../domain/IPresenter';
 import { convertMovesToDisplayType } from '../utils/ConvertMovesToDisplayType';
@@ -23,9 +23,11 @@ export class GameController {
     private currentTurn: Side;
     private lastBoardState: ChessBoardView;
     private currentSelectedPiece: Piece | null = null;
-    private chessboardState = new ChessBoard();
+    private chessboardState = ChessBoard.createNewBoard();
     private gameState: GameState = new GameState();
     public chessEngine: IChessEngine = new ChessEngine();
+    undoNumbersWhite = 0;
+    undoNumbersBlack = 0;
     constructor(
         public chessboardPresenter: IChessBoardPresenter,
         public gameStatsPresenter: IGameStatsPresenter,
@@ -35,6 +37,7 @@ export class GameController {
         this.lastBoardState = [];
         chessboardPresenter.onHover((cord) => this.handleOnHover(cord));
         chessboardPresenter.onClick((cord) => this.handleOnClick(cord));
+        this.gameStatsPresenter.createPreviousButtons(() => this.undoPreviousMove());
     }
 
     private hasMove(cord: Cord): boolean {
@@ -43,6 +46,16 @@ export class GameController {
             return possibleMoves.some((item) => item.x === cord.x && item.y === cord.y);
         }
         return false;
+    }
+
+    private undoPreviousMove(): void {
+        if (this.undoNumbersWhite > 0 && this.currentTurn === Side.White) {
+            this.undoNumbersWhite--;
+            this.chessboardPresenter.render(this.gameState.previousMovesSide.white[this.undoNumbersWhite]);
+            this.chessboardState = ChessBoard.createNewBoard(
+                this.gameState.previousMovesSide.white[this.undoNumbersWhite],
+            );
+        }
     }
 
     private getPossibleMoves(piece?: Piece): CordWithMoveType[] {
@@ -173,7 +186,9 @@ export class GameController {
             if (filteredMoves.length > 0) {
                 const { x, y, moveType } = filteredMoves[0];
                 if (cord.x === x && cord.y === y) {
-                    this.gameState.updatePreviousBoards(this.chessboardState.board);
+                    this.gameState.updatePreviousBoards(this.chessboardState.board, this.currentTurn);
+                    this.undoNumbersWhite = this.gameState.previousMovesSide.white.length;
+                    this.undoNumbersBlack = this.gameState.previousMovesSide.black.length;
                     this.lastBoardState = this.gameState.previousBoards[this.gameState.previousBoards.length - 1];
                     const lastPiece = _.cloneDeep(this.currentSelectedPiece);
 

@@ -17,4 +17,5 @@ export interface IGameStatsPresenter {
         onMainMenuCb: () => void,
         onPlayAgainCb: () => void,
     ): void;
+    createPreviousButtons(fun: () => void): void;
 }
