@@ -66,13 +66,11 @@ describe('Checking possibility of short white castling', () => {
         const result = possibleCastlingMoves(chessboard2, chessEng, Side.White, chessboard2.board);
         expect(result).toEqual(expect.arrayContaining(expected));
     });
-});
 
-const emojiBoard3 = [
+    const emojiBoard3 = [
     ['♜', '.', '.', '.', '♚', '.', '.', '♜'],
     ['♟', '♟', '♟', '♟', '♟', '♟', '♟', '♟'],
-    ['.', '.', '.', '.', '.', '.', '.', '.'],
-    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],        
     ['.', '.', '.', '.', '.', '.', '.', '.'],
     ['.', '.', '.', '.', '.', '.', '.', '.'],
     ['♙', '♙', '♙', '♙', '♙', '♙', '♙', '♙'],
@@ -212,4 +210,4 @@ describe('Checking possibility of short black castling', () => {
         const result = possibleCastlingMoves(chessboard7, chessEng, Side.Black, chessboard7.board);
         expect(result).toEqual(expect.arrayContaining(expected));
     });
-});
+})
