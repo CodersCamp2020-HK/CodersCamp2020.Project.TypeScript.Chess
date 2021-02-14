@@ -5,59 +5,95 @@
 $mobileMax: 900px;
 
 //Shadows
-%shadow-blue-1{box-shadow: 0px 0px 20px #54BCE0;}
+%shadow-blue-1 {
+    box-shadow: 0px 0px 20px #54bce0;
+}
 
-%shadow-blue-2{box-shadow: 0px 0px 12px #1EC8C8, 0px 0px 5px #1EC8C8, 0px 0px 2px #1EC8C8;}
+%shadow-blue-2 {
+    box-shadow: 0px 0px 12px #1ec8c8, 0px 0px 5px #1ec8c8, 0px 0px 2px #1ec8c8;
+}
 
-%shadow-blue-focus{box-shadow: 0px 0px 40px #44E0DB, 0px 0px 20px #1EC8C8, 0px 0px 10px #1EC8C8, 0px 0px 4px #1EC8C8;}
+%shadow-blue-focus {
+    box-shadow: 0px 0px 40px #44e0db, 0px 0px 20px #1ec8c8, 0px 0px 10px #1ec8c8, 0px 0px 4px #1ec8c8;
+}
 
+%shadow-blue-flat {
+    box-shadow: 4px 2px 0px #44e0db;
+}
 
-%shadow-blue-flat{box-shadow: 4px 2px 0px #44E0DB;}
+%shadow-blue-flat-text {
+    text-shadow: 2px 1.5px 0px #44e0db;
+}
 
-%shadow-blue-text{text-shadow:0px 0px 12px #1EC8C8, 0px 0px 5px #1EC8C8, 0px 0px 2px #1EC8C8;}
+%shadow-blue-text {
+    text-shadow: 0px 0px 12px #1ec8c8, 0px 0px 5px #1ec8c8, 0px 0px 2px #1ec8c8;
+}
 
-%shadow-red-1{box-shadow: 0px 0px 20px #FF658A;}
+%shadow-red-1 {
+    box-shadow: 0px 0px 20px #ff658a;
+}
 
-%shadow-red-2{box-shadow: 0px 0px 12px #FD6059, 0px 0px 5px #FD6059, 0px 0px 2px #FD6059;}
+%shadow-red-2 {
+    box-shadow: 0px 0px 12px #fd6059, 0px 0px 5px #fd6059, 0px 0px 2px #fd6059;
+}
 
-%shadow-red-focus{box-shadow: 0px 0px 40px #FD6059, 0px 0px 20px #FD6059, 0px 0px 10px #FD6059, 0px 0px 4px #FD6059;}
+%shadow-red-text {
+    text-shadow: 0px 0px 12px #fd6059, 0px 0px 5px #fd6059, 0px 0px 2px #fd6059;
+}
 
-%shadow-red-text{text-shadow:0px 0px 12px #FD6059, 0px 0px 5px #FD6059, 0px 0px 2px #FD6059;}
+%shadow-yellow-1 {
+    box-shadow: 0px 0px 12px #fbec09, 0px 0px 5px #dace1a, 0px 0px 2px #dace1a;
+}
 
-%shadow-yellow-1{box-shadow: 0px 0px 12px #FBEC09, 0px 0px 5px #DACE1A, 0px 0px 2px #DACE1A;}
-
-%shadow-yellow-text{text-shadow:0px 0px 12px #FBEC09, 0px 0px 5px #DACE1A, 0px 0px 2px #DACE1A;}
+%shadow-yellow-text {
+    text-shadow: 0px 0px 12px #fbec09, 0px 0px 5px #dace1a, 0px 0px 2px #dace1a;
+}
 
 //Modals
-%border-modal{
-   border: 2px solid colors.$blue;
-   border-radius: 20px;
+%border-modal {
+    border: 2px solid colors.$blue;
+    border-radius: 20px;
 }
 
 //Body
-%background-gradient{
-   background: linear-gradient(180deg, rgba(63, 221, 217, 0.15) 0%, rgba(0, 8, 12, 0.15) 32.54%), 
-   linear-gradient(0deg, rgba(253, 96, 89, 0.15) 0%, rgba(0, 8, 12, 0.15) 37.72%), #00080C;
-   border: 15px solid colors.$yellow;
-   position: relative;
+%background-gradient {
+    background: linear-gradient(180deg, rgba(63, 221, 217, 0.15) 0%, rgba(0, 8, 12, 0.15) 32.54%),
+        linear-gradient(0deg, rgba(253, 96, 89, 0.15) 0%, rgba(0, 8, 12, 0.15) 37.72%), #00080c;
+    border: 15px solid colors.$yellow;
+    position: relative;
 }
 
 //Body::after
 %background-photo-after {
-   content: "";
-   // background-image: url("../assets/UI/Background-cyber.jpg");
-   background-image: url("/src/assets/UI/Background-cyber.jpg");
-   background-size: cover;
-   background-repeat: no-repeat;
-   background-position: center;
-   opacity: 0.15;
-   position: absolute;
-   top: 0;
-   left: 0;
-   bottom: 0;
-   right: 0;
-   width: 100%;
-   height: 100%;
- }
+    content: '';
+    // background-image: url("../assets/UI/Background-cyber.jpg");
+    background-image: url('/src/assets/UI/Background-cyber.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.15;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+}
 
- %header-image{ background-image: url('../assets/UI/Header.svg');}
+//  %header-image{ background-image: url('/src/assets/UI/Header.svg');}
+%header-image {
+    background-image: url('/src/assets/UI/Header.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+}
+
+//Button-yellow
+%button-yellow {
+   background-color: colors.$yellow;
+   height: 45px;
+   cursor: pointer;
+   position:relative;
+}

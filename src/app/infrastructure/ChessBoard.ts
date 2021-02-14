@@ -1,15 +1,45 @@
-import { IChessBoard, ChessBoardRepresentation, Piece, PieceMove, Cord } from '../domain/basicChessTypes';
+import { Piece, Cord, PieceType, Side } from '../domain/basicChessTypes';
+import { ChessBoardView, IChessBoard } from '../domain/IChessBoard';
+import { generateDeafultChessboard } from '../utils/ChessboardHelpers';
+import _ from 'lodash';
+
+type ChessBoardRepresentation = Array<Array<Piece | null>>;
 
 export class ChessBoard implements IChessBoard {
-    board: ChessBoardRepresentation = [[]];
-    makeMove(piece: Piece, move: PieceMove): void {
-        throw new Error('Method not implemented.');
-    }
-    hasPiece(cord: Cord): boolean {
-        throw new Error('Method not implemented.');
+    private __board: ChessBoardRepresentation = generateDeafultChessboard();
+
+    makeMove(piece: Piece, moveTo: Cord): void {
+        const { x, y } = moveTo;
+        piece.isMoved = true;
+        this.__board[piece.cord.x][piece.cord.y] = null;
+        piece.cord = { x, y };
+        this.__board[x][y] = piece;
     }
 
-    public static createDefaultBoard(): IChessBoard {
+    makeEnPassant(piece: Piece, moveTo: Cord): void {
+        piece.isMoved = true;
+        const { x: newX, y: newY } = moveTo;
+        const { x: oldX } = piece.cord;
+        this.makeMove(piece, { x: oldX, y: newY });
+        this.makeMove(piece, { x: newX, y: newY });
+    }
+
+    static createNewBoard(): IChessBoard {
         return new ChessBoard();
+    }
+
+    get board(): ChessBoardView {
+        return this.__board;
+    }
+
+    getPieces(side: Side, pieceType: PieceType): Piece[] | null {
+        const result = _.flattenDeep(this.__board).filter(
+            (square): square is Piece => square !== null && square.side === side && square.figType === pieceType,
+        );
+        return result ? result : null;
+    }
+
+    getPiece(cord: Cord): Piece | null {
+        return this.__board[cord.x][cord.y];
     }
 }

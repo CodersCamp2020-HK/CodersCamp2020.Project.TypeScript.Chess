@@ -1,5 +1,23 @@
-import { Cord, CordWithMoveType, IChessBoard, MoveType, PossibleCords, Side } from '../domain/basicChessTypes';
+import { Cord, CordWithMoveType, MoveType, PossibleCords, Side } from '../domain/basicChessTypes';
 import _ from 'lodash';
+import { IChessBoard } from '../domain/IChessBoard';
+
+export function getKnightDirections(cord: Cord): PossibleCords[] {
+    const possibleMoves = [];
+    const possibleCombinations = [
+        [1, 2],
+        [-1, 2],
+        [1, -2],
+        [-1, -2],
+    ];
+
+    for (const combination of possibleCombinations) {
+        possibleMoves.push({ x: cord.x + combination[0], y: cord.y + combination[1] });
+        possibleMoves.push({ x: cord.x + combination[1], y: cord.y + combination[0] });
+    }
+
+    return possibleMoves;
+}
 
 export function getBishopDirections(cord: Cord): Cord[] {
     const { x, y } = cord;
