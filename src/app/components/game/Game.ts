@@ -10,8 +10,10 @@ import { Label } from '../genericLabel/Label';
 import { Footer } from '../footer/Footer';
 import { Button } from '../genericButton/Button';
 import { PreviousMovesButtons } from '../ButtonsPreviewNext/PreviousMovesButtons';
+import { ModalQuit } from '../game/modalQuit/ModalQuit';
 import { ModalGameOver } from '../modalGameOver/ModalGameOver';
 import { Side } from '../../domain/basicChessTypes';
+
 export class Game {
     private __element: HTMLElement;
 
@@ -57,11 +59,10 @@ export class Game {
         // previousMovesWrapper.classList.add(styles.wrapperMoves);
         // const movesLabel = new Label('yellow', 'previous moves');
         // previousMovesWrapper.append(movesLabel.element);
-
         // const quitButtonWrapper = document.createElement('div');
-        // const fun = () => {
-        //     console.log(`x`);
-        // };
+        const fun = () => {
+            console.log(`x`);
+        };
         // const previousMovesButtons = new PreviousMovesButtons(fun, fun, fun, fun, fun);
         // quitButtonWrapper.classList.add(styles.wrapperQuit);
         // const quitButton = new Button(
@@ -78,7 +79,6 @@ export class Game {
         const footerImage = new Footer();
         footerWrapper.appendChild(footerImage.element);
         // const modalPromotion = new ModalPromotion(Side.Black);
-
         wrapper.append(
             this.gameBoardView,
             // opponentScoreWrapper,
