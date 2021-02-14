@@ -10,8 +10,8 @@ import { Label } from '../genericLabel/Label';
 import { Footer } from '../footer/Footer';
 import { Button } from '../genericButton/Button';
 import { PreviousMovesButtons } from '../ButtonsPreviewNext/PreviousMovesButtons';
-import { ModalQuit } from '../game/modalQuit/ModalQuit';
-
+import { ModalGameOver } from '../modalGameOver/ModalGameOver';
+import { Side } from '../../domain/basicChessTypes';
 export class Game {
     private __element: HTMLElement;
 
@@ -76,6 +76,7 @@ export class Game {
         footerWrapper.classList.add(styles.wrapperFooter);
         const footerImage = new Footer();
         footerWrapper.appendChild(footerImage.element);
+        // const modalPromotion = new ModalPromotion(Side.Black);
 
         wrapper.append(
             this.gameBoardView,
@@ -85,7 +86,15 @@ export class Game {
             // quitButtonWrapper,
             this.gameStatsView,
         );
-        container.append(rules.element, info.element, cyberChessTextWrapper, wrapper, footerWrapper, modalQuit.element);
+
+        container.append(
+            rules.element,
+            info.element,
+            cyberChessTextWrapper,
+            wrapper,
+            footerWrapper,
+            // modalPromotion.element,
+        );
 
         return container;
     }
