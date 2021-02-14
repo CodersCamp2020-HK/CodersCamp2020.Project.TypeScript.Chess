@@ -1,4 +1,4 @@
-import { Cord, CordWithMoveType, CordWithMoveTypes, MoveType, Piece, Score, Side } from '../domain/basicChessTypes';
+import { Cord, CordWithMoveType, MoveType, Piece, Score, Side } from '../domain/basicChessTypes';
 import { ChessBoardView } from '../domain/IChessBoard';
 import { IChessEngine } from '../domain/IChessEngine';
 import { IChessBoardPresenter } from '../domain/IPresenter';
@@ -40,7 +40,20 @@ export class GameController {
         return false;
     }
 
-    private getPossibleMoves(): CordWithMoveType[] {
+    private getPossibleMoves(piece?: Piece): CordWithMoveType[] {
+        if (piece) {
+            const moves = this.chessEngine.getPossibleMovesForPiece(
+                piece.cord,
+                this.chessboardState,
+                this.lastBoardState,
+            );
+            return this.chessEngine.getPossibleMovesForPieceWhenIsCheck(
+                piece.cord,
+                this.chessboardState,
+                this.lastBoardState,
+                moves,
+            );
+        }
         if (this.currentSelectedPiece) {
             const moves = this.chessEngine.getPossibleMovesForPiece(
                 this.currentSelectedPiece.cord,
@@ -70,7 +83,7 @@ export class GameController {
             const piece = this.chessboardState.getPiece(cord);
             if (piece && piece.side === this.currentTurn) {
                 this.chessboardPresenter.clearMarkedFields();
-                const moves = this.getPossibleMoves();
+                const moves = this.getPossibleMoves(piece);
                 this.chessboardPresenter.markFields(convertMovesToDisplayType(moves), this.currentTurn);
             } else {
                 this.chessboardPresenter.clearMarkedFields();
