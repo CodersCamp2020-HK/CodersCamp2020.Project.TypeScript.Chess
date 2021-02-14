@@ -77,7 +77,6 @@ export class Game {
         footerWrapper.classList.add(styles.wrapperFooter);
         const footerImage = new Footer();
         footerWrapper.appendChild(footerImage.element);
-        const modalGameOver = new ModalGameOver(Side.White, 43, '2:45', 'time control', 'Ania', 'Mateusz', fun, fun);
 
         wrapper.append(
             this.gameBoardView,
@@ -87,14 +86,7 @@ export class Game {
             // quitButtonWrapper,
             this.gameStatsView,
         );
-        container.append(
-            rules.element,
-            info.element,
-            cyberChessTextWrapper,
-            wrapper,
-            footerWrapper,
-            modalGameOver.element,
-        );
+        container.append(rules.element, info.element, cyberChessTextWrapper, wrapper, footerWrapper);
 
         return container;
     }

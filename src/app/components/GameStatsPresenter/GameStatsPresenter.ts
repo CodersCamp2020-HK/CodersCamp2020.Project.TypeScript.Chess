@@ -4,7 +4,8 @@ import { CapturedTable } from '../game/capturedTable/CapturedTable';
 import { Label } from '../genericLabel/Label';
 import { PreviousMovesButtons } from '../ButtonsPreviewNext/PreviousMovesButtons';
 import { Button } from '../genericButton/Button';
-import { Piece, StringPieces } from '../../domain/basicChessTypes';
+import { Piece, Side, StringPieces } from '../../domain/basicChessTypes';
+import { ModalGameOver } from '../modalGameOver/ModalGameOver';
 
 export class GameStatsPresenter implements IGameStatsPresenter {
     private gameStatsWrapper: HTMLElement;
@@ -44,10 +45,15 @@ export class GameStatsPresenter implements IGameStatsPresenter {
         );
         quitButtonWrapper.append(previousMovesButtons.element, quitButton.button);
 
-        this.gameStatsWrapper.appendChild(opponentScoreWrapper);
-        this.gameStatsWrapper.appendChild(playerScoreWrapper);
-        this.gameStatsWrapper.appendChild(previousMovesWrapper);
-        this.gameStatsWrapper.appendChild(quitButtonWrapper);
+        const modalGameOver = new ModalGameOver(Side.White, 43, '2:45', 'time control', 'Ania', 'Mateusz', fun, fun);
+
+        this.gameStatsWrapper.append(
+            opponentScoreWrapper,
+            playerScoreWrapper,
+            previousMovesWrapper,
+            quitButtonWrapper,
+            modalGameOver.element,
+        );
     }
 
     updateCaptureTable(updateCapturedPieces: { white: StringPieces[]; black: StringPieces[] }): void {
