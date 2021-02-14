@@ -5,7 +5,7 @@ type Sides = 'left' | 'right';
 
 export class Aside {
     private __aside: HTMLDivElement;
-    constructor(btnText: string, side: Sides, content: string) {
+    constructor(btnText: string, side: Sides, content: HTMLElement) {
         this.__aside = document.createElement('div');
         this.__aside.className = styles.wrapper;
         side === 'left' && this.__aside.classList.add(styles.left);
@@ -23,7 +23,7 @@ export class Aside {
             this.__aside.classList.toggle(styles.active);
         });
         this.__aside.appendChild(button);
-        this.__aside.appendChild(document.createTextNode(content));
+        this.__aside.appendChild(content);
     }
 
     public get element(): HTMLDivElement {
