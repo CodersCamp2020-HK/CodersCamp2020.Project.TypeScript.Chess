@@ -4,10 +4,11 @@ import { CapturedTable } from '../game/capturedTable/CapturedTable';
 import { Label } from '../genericLabel/Label';
 import { PreviousMovesButtons } from '../ButtonsPreviewNext/PreviousMovesButtons';
 import { Button } from '../genericButton/Button';
-import { PieceType, Side, StringPieces } from '../../domain/basicChessTypes';
+import { PieceType, Score, Side, StringPieces } from '../../domain/basicChessTypes';
 import { ModalGameOver } from '../modalGameOver/ModalGameOver';
 import { ModalPromotion } from '../game/modalPromotionPawn/ModalPromotion';
 import { PreviousMoves } from '../PreviousMoves/previousMoves';
+import { Timer } from '../timer/Timer';
 
 export class GameStatsPresenter implements IGameStatsPresenter {
     private gameStatsWrapper: HTMLElement;
@@ -16,7 +17,12 @@ export class GameStatsPresenter implements IGameStatsPresenter {
     private previousMoves = new PreviousMoves([]);
     private modalPromotionBlack;
     private modalPromotionWhite;
-    constructor() {
+    timerWhite: Timer;
+    timerBlack: Timer;
+    constructor(gameTimeInSec: number, addedTimeInSec: number) {
+        this.timerWhite = new Timer(gameTimeInSec, addedTimeInSec);
+        this.timerBlack = new Timer(gameTimeInSec, addedTimeInSec);
+
         this.gameStatsWrapper = document.createElement('div');
         this.gameStatsWrapper.classList.add(styles.wrapperGameStats);
         this.modalPromotionWhite = new ModalPromotion(Side.White);
@@ -56,7 +62,9 @@ export class GameStatsPresenter implements IGameStatsPresenter {
 
         this.gameStatsWrapper.append(
             opponentScoreWrapper,
+            this.timerBlack.element,
             playerScoreWrapper,
+            this.timerWhite.element,
             previousMovesWrapper,
             quitButtonWrapper,
             this.modalPromotionBlack.element,
@@ -77,6 +85,14 @@ export class GameStatsPresenter implements IGameStatsPresenter {
     openPromotionModal(side: Side, onClick: (piece: PieceType) => void): string {
         side === Side.White ? this.modalPromotionWhite.openModal(onClick) : this.modalPromotionBlack.openModal(onClick);
         return side === Side.White ? this.modalPromotionWhite.pieceChosen : this.modalPromotionBlack.pieceChosen;
+    }
+
+    startTimer(side: Side, onTimerEndCb: () => void): void {
+        side === Side.White ? this.timerWhite.start(onTimerEndCb) : this.timerBlack.start(onTimerEndCb);
+    }
+
+    stopTimer(side: Side): void {
+        side === Side.White ? this.timerWhite.stop() : this.timerBlack.stop();
     }
 
     get element(): HTMLElement {

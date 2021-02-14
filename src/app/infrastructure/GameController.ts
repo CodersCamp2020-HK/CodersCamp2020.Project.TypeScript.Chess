@@ -21,8 +21,6 @@ import { IGameStatsPresenter } from '../domain/IGameStatsPresenter';
 import _ from 'lodash';
 
 export class GameController {
-    private whiteTimer: Timer;
-    private blackTimer: Timer;
     private currentTurn: Side;
     private lastBoardState: ChessBoardView;
     private currentSelectedPiece: Piece | null = null;
@@ -34,8 +32,6 @@ export class GameController {
         public gameStatsPresenter: IGameStatsPresenter,
         private onEndGame: (score: Score) => void,
     ) {
-        this.whiteTimer = new Timer(300, 0, () => onEndGame(Score.BlackWon));
-        this.blackTimer = new Timer(300, 0, () => onEndGame(Score.WhiteWon));
         this.currentTurn = Side.White;
         this.lastBoardState = [];
         chessboardPresenter.onHover((cord) => this.handleOnHover(cord));
@@ -100,21 +96,26 @@ export class GameController {
             );
         }
         this.gameStatsPresenter.updatePreviousMoves(this.gameState.previousMoves);
-        console.log(this.gameState.previousMoves);
 
         this.gameState.updateCapturedPieces(this.chessboardState, this.currentTurn);
         this.gameStatsPresenter.updateCaptureTable(this.gameState.capturedPieces);
 
         if (this.gameState.previousBoards.length === 1) {
-            this.blackTimer.start(Score.WhiteWon);
+            this.gameStatsPresenter.startTimer(Side.Black, () => {
+                console.log('Biały wygrał');
+            });
         }
         if (this.gameState.previousBoards.length > 1) {
             if (this.currentTurn === Side.Black) {
-                this.whiteTimer.stop();
-                this.blackTimer.start(Score.WhiteWon);
+                this.gameStatsPresenter.stopTimer(Side.White);
+                this.gameStatsPresenter.startTimer(Side.Black, () => {
+                    console.log('Biały wygrał');
+                });
             } else {
-                this.blackTimer.stop();
-                this.whiteTimer.start(Score.BlackWon);
+                this.gameStatsPresenter.stopTimer(Side.Black);
+                this.gameStatsPresenter.startTimer(Side.White, () => {
+                    console.log('Czarny wygrał');
+                });
             }
         }
 

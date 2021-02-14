@@ -1,25 +1,24 @@
-import { Score } from '../../domain/basicChessTypes';
-
 export class Timer {
     private gameTimeInSec: number;
     private addedTimeInSec: number;
     private actualTimer?: number;
     element: HTMLElement;
 
-    constructor(gameTimeInSec: number, addedTimeInSec: number, private onTimerEndCb: (score: Score) => void) {
+    constructor(gameTimeInSec: number, addedTimeInSec: number) {
         this.element = document.createElement('div');
         this.gameTimeInSec = gameTimeInSec;
         this.addedTimeInSec = addedTimeInSec;
+        this.element.textContent = this.convertTime();
     }
 
-    start(score: Score): void {
+    start(onTimerEndCb: () => void): void {
         if (this.actualTimer !== undefined) {
             this.stop();
         }
         this.actualTimer = window.setInterval(() => {
             if (this.gameTimeInSec <= 0) {
                 this.stop();
-                this.onTimerEndCb(score);
+                onTimerEndCb();
             } else {
                 this.gameTimeInSec--;
                 this.element.textContent = this.convertTime();
