@@ -14,7 +14,7 @@ import { IChessEngine } from '../domain/IChessEngine';
 import { moveToNotation } from '../utils/MoveToNotation';
 
 export class GameState {
-    private __previousMoves: { white: string; black: string }[] = [{ white: '', black: '' }];
+    __previousMoves: { white: string; black: string }[] = [{ white: '', black: '' }];
     private __capturedPieces: { white: StringPieces[]; black: StringPieces[] };
     private __previousBoards: ChessBoardView[];
     private __previousBoardsSide: { white: ChessBoardView[]; black: ChessBoardView[] };

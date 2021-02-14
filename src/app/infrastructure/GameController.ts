@@ -11,7 +11,7 @@ import {
 import { ChessBoardView } from '../domain/IChessBoard';
 import { IChessEngine } from '../domain/IChessEngine';
 import { IChessBoardPresenter } from '../domain/IPresenter';
-import { ChessBoard, ChessBoardRepresentation } from './ChessBoard';
+import { ChessBoard } from './ChessBoard';
 import { GameState } from './GameState';
 import { ChessBoardSquareDisplayType } from '../domain/IPresenter';
 import { convertMovesToDisplayType } from '../utils/ConvertMovesToDisplayType';
@@ -37,7 +37,7 @@ export class GameController {
         this.lastBoardState = [];
         chessboardPresenter.onHover((cord) => this.handleOnHover(cord));
         chessboardPresenter.onClick((cord) => this.handleOnClick(cord));
-        this.gameStatsPresenter.createPreviousButtons(() => this.undoPreviousMove());
+        this.gameStatsPresenter.createPreviousButtons(() => this.renderPreviousBoard());
     }
 
     private hasMove(cord: Cord): boolean {
@@ -48,10 +48,15 @@ export class GameController {
         return false;
     }
 
-    private undoPreviousMove(): void {
+    private renderPreviousBoard(): void {
         if (this.undoNumbersWhite > 0 && this.currentTurn === Side.White) {
+            // RENDER
             this.undoNumbersWhite--;
             this.chessboardPresenter.render(this.gameState.previousMovesSide.white[this.undoNumbersWhite]);
+            this.gameStatsPresenter.updatePreviousMoves(this.gameState.previousMoves.slice(0, this.undoNumbersWhite));
+
+            // UPDATE
+            this.gameState.__previousMoves = this.gameState.previousMoves.slice(0, this.undoNumbersWhite);
             this.chessboardState = ChessBoard.createNewBoard(
                 this.gameState.previousMovesSide.white[this.undoNumbersWhite],
             );
