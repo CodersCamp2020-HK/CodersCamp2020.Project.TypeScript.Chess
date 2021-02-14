@@ -14,9 +14,15 @@ const App = (): void => {
     const presenter: IChessBoardPresenter = new ChessBoardPresenter();
     const gameController = new GameController(presenter, gameStatsPresenter, (score) => console.log(score));
     const game = new Game(presenter.element, gameStatsPresenter.element);
-    document.body.append(game.element);
+    //document.body.append(game.element);
     // document.body.append(gameStatsPresenter.element);
-    sayText('Ala ma kota');
+    const button = document.createElement('button');
+    button.textContent = 'Button';
+    button.addEventListener('click', () => {
+        sayText('Ala ma kota');
+    });
+
+    document.body.append(button);
 };
 
 export default App;
