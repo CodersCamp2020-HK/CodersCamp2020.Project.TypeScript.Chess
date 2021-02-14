@@ -41,11 +41,20 @@ export class ChessEngine implements IChessEngine {
         if (!handler) {
             return [];
         }
-        if (piece.figType === PieceType.King) {
-            const moves = handler(cord, boardState);
-            return this.excludeMovesOnAttackedSquaresForKing(cord, moves, boardState, previousBoardState);
-        }
         return handler(cord, boardState);
+    }
+
+    getPossibleMovesForPieceWhenIsCheck(
+        cord: Cord,
+        boardState: IChessBoard,
+        previousBoardState: ChessBoardView,
+        possibleMoves: CordWithMoveType[],
+    ): CordWithMoveType[] {
+        const piece = boardState.board[cord.x][cord.y];
+        if (!piece) {
+            return [];
+        }
+        return this.excludeMovesOnAttackedSquaresForKing(cord, possibleMoves, boardState, previousBoardState);
     }
 
     isCheck(boardState: IChessBoard, side: Side, previousBoardState: ChessBoardView): boolean {
