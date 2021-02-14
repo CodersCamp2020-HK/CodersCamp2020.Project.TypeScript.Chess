@@ -4,13 +4,15 @@ import { CapturedTable } from '../game/capturedTable/CapturedTable';
 import { Label } from '../genericLabel/Label';
 import { PreviousMovesButtons } from '../ButtonsPreviewNext/PreviousMovesButtons';
 import { Button } from '../genericButton/Button';
-import { Piece, StringPieces } from '../../domain/basicChessTypes';
+import { Piece, Side, StringPieces } from '../../domain/basicChessTypes';
+import { ModalPromotion } from '../game/modalPromotionPawn/ModalPromotion';
 
 export class GameStatsPresenter implements IGameStatsPresenter {
     private gameStatsWrapper: HTMLElement;
     private opponentCapturedTable;
     private playerCapturedTable;
     constructor() {
+        const modalPromotion = new ModalPromotion(Side.Black);
         this.gameStatsWrapper = document.createElement('div');
         this.gameStatsWrapper.classList.add(styles.wrapperGameStats);
 
@@ -44,10 +46,13 @@ export class GameStatsPresenter implements IGameStatsPresenter {
         );
         quitButtonWrapper.append(previousMovesButtons.element, quitButton.button);
 
-        this.gameStatsWrapper.appendChild(opponentScoreWrapper);
-        this.gameStatsWrapper.appendChild(playerScoreWrapper);
-        this.gameStatsWrapper.appendChild(previousMovesWrapper);
-        this.gameStatsWrapper.appendChild(quitButtonWrapper);
+        this.gameStatsWrapper.append(
+            opponentScoreWrapper,
+            opponentScoreWrapper,
+            previousMovesWrapper,
+            quitButtonWrapper,
+            modalPromotion.element,
+        );
     }
 
     updateCaptureTable(updateCapturedPieces: { white: StringPieces[]; black: StringPieces[] }): void {
