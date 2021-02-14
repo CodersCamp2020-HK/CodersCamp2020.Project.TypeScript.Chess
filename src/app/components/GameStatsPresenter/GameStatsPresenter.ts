@@ -51,7 +51,7 @@ export class GameStatsPresenter implements IGameStatsPresenter {
 
         this.gameStatsWrapper.append(
             opponentScoreWrapper,
-            opponentScoreWrapper,
+            playerScoreWrapper,
             previousMovesWrapper,
             quitButtonWrapper,
             modalPromotion.element,
