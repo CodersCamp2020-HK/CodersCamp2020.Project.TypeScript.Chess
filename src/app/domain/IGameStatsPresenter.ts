@@ -6,4 +6,15 @@ export interface IGameStatsPresenter {
     openPromotionModal(side: Side, onClick: (piece: PieceType) => void): string;
     startTimer(side: Side, onTimerEndCb: () => void): void;
     stopTimer(side: Side): void;
+    getRemainingTime(side: Side): number;
+    openModal(
+        winnerSide: Side,
+        numberOfMoves: number,
+        time: number,
+        winWay: string,
+        namePlayer: string,
+        nameOpponent: string,
+        onMainMenuCb: () => void,
+        onPlayAgainCb: () => void,
+    ): void;
 }

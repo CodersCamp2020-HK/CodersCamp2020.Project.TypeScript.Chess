@@ -58,8 +58,6 @@ export class GameStatsPresenter implements IGameStatsPresenter {
         );
         quitButtonWrapper.append(previousMovesButtons.element, quitButton.button);
 
-        const modalGameOver = new ModalGameOver(Side.White, 43, '2:45', 'time control', 'Ania', 'Mateusz', fun, fun);
-
         this.gameStatsWrapper.append(
             opponentScoreWrapper,
             this.timerBlack.element,
@@ -69,7 +67,6 @@ export class GameStatsPresenter implements IGameStatsPresenter {
             quitButtonWrapper,
             this.modalPromotionBlack.element,
             this.modalPromotionWhite.element,
-            modalGameOver.element,
         );
     }
 
@@ -93,6 +90,34 @@ export class GameStatsPresenter implements IGameStatsPresenter {
 
     stopTimer(side: Side): void {
         side === Side.White ? this.timerWhite.stop() : this.timerBlack.stop();
+    }
+
+    getRemainingTime(side: Side): number {
+        return side === Side.White ? this.timerWhite.remainingTime : this.timerBlack.remainingTime;
+    }
+
+    openModal(
+        winnerSide: Side,
+        numberOfMoves: number,
+        time: number,
+        winWay: string,
+        namePlayer: string,
+        nameOpponent: string,
+        onMainMenuCb: () => void,
+        onPlayAgainCb: () => void,
+    ): void {
+        const modal = new ModalGameOver(
+            winnerSide,
+            numberOfMoves,
+            time,
+            winWay,
+            namePlayer,
+            nameOpponent,
+            onMainMenuCb,
+            onPlayAgainCb,
+        );
+        this.gameStatsWrapper.appendChild(modal.element);
+        modal.openModal();
     }
 
     get element(): HTMLElement {

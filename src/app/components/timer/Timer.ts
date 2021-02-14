@@ -16,14 +16,15 @@ export class Timer {
             this.stop();
         }
         this.actualTimer = window.setInterval(() => {
+            this.gameTimeInSec -= 0.1;
+            this.element.textContent = this.convertTime();
             if (this.gameTimeInSec <= 0) {
-                this.stop();
-                onTimerEndCb();
-            } else {
-                this.gameTimeInSec--;
+                window.clearInterval(this.actualTimer);
+                this.gameTimeInSec = 0;
                 this.element.textContent = this.convertTime();
+                onTimerEndCb();
             }
-        }, 1000);
+        }, 100);
     }
 
     stop(): void {
@@ -37,7 +38,10 @@ export class Timer {
         let stringMins = '';
         let stringSecs = '';
         mins < 10 ? (stringMins = `0${mins}`) : (stringMins = `${mins}`);
-        secs < 10 ? (stringSecs = `0${secs}`) : (stringSecs = `${secs}`);
+        secs < 10 ? (stringSecs = `0${secs.toFixed(1)}`) : (stringSecs = `${secs.toFixed(1)}`);
         return `${stringMins}:${stringSecs}`;
+    }
+    public get remainingTime(): number {
+        return this.gameTimeInSec;
     }
 }

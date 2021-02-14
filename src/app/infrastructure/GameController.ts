@@ -15,7 +15,6 @@ import { ChessBoard } from './ChessBoard';
 import { GameState } from './GameState';
 import { ChessBoardSquareDisplayType } from '../domain/IPresenter';
 import { convertMovesToDisplayType } from '../utils/ConvertMovesToDisplayType';
-import { Timer } from '../components/timer/Timer';
 import { ChessEngine } from './ChessEngine';
 import { IGameStatsPresenter } from '../domain/IGameStatsPresenter';
 import _ from 'lodash';
@@ -76,6 +75,19 @@ export class GameController {
         return [];
     }
 
+    private endGame(side: Side, winWay: string, playerName: string, opponentName: string) {
+        this.gameStatsPresenter.openModal(
+            side,
+            this.gameState.previousMoves.length,
+            this.gameStatsPresenter.getRemainingTime(side),
+            winWay,
+            playerName,
+            opponentName,
+            () => console.log('Main'),
+            () => console.log('Play again'),
+        );
+    }
+
     private continueOnClick(lastPiece: Piece, { x, y, moveType }: CordWithMoveType, promotionPiece: PieceType) {
         this.chessboardPresenter.render(this.chessboardState.board);
         this.currentTurn = this.currentTurn === Side.White ? Side.Black : Side.White;
@@ -102,28 +114,27 @@ export class GameController {
 
         if (this.gameState.previousBoards.length === 1) {
             this.gameStatsPresenter.startTimer(Side.Black, () => {
-                console.log('Biały wygrał');
+                this.endGame(Side.White, 'Timeout', 'Ja', 'On');
             });
         }
         if (this.gameState.previousBoards.length > 1) {
             if (this.currentTurn === Side.Black) {
                 this.gameStatsPresenter.stopTimer(Side.White);
                 this.gameStatsPresenter.startTimer(Side.Black, () => {
-                    console.log('Biały wygrał');
+                    this.endGame(Side.White, 'Timeout', 'Ja', 'On');
                 });
             } else {
                 this.gameStatsPresenter.stopTimer(Side.Black);
                 this.gameStatsPresenter.startTimer(Side.White, () => {
-                    console.log('Czarny wygrał');
+                    this.endGame(Side.Black, 'Timeout', 'Ja', 'On');
                 });
             }
         }
 
         if (this.chessEngine.isCheckmate(this.chessboardState, this.currentTurn, this.lastBoardState)) {
-            console.log('Macik');
-        }
-        if (this.chessEngine.isStealemate(this.chessboardState, this.currentTurn, this.lastBoardState)) {
-            console.log('Pacik');
+            this.endGame(this.currentTurn, 'Mat', 'Ja', 'On');
+        } else if (this.chessEngine.isStealemate(this.chessboardState, this.currentTurn, this.lastBoardState)) {
+            this.endGame(this.currentTurn, 'Pat', 'Ja', 'On');
         }
         if (this.chessEngine.isCheck(this.chessboardState, this.currentTurn, this.lastBoardState)) {
             console.log('Szach');
