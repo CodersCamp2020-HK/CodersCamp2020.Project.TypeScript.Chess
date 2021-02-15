@@ -9,6 +9,7 @@ import { ModalGameOver } from '../modalGameOver/ModalGameOver';
 import { ModalPromotion } from '../game/modalPromotionPawn/ModalPromotion';
 import { PreviousMoves } from '../PreviousMoves/previousMoves';
 import { Timer } from '../timer/Timer';
+import { ModalQuit } from '../game/modalQuit/ModalQuit';
 
 export class GameStatsPresenter implements IGameStatsPresenter {
     private gameStatsWrapper: HTMLElement;
@@ -19,6 +20,7 @@ export class GameStatsPresenter implements IGameStatsPresenter {
     private modalPromotionWhite;
     timerWhite: Timer;
     timerBlack: Timer;
+    // private modalQuit = new ModalQuit(() => console.log('modal'));
     constructor(gameTimeInSec: number, addedTimeInSec: number) {
         this.timerWhite = new Timer(gameTimeInSec, addedTimeInSec);
         this.timerWhite.element.classList.add(styles.timerPlayer);
@@ -55,26 +57,20 @@ export class GameStatsPresenter implements IGameStatsPresenter {
         const fun = () => {
             console.log(`x`);
         };
-        const previousMovesButtons = new PreviousMovesButtons(fun, fun, fun, fun, fun);
-        const quitButton = new Button(
-            'QUIT',
-            function () {
-                console.log('animated button');
-            },
-            true,
-        );
+        const quitBtn = new Button('Quit', () => {
+            const modalQuit = new ModalQuit(() => console.log('eluwinka w śrdodki'));
+            this.gameStatsWrapper.appendChild(modalQuit.element);
+        });
 
-        quitButtonWrapper.classList.add(styles.quitButtonWrapper);
-        const modalGameOver = new ModalGameOver(Side.White, 43, 245, 'time control', 'Ania', 'Mateusz', fun, fun);
-
+        // quitButtonWrapper.append(previousMovesButtons.element, quitButton.button);
 
         this.gameStatsWrapper.append(
             opponentScoreWrapper,
             playerScoreWrapper,
             previousMovesWrapper,
-            quitButtonWrapper,
             this.modalPromotionBlack.element,
             this.modalPromotionWhite.element,
+            quitBtn.button,
         );
     }
 
@@ -128,9 +124,14 @@ export class GameStatsPresenter implements IGameStatsPresenter {
         modal.openModal();
     }
 
-    createPreviousButtons(fun: () => void): void {
-        const previousMovesButtons = new PreviousMovesButtons(fun, fun, fun, fun, fun);
-        this.gameStatsWrapper.appendChild(previousMovesButtons.element);
+    createPreviousButtons(
+        onHomeCb: () => void,
+        onPreviousCb: () => void,
+        onNextCb: () => void,
+        onEndCb: () => void,
+    ): void {
+        const previousMovesButtons = new PreviousMovesButtons(onHomeCb, onPreviousCb, onNextCb, onEndCb);
+        this.gameStatsWrapper.append(previousMovesButtons.element);
     }
 
     get element(): HTMLElement {

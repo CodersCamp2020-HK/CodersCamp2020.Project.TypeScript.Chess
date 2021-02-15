@@ -1,5 +1,6 @@
 export function sayText(textToSay: string): void {
     const person = new SpeechSynthesisUtterance();
+    person.volume = 0.1;
     person.text = textToSay;
     person.lang = 'pl-PL';
     person.rate = 0.6;
