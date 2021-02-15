@@ -21,7 +21,9 @@ export class GameStatsPresenter implements IGameStatsPresenter {
     timerBlack: Timer;
     constructor(gameTimeInSec: number, addedTimeInSec: number) {
         this.timerWhite = new Timer(gameTimeInSec, addedTimeInSec);
+        this.timerWhite.element.classList.add(styles.timerPlayer);
         this.timerBlack = new Timer(gameTimeInSec, addedTimeInSec);
+        this.timerBlack.element.classList.add(styles.timerOpponent);
 
         this.gameStatsWrapper = document.createElement('div');
         this.gameStatsWrapper.classList.add(styles.wrapperGameStats);
@@ -31,17 +33,22 @@ export class GameStatsPresenter implements IGameStatsPresenter {
         const opponentScoreWrapper = document.createElement('div');
         const opponentLabel = new Label('blue', 'Opponent');
         this.opponentCapturedTable = new CapturedTable('opponent', []);
+        opponentScoreWrapper.classList.add(styles.opponentScoreWrapper);
         opponentScoreWrapper.appendChild(opponentLabel.element);
         opponentScoreWrapper.appendChild(this.opponentCapturedTable.element);
+        opponentScoreWrapper.appendChild(this.timerBlack.element);
 
         const playerScoreWrapper = document.createElement('div');
         this.playerCapturedTable = new CapturedTable('player', []);
         const playerLabel = new Label('red', 'Player');
+        playerScoreWrapper.classList.add(styles.playerScoreWrapper);
         playerScoreWrapper.append(playerLabel.element);
         playerScoreWrapper.append(this.playerCapturedTable.element);
+        playerScoreWrapper.append(this.timerWhite.element);
 
         const previousMovesWrapper = document.createElement('div');
         const movesLabel = new Label('yellow', 'previous moves');
+        previousMovesWrapper.classList.add(styles.previousMovesWrapper);
         previousMovesWrapper.append(movesLabel.element, this.previousMoves.element);
 
         const quitButtonWrapper = document.createElement('div');
@@ -56,13 +63,14 @@ export class GameStatsPresenter implements IGameStatsPresenter {
             },
             true,
         );
-        // quitButtonWrapper.append(previousMovesButtons.element, quitButton.button);
+
+        quitButtonWrapper.classList.add(styles.quitButtonWrapper);
+        const modalGameOver = new ModalGameOver(Side.White, 43, 245, 'time control', 'Ania', 'Mateusz', fun, fun);
+
 
         this.gameStatsWrapper.append(
             opponentScoreWrapper,
-            this.timerBlack.element,
             playerScoreWrapper,
-            this.timerWhite.element,
             previousMovesWrapper,
             quitButtonWrapper,
             this.modalPromotionBlack.element,

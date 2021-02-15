@@ -87,6 +87,7 @@ export class Game {
             // quitButtonWrapper,
             this.gameStatsView,
         );
+
         container.append(
             rules.element,
             info.element,
