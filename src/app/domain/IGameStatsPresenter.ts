@@ -20,7 +20,6 @@ export interface IGameStatsPresenter {
     createPreviousButtons(
         onHomeCb: () => void,
         onPreviousCb: () => void,
-        onClickCb: () => void,
         onNextCb: () => void,
         onEndCb: () => void,
     ): void;

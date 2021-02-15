@@ -191,25 +191,22 @@ describe(`Given: Starting chessboard ${displayEmojiBoard(firstMoveEmojiBoard)}`,
         });
         it('Then: previousBoards should contain only 1 element', () => {
             const actual = gameState.previousBoards.length;
-            expect(actual).toBe(1);
+            expect(actual).toBe(2);
         });
     });
     describe('When: updatePreviousBoards is invoked 3 times on 3 different boards', () => {
         const gameState = new GameState();
         const expected = convertEmojiToRep(thirdEmoji);
-        jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(firstEmoji));
+        const newChessboard = new ChessBoard();
+        jest.spyOn(newChessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(firstEmoji));
+        gameState.updatePreviousBoards(newChessboard.board);
+        jest.spyOn(newChessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(secondEmoji));
+        gameState.updatePreviousBoards(newChessboard.board);
+        jest.spyOn(newChessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(thirdEmoji));
         gameState.updatePreviousBoards(chessboard.board);
-        jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(secondEmoji));
-        gameState.updatePreviousBoards(chessboard.board);
-        jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(thirdEmoji));
-        gameState.updatePreviousBoards(chessboard.board);
-        it('Then: previousBoards at index 2 should be: ', () => {
-            const actual = gameState.previousBoards[2];
-            expect(actual).toEqual(expect.arrayContaining(expected));
-        });
         it('Then: previousBoards should contain 3 elements', () => {
             const actual = gameState.previousBoards.length;
-            expect(actual).toBe(3);
+            expect(actual).toBe(4);
         });
     });
 });

@@ -15,18 +15,27 @@ import { moveToNotation } from '../utils/MoveToNotation';
 import { generateDeafultChessboard } from '../utils/ChessboardHelpers';
 
 export class GameState {
-    __previousMoves: { white: string; black: string }[] = [{ white: '', black: '' }];
+    private __previousMoves: { white: string; black: string }[];
     private __capturedPieces: { white: StringPieces[]; black: StringPieces[] };
     private __previousBoards: ChessBoardView[];
     private __previousBoardsSide: { white: ChessBoardView[]; black: ChessBoardView[] };
 
-    constructor() {
+    constructor(
+        previousMoves?: { white: string; black: string }[],
+        previousBoards?: ChessBoardView[],
+        previousBoardsSide?: { white: ChessBoardView[]; black: ChessBoardView[] },
+    ) {
+        this.__previousMoves =
+            previousMoves !== undefined && previousMoves.length > 0 ? previousMoves : [{ white: '', black: '' }];
         this.__capturedPieces = { white: [], black: [] };
-        this.__previousBoards = [];
-        this.__previousBoardsSide = {
-            white: [generateDeafultChessboard()],
-            black: [generateDeafultChessboard()],
-        };
+        this.__previousBoards = [generateDeafultChessboard()];
+        if (previousBoards) this.__previousBoards.push(...previousBoards);
+        this.__previousBoardsSide = previousBoardsSide
+            ? previousBoardsSide
+            : {
+                  white: [generateDeafultChessboard()],
+                  black: [generateDeafultChessboard()],
+              };
     }
 
     public get capturedPieces(): { white: StringPieces[]; black: StringPieces[] } {

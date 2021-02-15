@@ -9,6 +9,7 @@ import { ModalGameOver } from '../modalGameOver/ModalGameOver';
 import { ModalPromotion } from '../game/modalPromotionPawn/ModalPromotion';
 import { PreviousMoves } from '../PreviousMoves/previousMoves';
 import { Timer } from '../timer/Timer';
+import { ModalQuit } from '../game/modalQuit/ModalQuit';
 
 export class GameStatsPresenter implements IGameStatsPresenter {
     private gameStatsWrapper: HTMLElement;
@@ -19,7 +20,10 @@ export class GameStatsPresenter implements IGameStatsPresenter {
     private modalPromotionWhite;
     timerWhite: Timer;
     timerBlack: Timer;
+    // private modalQuit = new ModalQuit(() => console.log('modal'));
+    private quitBtn = new Button('Quit', () => new ModalQuit(() => console.log('modal')));
     constructor(gameTimeInSec: number, addedTimeInSec: number) {
+        console.log(this.quitBtn);
         this.timerWhite = new Timer(gameTimeInSec, addedTimeInSec);
         this.timerBlack = new Timer(gameTimeInSec, addedTimeInSec);
 
@@ -48,14 +52,6 @@ export class GameStatsPresenter implements IGameStatsPresenter {
         const fun = () => {
             console.log(`x`);
         };
-        const previousMovesButtons = new PreviousMovesButtons(fun, fun, fun, fun, fun);
-        const quitButton = new Button(
-            'QUIT',
-            function () {
-                console.log('animated button');
-            },
-            true,
-        );
         // quitButtonWrapper.append(previousMovesButtons.element, quitButton.button);
 
         this.gameStatsWrapper.append(
@@ -64,7 +60,7 @@ export class GameStatsPresenter implements IGameStatsPresenter {
             playerScoreWrapper,
             this.timerWhite.element,
             previousMovesWrapper,
-            quitButtonWrapper,
+            this.quitBtn.button,
             this.modalPromotionBlack.element,
             this.modalPromotionWhite.element,
         );
@@ -123,12 +119,11 @@ export class GameStatsPresenter implements IGameStatsPresenter {
     createPreviousButtons(
         onHomeCb: () => void,
         onPreviousCb: () => void,
-        onClickCb: () => void,
         onNextCb: () => void,
         onEndCb: () => void,
     ): void {
-        const previousMovesButtons = new PreviousMovesButtons(onHomeCb, onPreviousCb, onClickCb, onNextCb, onEndCb);
-        this.gameStatsWrapper.appendChild(previousMovesButtons.element);
+        const previousMovesButtons = new PreviousMovesButtons(onHomeCb, onPreviousCb, onNextCb, onEndCb);
+        this.gameStatsWrapper.append(previousMovesButtons.element);
     }
 
     get element(): HTMLElement {
