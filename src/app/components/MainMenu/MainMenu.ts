@@ -62,7 +62,6 @@ export class MainMenu {
             } as StartGameParams;
             onStart(params);
 
-
             event.preventDefault();
         });
 
@@ -132,7 +131,6 @@ export class MainMenu {
         enterYourNameLabel1.element.setAttribute('name', 'input1');
         const enterYourNameLabel2 = new Input('Player2');
         enterYourNameLabel2.element.setAttribute('name', 'input2');
-        console.log(radiosPlayWith.element.childNodes[2]);
         radiosPlayWith.element.childNodes[2].addEventListener('click', () => {
             enterYourNameLabel2.wrapper.style.display = 'none';
         });
