@@ -3,6 +3,7 @@ import { flattenChessboard } from '../utils/ChessboardHelpers';
 import { ChessBoardView, IChessBoard } from '../domain/IChessBoard';
 import { IChessEngine } from '../domain/IChessEngine';
 import { getPossibleMovesForPawn } from '../utils/pawnMoves';
+import { possibleCastlingMoves } from '../utils/Castling';
 import {
     getPossibleMovesForBishop,
     getPossibleMovesForKing,
@@ -34,8 +35,13 @@ export class ChessEngine implements IChessEngine {
         if (!piece) {
             return [];
         }
-        if (piece.figType === PieceType.Pawn && previousBoardState) {
+        if (piece.figType === PieceType.Pawn) {
             return getPossibleMovesForPawn(cord, boardState, previousBoardState);
+        }
+        if (piece.figType === PieceType.King) {
+            return getPossibleMovesForKing(cord, boardState).concat(
+                possibleCastlingMoves(boardState, this, piece.side, previousBoardState),
+            );
         }
         const handler = this.getMovesByPiece.get(piece.figType);
         if (!handler) {
@@ -54,7 +60,7 @@ export class ChessEngine implements IChessEngine {
         if (!piece) {
             return [];
         }
-        return this.excludeMovesOnAttackedSquaresForKing(cord, possibleMoves, boardState, previousBoardState);
+        return this.excludeMovesOnAttackedSquares(cord, possibleMoves, boardState, previousBoardState);
     }
 
     isCheck(boardState: IChessBoard, side: Side, previousBoardState: ChessBoardView): boolean {
@@ -103,19 +109,18 @@ export class ChessEngine implements IChessEngine {
         return checkmateArr.every((item) => item === true);
     }
 
-    excludeMovesOnAttackedSquaresForKing(
+    excludeMovesOnAttackedSquares(
         pieceCord: Cord,
         possibleMoves: CordWithMoveType[],
         boardState: IChessBoard,
         previousBoardState: ChessBoardView,
     ): CordWithMoveType[] {
-        const copiedBoardState = _.cloneDeep(boardState);
-        const king = copiedBoardState.getPiece(pieceCord);
-        if (!king) throw new Error('Król zbiegł z pola bitwy');
-
         const result: CordWithMoveType[] = possibleMoves.filter((move) => {
-            copiedBoardState.makeMove(king, { x: move.x, y: move.y });
-            return !this.isCheck(copiedBoardState, king.side, previousBoardState);
+            const copiedBoardState = _.cloneDeep(boardState);
+            const piece = copiedBoardState.getPiece(pieceCord);
+            if (!piece) return false;
+            copiedBoardState.makeMove(piece, { x: move.x, y: move.y });
+            return !this.isCheck(copiedBoardState, piece.side, previousBoardState);
         });
 
         return result;

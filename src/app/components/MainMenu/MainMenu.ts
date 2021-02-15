@@ -114,19 +114,17 @@ export class MainMenu {
                 category: 'timePerPlayerDiv',
             },
         ];
-        timePerPlayerDiv.append(
-            timePerPlayerLabel.element,
-            new Radios(min3).element,
-            new Radios(min5).element,
-            new Radios(min10).element,
-            new Radios(min30).element,
-        );
+
+        const radiosTime = new Radios(min3.concat(min5).concat(min10).concat(min30));
+        timePerPlayerDiv.append(timePerPlayerLabel.element, radiosTime.element);
 
         //3 DIV
         const enterYourNameDiv = document.createElement('div');
         // enterYourNameDiv.classList.add(styles.enterYourNameDiv);
         const enterYourNameLabel1 = new Input('Player1', 4, 10);
+        enterYourNameLabel1.element.setAttribute('name', 'input1');
         const enterYourNameLabel2 = new Input('Player2');
+        enterYourNameLabel2.element.setAttribute('name', 'input2');
         console.log(radiosPlayWith.element.childNodes[2]);
         radiosPlayWith.element.childNodes[2].addEventListener('click', () => {
             enterYourNameLabel2.wrapper.style.display = 'none';

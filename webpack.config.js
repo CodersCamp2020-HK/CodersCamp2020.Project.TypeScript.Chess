@@ -36,7 +36,6 @@ module.exports = {
                 test: /\.(woff|woff2|eot|ttf|otf)$/i,
                 type: 'asset/resource',
             },
-
             {
                 test: /\.module\.scss$/,
                 use: [
@@ -64,6 +63,12 @@ module.exports = {
                 test: /\.scss$/,
                 use: ['style-loader', 'css-loader', 'sass-loader'],
                 exclude: /\.module\.scss$/,
+            },
+
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader'],
+                exclude: /\.module\.css$/,
             },
 
             {

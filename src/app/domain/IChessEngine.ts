@@ -19,4 +19,11 @@ export interface IChessEngine {
         previousBoardState: ChessBoardView,
         possibleMoves: CordWithMoveType[],
     ): CordWithMoveType[];
+
+    excludeMovesOnAttackedSquares(
+        pieceCord: Cord,
+        possibleMoves: CordWithMoveType[],
+        boardState: IChessBoard,
+        previousBoardState: ChessBoardView,
+    ): CordWithMoveType[];
 }
