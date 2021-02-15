@@ -17,7 +17,7 @@ export const pseudoStyle = function (
     const _head = document.head || document.getElementsByTagName('head')[0];
     const _sheet = document.getElementById(_sheetId) || document.createElement('style');
     _sheet.id = _sheetId;
-    const className = 'pseudoStyle' + UID.getNew();
+    const className = 'pseudoStyle2' + UID.getNew();
 
     _this.className += ' ' + className;
 

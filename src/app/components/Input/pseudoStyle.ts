@@ -12,7 +12,7 @@ export const pseudoStyle = function (element: HTMLElement, pseudo: string, prop:
     const _head = document.head || document.getElementsByTagName('head')[0];
     const _sheet = document.getElementById(_sheetId) || document.createElement('style');
     _sheet.id = _sheetId;
-    const className = 'pseudoStyle' + UID.getNew();
+    const className = 'pseudoStyle1' + UID.getNew();
 
     _this.className += ' ' + className;
 
