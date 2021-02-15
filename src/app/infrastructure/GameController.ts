@@ -18,6 +18,7 @@ import { convertMovesToDisplayType } from '../utils/ConvertMovesToDisplayType';
 import { ChessEngine } from './ChessEngine';
 import { IGameStatsPresenter } from '../domain/IGameStatsPresenter';
 import _ from 'lodash';
+import { AI } from './AI';
 
 export class GameController {
     private currentTurn: Side;
@@ -28,11 +29,13 @@ export class GameController {
     public chessEngine: IChessEngine = new ChessEngine();
     undoNumbersWhite = 0;
     undoNumbersBlack = 0;
+    stockfish: AI;
     constructor(
         public chessboardPresenter: IChessBoardPresenter,
         public gameStatsPresenter: IGameStatsPresenter,
         private onEndGame: (score: Score) => void,
     ) {
+        this.stockfish = new AI(10);
         this.currentTurn = Side.White;
         this.lastBoardState = [];
         chessboardPresenter.onHover((cord) => this.handleOnHover(cord));
@@ -176,6 +179,49 @@ export class GameController {
         }
         this.chessboardPresenter.clearMarkedFields();
         this.currentSelectedPiece = null;
+
+        if (this.currentTurn === Side.Black) {
+            this.stockfish.getMove({ x: lastPiece.cord.x, y: lastPiece.cord.y }, { x, y }).then((aiMove) => {
+                let piece = this.chessboardState.getPiece({ x: aiMove.from.x, y: aiMove.from.y });
+                if (!piece) throw new Error('Stockfish pijany!');
+                const moves = this.getPossibleMoves(piece);
+                const filteredMoves = moves.filter((move) => move.x === aiMove.to.x && move.y === aiMove.to.y);
+                const { x, y, moveType } = filteredMoves[0];
+                this.lastBoardState = this.gameState.previousBoards[this.gameState.previousBoards.length - 1];
+                const lastPiece = _.cloneDeep(piece);
+                const cord = aiMove.to;
+                if (moveType === MoveType.EnPassant) {
+                    this.chessboardState.makeEnPassant(piece, cord);
+                } else if (moveType === MoveType.Castling) {
+                    this.chessboardState.makeCastling(piece, cord);
+                } else {
+                    this.chessboardState.makeMove(piece, cord);
+                }
+
+                this.gameState.updatePreviousBoards(this.chessboardState.board);
+                this.undoNumbersWhite = this.gameState.previousBoards.length - 1;
+                this.undoNumbersWhite = this.gameState.previousBoards.length - 1;
+
+                if (
+                    (cord.x === 0 && piece.figType === PieceType.Pawn) ||
+                    (cord.x === 7 && piece.figType === PieceType.Pawn)
+                ) {
+                    this.gameStatsPresenter.openPromotionModal(this.currentTurn, (pieceChosen) => {
+                        if (piece) {
+                            piece.figType = pieceChosen;
+                        } else {
+                            throw new Error('Cannot promote piece.');
+                        }
+                        this.continueOnClick(lastPiece, { x, y, moveType }, pieceChosen);
+                    });
+                    return;
+                }
+
+                this.continueOnClick(lastPiece, { x, y, moveType }, PieceType.Queen);
+                piece = null;
+                this.currentTurn = Side.White;
+            });
+        }
     }
 
     handleOnHover(cord: Cord): void {
