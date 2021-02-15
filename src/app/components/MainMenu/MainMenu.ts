@@ -6,6 +6,7 @@ import { Footer } from '../footer/Footer';
 import { Button } from '../genericButton/Button';
 import { Label } from '../genericLabel/Label';
 import { Radios, Data } from '../radios/radiosComponent';
+import { Input } from '../Input/input';
 import { create } from 'lodash';
 
 export interface StartGameParams {
@@ -122,16 +123,19 @@ export class MainMenu {
         const enterYourNameDiv = document.createElement('div');
         enterYourNameDiv.classList.add(styles.enterYourNameDiv);
         const enterYourNameLabel = new Label('blue', 'PLAY WITH');
-        const input1 = document.createElement('input');
-        const input2 = document.createElement('input');
-        input1.setAttribute('id', 'xxx');
-        input2.setAttribute('id', 'xxx');
-        input1.placeholder = 'Player1';
-        input2.placeholder = 'Player2';
+        const enterYourNameLabel1 = new Input('Player1', 4, 10);
+        const enterYourNameLabel2 = new Input('Player2');
 
-        input1.setAttribute('name', 'input1');
-        input2.setAttribute('name', 'input2');
-        enterYourNameDiv.append(enterYourNameLabel.element, input1, input2);
+        // const input1 = document.createElement('input');
+        // const input2 = document.createElement('input');
+        // input1.setAttribute('id', 'xxx');
+        // input2.setAttribute('id', 'xxx');
+        // input1.placeholder = 'Player1';
+        // input2.placeholder = 'Player2';
+
+        // input1.setAttribute('name', 'input1');
+        // input2.setAttribute('name', 'input2');
+        enterYourNameDiv.append(enterYourNameLabel1);
 
         // BUTTON
         const buttonDiv = document.createElement('div');
