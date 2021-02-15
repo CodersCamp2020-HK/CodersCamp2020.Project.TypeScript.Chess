@@ -1,4 +1,7 @@
+import { Cord } from './basicChessTypes';
+
+export type InputDeviceCallback = (cord: Readonly<Cord>) => void;
 export interface IChessBoardInputDevice {
-    onClickEvent(callback: () => void): void;
-    onHoverEvent(callback: () => void): void;
+    onHover(callback: InputDeviceCallback): void;
+    onClick(callback: InputDeviceCallback): void;
 }
