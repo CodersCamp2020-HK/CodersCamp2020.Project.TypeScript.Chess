@@ -3,7 +3,9 @@
 @use '../../../styles/common';
 
 .wrapper {
+    padding-top: 3px;
     border: 1px solid colors.$yellow;
+    height: 50px;
     .pieceImage {
         width: 18px;
         height: 18px;

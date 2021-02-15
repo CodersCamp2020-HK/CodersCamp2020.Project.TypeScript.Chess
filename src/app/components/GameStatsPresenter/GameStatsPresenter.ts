@@ -65,8 +65,8 @@ export class GameStatsPresenter implements IGameStatsPresenter {
         );
 
         quitButtonWrapper.classList.add(styles.quitButtonWrapper);
+        quitButtonWrapper.append(quitButton.button);
         const modalGameOver = new ModalGameOver(Side.White, 43, 245, 'time control', 'Ania', 'Mateusz', fun, fun);
-
 
         this.gameStatsWrapper.append(
             opponentScoreWrapper,

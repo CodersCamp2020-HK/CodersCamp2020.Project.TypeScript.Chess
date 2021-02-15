@@ -156,6 +156,7 @@ $board__size_mobile: 75vw;
   height: $board__size;
   margin-right: 8px;
   @extend %h4;
+  font-size: 18px;
   align-items: center;
 
   span {
@@ -168,6 +169,7 @@ $board__size_mobile: 75vw;
 }
 
 .horizontalAxi {
+  font-size: 18px;
   grid-area: horizontal;
   display: flex;
   flex-direction: row;
