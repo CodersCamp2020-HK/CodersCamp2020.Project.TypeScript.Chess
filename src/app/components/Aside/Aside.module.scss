@@ -12,6 +12,10 @@
   justify-content: center;
   align-items: center;
 
+  @media only screen and (max-width: common.$minimobileMax) {
+    // flex-direction: column;
+  }
+
   &.left {
     left: 0;
     transform: translateX(-100%);
@@ -19,11 +23,16 @@
 
     &.active {
       transform: translateX(0%);
-      
+
+      img {
+        transform: rotate(180deg);
+      }
+
       @media only screen and (max-width: common.$minimobileMax) {
         top: 35px;
       }
     }
+
     .btn {
       right: 0;
       top: 50%;
@@ -45,15 +54,24 @@
     &.active {
       transform: translateX(0%);
 
+      img {
+        transform: rotate(180deg);
+      }
+
       @media only screen and (max-width: common.$minimobileMax) {
         top: 35px;
       }
     }
+
     .btn {
       left: 0;
       top: 50%;
       transform: translateY(-50%) translateX(-50%) rotate(-90deg)
         translateY(-50%);
+
+      .img {
+        transform: rotate(180deg);
+      }
 
       @media only screen and (max-width: common.$minimobileMax) {
         top: 0%;
