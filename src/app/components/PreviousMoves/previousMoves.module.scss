@@ -12,6 +12,7 @@
 
 .listItem {
     @extend %p;
+    font-size:16px;
     color: colors.$yellow;
 }
 
