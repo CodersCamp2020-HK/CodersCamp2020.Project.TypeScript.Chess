@@ -173,7 +173,7 @@ $board__size_mobile: 75vw;
   grid-area: horizontal;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: flex-end;
   justify-content: space-around;
   color: colors.$red;
   width: $board__size;
