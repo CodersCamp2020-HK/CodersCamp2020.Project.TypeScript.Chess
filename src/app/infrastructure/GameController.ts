@@ -40,8 +40,10 @@ export class GameController {
     ) {
         this.currentTurn = Side.White;
         this.lastBoardState = [];
+
         this.chessboardInputDevice.onHover((cord) => this.handleOnHover(cord));
         this.chessboardInputDevice.onClick((cord) => this.handleOnClick(cord));
+
         this.gameStatsPresenter.createPreviousButtons(
             () => this.renderFirstBoard(),
             () => this.renderPreviousBoard(),

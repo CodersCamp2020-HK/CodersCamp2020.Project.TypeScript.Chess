@@ -10,6 +10,7 @@ import { GameStatsPresenter } from '../app/components/GameStatsPresenter/GameSta
 import { IGameStatsPresenter } from './domain/IGameStatsPresenter';
 import { sayText } from './components/PreviousMoves/sayText';
 import { PreviousMoves } from './components/PreviousMoves/previousMoves';
+
 import { MainMenu, StartGameParams } from './components/MainMenu/MainMenu';
 import { IChessBoardInputDevice, InputDeviceCallback } from './domain/IChessBoardInputDevice';
 
@@ -47,6 +48,7 @@ const App = (): void => {
     const mainMenu = new MainMenu((params) => {
         document.body.removeChild(mainMenu.element);
         startGame(params);
+
     });
     document.body.append(mainMenu.element);
 };
