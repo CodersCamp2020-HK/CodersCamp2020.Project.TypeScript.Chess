@@ -10,6 +10,7 @@ import { ModalPromotion } from '../game/modalPromotionPawn/ModalPromotion';
 import { PreviousMoves } from '../PreviousMoves/previousMoves';
 import { Timer } from '../timer/Timer';
 import { ModalQuit } from '../game/modalQuit/ModalQuit';
+import { StartGameParams } from '../MainMenu/MainMenu';
 
 export class GameStatsPresenter implements IGameStatsPresenter {
     private gameStatsWrapper: HTMLElement;
@@ -21,7 +22,10 @@ export class GameStatsPresenter implements IGameStatsPresenter {
     timerWhite: Timer;
     timerBlack: Timer;
     // private modalQuit = new ModalQuit(() => console.log('modal'));
-    constructor(gameTimeInSec: number, addedTimeInSec: number) {
+    constructor(startGameParams: StartGameParams, addedTimeInSec: number) {
+        const oponentName = startGameParams.playerName1;
+        const playerName = startGameParams.playerName2;
+        const gameTimeInSec = startGameParams.timePerPlayerSeconds;
         this.timerWhite = new Timer(gameTimeInSec, addedTimeInSec);
         this.timerWhite.element.classList.add(styles.timerPlayer);
         this.timerBlack = new Timer(gameTimeInSec, addedTimeInSec);
@@ -33,7 +37,7 @@ export class GameStatsPresenter implements IGameStatsPresenter {
         this.modalPromotionBlack = new ModalPromotion(Side.Black);
 
         const opponentScoreWrapper = document.createElement('div');
-        const opponentLabel = new Label('blue', 'Opponent');
+        const opponentLabel = new Label('blue', oponentName);
         this.opponentCapturedTable = new CapturedTable('opponent', []);
         opponentScoreWrapper.classList.add(styles.opponentScoreWrapper);
         opponentScoreWrapper.appendChild(opponentLabel.element);
@@ -42,7 +46,7 @@ export class GameStatsPresenter implements IGameStatsPresenter {
 
         const playerScoreWrapper = document.createElement('div');
         this.playerCapturedTable = new CapturedTable('player', []);
-        const playerLabel = new Label('red', 'Player');
+        const playerLabel = new Label('red', playerName);
         playerScoreWrapper.classList.add(styles.playerScoreWrapper);
         playerScoreWrapper.append(playerLabel.element);
         playerScoreWrapper.append(this.playerCapturedTable.element);
@@ -63,9 +67,7 @@ export class GameStatsPresenter implements IGameStatsPresenter {
             this.gameStatsWrapper.appendChild(modalQuit.element);
         });
 
-
         // quitButtonWrapper.append(previousMovesButtons.element, quitButton.button);
-
 
         // quitButtonWrapper.append(previousMovesButtons.element, quitButton.button);
 
