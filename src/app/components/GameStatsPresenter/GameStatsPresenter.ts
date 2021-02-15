@@ -120,8 +120,14 @@ export class GameStatsPresenter implements IGameStatsPresenter {
         modal.openModal();
     }
 
-    createPreviousButtons(fun: () => void): void {
-        const previousMovesButtons = new PreviousMovesButtons(fun, fun, fun, fun, fun);
+    createPreviousButtons(
+        onHomeCb: () => void,
+        onPreviousCb: () => void,
+        onClickCb: () => void,
+        onNextCb: () => void,
+        onEndCb: () => void,
+    ): void {
+        const previousMovesButtons = new PreviousMovesButtons(onHomeCb, onPreviousCb, onClickCb, onNextCb, onEndCb);
         this.gameStatsWrapper.appendChild(previousMovesButtons.element);
     }
 
