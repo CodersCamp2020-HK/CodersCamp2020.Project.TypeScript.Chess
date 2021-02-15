@@ -16,6 +16,7 @@ import { GameState } from './GameState';
 import { ChessBoardSquareDisplayType } from '../domain/IPresenter';
 import { convertMovesToDisplayType } from '../utils/ConvertMovesToDisplayType';
 import { ChessEngine } from './ChessEngine';
+import { IChessBoardInputDevice } from '../domain/IChessBoardInputDevice';
 import { IGameStatsPresenter } from '../domain/IGameStatsPresenter';
 import _ from 'lodash';
 import { StartGameParams } from '../components/MainMenu/MainMenu';
@@ -29,16 +30,20 @@ export class GameController {
     public chessEngine: IChessEngine = new ChessEngine();
     undoNumbersWhite = 0;
     undoNumbersBlack = 0;
+
     constructor(
         private params: StartGameParams,
         public chessboardPresenter: IChessBoardPresenter,
         public gameStatsPresenter: IGameStatsPresenter,
+        private chessboardInputDevice: IChessBoardInputDevice,
         private onEndGame: (score: Score) => void,
     ) {
         this.currentTurn = Side.White;
         this.lastBoardState = [];
-        chessboardPresenter.onHover((cord) => this.handleOnHover(cord));
-        chessboardPresenter.onClick((cord) => this.handleOnClick(cord));
+
+        this.chessboardInputDevice.onHover((cord) => this.handleOnHover(cord));
+        this.chessboardInputDevice.onClick((cord) => this.handleOnClick(cord));
+
         this.gameStatsPresenter.createPreviousButtons(
             () => this.renderFirstBoard(),
             () => this.renderPreviousBoard(),

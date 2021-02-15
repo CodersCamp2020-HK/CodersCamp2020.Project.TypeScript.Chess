@@ -12,3 +12,5 @@ export const rook: string;
 export const knight: string;
 export const queen: string;
 export const bishop: string;
+export const glitched: string;
+export const glitchedChessboard: string;

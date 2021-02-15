@@ -63,6 +63,10 @@ export class GameStatsPresenter implements IGameStatsPresenter {
             this.gameStatsWrapper.appendChild(modalQuit.element);
         });
 
+
+        // quitButtonWrapper.append(previousMovesButtons.element, quitButton.button);
+
+
         // quitButtonWrapper.append(previousMovesButtons.element, quitButton.button);
 
         this.gameStatsWrapper.append(
