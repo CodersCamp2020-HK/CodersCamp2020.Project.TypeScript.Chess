@@ -32,6 +32,7 @@ export class GameController {
     undoNumbersWhite = 0;
     undoNumbersBlack = 0;
     stockfish: AI;
+    isAI: boolean;
     constructor(
         private params: StartGameParams,
         public chessboardPresenter: IChessBoardPresenter,
@@ -42,6 +43,7 @@ export class GameController {
         this.stockfish = new AI(10);
         this.currentTurn = Side.White;
         this.lastBoardState = [];
+        this.isAI = params.playWith === 'computer';
 
         this.chessboardInputDevice.onHover((cord) => this.handleOnHover(cord));
         this.chessboardInputDevice.onClick((cord) => this.handleOnClick(cord));
@@ -187,7 +189,7 @@ export class GameController {
         this.currentSelectedPiece = null;
 
         // STOCKFISH
-        if (this.currentTurn === Side.Black) {
+        if (this.currentTurn === Side.Black && this.isAI) {
             this.stockfish.getMove({ x: lastPiece.cord.x, y: lastPiece.cord.y }, { x, y }).then((aiMove) => {
                 let piece = this.chessboardState.getPiece({ x: aiMove.from.x, y: aiMove.from.y });
                 if (!piece) throw new Error('Stockfish pijany!');
@@ -232,22 +234,24 @@ export class GameController {
     }
 
     handleOnHover(cord: Cord): void {
-        if (this.currentSelectedPiece) {
-            if (this.hasMove(cord)) {
-                this.rerenderCurrentSelectedPiece();
-                this.chessboardPresenter.markFields(
-                    [{ ...cord, display: ChessBoardSquareDisplayType.Move }],
-                    this.currentTurn,
-                );
-            }
-        } else {
-            const piece = this.chessboardState.getPiece(cord);
-            if (piece && piece.side === this.currentTurn) {
-                this.chessboardPresenter.clearMarkedFields();
-                const moves = this.getPossibleMoves(piece);
-                this.chessboardPresenter.markFields(convertMovesToDisplayType(moves), this.currentTurn);
+        if (!this.isAI) {
+            if (this.currentSelectedPiece) {
+                if (this.hasMove(cord)) {
+                    this.rerenderCurrentSelectedPiece();
+                    this.chessboardPresenter.markFields(
+                        [{ ...cord, display: ChessBoardSquareDisplayType.Move }],
+                        this.currentTurn,
+                    );
+                }
             } else {
-                this.chessboardPresenter.clearMarkedFields();
+                const piece = this.chessboardState.getPiece(cord);
+                if (piece && piece.side === this.currentTurn) {
+                    this.chessboardPresenter.clearMarkedFields();
+                    const moves = this.getPossibleMoves(piece);
+                    this.chessboardPresenter.markFields(convertMovesToDisplayType(moves), this.currentTurn);
+                } else {
+                    this.chessboardPresenter.clearMarkedFields();
+                }
             }
         }
     }
@@ -296,16 +300,17 @@ export class GameController {
                 }
             }
         }
-
-        if (this.currentSelectedPiece === piece) {
-            this.chessboardPresenter.clearMarkedFields();
-            this.currentSelectedPiece = null;
-        } else if (piece && piece.side === this.currentTurn) {
-            this.currentSelectedPiece = piece;
-            this.rerenderCurrentSelectedPiece();
-        } else {
-            this.chessboardPresenter.clearMarkedFields();
-            this.currentSelectedPiece = null;
+        if (!this.isAI) {
+            if (this.currentSelectedPiece === piece) {
+                this.chessboardPresenter.clearMarkedFields();
+                this.currentSelectedPiece = null;
+            } else if (piece && piece.side === this.currentTurn) {
+                this.currentSelectedPiece = piece;
+                this.rerenderCurrentSelectedPiece();
+            } else {
+                this.chessboardPresenter.clearMarkedFields();
+                this.currentSelectedPiece = null;
+            }
         }
     }
 
