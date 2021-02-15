@@ -177,13 +177,15 @@ export class GameController {
             }
         }
 
+        const enemy = this.currentTurn === Side.White ? Side.Black : Side.White;
         if (this.chessEngine.isCheckmate(this.chessboardState, this.currentTurn, this.lastBoardState)) {
-            this.endGame(this.currentTurn, 'Mat', this.params.playerName1, this.params.playerName2);
+            this.endGame(enemy, 'Mat', this.params.playerName1, this.params.playerName2);
         } else if (this.chessEngine.isStealemate(this.chessboardState, this.currentTurn, this.lastBoardState)) {
-            this.endGame(this.currentTurn, 'Pat', this.params.playerName1, this.params.playerName2);
+            this.endGame(enemy, 'Pat', this.params.playerName1, this.params.playerName2);
         }
         if (this.chessEngine.isCheck(this.chessboardState, this.currentTurn, this.lastBoardState)) {
-            console.log('Szach');
+            this.chessboardPresenter.setDangerColor();
+            this.chessboardPresenter.unsetDangerColor();
         }
         this.chessboardPresenter.clearMarkedFields();
         this.currentSelectedPiece = null;
@@ -234,7 +236,7 @@ export class GameController {
     }
 
     handleOnHover(cord: Cord): void {
-        if (!this.isAI) {
+        if (!(this.currentTurn === Side.Black && this.isAI)) {
             if (this.currentSelectedPiece) {
                 if (this.hasMove(cord)) {
                     this.rerenderCurrentSelectedPiece();
@@ -300,7 +302,7 @@ export class GameController {
                 }
             }
         }
-        if (!this.isAI) {
+        if (!(this.currentTurn === Side.Black && this.isAI)) {
             if (this.currentSelectedPiece === piece) {
                 this.chessboardPresenter.clearMarkedFields();
                 this.currentSelectedPiece = null;
@@ -315,15 +317,17 @@ export class GameController {
     }
 
     private rerenderCurrentSelectedPiece(): void {
-        if (this.currentSelectedPiece) {
-            const piece = this.currentSelectedPiece;
-            this.chessboardPresenter.clearMarkedFields();
-            const moves = this.getPossibleMoves();
-            this.chessboardPresenter.markFields(convertMovesToDisplayType(moves), piece.side);
-            this.chessboardPresenter.markFields(
-                [{ ...piece.cord, display: ChessBoardSquareDisplayType.Selected }],
-                piece.side,
-            );
+        if (!(this.currentTurn === Side.Black && this.isAI)) {
+            if (this.currentSelectedPiece) {
+                const piece = this.currentSelectedPiece;
+                this.chessboardPresenter.clearMarkedFields();
+                const moves = this.getPossibleMoves();
+                this.chessboardPresenter.markFields(convertMovesToDisplayType(moves), piece.side);
+                this.chessboardPresenter.markFields(
+                    [{ ...piece.cord, display: ChessBoardSquareDisplayType.Selected }],
+                    piece.side,
+                );
+            }
         }
     }
 }
