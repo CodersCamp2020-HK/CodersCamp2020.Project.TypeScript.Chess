@@ -17,6 +17,9 @@
     height: 25px;
     margin-bottom: 5px;
 }
+.radioGroup {
+    display: flex;
+}
 
 .radio:not(:checked):hover {
    cursor: pointer;

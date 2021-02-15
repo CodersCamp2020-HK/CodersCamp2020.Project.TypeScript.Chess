@@ -135,6 +135,9 @@ export class Input {
     get errors(): InputError[] {
         return this._errors;
     }
+    get element(): HTMLInputElement {
+        return this._element;
+    }
 
     get errorsElement(): HTMLDivElement {
         return this._errorsElement;

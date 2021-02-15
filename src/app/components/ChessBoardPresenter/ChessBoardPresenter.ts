@@ -1,4 +1,4 @@
-import { ChessBoardView, IChessBoard } from '../../domain/IChessBoard';
+import { ChessBoardView } from '../../domain/IChessBoard';
 import {
     IChessBoardPresenter,
     ReadonlyMovesWithDisplayType,
