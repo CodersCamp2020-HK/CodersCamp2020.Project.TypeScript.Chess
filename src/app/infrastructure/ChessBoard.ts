@@ -33,12 +33,12 @@ export class ChessBoard implements IChessBoard {
         if (moveTo.y - piece.cord.y > 0) {
             const rook = piece.side === Side.White ? this.getPiece({ x: 7, y: 7 }) : this.getPiece({ x: 0, y: 7 });
             if (rook) {
-                this.makeMove(rook, { x: 7, y: moveTo.y - 1 } as Cord);
+                this.makeMove(rook, { x: rook.cord.x, y: moveTo.y - 1 } as Cord);
             }
         } else {
             const rook = piece.side === Side.White ? this.getPiece({ x: 7, y: 0 }) : this.getPiece({ x: 0, y: 0 });
             if (rook) {
-                this.makeMove(rook, { x: 7, y: moveTo.y + 1 } as Cord);
+                this.makeMove(rook, { x: rook.cord.x, y: moveTo.y + 1 } as Cord);
             }
         }
         this.makeMove(piece, moveTo);
