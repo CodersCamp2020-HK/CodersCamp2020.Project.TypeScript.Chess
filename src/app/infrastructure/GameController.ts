@@ -37,7 +37,12 @@ export class GameController {
         this.lastBoardState = [];
         chessboardPresenter.onHover((cord) => this.handleOnHover(cord));
         chessboardPresenter.onClick((cord) => this.handleOnClick(cord));
-        this.gameStatsPresenter.createPreviousButtons(() => this.renderPreviousBoard());
+        this.gameStatsPresenter.createPreviousButtons(
+            () => this.renderFirstBoard(),
+            () => this.renderPreviousBoard(),
+            () => this.renderNextBoard(),
+            () => this.renderLastBoard(),
+        );
     }
 
     private hasMove(cord: Cord): boolean {
@@ -48,18 +53,31 @@ export class GameController {
         return false;
     }
 
+    private renderFirstBoard(): void {
+        if (this.currentTurn === Side.White) {
+            this.undoNumbersWhite = 0;
+            this.chessboardPresenter.render(this.gameState.previousBoards[this.undoNumbersWhite]);
+        }
+    }
+
     private renderPreviousBoard(): void {
         if (this.undoNumbersWhite > 0 && this.currentTurn === Side.White) {
-            // RENDER
             this.undoNumbersWhite--;
-            this.chessboardPresenter.render(this.gameState.previousMovesSide.white[this.undoNumbersWhite]);
-            this.gameStatsPresenter.updatePreviousMoves(this.gameState.previousMoves.slice(0, this.undoNumbersWhite));
+            this.chessboardPresenter.render(this.gameState.previousBoards[this.undoNumbersWhite]);
+        }
+    }
 
-            // UPDATE
-            this.gameState.__previousMoves = this.gameState.previousMoves.slice(0, this.undoNumbersWhite);
-            this.chessboardState = ChessBoard.createNewBoard(
-                this.gameState.previousMovesSide.white[this.undoNumbersWhite],
-            );
+    private renderNextBoard(): void {
+        if (this.undoNumbersWhite < this.gameState.previousBoards.length - 1 && this.currentTurn === Side.White) {
+            this.undoNumbersWhite++;
+            this.chessboardPresenter.render(this.gameState.previousBoards[this.undoNumbersWhite]);
+        }
+    }
+
+    private renderLastBoard(): void {
+        if (this.currentTurn === Side.White) {
+            this.undoNumbersWhite = this.gameState.previousBoards.length - 1;
+            this.chessboardPresenter.render(this.gameState.previousBoards[this.undoNumbersWhite]);
         }
     }
 
@@ -126,8 +144,7 @@ export class GameController {
             );
         }
         this.gameStatsPresenter.updatePreviousMoves(this.gameState.previousMoves);
-
-        this.gameState.updateCapturedPieces(this.chessboardState, this.currentTurn);
+        this.gameState.updateCapturedPieces(this.chessboardState.board, this.currentTurn);
         this.gameStatsPresenter.updateCaptureTable(this.gameState.capturedPieces);
 
         if (this.gameState.previousBoards.length === 1) {
@@ -191,13 +208,8 @@ export class GameController {
             if (filteredMoves.length > 0) {
                 const { x, y, moveType } = filteredMoves[0];
                 if (cord.x === x && cord.y === y) {
-                    this.gameState.updatePreviousBoards(this.chessboardState.board, this.currentTurn);
-                    this.undoNumbersWhite = this.gameState.previousMovesSide.white.length;
-                    this.undoNumbersBlack = this.gameState.previousMovesSide.black.length;
                     this.lastBoardState = this.gameState.previousBoards[this.gameState.previousBoards.length - 1];
                     const lastPiece = _.cloneDeep(this.currentSelectedPiece);
-
-                    console.log(MoveType[moveType]);
 
                     if (moveType === MoveType.EnPassant) {
                         this.chessboardState.makeEnPassant(this.currentSelectedPiece, cord);
@@ -206,9 +218,10 @@ export class GameController {
                     } else {
                         this.chessboardState.makeMove(this.currentSelectedPiece, cord);
                     }
-                    // moveType === MoveType.EnPassant
-                    //     ? this.chessboardState.makeEnPassant(this.currentSelectedPiece, cord)
-                    //     : this.chessboardState.makeMove(this.currentSelectedPiece, cord);
+
+                    this.gameState.updatePreviousBoards(this.chessboardState.board);
+                    this.undoNumbersWhite = this.gameState.previousBoards.length - 1;
+                    this.undoNumbersWhite = this.gameState.previousBoards.length - 1;
 
                     if (
                         (cord.x === 0 && this.currentSelectedPiece.figType === PieceType.Pawn) ||
