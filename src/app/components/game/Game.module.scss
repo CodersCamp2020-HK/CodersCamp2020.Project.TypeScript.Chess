@@ -1,4 +1,5 @@
 @use '../../../styles/common';
+@use '../../../styles/colors';
 
 * {
   margin: 0;
@@ -16,6 +17,25 @@
   z-index: 1;
 }
 
+@keyframes dangerAnimation {
+  0% {
+    border-color: colors.$yellow;
+  }
+  60% {
+    border-color: colors.$dark-red;
+  }
+  100% {
+    border-color: colors.$yellow;
+  }
+}
+
+.danger {
+  border-color: colors.$dark-red;
+  animation-duration: 2s;
+  animation-name: dangerAnimation;
+  animation-iteration-count: infinite;
+}
+
 .container::after {
   @extend %background-photo-after;
   z-index: 0;
@@ -23,7 +43,8 @@
 
 .wrapper {
   z-index: 1;
-  padding: 20px;
+  padding-top: 25px;
+  padding-bottom: 5px;
   margin: auto;
   display: grid;
   grid-template-columns: repeat(2, auto);

@@ -25,4 +25,6 @@ export interface IChessBoardPresenter {
     render(chessBoard: ChessBoardView): void;
     markFields(fields: ReadonlyMovesWithDisplayType, side: Side): void;
     clearMarkedFields(fields?: readonly Readonly<Cord>[]): void;
+    setDangerColor(): void;
+    unsetDangerColor(): void;
 }
