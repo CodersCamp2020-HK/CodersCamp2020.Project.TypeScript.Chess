@@ -1,3 +1,5 @@
+@use '../../../styles/colors';
+
 $board__size: calc(90vh - 110px - 40px - 30px);
 
 .wrapperGameStats {
@@ -7,16 +9,24 @@ $board__size: calc(90vh - 110px - 40px - 30px);
     .opponentScoreWrapper{
         margin-bottom: 1vh;
 
-        >  :last-child{
+        >  :last-child,:nth-last-child(2){
             margin-top: 1vh;
+        }
+
+        .timerOpponent{
+            border: 1px solid colors.$blue;
         }
     }
 
     .playerScoreWrapper{
         margin-bottom: 1vh;
 
-        >  :last-child{
+        >  :last-child, :nth-last-child(2){
             margin-top: 1vh;
+        }
+
+        .timerPlayer{
+            border: 1px solid colors.$red;
         }
     }
 
