@@ -1,4 +1,3 @@
-
 export const glitched: string;
 export const glitchedChessboard: string;
 export const label: string;
