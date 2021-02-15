@@ -7,9 +7,11 @@
    @extend %h4;
    font-size: 18px;
 
-   &.red{
-      color:colors.$red;
-      @extend %shadow-red-text;
+  &.red {
+    color: colors.$red;
+    @extend %shadow-red-text;
+    animation: glitched 15000ms infinite ease-in-out;
+    animation-delay:15s;
 
       .line{
          display:block;
@@ -19,9 +21,11 @@
          background-color:colors.$red;}
    }
 
-   &.yellow{
-      color:colors.$yellow;
-      @extend %shadow-yellow-text;
+  &.yellow {
+    color: colors.$yellow;
+    @extend %shadow-yellow-text;
+    animation: glitched 15000ms infinite ease-in-out;
+    animation-delay:15s;
 
       .line{
          display:block;
@@ -44,3 +48,12 @@
    }
 }
 
+    .line {
+      display: block;
+      width: 100%;
+      height: 8px;
+      clip-path: polygon(100% 0%, 0% 0%, 0% 8px, 80px 8px, 90px 2px, 100% 2px);
+      background-color: colors.$blue;
+    }
+  }
+}

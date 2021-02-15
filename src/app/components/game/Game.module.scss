@@ -1,4 +1,5 @@
 @use '../../../styles/common';
+@use '../../../styles/colors';
 
 * {
   margin: 0;
@@ -14,6 +15,25 @@
   flex-direction: column;
   color: #fbec09;
   z-index: 1;
+}
+
+@keyframes dangerAnimation {
+  0% {
+    border-color: colors.$yellow;
+  }
+  60% {
+    border-color: colors.$dark-red;
+  }
+  100% {
+    border-color: colors.$yellow;
+  }
+}
+
+.danger {
+  border-color: colors.$dark-red;
+  animation-duration: 2s;
+  animation-name: dangerAnimation;
+  animation-iteration-count: infinite;
 }
 
 .container::after {
