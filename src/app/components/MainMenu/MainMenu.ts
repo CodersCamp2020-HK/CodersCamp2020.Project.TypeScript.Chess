@@ -8,6 +8,12 @@ import { Label } from '../genericLabel/Label';
 import { Radios, Data } from '../radios/radiosComponent';
 import { Input } from '../Input/input';
 import { create, toArray } from 'lodash';
+import { IGameStatsPresenter } from '../../domain/IGameStatsPresenter';
+import { IChessBoardPresenter } from '../../domain/IPresenter';
+import { GameController } from '../../infrastructure/GameController';
+import { ChessBoardPresenter } from '../ChessBoardPresenter/ChessBoardPresenter';
+import { Game } from '../game/Game';
+import { GameStatsPresenter } from '../GameStatsPresenter/GameStatsPresenter';
 
 export interface StartGameParams {
     playWith: 'computer' | 'user';
@@ -56,6 +62,15 @@ export class MainMenu {
             } as StartGameParams;
             onStart(params);
             console.log(params);
+
+            const gameStatsPresenter: IGameStatsPresenter = new GameStatsPresenter(10, 0);
+            const presenter: IChessBoardPresenter = new ChessBoardPresenter();
+            const gameController = new GameController(params, presenter, gameStatsPresenter, (score) =>
+                console.log(score),
+            );
+            const game = new Game(presenter.element, gameStatsPresenter.element);
+            document.body.innerHTML = '';
+            document.body.append(game.element);
             event.preventDefault();
         });
 
