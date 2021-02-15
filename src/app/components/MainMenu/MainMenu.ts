@@ -61,16 +61,6 @@ export class MainMenu {
                 playerName2: data.get('input2'),
             } as StartGameParams;
             onStart(params);
-            console.log(params);
-
-            const gameStatsPresenter: IGameStatsPresenter = new GameStatsPresenter(10, 0);
-            const presenter: IChessBoardPresenter = new ChessBoardPresenter();
-            const gameController = new GameController(params, presenter, gameStatsPresenter, (score) =>
-                console.log(score),
-            );
-            const game = new Game(presenter.element, gameStatsPresenter.element);
-            document.body.innerHTML = '';
-            document.body.append(game.element);
             event.preventDefault();
         });
 
