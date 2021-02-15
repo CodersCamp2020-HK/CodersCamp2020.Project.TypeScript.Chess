@@ -19,11 +19,8 @@ import { ChessEngine } from './ChessEngine';
 import { IChessBoardInputDevice } from '../domain/IChessBoardInputDevice';
 import { IGameStatsPresenter } from '../domain/IGameStatsPresenter';
 import _ from 'lodash';
-<<<<<<< HEAD
 import { AI } from './AI';
-=======
 import { StartGameParams } from '../components/MainMenu/MainMenu';
->>>>>>> master
 
 export class GameController {
     private currentTurn: Side;
@@ -34,11 +31,7 @@ export class GameController {
     public chessEngine: IChessEngine = new ChessEngine();
     undoNumbersWhite = 0;
     undoNumbersBlack = 0;
-<<<<<<< HEAD
     stockfish: AI;
-=======
-
->>>>>>> master
     constructor(
         private params: StartGameParams,
         public chessboardPresenter: IChessBoardPresenter,
