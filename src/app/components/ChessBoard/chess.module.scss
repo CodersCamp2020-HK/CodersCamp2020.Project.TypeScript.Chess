@@ -81,6 +81,7 @@
 }
 
 $board__size: calc(90vh - 110px - 40px - 30px);
+$board__size_mobile: 75vw;
 
 .boardWrapper {
   display: grid;
@@ -89,8 +90,11 @@ $board__size: calc(90vh - 110px - 40px - 30px);
     ". horizontal";
   grid-template-columns: 1fr $board__size;
   grid-template-rows: $board__size 1fr;
-
   user-select: none;
+  @media only screen and (max-width: common.$mobileMax) {
+    grid-template-columns: 1fr $board__size_mobile;
+    grid-template-rows: $board__size_mobile 1fr;
+  }
 }
 
 .board {
@@ -104,6 +108,11 @@ $board__size: calc(90vh - 110px - 40px - 30px);
   box-sizing: border-box;
   justify-items: center;
   align-items: center;
+
+  @media only screen and (max-width: common.$mobileMax) {
+    min-width: 100%;
+    min-height: 100%;
+  }
 }
 
 .tile {
@@ -152,6 +161,10 @@ $board__size: calc(90vh - 110px - 40px - 30px);
   span {
     @extend %shadow-blue-text;
   }
+
+  @media only screen and (max-width: common.$mobileMax) {
+   height: $board__size_mobile;
+  }
 }
 
 .horizontalAxi {
@@ -167,6 +180,10 @@ $board__size: calc(90vh - 110px - 40px - 30px);
   span {
     @extend %shadow-red-text;
   }
+
+  @media only screen and (max-width: common.$mobileMax) {
+    width: $board__size_mobile;
+   }
 }
 
 .player {
