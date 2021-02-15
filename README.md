@@ -1,5 +1,7 @@
 # Coders Camp 2020 | Projekt Zespołowy | TypeScript
 
+![CyperpunkChessLogo](https://user-images.githubusercontent.com/56504859/107998538-ab799d00-6fe5-11eb-836b-cc4d7ff870c4.PNG)
+
 ## Zespół projektowy
 
 Zespół pracował w ramach kursu [CodersCamp](https://coderscamp.pl/).
@@ -58,7 +60,7 @@ Ostatnia opcja to podanie nazw graczy. Możliwe opcje do wyboru:
 
 ##### Zasady gry
 
-Zasady gry wyświetlane są w formie modalu z lewej stronie po naciśnięciu przycisku RULES na ekranie menu głownego jak i również można podejrzeć je w trakcie rozgrywki.
+Zasady gry wyświetlane są w formie modalu z lewej strony po naciśnięciu przycisku RULES na ekranie menu głownego jak i również można podejrzeć je w trakcie rozgrywki.
 
 ##### Informacje
 
@@ -66,7 +68,21 @@ Użytkowik w dowolnym momencie jest w stanie podejrzeć informacje dotyczące pr
 
 #### Rozgrywka — Quiz
 
-Rozgrywa się ją na planszy nazywanej szachownicą. Szachownica składa się z 64 pól, na przemian białych i czarnych. Pola w pionie opisane są za pomocą cyfr od 1 do 8, natomiast pola w poziomie za pomocą liter od A do H. Opis alfanumeryczny pozwala na określenie współrzędnych każdej figury na szachownicy. Na szachownicy rozstawia się 32 bierki (sześciu rodzajów, w tym po 8 pionów i 8 figur, łącznie 16 dla każdego z graczy). Celem gry jest danie mata, tzn. zagrożenie królowi przeciwnika usunięciem z dalszej rozgrywki („zbiciem”). Gra może zakończyć się na dwa sposoby. Król jednego z graczy zostanie wyeliminowany bądź skończy się czas rozgrywki. 
+Rozgrywa się ją na planszy nazywanej szachownicą. Szachownica składa się z 64 pól, na przemian białych i czarnych. Pola w pionie opisane są za pomocą cyfr od 1 do 8, natomiast pola w poziomie za pomocą liter od A do H. Opis alfanumeryczny pozwala na określenie współrzędnych każdej figury na szachownicy. Na szachownicy rozstawia się 32 bierki (w sześciu rodzajach, w tym po 8 pionów i 8 figur, łącznie 16 dla każdego z graczy). Celem gry jest danie mata, tzn. zagrożenie królowi przeciwnika usunięciem z dalszej rozgrywki („zbiciem”). Gra może zakończyć się na dwa sposoby. Król jednego z graczy zostanie wyeliminowany bądź skończy się czas rozgrywki. 
+
+#### Sterowanie
+
+<span align="center">
+  <img src="https://user-images.githubusercontent.com/56504859/107998937-791c6f80-6fe6-11eb-8778-0403e2c95aea.PNG">
+</span>
+<span> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp </span> 
+<span align="center">
+  <img src="https://user-images.githubusercontent.com/56504859/107998982-9e10e280-6fe6-11eb-91ea-9a2c45d5bd50.PNG">
+</span>
+
+#### Sterowanie głosem
+
+Aplikacja umożliwia sterowanie pionkami w języku polskim. W celu wykonania ruchu wywołujemy głosowo pole na jakim znajduje się pionek. Następnie wyświelane zostają możliwe ruchy wybranym pionkiem, a następnie podajemy pole na jakim ma stanąć pionek
 
 ### Zmiany wprowadzone w wymaganiach
 
@@ -77,6 +93,9 @@ Lekkim wizualnym zmianom uległ projekt dostarczony przez grafika.
 Nasz zespół zrealizował także zadania dodatkowe, wykraczające poza zakres kursu
 
 1. Utowrzony został szablon graficzny aplikacji w programie Figma.
+
+2. Wykorzystaliśmy Web Speech API w celu umożliwieniu gry za pomocą głosem.
+
 
 ## Development aplikacji
 
@@ -93,6 +112,7 @@ W trakcie developmentu wykorzystujemy:
 Pozostałe narzędzia wspomagające pracę:
 
 -   Lodash do pracy z tablicami/obiektami
+-   Web speech API (SpeechRecognition, SpeechSynthesis)
 
 
 ### Uruchomienie projektu
@@ -112,7 +132,7 @@ Dodając swoje 5 groszy do naszej aplikacji, pamiętaj o pokryciu kodu testami.
 Aby uruchomić testy aplikacji, wykonaj następujące kroki:
 
 1. Zainstaluj zależności za pomocą komendy: `npm install` (jeśli nie zrobiłeś już tego wcześniej).
-1. Uruchom testy, wykonując komendę: `npm run test`. Testy z raportem pokrycia uruchomisz za pomocą: `npm run test:cov`.
+2. Uruchom testy, wykonując komendę: `npm run test`. Testy z raportem pokrycia uruchomisz za pomocą: `npm run test:cov`.
 
 Kod testów umieszczamy w katalogu `test`.
 
