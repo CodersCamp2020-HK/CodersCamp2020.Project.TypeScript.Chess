@@ -8,6 +8,7 @@ import {
 } from '../../domain/IPresenter';
 import { ChessBoardComponent } from '../ChessBoard/ChessBoardComponent';
 import styles from '../game/Game.module.scss';
+import asideStyles from '../Aside/Aside.module.scss';
 import boardStyles from '../ChessBoard/chess.module.scss';
 import { piecesArray } from '../PiecesElements/piecesElements';
 import { Cord, allBoardCords } from '../../domain/basicChessTypes';
@@ -149,10 +150,22 @@ export class ChessBoardPresenter implements IChessBoardPresenter {
     }
 
     setDangerColor(): void {
-        const bord = document.body.querySelector('.' + styles.container) as HTMLElement;
-        if (bord) {
-            bord.classList.add(styles.danger);
+        const gameBorder = document.body.querySelector('.' + styles.container) as HTMLElement;
+        if (gameBorder) {
+            gameBorder.classList.add(styles.danger);
         }
+
+        const asides = document.querySelectorAll('.' + asideStyles.wrapper);
+
+        asides.forEach(aside => {
+            aside.classList.add(asideStyles.danger);
+        });
+
+        const buttons = document.querySelectorAll('.' + asideStyles.btn);
+
+        buttons.forEach(button => {
+            button.classList.add(asideStyles.danger);
+        });
     }
 
     unsetDangerColor(): void {
@@ -160,6 +173,18 @@ export class ChessBoardPresenter implements IChessBoardPresenter {
         if (bord) {
             bord.classList.remove(styles.danger);
         }
+
+        const asides = document.querySelectorAll('.' + asideStyles.wrapper);
+
+        asides.forEach(aside => {
+            aside.classList.remove(asideStyles.danger);
+        });
+
+        const buttons = document.querySelectorAll('.' + asideStyles.btn);
+
+        buttons.forEach(button => {
+            button.classList.remove(asideStyles.danger);
+        });
     }
 
     get element(): HTMLElement {

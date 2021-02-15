@@ -1,6 +1,18 @@
 @use '../../../styles/colors';
 @use '../../../styles/typography';
 
+@keyframes dangerAnimation2 {
+    0% {
+      background-color: colors.$yellow;
+    }
+    60% {
+        background-color: colors.$dark-red;
+    }
+    100% {
+        background-color: colors.$yellow;
+    }
+  }
+
 .wrapper {
     background-color: colors.$yellow;
     z-index: 3;
@@ -56,3 +68,15 @@
         padding: 4px;
     }
 }
+
+
+  
+
+.danger {
+    background-color: colors.$dark-red;
+    animation-duration: 2s;
+    animation-name: dangerAnimation2;
+    animation-iteration-count: infinite;
+}
+
+
