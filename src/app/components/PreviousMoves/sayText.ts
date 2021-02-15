@@ -9,5 +9,7 @@ export function sayText(textToSay: string): void {
         console.log('Finished in ' + event.elapsedTime + ' seconds.');
     };
 
+    speechSynthesis.cancel();
+
     speechSynthesis.speak(person);
 }
