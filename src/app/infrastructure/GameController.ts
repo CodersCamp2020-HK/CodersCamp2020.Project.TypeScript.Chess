@@ -180,6 +180,7 @@ export class GameController {
         this.chessboardPresenter.clearMarkedFields();
         this.currentSelectedPiece = null;
 
+        // STOCKFISH
         if (this.currentTurn === Side.Black) {
             this.stockfish.getMove({ x: lastPiece.cord.x, y: lastPiece.cord.y }, { x, y }).then((aiMove) => {
                 let piece = this.chessboardState.getPiece({ x: aiMove.from.x, y: aiMove.from.y });
