@@ -173,7 +173,11 @@ export function getPossibleMovesForPawn(
     const moveDirection = pieceSide === Side.White ? MoveDirection.UP : MoveDirection.DOWN;
 
     const singleMoveResult = possibleNormalMoves(cord, moveDirection, currentBoardComponent.board);
-    const doubleMoveResult = isMoved ? [] : possibleNormalMoves(cord, moveDirection * 2, currentBoardComponent.board);
+    const doubleMoveResult = isMoved
+        ? []
+        : possibleNormalMoves(cord, moveDirection, currentBoardComponent.board).length > 0
+        ? possibleNormalMoves(cord, moveDirection * 2, currentBoardComponent.board)
+        : [];
     const captureResult = possibleCaptureMoves(cord, moveDirection, currentBoardComponent.board);
 
     const enPassantMoveResult =

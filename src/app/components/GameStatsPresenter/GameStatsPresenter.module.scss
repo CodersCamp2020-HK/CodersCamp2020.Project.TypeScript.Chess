@@ -1,0 +1,45 @@
+@use '../../../styles/colors';
+
+$board__size: calc(90vh - 110px - 40px - 30px);
+
+.wrapperGameStats {
+    grid-area: gamestats;
+    min-width: 20vw;
+
+    .opponentScoreWrapper{
+        margin-bottom: 1vh;
+
+        >  :last-child,:nth-last-child(2){
+            margin-top: 1vh;
+        }
+
+        .timerOpponent{
+            border: 1px solid colors.$blue;
+        }
+    }
+
+    .playerScoreWrapper{
+        margin-bottom: 1vh;
+
+        >  :last-child, :nth-last-child(2){
+            margin-top: 1vh;
+        }
+
+        .timerPlayer{
+            border: 1px solid colors.$red;
+        }
+    }
+
+    .previousMovesWrapper{
+        margin-bottom: 1vh;
+
+        >  :last-child{
+            margin-top: 1vh;
+        }
+    }
+
+    .quitButtonWrapper{
+        margin-bottom: 1vh;
+
+    }
+}

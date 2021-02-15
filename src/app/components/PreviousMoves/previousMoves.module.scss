@@ -1,0 +1,25 @@
+@use '../../../styles/colors';
+@use '../../../styles/typography';
+@use '../../../styles/common';
+
+.wrapper {
+    border: 1px solid colors.$yellow;
+    .pieceImage {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+.listItem {
+    @extend %p;
+    font-size:16px;
+    color: colors.$yellow;
+}
+
+.player {
+    color: colors.$red;
+}
+
+.opponent {
+    color: colors.$blue;
+}

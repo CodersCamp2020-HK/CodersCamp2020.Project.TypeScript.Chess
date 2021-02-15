@@ -12,7 +12,7 @@ export class PreviousMovesButtons {
     constructor(
         onHomeCb: () => void,
         onPreviousCb: () => void,
-        onClickCb: () => void,
+        // onClickCb: () => void,
         onNextCb: () => void,
         onEndCb: () => void,
     ) {
@@ -27,9 +27,9 @@ export class PreviousMovesButtons {
         previousButton.button.innerHTML = `<img src="${previoussvg}"></img>`;
         previousButton.button.classList.add(styles.previousButton, styles.functionalButton);
 
-        const playButton = new Button(playsvg, () => onClickCb());
-        playButton.button.innerHTML = `<img src="${playsvg}"></img>`;
-        playButton.button.classList.add(styles.playButton, styles.functionalButton);
+        // const playButton = new Button(playsvg, () => onClickCb());
+        // playButton.button.innerHTML = `<img src="${playsvg}"></img>`;
+        // playButton.button.classList.add(styles.playButton, styles.functionalButton);
 
         const nextButton = new Button(nextsvg, () => onNextCb());
         nextButton.button.innerHTML = `<img src="${nextsvg}"></img>`;
@@ -42,7 +42,7 @@ export class PreviousMovesButtons {
         this.__element.append(
             homeButton.button,
             previousButton.button,
-            playButton.button,
+            // playButton.button,
             nextButton.button,
             endButton.button,
         );

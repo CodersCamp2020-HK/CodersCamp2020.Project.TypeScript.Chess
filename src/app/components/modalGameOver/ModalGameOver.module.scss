@@ -1,0 +1,90 @@
+@use '../../../styles/colors';
+@use '../../../styles/common';
+@use '../../../styles/typography';
+
+.modalInvisible {
+  display: none;
+}
+
+.modal {
+  background-color: rgba(colors.$black, 0.8);
+  width: 100vw;
+  height: 100vh;
+  z-index: 3;
+  left: 0;
+  top: 0;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .modalWrapper {
+    background-color: colors.$black;
+    @extend %border-modal;
+    padding: 3vw;
+    max-width: 600px;
+    max-height: 500px;
+
+    .labelHeader {
+      @extend %h1;
+      margin-bottom:35px;
+    }
+
+    &.wrapperPlayer {
+      @extend %shadow-red-2;
+      border-color: colors.$red;
+    }
+
+    &.wrapperOpponent {
+      border-color: colors.$blue;
+      @extend %shadow-blue-2;
+    }
+
+    .tableScore {
+      border: 2px solid colors.$yellow;
+      @extend %h3;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      color: colors.$red;
+      margin-bottom: 35px;
+
+      .playerTxt {
+        color: colors.$red;
+        @extend %shadow-red-text;
+      }
+      .score {
+        @extend %h2;
+        @extend %shadow-red-text;
+        :first-child {
+          color: colors.$yellow;
+          @extend %shadow-yellow-text;
+        }
+        :last-child {
+          color: colors.$blue;
+          @extend %shadow-blue-text;
+        }
+      }
+      .opponentTxt {
+        color: colors.$blue;
+        @extend %shadow-blue-text;
+      }
+    }
+
+    .label{
+      margin-top: 15px;
+    }
+
+    .buttonWrapper{
+      display: flex;
+      margin-top: 35px; 
+
+      :first-child{
+        margin-right: 5px;
+      }
+      :last-child{
+        margin-left: 5px;
+      }
+    }
+  }
+}

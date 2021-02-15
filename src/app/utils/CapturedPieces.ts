@@ -1,9 +1,9 @@
-import { PieceType, Side } from '../domain/basicChessTypes';
-import { IChessBoard } from '../domain/IChessBoard';
+import { PieceType, Side, StringPieces } from '../domain/basicChessTypes';
+import { ChessBoardView } from '../domain/IChessBoard';
 
 export const getCapturedPieceCount = (
     side: Side,
-    boardState: IChessBoard,
+    boardState: ChessBoardView,
 ): Map<
     PieceType,
     {
@@ -12,7 +12,14 @@ export const getCapturedPieceCount = (
         name: string;
     }
 > => {
-    const pieceMap = new Map([
+    const pieceMap: Map<
+        PieceType,
+        {
+            startingCount: number;
+            actualCount: number;
+            name: StringPieces;
+        }
+    > = new Map([
         [PieceType.Pawn, { startingCount: 8, actualCount: 0, name: 'pawn' }],
         [PieceType.Rook, { startingCount: 2, actualCount: 0, name: 'rook' }],
         [PieceType.Knight, { startingCount: 2, actualCount: 0, name: 'knight' }],
@@ -21,7 +28,7 @@ export const getCapturedPieceCount = (
         [PieceType.King, { startingCount: 1, actualCount: 0, name: 'king' }],
     ]);
 
-    for (const row of boardState.board) {
+    for (const row of boardState) {
         for (const square of row) {
             if (square !== null) {
                 const piece = pieceMap.get(square.figType);
@@ -36,14 +43,14 @@ export const getCapturedPieceCount = (
     return pieceMap;
 };
 
-export const getCapturedPieceNames = (side: Side, boardState: IChessBoard): string[] => {
-    const result = [];
+export const getCapturedPieceNames = (side: Side, boardState: ChessBoardView): StringPieces[] => {
+    const result: StringPieces[] = [];
     for (let i = 0; i < 6; i++) {
         const pieceCount = getCapturedPieceCount(side, boardState);
         const piece = pieceCount.get(i);
         if (piece) {
             for (let j = piece.actualCount; j < piece.startingCount; j++) {
-                result.push(piece.name);
+                result.push(piece.name as StringPieces);
             }
         }
     }

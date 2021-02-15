@@ -1,13 +1,10 @@
+import { CapturedPiecesSide, StringPieces } from '../../../domain/basicChessTypes';
 import styles from './CapturedTable.module.scss';
-
-type Piece = 'queen' | 'king' | 'pawn' | 'knight' | 'rook' | 'bishop';
-
-type CapturedPiecesSide = 'player' | 'opponent';
 
 export class CapturedTable {
     private __element: HTMLDivElement;
 
-    constructor(side: CapturedPiecesSide, capturedPieces: Piece[]) {
+    constructor(side: CapturedPiecesSide, capturedPieces: StringPieces[]) {
         this.__element = document.createElement('div');
         this.__element.classList.add(styles.capturedWrapper, styles[side]);
 
@@ -18,7 +15,7 @@ export class CapturedTable {
         }
     }
 
-    public update(updateCapturedPieces: Piece[]): void {
+    public update(updateCapturedPieces: StringPieces[]): void {
         this.__element.innerHTML = '';
         for (let i = 0; i < updateCapturedPieces.length; i++) {
             const pieceImage = document.createElement('div');
