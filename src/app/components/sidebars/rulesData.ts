@@ -32,7 +32,7 @@ export const data = {
                 'Rook can move any number of vacant squares vertically or horizontally. It also is moved while castling.',
         },
         {
-            name: 'Bishoop',
+            name: 'Bishop',
             img: piecesArray[2].element,
             description: 'Bishop can move any number of vacant squares in any diagonal direction.',
         },

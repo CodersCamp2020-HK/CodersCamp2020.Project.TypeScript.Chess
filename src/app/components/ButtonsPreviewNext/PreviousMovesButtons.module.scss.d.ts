@@ -6,3 +6,5 @@ export const previousButton: string;
 export const playButton: string;
 export const nextButton: string;
 export const endButton: string;
+export const glitched: string;
+export const glitchedChessboard: string;

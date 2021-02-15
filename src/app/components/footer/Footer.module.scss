@@ -13,6 +13,7 @@
       background-repeat: no-repeat;
       background-position: bottom left;
       width:100%;
+      z-index: 0;
    }
 
    .right{
@@ -21,11 +22,11 @@
       background-repeat: no-repeat;
       background-position: bottom right;
       width:100%;
+      z-index: 0;
    }
 
    .textwrapper{
       @extend %font-coderscamp;
-      z-index: 2;
       position: absolute;
       bottom:1.5vh;
       left: 50%;

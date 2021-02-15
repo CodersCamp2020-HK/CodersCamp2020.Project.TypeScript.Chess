@@ -1,0 +1,13 @@
+@use '../../../styles/common';
+@use '../../../styles/colors';
+@use '../../../styles/typography';
+
+.timerWrapper{
+   border: 1px solid colors.$yellow;
+   display:flex;
+   justify-content: center;
+   align-items: center;
+   height:35px;
+   @extend %h4-bold;
+
+}

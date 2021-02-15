@@ -1,17 +1,17 @@
 import { allBoardCords } from '../../domain/basicChessTypes';
-import { OnClickHandler, OnHoverHandler } from '../../domain/IPresenter';
+import { IChessBoardInputDevice, InputDeviceCallback } from '../../domain/IChessBoardInputDevice';
 import { ChessBoardComponent } from '../ChessBoard/ChessBoardComponent';
 
-export class ChessBoardDomInputDevice {
-    private onHoverHandler?: OnHoverHandler;
+export class ChessBoardDomInputDevice implements IChessBoardInputDevice {
+    private onHoverHandler?: InputDeviceCallback;
     private onHoverHandlers: (() => void)[] = [...Array(allBoardCords.length)];
 
-    private onClickHandler?: OnHoverHandler;
+    private onClickHandler?: InputDeviceCallback;
     private onClickHandlers: (() => void)[] = [...Array(allBoardCords.length)];
 
-    constructor(private chessboardComponent: ChessBoardComponent) {}
+    constructor(private chessboardComponent: ChessBoardComponent) { }
 
-    onHover(callback: OnHoverHandler): void {
+    onHover(callback: InputDeviceCallback): void {
         if (this.onHoverHandler) {
             this.unregisterCallbacks('mouseover');
         }
@@ -19,7 +19,7 @@ export class ChessBoardDomInputDevice {
         this.registerCallbacks('mouseover');
     }
 
-    onClick(callback: OnClickHandler): void {
+    onClick(callback: InputDeviceCallback): void {
         if (this.onClickHandler) {
             this.unregisterCallbacks('click');
         }
