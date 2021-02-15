@@ -82,7 +82,7 @@ export class MainMenu {
         //2 DIV
         const timePerPlayerDiv = document.createElement('div');
         timePerPlayerDiv.classList.add(styles.timePerPlayerDiv);
-        const timePerPlayerLabel = new Label('blue', 'PLAY WITH');
+        const timePerPlayerLabel = new Label('blue', 'TIME PER PLAYER');
         const min3: Data[] = [
             {
                 value: '3min',
@@ -123,8 +123,8 @@ export class MainMenu {
         const enterYourNameDiv = document.createElement('div');
         enterYourNameDiv.classList.add(styles.enterYourNameDiv);
         const enterYourNameLabel = new Label('blue', 'PLAY WITH');
-        const enterYourNameLabel1 = new Input('Player1', 4, 10);
-        const enterYourNameLabel2 = new Input('Player2');
+        const enterYourNameLabel1 = new Input('Player1', 4, 10).wrapper;
+        const enterYourNameLabel2 = new Input('Player2').wrapper;
 
         // const input1 = document.createElement('input');
         // const input2 = document.createElement('input');
@@ -135,7 +135,7 @@ export class MainMenu {
 
         // input1.setAttribute('name', 'input1');
         // input2.setAttribute('name', 'input2');
-        enterYourNameDiv.append(enterYourNameLabel1);
+        enterYourNameDiv.append(enterYourNameLabel1, enterYourNameLabel2);
 
         // BUTTON
         const buttonDiv = document.createElement('div');
