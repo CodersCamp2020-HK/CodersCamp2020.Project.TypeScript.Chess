@@ -16,7 +16,7 @@ const App = (): void => {
     const gameController = new GameController(presenter, gameStatsPresenter, (score) => console.log(score));
     const game = new Game(presenter.element, gameStatsPresenter.element);
     document.body.append(game.element);
-    document.body.append(gameStatsPresenter.element);
+    // document.body.append(gameStatsPresenter.element);
 };
 
 export default App;
