@@ -97,3 +97,58 @@ $mobileMax: 850px;
    cursor: pointer;
    position:relative;
 }
+
+//Glitched-effect
+
+%glitched-effect{
+    @keyframes glitched {
+    0% {
+      transform: skew(-20deg);
+      left: -10px;
+    }
+    1% {
+      transform: skew(-20deg);
+      left: -10px;
+      opacity:0.2;
+    }
+    2% {
+      transform: skew(0deg);
+      left: 10px;
+      opacity:1;
+    }
+    4% {
+      transform: skew(0deg);
+      opacity:0.7;
+    }
+    5% {
+      transform: skew(10deg);
+      opacity:1;
+    }
+    6% {
+      transform: skew(10deg);
+    }
+    7% {
+      transform: skew(0deg);
+    }
+    8% {
+      transform: skew(0deg);
+    }
+  }
+}
+
+%glitched-effect-chessboard{
+    @keyframes glitchedChessboard {
+    0% {
+     opacity:0.6;  
+    }
+    1% {
+      opacity:1;
+    }
+    2% {
+      opacity:0.0;
+    }
+    3% {
+      opacity:1;
+    }
+  }
+}

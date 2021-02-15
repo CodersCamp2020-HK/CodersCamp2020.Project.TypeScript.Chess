@@ -23,3 +23,5 @@ export const pieceDescription: string;
 export const actionsContainer: string;
 export const actionCard: string;
 export const actionImage: string;
+export const glitched: string;
+export const glitchedChessboard: string;

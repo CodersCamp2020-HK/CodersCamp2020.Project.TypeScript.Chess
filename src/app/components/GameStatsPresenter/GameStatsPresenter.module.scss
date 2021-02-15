@@ -5,6 +5,8 @@ $board__size: calc(90vh - 110px - 40px - 30px);
 .wrapperGameStats {
     grid-area: gamestats;
     min-width: 20vw;
+    animation: glitchedChessboard 45000ms infinite linear;
+    animation-delay:100s;
 
     .opponentScoreWrapper{
         margin-bottom: 1vh;
