@@ -148,6 +148,20 @@ export class ChessBoardPresenter implements IChessBoardPresenter {
         }
     }
 
+    setDangerColor(): void {
+        const bord = document.body.querySelector('.' + styles.container) as HTMLElement;
+        if (bord) {
+            bord.classList.add(styles.danger);
+        }
+    }
+
+    unsetDangerColor(): void {
+        const bord = document.body.querySelector('.' + styles.container) as HTMLElement;
+        if (bord) {
+            bord.classList.remove(styles.danger);
+        }
+    }
+
     get element(): HTMLElement {
         return this.chessboardWrapper;
     }

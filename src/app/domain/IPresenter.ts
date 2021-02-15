@@ -30,4 +30,6 @@ export interface IChessBoardPresenter {
     clearMarkedFields(fields?: readonly Readonly<Cord>[]): void;
     onHover(callback: OnHoverHandler): void;
     onClick(callback: OnClickHandler): void;
+    setDangerColor(): void;
+    unsetDangerColor(): void;
 }
