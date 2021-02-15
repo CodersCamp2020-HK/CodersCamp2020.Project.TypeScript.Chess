@@ -8,6 +8,7 @@ import { PieceType, Side, StringPieces } from '../../domain/basicChessTypes';
 import { ModalGameOver } from '../modalGameOver/ModalGameOver';
 import { ModalPromotion } from '../game/modalPromotionPawn/ModalPromotion';
 import { PreviousMoves } from '../PreviousMoves/previousMoves';
+import { Timer } from '../timer/Timer';
 
 export class GameStatsPresenter implements IGameStatsPresenter {
     private gameStatsWrapper: HTMLElement;
@@ -16,7 +17,12 @@ export class GameStatsPresenter implements IGameStatsPresenter {
     private previousMoves = new PreviousMoves([]);
     private modalPromotionBlack;
     private modalPromotionWhite;
-    constructor() {
+    timerWhite: Timer;
+    timerBlack: Timer;
+    constructor(gameTimeInSec: number, addedTimeInSec: number) {
+        this.timerWhite = new Timer(gameTimeInSec, addedTimeInSec);
+        this.timerBlack = new Timer(gameTimeInSec, addedTimeInSec);
+
         this.gameStatsWrapper = document.createElement('div');
         this.gameStatsWrapper.classList.add(styles.wrapperGameStats);
         this.modalPromotionWhite = new ModalPromotion(Side.White);
@@ -53,19 +59,20 @@ export class GameStatsPresenter implements IGameStatsPresenter {
             },
             true,
         );
-        quitButtonWrapper.classList.add(styles.quitButtonWrapper);
-        quitButtonWrapper.append(previousMovesButtons.element, quitButton.button);
 
+        quitButtonWrapper.classList.add(styles.quitButtonWrapper);
         const modalGameOver = new ModalGameOver(Side.White, 43, '2:45', 'time control', 'Ania', 'Mateusz', fun, fun);
+
 
         this.gameStatsWrapper.append(
             opponentScoreWrapper,
+            this.timerBlack.element,
             playerScoreWrapper,
+            this.timerWhite.element,
             previousMovesWrapper,
             quitButtonWrapper,
             this.modalPromotionBlack.element,
             this.modalPromotionWhite.element,
-            modalGameOver.element,
         );
     }
 
@@ -81,6 +88,47 @@ export class GameStatsPresenter implements IGameStatsPresenter {
     openPromotionModal(side: Side, onClick: (piece: PieceType) => void): string {
         side === Side.White ? this.modalPromotionWhite.openModal(onClick) : this.modalPromotionBlack.openModal(onClick);
         return side === Side.White ? this.modalPromotionWhite.pieceChosen : this.modalPromotionBlack.pieceChosen;
+    }
+
+    startTimer(side: Side, onTimerEndCb: () => void): void {
+        side === Side.White ? this.timerWhite.start(onTimerEndCb) : this.timerBlack.start(onTimerEndCb);
+    }
+
+    stopTimer(side: Side): void {
+        side === Side.White ? this.timerWhite.stop() : this.timerBlack.stop();
+    }
+
+    getRemainingTime(side: Side): number {
+        return side === Side.White ? this.timerWhite.remainingTime : this.timerBlack.remainingTime;
+    }
+
+    openModal(
+        winnerSide: Side,
+        numberOfMoves: number,
+        time: number,
+        winWay: string,
+        namePlayer: string,
+        nameOpponent: string,
+        onMainMenuCb: () => void,
+        onPlayAgainCb: () => void,
+    ): void {
+        const modal = new ModalGameOver(
+            winnerSide,
+            numberOfMoves,
+            time,
+            winWay,
+            namePlayer,
+            nameOpponent,
+            onMainMenuCb,
+            onPlayAgainCb,
+        );
+        this.gameStatsWrapper.appendChild(modal.element);
+        modal.openModal();
+    }
+
+    createPreviousButtons(fun: () => void): void {
+        const previousMovesButtons = new PreviousMovesButtons(fun, fun, fun, fun, fun);
+        this.gameStatsWrapper.appendChild(previousMovesButtons.element);
     }
 
     get element(): HTMLElement {
