@@ -62,7 +62,6 @@ export class MainMenu {
             } as StartGameParams;
             onStart(params);
 
-
             event.preventDefault();
         });
 
@@ -95,28 +94,28 @@ export class MainMenu {
         const timePerPlayerLabel = new Label('blue', 'TIME PER PLAYER');
         const min3: Data[] = [
             {
-                value: '3min',
+                value: '3',
                 label: '3min',
                 category: 'timePerPlayerDiv',
             },
         ];
         const min5: Data[] = [
             {
-                value: '5min',
+                value: '5',
                 label: '5min',
                 category: 'timePerPlayerDiv',
             },
         ];
         const min10: Data[] = [
             {
-                value: '10min',
+                value: '10',
                 label: '10min',
                 category: 'timePerPlayerDiv',
             },
         ];
         const min30: Data[] = [
             {
-                value: '30min',
+                value: '30',
                 label: '30min',
                 category: 'timePerPlayerDiv',
             },

@@ -138,6 +138,7 @@ export class GameController {
     private continueOnClick(lastPiece: Piece, { x, y, moveType }: CordWithMoveType, promotionPiece: PieceType) {
         this.chessboardPresenter.render(this.chessboardState.board);
         this.currentTurn = this.currentTurn === Side.White ? Side.Black : Side.White;
+        this.chessboardPresenter.unsetDangerColor();
         const promotionPieceType = new Map<PieceType, PromotionPieceType>([
             [PieceType.Rook, PromotionPieceType.Rook],
             [PieceType.Knight, PromotionPieceType.Knight],
@@ -183,12 +184,10 @@ export class GameController {
         } else if (this.chessEngine.isStealemate(this.chessboardState, this.currentTurn, this.lastBoardState)) {
             this.endGame(enemy, 'Pat', this.params.playerName1, this.params.playerName2);
         }
-        if (this.chessEngine.isCheck(this.chessboardState, this.currentTurn, this.lastBoardState)) {
-            this.chessboardPresenter.setDangerColor();
-            this.chessboardPresenter.unsetDangerColor();
-        }
+
         this.chessboardPresenter.clearMarkedFields();
         this.currentSelectedPiece = null;
+        this.chessboardPresenter.unsetDangerColor();
 
         // STOCKFISH
         if (this.currentTurn === Side.Black && this.isAI) {
@@ -237,6 +236,9 @@ export class GameController {
 
     handleOnHover(cord: Cord): void {
         if (!(this.currentTurn === Side.Black && this.isAI)) {
+            if (this.chessEngine.isCheck(this.chessboardState, this.currentTurn, this.lastBoardState)) {
+                this.chessboardPresenter.setDangerColor();
+            }
             if (this.currentSelectedPiece) {
                 if (this.hasMove(cord)) {
                     this.rerenderCurrentSelectedPiece();

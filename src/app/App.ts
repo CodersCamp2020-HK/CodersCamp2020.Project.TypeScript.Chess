@@ -19,7 +19,7 @@ import { IChessBoardInputDevice, InputDeviceCallback } from './domain/IChessBoar
 
 const App = (): void => {
     const startGame = (startGameParams: StartGameParams) => {
-        const gameTimeInSeconds = 10;
+        const gameTimeInSeconds = parseInt(startGameParams.timePerPlayer);
 
         const voiceInputDevice = new ChessBoardVoiceInputDevice();
         voiceInputDevice.start();
