@@ -2,9 +2,10 @@
 @use '../../../styles/common';
 @use '../../../styles/typography';
 
-.wrapper {
-  width: 100%;
-  @extend %h4;
+.wrapper{
+   width:100%;
+   @extend %h4;
+   font-size: 18px;
 
   &.red {
     color: colors.$red;
@@ -12,14 +13,14 @@
     animation: glitched 15000ms infinite ease-in-out;
     animation-delay:15s;
 
-    .line {
-      display: block;
-      width: 100%;
-      height: 8px;
-      clip-path: polygon(100% 0%, 0% 0%, 0% 8px, 80px 8px, 90px 2px, 100% 2px);
-      background-color: colors.$red;
-    }
-  }
+      .line{
+         display:block;
+         width:100%;
+         height: 6px;
+         clip-path: polygon(100% 0%, 0% 0%, 0% 8px, 80px 8px, 90px 2px, 100% 2px);
+         background-color:colors.$red;
+        }
+   }
 
   &.yellow {
     color: colors.$yellow;
@@ -27,20 +28,28 @@
     animation: glitched 15000ms infinite ease-in-out;
     animation-delay:15s;
 
-    .line {
-      display: block;
-      width: 100%;
-      height: 8px;
-      clip-path: polygon(100% 0%, 0% 0%, 0% 8px, 80px 8px, 90px 2px, 100% 2px);
-      background-color: colors.$yellow;
-    }
-  }
+      .line{
+         display:block;
+         width:100%;
+         height: 6px;
+         clip-path: polygon(100% 0%, 0% 0%, 0% 8px, 80px 8px, 90px 2px, 100% 2px);
+         background-color:colors.$yellow;
+        }
+   }
+   
+   &.blue{
+      color:colors.$blue;
+      @extend %shadow-blue-text;
 
-  &.blue {
-    color: colors.$blue;
-    @extend %shadow-blue-text;
-    animation: glitched 15000ms infinite ease-in-out;
-    animation-delay:15s;
+      .line{
+         display:block;
+         width:100%;
+         height: 6px;
+         clip-path: polygon(100% 0%, 0% 0%, 0% 8px, 80px 8px, 90px 2px, 100% 2px);
+         background-color:colors.$blue;
+        }
+   }
+
 
     .line {
       display: block;
@@ -49,5 +58,5 @@
       clip-path: polygon(100% 0%, 0% 0%, 0% 8px, 80px 8px, 90px 2px, 100% 2px);
       background-color: colors.$blue;
     }
-  }
 }
+
