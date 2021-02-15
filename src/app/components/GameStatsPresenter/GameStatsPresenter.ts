@@ -77,7 +77,6 @@ export class GameStatsPresenter implements IGameStatsPresenter {
     updatePreviousMoves(notationArray: { white: string; black: string; [key: string]: string }[]): void {
         this.previousMoves.render(notationArray);
     }
-
     openPromotionModal(side: Side, onClick: (piece: PieceType) => void): string {
         side === Side.White ? this.modalPromotionWhite.openModal(onClick) : this.modalPromotionBlack.openModal(onClick);
         return side === Side.White ? this.modalPromotionWhite.pieceChosen : this.modalPromotionBlack.pieceChosen;
