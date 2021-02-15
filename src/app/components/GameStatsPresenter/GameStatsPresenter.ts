@@ -21,9 +21,7 @@ export class GameStatsPresenter implements IGameStatsPresenter {
     timerWhite: Timer;
     timerBlack: Timer;
     // private modalQuit = new ModalQuit(() => console.log('modal'));
-    private quitBtn = new Button('Quit', () => new ModalQuit(() => console.log('modal')));
     constructor(gameTimeInSec: number, addedTimeInSec: number) {
-        console.log(this.quitBtn);
         this.timerWhite = new Timer(gameTimeInSec, addedTimeInSec);
         this.timerBlack = new Timer(gameTimeInSec, addedTimeInSec);
 
@@ -52,6 +50,11 @@ export class GameStatsPresenter implements IGameStatsPresenter {
         const fun = () => {
             console.log(`x`);
         };
+        const quitBtn = new Button('Quit', () => {
+            const modalQuit = new ModalQuit(() => console.log('eluwinka w śrdodki'));
+            this.gameStatsWrapper.appendChild(modalQuit.element);
+        });
+
         // quitButtonWrapper.append(previousMovesButtons.element, quitButton.button);
 
         this.gameStatsWrapper.append(
@@ -60,9 +63,9 @@ export class GameStatsPresenter implements IGameStatsPresenter {
             playerScoreWrapper,
             this.timerWhite.element,
             previousMovesWrapper,
-            this.quitBtn.button,
             this.modalPromotionBlack.element,
             this.modalPromotionWhite.element,
+            quitBtn.button,
         );
     }
 

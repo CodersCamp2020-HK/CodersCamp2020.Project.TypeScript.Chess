@@ -7,7 +7,7 @@ export class ModalQuit {
 
     constructor(onMainMenu: () => void) {
         this.__element = document.createElement('dialog');
-        this.__element.classList.add(styles.modalInvisible);
+        this.__element.classList.add(styles.modal);
         const modalWrapper = document.createElement('div');
         this.__element.append(modalWrapper);
         modalWrapper.classList.add(styles.modalWrapper);
