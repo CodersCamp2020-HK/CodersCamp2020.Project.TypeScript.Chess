@@ -1,4 +1,6 @@
 @use '../../../styles/colors';
+@use '../../../styles/typography';
+@use '../../../styles/common';
 
 $board__size: calc(90vh - 110px - 40px - 30px);
 
@@ -17,6 +19,9 @@ $board__size: calc(90vh - 110px - 40px - 30px);
         }
 
         .timerOpponent{
+            height: 28px;
+            font-size: 16px;
+            color: colors.$blue;
             border: 1px solid colors.$blue;
         }
     }
@@ -29,11 +34,15 @@ $board__size: calc(90vh - 110px - 40px - 30px);
         }
 
         .timerPlayer{
+            height: 28px;
+            font-size: 16px;
+            color: colors.$red;
             border: 1px solid colors.$red;
         }
     }
 
     .previousMovesWrapper{
+        font-size: 16px;
         margin-bottom: 1vh;
 
         >  :last-child{

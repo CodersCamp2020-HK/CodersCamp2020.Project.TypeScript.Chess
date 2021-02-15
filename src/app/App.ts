@@ -16,12 +16,10 @@ import { IChessBoardInputDevice, InputDeviceCallback } from './domain/IChessBoar
 
 const App = (): void => {
     const startGame = (startGameParams: StartGameParams) => {
-        const gameTimeInSeconds = 10;
-
         const voiceInputDevice = new ChessBoardVoiceInputDevice();
         voiceInputDevice.start();
         const presenter = new ChessBoardPresenter();
-        const gameStatsPresenter = new GameStatsPresenter(gameTimeInSeconds, 0);
+        const gameStatsPresenter = new GameStatsPresenter(startGameParams, 0);
         const inputDevice: IChessBoardInputDevice = {
             onClick: (cb: InputDeviceCallback) => {
                 presenter.inputDevice.onClick(cb);
@@ -48,7 +46,6 @@ const App = (): void => {
     const mainMenu = new MainMenu((params) => {
         document.body.removeChild(mainMenu.element);
         startGame(params);
-
     });
     document.body.append(mainMenu.element);
 };
