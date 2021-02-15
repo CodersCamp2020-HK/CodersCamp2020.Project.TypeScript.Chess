@@ -70,3 +70,8 @@ export enum PromotionPieceType {
     Bishop,
     Queen,
 }
+
+export interface Move {
+    from: Cord;
+    to: Cord;
+}

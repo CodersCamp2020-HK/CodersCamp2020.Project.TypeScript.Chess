@@ -67,7 +67,7 @@ export class GameStatsPresenter implements IGameStatsPresenter {
             const modalQuit = new ModalQuit(() => console.log('eluwinka w śrdodki'));
             this.gameStatsWrapper.appendChild(modalQuit.element);
         });
-      
+
         this.gameStatsWrapper.append(
             opponentScoreWrapper,
             playerScoreWrapper,
