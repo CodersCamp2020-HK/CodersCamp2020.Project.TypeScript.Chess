@@ -9,3 +9,4 @@ coverage
 # *.scss.d.ts
 *:Zone.Identifier
 .log
+debug.log

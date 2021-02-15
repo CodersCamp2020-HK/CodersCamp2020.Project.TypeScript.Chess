@@ -5,6 +5,7 @@ import { ChessBoardPresenter } from './components/ChessBoardPresenter/ChessBoard
 import { MoveType, Piece, PromotionPieceType, Side } from './domain/basicChessTypes';
 import { ChessBoardSquareDisplayType, CordWithDisplayType, IChessBoardPresenter } from './domain/IPresenter';
 import { ChessBoard } from './infrastructure/ChessBoard';
+import { ChessBoardVoiceInputDevice } from './infrastructure/ChessBoardVoiceInputDevice';
 import { GameStatsPresenter } from '../app/components/GameStatsPresenter/GameStatsPresenter';
 import { IGameStatsPresenter } from './domain/IGameStatsPresenter';
 import { sayText } from './components/PreviousMoves/sayText';
@@ -13,20 +14,45 @@ import { AI } from './infrastructure/AI';
 import { currentBoardPromotionForBlackWithCapturePossible } from '../../spec/pawMovesTestCases/promotionMove';
 import { translateToEngine, translateToStockfish } from './utils/Stockfish';
 
-const App = async () => {
-    const gameStatsPresenter: IGameStatsPresenter = new GameStatsPresenter(300, 0);
-    const presenter: IChessBoardPresenter = new ChessBoardPresenter();
-    const gameController = new GameController(presenter, gameStatsPresenter, (score) => console.log(score));
-    const game = new Game(presenter.element, gameStatsPresenter.element);
-    document.body.append(game.element);
-    // document.body.append(gameStatsPresenter.element);
+import { MainMenu, StartGameParams } from './components/MainMenu/MainMenu';
+import { IChessBoardInputDevice, InputDeviceCallback } from './domain/IChessBoardInputDevice';
 
-    // const stockfish = new AI(10);
-    // const move = await stockfish.getMove({ x: 6, y: 3 }, { x: 4, y: 3 });
-    // console.log(move);
+const App = (): void => {
+    const startGame = (startGameParams: StartGameParams) => {
+        const gameTimeInSeconds = 10;
 
-    // console.log(translateToStockfish({ x: 6, y: 3 }, { x: 4, y: 3 }));
-    // console.log(translateToEngine('d2d4'));
+        const voiceInputDevice = new ChessBoardVoiceInputDevice();
+        voiceInputDevice.start();
+        const presenter = new ChessBoardPresenter();
+        const gameStatsPresenter = new GameStatsPresenter(gameTimeInSeconds, 0);
+        const inputDevice: IChessBoardInputDevice = {
+            onClick: (cb: InputDeviceCallback) => {
+                presenter.inputDevice.onClick(cb);
+                voiceInputDevice.onClick(cb);
+            },
+            onHover: (cb: InputDeviceCallback) => {
+                presenter.inputDevice.onHover(cb);
+                voiceInputDevice.onHover(cb);
+            },
+        };
+
+        const gameController = new GameController(
+            startGameParams,
+            presenter,
+            gameStatsPresenter,
+            inputDevice,
+            (score) => console.log(score),
+        );
+
+        const game = new Game(presenter.element, gameStatsPresenter.element);
+        document.body.append(game.element);
+    };
+
+    const mainMenu = new MainMenu((params) => {
+        document.body.removeChild(mainMenu.element);
+        startGame(params);
+    });
+    document.body.append(mainMenu.element);
 };
 
 export default App;
