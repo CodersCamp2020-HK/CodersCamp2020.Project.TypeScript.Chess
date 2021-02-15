@@ -1,3 +1,4 @@
+import styles from './Timer.module.scss';
 export class Timer {
     private gameTimeInSec: number;
     private addedTimeInSec: number;
@@ -6,6 +7,7 @@ export class Timer {
 
     constructor(gameTimeInSec: number, addedTimeInSec: number) {
         this.element = document.createElement('div');
+        this.element.classList.add(styles.timerWrapper);
         this.gameTimeInSec = gameTimeInSec;
         this.addedTimeInSec = addedTimeInSec;
         this.element.textContent = this.convertTime();
