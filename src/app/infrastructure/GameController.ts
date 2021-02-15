@@ -197,9 +197,18 @@ export class GameController {
                     this.lastBoardState = this.gameState.previousBoards[this.gameState.previousBoards.length - 1];
                     const lastPiece = _.cloneDeep(this.currentSelectedPiece);
 
-                    moveType === MoveType.EnPassant
-                        ? this.chessboardState.makeEnPassant(this.currentSelectedPiece, cord)
-                        : this.chessboardState.makeMove(this.currentSelectedPiece, cord);
+                    console.log(MoveType[moveType]);
+
+                    if (moveType === MoveType.EnPassant) {
+                        this.chessboardState.makeEnPassant(this.currentSelectedPiece, cord);
+                    } else if (moveType === MoveType.Castling) {
+                        this.chessboardState.makeCastling(this.currentSelectedPiece, cord);
+                    } else {
+                        this.chessboardState.makeMove(this.currentSelectedPiece, cord);
+                    }
+                    // moveType === MoveType.EnPassant
+                    //     ? this.chessboardState.makeEnPassant(this.currentSelectedPiece, cord)
+                    //     : this.chessboardState.makeMove(this.currentSelectedPiece, cord);
 
                     if (
                         (cord.x === 0 && this.currentSelectedPiece.figType === PieceType.Pawn) ||

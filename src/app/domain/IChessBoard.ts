@@ -8,4 +8,5 @@ export interface IChessBoard {
     makeMove(piece: Piece, moveTo: Cord): void;
     getPieces(side: Side, pieceType: PieceType): Piece[] | null;
     getPiece(cord: Cord): Piece | null;
+    makeCastling(piece: Piece, moveTo: Cord): void;
 }
