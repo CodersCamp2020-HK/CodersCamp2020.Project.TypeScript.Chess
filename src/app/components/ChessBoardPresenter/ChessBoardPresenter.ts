@@ -2,8 +2,6 @@ import { ChessBoardView } from '../../domain/IChessBoard';
 import {
     IChessBoardPresenter,
     ReadonlyMovesWithDisplayType,
-    OnHoverHandler,
-    OnClickHandler,
     ChessBoardSquareDisplayType,
 } from '../../domain/IPresenter';
 import { ChessBoardComponent } from '../ChessBoard/ChessBoardComponent';
@@ -15,6 +13,7 @@ import { Cord, allBoardCords } from '../../domain/basicChessTypes';
 import { Side } from '../../domain/basicChessTypes';
 import { ChessBoardDomInputDevice } from './ChessBoardDomInputDevice';
 import { generateDeafultChessboard } from '../../utils/ChessboardHelpers';
+import { IChessBoardInputDevice } from '../../domain/IChessBoardInputDevice';
 
 const displayToStyle = new Map<ChessBoardSquareDisplayType, string>([
     [ChessBoardSquareDisplayType.Normal, boardStyles.possibleMove],
@@ -28,26 +27,22 @@ const displayToStyle = new Map<ChessBoardSquareDisplayType, string>([
 export class ChessBoardPresenter implements IChessBoardPresenter {
     private chessboardComponent: ChessBoardComponent;
     private chessboardWrapper: HTMLDivElement;
-    private inputDevice: ChessBoardDomInputDevice;
+    private _inputDevice: ChessBoardDomInputDevice;
 
     constructor(chessboard: ChessBoardView = generateDeafultChessboard()) {
         this.chessboardWrapper = document.createElement('div');
         this.chessboardWrapper.classList.add(styles.wrapperChessboard, boardStyles.boardWrapper);
         this.chessboardComponent = new ChessBoardComponent(this.chessboardWrapper, [...piecesArray], chessboard);
-        this.inputDevice = new ChessBoardDomInputDevice(this.chessboardComponent);
+        this._inputDevice = new ChessBoardDomInputDevice(this.chessboardComponent);
     }
 
-    onHover(callback: OnHoverHandler): void {
-        this.inputDevice.onHover(callback);
-    }
-
-    onClick(callback: OnClickHandler): void {
-        this.inputDevice.onClick(callback);
+    get inputDevice(): IChessBoardInputDevice {
+        return this._inputDevice;
     }
 
     render(chessBoard: ChessBoardView): void {
         this.chessboardComponent.renderBoard(chessBoard);
-        this.inputDevice.update();
+        this._inputDevice.update();
     }
 
     markFields(fields: ReadonlyMovesWithDisplayType, side: Side): void {

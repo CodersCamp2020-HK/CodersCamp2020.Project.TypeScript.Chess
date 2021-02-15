@@ -6,3 +6,6 @@ export const active: string;
 export const right: string;
 export const danger: string;
 export const dangerAnimation2: string;
+export const img: string;
+export const glitched: string;
+export const glitchedChessboard: string;
