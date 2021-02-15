@@ -13,7 +13,7 @@ export class Radios {
     private _element: HTMLDivElement;
     private _radios: HTMLInputElement[] = [];
     private _labels: HTMLLabelElement[] = [];
-    private _options: HTMLDivElement[] = [];
+    // private _options: HTMLDivElement[] = [];
     private _data: Data[];
 
     constructor(valuesAndLabels: Data[]) {
@@ -21,13 +21,13 @@ export class Radios {
         this._data = valuesAndLabels;
 
         this._element = document.createElement('div');
-        this._element.classList.add('radios-wrapper');
+        this._element.classList.add(styles.radioGroup);
 
         this.renderRadios();
         this.renderLabels();
         this.renderOptionContainers();
 
-        this._element.append(...this._options);
+        // this._element.append(...this._options);
     }
 
     renderRadios(): void {
@@ -108,13 +108,13 @@ export class Radios {
     }
 
     renderOptionContainers(): void {
-        this._options = [];
+        // this._options = [];
         this._data.forEach((singleData, index) => {
             const container = document.createElement('div');
 
-            container.append(this._radios[index], this._labels[index]);
+            this.element.append(this._radios[index], this._labels[index]);
             container.classList.add(styles.option);
-            this._options.push(container);
+            // this._options.push(container);
         });
     }
 

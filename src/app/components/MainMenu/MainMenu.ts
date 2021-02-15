@@ -7,7 +7,7 @@ import { Button } from '../genericButton/Button';
 import { Label } from '../genericLabel/Label';
 import { Radios, Data } from '../radios/radiosComponent';
 import { Input } from '../Input/input';
-import { create } from 'lodash';
+import { create, toArray } from 'lodash';
 
 export interface StartGameParams {
     playWith: 'computer' | 'user';
@@ -61,27 +61,30 @@ export class MainMenu {
 
         //1 DIV
         const playWithDiv = document.createElement('div');
-        playWithDiv.classList.add(styles.playWithDiv);
+        // playWithDiv.classList.add(styles.playWithDiv);
         const playWithLabel = new Label('blue', 'PLAY WITH');
         const computer: Data[] = [
-            {
-                value: 'computer',
-                label: 'other user',
-                category: 'playWithDiv',
-            },
-        ];
-        const otherUser: Data[] = [
             {
                 value: 'computer',
                 label: 'computer',
                 category: 'playWithDiv',
             },
         ];
-        playWithDiv.append(playWithLabel.element, new Radios(otherUser).element, new Radios(computer).element);
+        const otherUser: Data[] = [
+            {
+                value: 'otherUser',
+                label: 'other User',
+                category: 'playWithDiv',
+            },
+        ];
+
+        const radiosPlayWith = new Radios(otherUser.concat(computer));
+
+        playWithDiv.append(playWithLabel.element, radiosPlayWith.element);
 
         //2 DIV
         const timePerPlayerDiv = document.createElement('div');
-        timePerPlayerDiv.classList.add(styles.timePerPlayerDiv);
+        // timePerPlayerDiv.classList.add(styles.timePerPlayerDiv);
         const timePerPlayerLabel = new Label('blue', 'TIME PER PLAYER');
         const min3: Data[] = [
             {
@@ -121,10 +124,34 @@ export class MainMenu {
 
         //3 DIV
         const enterYourNameDiv = document.createElement('div');
-        enterYourNameDiv.classList.add(styles.enterYourNameDiv);
-        const enterYourNameLabel = new Label('blue', 'PLAY WITH');
-        const enterYourNameLabel1 = new Input('Player1', 4, 10).wrapper;
-        const enterYourNameLabel2 = new Input('Player2').wrapper;
+        // enterYourNameDiv.classList.add(styles.enterYourNameDiv);
+        const enterYourNameLabel1 = new Input('Player1', 4, 10);
+        const enterYourNameLabel2 = new Input('Player2');
+        console.log(radiosPlayWith.element.childNodes[2]);
+        radiosPlayWith.element.childNodes[2].addEventListener('click', () => {
+            enterYourNameLabel2.wrapper.style.display = 'none';
+        });
+        radiosPlayWith.element.childNodes[0].addEventListener('click', () => {
+            enterYourNameLabel2.wrapper.style.display = 'inline-block';
+        });
+
+        // if (radiosPlayWith.currentSelected.value === 'otherUser') {
+        //     enterYourNameLabel2.wrapper.style.display = 'none';
+        // } else {
+        //     enterYourNameLabel2.wrapper.style.display = 'inline-block';
+        // }
+
+        // userRadio.element.addEventListener('click', () => {
+        //     enterYourNameLabel2.wrapper.style.display = 'inline-block';
+        // });
+        // computerRadio.element.addEventListener('click', () => {
+        //     enterYourNameLabel2.wrapper.style.display = 'none';
+        // });
+        // if (computerOpponent) {
+        //     enterYourNameLabel1.wrapper.style.display = 'none';
+        // } else {
+        //     enterYourNameLabel1.wrapper.style.display = 'block';
+        // }
 
         // const input1 = document.createElement('input');
         // const input2 = document.createElement('input');
@@ -135,11 +162,14 @@ export class MainMenu {
 
         // input1.setAttribute('name', 'input1');
         // input2.setAttribute('name', 'input2');
-        enterYourNameDiv.append(enterYourNameLabel1, enterYourNameLabel2);
+        enterYourNameDiv.append(
+            enterYourNameLabel1.wrapper,
+            enterYourNameLabel1.errorsElement,
+            enterYourNameLabel2.wrapper,
+            enterYourNameLabel2.errorsElement,
+        );
 
         // BUTTON
-        const buttonDiv = document.createElement('div');
-        buttonDiv.classList.add(styles.buttonDiv);
 
         const startTheGameButton = new Button(
             'START THE GAME',
@@ -148,7 +178,7 @@ export class MainMenu {
             },
             true,
         );
-        startTheGameButton.button.classList.add(styles.startTheGameButton);
+        // startTheGameButton.button.classList.add(styles.startTheGameButton);
         startTheGameButton.button.type = 'submit';
 
         //FOOTER
@@ -158,8 +188,9 @@ export class MainMenu {
         footerWrapper.appendChild(footerImage.element);
 
         //APPENDS
-        buttonDiv.append(startTheGameButton.button);
-        mainMenuSettingsWrapper.append(playWithDiv, timePerPlayerDiv, enterYourNameDiv, buttonDiv);
+
+        // mainMenuSettingsWrapper.append(playWithDiv, timePerPlayerDiv, enterYourNameDiv, buttonDiv);
+        mainMenuSettingsWrapper.append(playWithDiv, timePerPlayerDiv, enterYourNameDiv, startTheGameButton.button);
         wrapper.append(mainMenuSettingsWrapper);
         container.append(rules.element, info.element, cyberChessTextWrapper, wrapper, footerWrapper);
 
