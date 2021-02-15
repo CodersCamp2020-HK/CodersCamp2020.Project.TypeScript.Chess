@@ -56,23 +56,14 @@ export class GameStatsPresenter implements IGameStatsPresenter {
             console.log(`x`);
         };
         const previousMovesButtons = new PreviousMovesButtons(fun, fun, fun, fun, fun);
-        const quitButton = new Button(
-            'QUIT',
-            function () {
-                console.log('animated button');
-            },
-            true,
-        );
 
         quitButtonWrapper.classList.add(styles.quitButtonWrapper);
-        quitButtonWrapper.append(quitButton.button);
         const modalGameOver = new ModalGameOver(Side.White, 43, 245, 'time control', 'Ania', 'Mateusz', fun, fun);
 
         this.gameStatsWrapper.append(
             opponentScoreWrapper,
             playerScoreWrapper,
             previousMovesWrapper,
-            quitButtonWrapper,
             this.modalPromotionBlack.element,
             this.modalPromotionWhite.element,
         );
@@ -129,8 +120,15 @@ export class GameStatsPresenter implements IGameStatsPresenter {
     }
 
     createPreviousButtons(fun: () => void): void {
+        const quitButton = new Button(
+            'QUIT',
+            function () {
+                console.log('animated button');
+            },
+            true,
+        );
         const previousMovesButtons = new PreviousMovesButtons(fun, fun, fun, fun, fun);
-        this.gameStatsWrapper.appendChild(previousMovesButtons.element);
+        this.gameStatsWrapper.append(previousMovesButtons.element, quitButton.button);
     }
 
     get element(): HTMLElement {
