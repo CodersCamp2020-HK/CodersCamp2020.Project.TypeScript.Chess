@@ -3,10 +3,14 @@ import { ChessBoardView, IChessBoard } from '../domain/IChessBoard';
 import { generateDeafultChessboard } from '../utils/ChessboardHelpers';
 import _ from 'lodash';
 
-type ChessBoardRepresentation = Array<Array<Piece | null>>;
+export type ChessBoardRepresentation = Array<Array<Piece | null>>;
 
 export class ChessBoard implements IChessBoard {
-    private __board: ChessBoardRepresentation = generateDeafultChessboard();
+    private __board: ChessBoardRepresentation;
+
+    constructor(board?: ChessBoardRepresentation) {
+        this.__board = board ? board : generateDeafultChessboard();
+    }
 
     makeMove(piece: Piece, moveTo: Cord): void {
         const { x, y } = moveTo;
@@ -24,8 +28,24 @@ export class ChessBoard implements IChessBoard {
         this.makeMove(piece, { x: newX, y: newY });
     }
 
-    static createNewBoard(): IChessBoard {
-        return new ChessBoard();
+    makeCastling(piece: Piece, moveTo: Cord): void {
+        piece.isMoved = true;
+        if (moveTo.y - piece.cord.y > 0) {
+            const rook = piece.side === Side.White ? this.getPiece({ x: 7, y: 7 }) : this.getPiece({ x: 0, y: 7 });
+            if (rook) {
+                this.makeMove(rook, { x: rook.cord.x, y: moveTo.y - 1 } as Cord);
+            }
+        } else {
+            const rook = piece.side === Side.White ? this.getPiece({ x: 7, y: 0 }) : this.getPiece({ x: 0, y: 0 });
+            if (rook) {
+                this.makeMove(rook, { x: rook.cord.x, y: moveTo.y + 1 } as Cord);
+            }
+        }
+        this.makeMove(piece, moveTo);
+    }
+
+    static createNewBoard(board?: ChessBoardView): IChessBoard {
+        return new ChessBoard(board as ChessBoardRepresentation);
     }
 
     get board(): ChessBoardView {
