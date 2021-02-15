@@ -31,17 +31,20 @@ export class GameStatsPresenter implements IGameStatsPresenter {
         const opponentScoreWrapper = document.createElement('div');
         const opponentLabel = new Label('blue', 'Opponent');
         this.opponentCapturedTable = new CapturedTable('opponent', []);
+        opponentScoreWrapper.classList.add(styles.opponentScoreWrapper);
         opponentScoreWrapper.appendChild(opponentLabel.element);
         opponentScoreWrapper.appendChild(this.opponentCapturedTable.element);
 
         const playerScoreWrapper = document.createElement('div');
         this.playerCapturedTable = new CapturedTable('player', []);
         const playerLabel = new Label('red', 'Player');
+        playerScoreWrapper.classList.add(styles.playerScoreWrapper);
         playerScoreWrapper.append(playerLabel.element);
         playerScoreWrapper.append(this.playerCapturedTable.element);
 
         const previousMovesWrapper = document.createElement('div');
         const movesLabel = new Label('yellow', 'previous moves');
+        previousMovesWrapper.classList.add(styles.previousMovesWrapper);
         previousMovesWrapper.append(movesLabel.element, this.previousMoves.element);
 
         const quitButtonWrapper = document.createElement('div');
@@ -56,7 +59,10 @@ export class GameStatsPresenter implements IGameStatsPresenter {
             },
             true,
         );
-        // quitButtonWrapper.append(previousMovesButtons.element, quitButton.button);
+
+        quitButtonWrapper.classList.add(styles.quitButtonWrapper);
+        const modalGameOver = new ModalGameOver(Side.White, 43, '2:45', 'time control', 'Ania', 'Mateusz', fun, fun);
+
 
         this.gameStatsWrapper.append(
             opponentScoreWrapper,
