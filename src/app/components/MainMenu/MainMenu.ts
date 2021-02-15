@@ -96,7 +96,7 @@ export class MainMenu {
         ];
 
         const radiosPlayWith = new Radios(otherUser.concat(computer));
-
+        playWithDiv.classList.add(styles.playWithDiv);
         playWithDiv.append(playWithLabel.element, radiosPlayWith.element);
 
         //2 DIV
@@ -133,11 +133,12 @@ export class MainMenu {
         ];
 
         const radiosTime = new Radios(min3.concat(min5).concat(min10).concat(min30));
+        timePerPlayerDiv.classList.add(styles.timePerPlayerDiv);
         timePerPlayerDiv.append(timePerPlayerLabel.element, radiosTime.element);
 
         //3 DIV
         const enterYourNameDiv = document.createElement('div');
-        // enterYourNameDiv.classList.add(styles.enterYourNameDiv);
+        enterYourNameDiv.classList.add(styles.enterYourNameDiv);
         const enterYourNameLabel1 = new Input('Player1', 4, 10);
         enterYourNameLabel1.element.setAttribute('name', 'input1');
         const enterYourNameLabel2 = new Input('Player2');
