@@ -1,7 +1,7 @@
 const UID = {
     _current: 0,
     getNew: function () {
-        this._current++;
+        // this._current++;
         return this._current;
     },
 };

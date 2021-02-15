@@ -67,7 +67,7 @@ export class InfoContent {
 
         this._element.append(logo, year, description, mentorWrapper, teamWrapper, linkWrapper);
 
-        const simplebar = new SimpleBar(this._element);
+        // const simplebar = new SimpleBar(this._element);
         //console.log(simplebar.getContentElement());
     }
 }

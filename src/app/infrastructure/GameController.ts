@@ -18,6 +18,7 @@ import { convertMovesToDisplayType } from '../utils/ConvertMovesToDisplayType';
 import { ChessEngine } from './ChessEngine';
 import { IGameStatsPresenter } from '../domain/IGameStatsPresenter';
 import _ from 'lodash';
+import { StartGameParams } from '../components/MainMenu/MainMenu';
 
 export class GameController {
     private currentTurn: Side;
@@ -29,6 +30,7 @@ export class GameController {
     undoNumbersWhite = 0;
     undoNumbersBlack = 0;
     constructor(
+        private params: StartGameParams,
         public chessboardPresenter: IChessBoardPresenter,
         public gameStatsPresenter: IGameStatsPresenter,
         private onEndGame: (score: Score) => void,
@@ -149,27 +151,27 @@ export class GameController {
 
         if (this.gameState.previousBoards.length === 1) {
             this.gameStatsPresenter.startTimer(Side.Black, () => {
-                this.endGame(Side.White, 'Timeout', 'Ja', 'On');
+                this.endGame(Side.White, 'Timeout', this.params.playerName1, this.params.playerName2);
             });
         }
         if (this.gameState.previousBoards.length > 1) {
             if (this.currentTurn === Side.Black) {
                 this.gameStatsPresenter.stopTimer(Side.White);
                 this.gameStatsPresenter.startTimer(Side.Black, () => {
-                    this.endGame(Side.White, 'Timeout', 'Ja', 'On');
+                    this.endGame(Side.White, 'Timeout', this.params.playerName1, this.params.playerName2);
                 });
             } else {
                 this.gameStatsPresenter.stopTimer(Side.Black);
                 this.gameStatsPresenter.startTimer(Side.White, () => {
-                    this.endGame(Side.Black, 'Timeout', 'Ja', 'On');
+                    this.endGame(Side.Black, 'Timeout', this.params.playerName1, this.params.playerName2);
                 });
             }
         }
 
         if (this.chessEngine.isCheckmate(this.chessboardState, this.currentTurn, this.lastBoardState)) {
-            this.endGame(this.currentTurn, 'Mat', 'Ja', 'On');
+            this.endGame(this.currentTurn, 'Mat', this.params.playerName1, this.params.playerName2);
         } else if (this.chessEngine.isStealemate(this.chessboardState, this.currentTurn, this.lastBoardState)) {
-            this.endGame(this.currentTurn, 'Pat', 'Ja', 'On');
+            this.endGame(this.currentTurn, 'Pat', this.params.playerName1, this.params.playerName2);
         }
         if (this.chessEngine.isCheck(this.chessboardState, this.currentTurn, this.lastBoardState)) {
             console.log('Szach');
