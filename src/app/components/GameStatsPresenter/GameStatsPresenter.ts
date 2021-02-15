@@ -21,7 +21,9 @@ export class GameStatsPresenter implements IGameStatsPresenter {
     timerBlack: Timer;
     constructor(gameTimeInSec: number, addedTimeInSec: number) {
         this.timerWhite = new Timer(gameTimeInSec, addedTimeInSec);
+        this.timerWhite.element.classList.add(styles.timerPlayer);
         this.timerBlack = new Timer(gameTimeInSec, addedTimeInSec);
+        this.timerBlack.element.classList.add(styles.timerOpponent);
 
         this.gameStatsWrapper = document.createElement('div');
         this.gameStatsWrapper.classList.add(styles.wrapperGameStats);
@@ -34,6 +36,7 @@ export class GameStatsPresenter implements IGameStatsPresenter {
         opponentScoreWrapper.classList.add(styles.opponentScoreWrapper);
         opponentScoreWrapper.appendChild(opponentLabel.element);
         opponentScoreWrapper.appendChild(this.opponentCapturedTable.element);
+        opponentScoreWrapper.appendChild(this.timerBlack.element);
 
         const playerScoreWrapper = document.createElement('div');
         this.playerCapturedTable = new CapturedTable('player', []);
@@ -41,6 +44,7 @@ export class GameStatsPresenter implements IGameStatsPresenter {
         playerScoreWrapper.classList.add(styles.playerScoreWrapper);
         playerScoreWrapper.append(playerLabel.element);
         playerScoreWrapper.append(this.playerCapturedTable.element);
+        playerScoreWrapper.append(this.timerWhite.element);
 
         const previousMovesWrapper = document.createElement('div');
         const movesLabel = new Label('yellow', 'previous moves');
@@ -61,14 +65,12 @@ export class GameStatsPresenter implements IGameStatsPresenter {
         );
 
         quitButtonWrapper.classList.add(styles.quitButtonWrapper);
-        const modalGameOver = new ModalGameOver(Side.White, 43, '2:45', 'time control', 'Ania', 'Mateusz', fun, fun);
 
+        const modalGameOver = new ModalGameOver(Side.White, 43, 245, 'time control', 'Ania', 'Mateusz', fun, fun);
 
         this.gameStatsWrapper.append(
             opponentScoreWrapper,
-            this.timerBlack.element,
             playerScoreWrapper,
-            this.timerWhite.element,
             previousMovesWrapper,
             quitButtonWrapper,
             this.modalPromotionBlack.element,
