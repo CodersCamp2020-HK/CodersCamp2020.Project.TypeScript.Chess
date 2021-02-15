@@ -9,6 +9,7 @@ import { GameStatsPresenter } from '../app/components/GameStatsPresenter/GameSta
 import { IGameStatsPresenter } from './domain/IGameStatsPresenter';
 import { sayText } from './components/PreviousMoves/sayText';
 import { PreviousMoves } from './components/PreviousMoves/previousMoves';
+<<<<<<< HEAD
 
 const App = (): void => {
     const gameStatsPresenter: IGameStatsPresenter = new GameStatsPresenter(300, 0);
@@ -17,6 +18,49 @@ const App = (): void => {
     const game = new Game(presenter.element, gameStatsPresenter.element);
     document.body.append(game.element);
     // document.body.append(gameStatsPresenter.element);
+=======
+
+import { MainMenu, StartGameParams } from './components/MainMenu/MainMenu';
+import { IChessBoardInputDevice, InputDeviceCallback } from './domain/IChessBoardInputDevice';
+
+const App = (): void => {
+    const startGame = (startGameParams: StartGameParams) => {
+        const gameTimeInSeconds = 10;
+
+        const voiceInputDevice = new ChessBoardVoiceInputDevice();
+        voiceInputDevice.start();
+        const presenter = new ChessBoardPresenter();
+        const gameStatsPresenter = new GameStatsPresenter(gameTimeInSeconds, 0);
+        const inputDevice: IChessBoardInputDevice = {
+            onClick: (cb: InputDeviceCallback) => {
+                presenter.inputDevice.onClick(cb);
+                voiceInputDevice.onClick(cb);
+            },
+            onHover: (cb: InputDeviceCallback) => {
+                presenter.inputDevice.onHover(cb);
+                voiceInputDevice.onHover(cb);
+            },
+        };
+
+        const gameController = new GameController(
+            startGameParams,
+            presenter,
+            gameStatsPresenter,
+            inputDevice,
+            (score) => console.log(score),
+        );
+
+        const game = new Game(presenter.element, gameStatsPresenter.element);
+        document.body.append(game.element);
+    };
+
+    const mainMenu = new MainMenu((params) => {
+        document.body.removeChild(mainMenu.element);
+        startGame(params);
+
+    });
+    document.body.append(mainMenu.element);
+>>>>>>> cbdb5a8eccca32111d31438661bda9c2dcd0588e
 };
 
 export default App;

@@ -35,9 +35,22 @@ export class GameController {
     ) {
         this.currentTurn = Side.White;
         this.lastBoardState = [];
+<<<<<<< HEAD
         chessboardPresenter.onHover((cord) => this.handleOnHover(cord));
         chessboardPresenter.onClick((cord) => this.handleOnClick(cord));
         this.gameStatsPresenter.createPreviousButtons(() => this.renderPreviousBoard());
+=======
+
+        this.chessboardInputDevice.onHover((cord) => this.handleOnHover(cord));
+        this.chessboardInputDevice.onClick((cord) => this.handleOnClick(cord));
+
+        this.gameStatsPresenter.createPreviousButtons(
+            () => this.renderFirstBoard(),
+            () => this.renderPreviousBoard(),
+            () => this.renderNextBoard(),
+            () => this.renderLastBoard(),
+        );
+>>>>>>> cbdb5a8eccca32111d31438661bda9c2dcd0588e
     }
 
     private hasMove(cord: Cord): boolean {

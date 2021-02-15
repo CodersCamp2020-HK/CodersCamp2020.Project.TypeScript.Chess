@@ -14,7 +14,8 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
         new HtmlWebpackPlugin({
-            title: 'Output Management',
+            title: 'Cyber Chess 2021',
+            favicon: 'src/assets/Favicon.ico',
         }),
     ],
 
