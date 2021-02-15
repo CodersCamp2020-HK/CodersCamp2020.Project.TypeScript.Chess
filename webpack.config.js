@@ -1,7 +1,7 @@
 /* eslint @typescript-eslint/no-var-requires: "off" */
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyPlugin = require("copy-webpack-plugin");
+const CopyPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
@@ -19,10 +19,8 @@ module.exports = {
             favicon: 'src/assets/Favicon.ico',
         }),
         new CopyPlugin({
-            patterns: [
-                {from: "./src/assets/stockfish", to: "./"}
-            ]
-        })
+            patterns: [{ from: './src/assets/stockfish', to: './' }],
+        }),
     ],
 
     module: {

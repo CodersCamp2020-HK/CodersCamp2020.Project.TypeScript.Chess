@@ -152,13 +152,13 @@ export class ChessBoardPresenter implements IChessBoardPresenter {
 
         const asides = document.querySelectorAll('.' + asideStyles.wrapper);
 
-        asides.forEach(aside => {
+        asides.forEach((aside) => {
             aside.classList.add(asideStyles.danger);
         });
 
         const buttons = document.querySelectorAll('.' + asideStyles.btn);
 
-        buttons.forEach(button => {
+        buttons.forEach((button) => {
             button.classList.add(asideStyles.danger);
         });
     }
@@ -171,13 +171,13 @@ export class ChessBoardPresenter implements IChessBoardPresenter {
 
         const asides = document.querySelectorAll('.' + asideStyles.wrapper);
 
-        asides.forEach(aside => {
+        asides.forEach((aside) => {
             aside.classList.remove(asideStyles.danger);
         });
 
         const buttons = document.querySelectorAll('.' + asideStyles.btn);
 
-        buttons.forEach(button => {
+        buttons.forEach((button) => {
             button.classList.remove(asideStyles.danger);
         });
     }
