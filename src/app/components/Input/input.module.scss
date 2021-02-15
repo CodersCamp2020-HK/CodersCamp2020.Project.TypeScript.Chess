@@ -5,11 +5,12 @@
 .input {
     background-color: black;
     position: relative;
-    padding: 16px;
+    padding: 12px;
     color: colors.$blue;
     border: 1px solid colors.$blue;
     @extend %font-main;
     @extend %p;
+    width:100%;
 
     &.wrong {
         color: colors.$red;
@@ -23,6 +24,7 @@
     @extend %shadow-blue-text;
 
     &.wrong {
+        box-shadow: none;
         @extend %shadow-red-focus !optional;
         @extend %shadow-red-text !optional;
     }
@@ -35,7 +37,7 @@
 .wrapper {
     position: relative;
     display: inline-block;
-    @extend %shadow-blue-1;
+    width:100%;
 
     &.wrong {
         @extend %shadow-red-1;
@@ -76,3 +78,4 @@
     padding-right: 5px;
   }
 }
+

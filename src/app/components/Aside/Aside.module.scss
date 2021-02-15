@@ -24,7 +24,7 @@
     &.active {
       transform: translateX(0%);
 
-      img {
+      > img {
         transform: rotate(180deg);
       }
 
@@ -54,7 +54,7 @@
     &.active {
       transform: translateX(0%);
 
-      img {
+      > img {
         transform: rotate(180deg);
       }
 
