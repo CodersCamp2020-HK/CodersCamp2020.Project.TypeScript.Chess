@@ -61,6 +61,8 @@ export class MainMenu {
                 playerName2: data.get('input2'),
             } as StartGameParams;
             onStart(params);
+
+
             event.preventDefault();
         });
 
