@@ -3,8 +3,6 @@ import { ChessBoardView, IChessBoard } from '../domain/IChessBoard';
 import { generateDeafultChessboard } from '../utils/ChessboardHelpers';
 import _ from 'lodash';
 
-
-
 export type ChessBoardRepresentation = Array<Array<Piece | null>>;
 
 export class ChessBoard implements IChessBoard {
@@ -28,6 +26,22 @@ export class ChessBoard implements IChessBoard {
         const { x: oldX } = piece.cord;
         this.makeMove(piece, { x: oldX, y: newY });
         this.makeMove(piece, { x: newX, y: newY });
+    }
+
+    makeCastling(piece: Piece, moveTo: Cord): void {
+        piece.isMoved = true;
+        if (moveTo.y - piece.cord.y > 0) {
+            const rook = piece.side === Side.White ? this.getPiece({ x: 7, y: 7 }) : this.getPiece({ x: 0, y: 7 });
+            if (rook) {
+                this.makeMove(rook, { x: 7, y: moveTo.y - 1 } as Cord);
+            }
+        } else {
+            const rook = piece.side === Side.White ? this.getPiece({ x: 7, y: 0 }) : this.getPiece({ x: 0, y: 0 });
+            if (rook) {
+                this.makeMove(rook, { x: 7, y: moveTo.y + 1 } as Cord);
+            }
+        }
+        this.makeMove(piece, moveTo);
     }
 
     static createNewBoard(board?: ChessBoardView): IChessBoard {

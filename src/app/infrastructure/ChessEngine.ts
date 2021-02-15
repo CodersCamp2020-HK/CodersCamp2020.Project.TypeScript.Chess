@@ -3,6 +3,7 @@ import { flattenChessboard } from '../utils/ChessboardHelpers';
 import { ChessBoardView, IChessBoard } from '../domain/IChessBoard';
 import { IChessEngine } from '../domain/IChessEngine';
 import { getPossibleMovesForPawn } from '../utils/pawnMoves';
+import { possibleCastlingMoves } from '../utils/Castling';
 import {
     getPossibleMovesForBishop,
     getPossibleMovesForKing,
@@ -34,9 +35,13 @@ export class ChessEngine implements IChessEngine {
         if (!piece) {
             return [];
         }
-        if (piece.figType === PieceType.Pawn && previousBoardState) {
-            const pawnMoves = getPossibleMovesForPawn(cord, boardState, previousBoardState);
-            return pawnMoves;
+        if (piece.figType === PieceType.Pawn) {
+            return getPossibleMovesForPawn(cord, boardState, previousBoardState);
+        }
+        if (piece.figType === PieceType.King) {
+            return getPossibleMovesForKing(cord, boardState).concat(
+                possibleCastlingMoves(boardState, this, piece.side, previousBoardState),
+            );
         }
         const handler = this.getMovesByPiece.get(piece.figType);
         if (!handler) {
