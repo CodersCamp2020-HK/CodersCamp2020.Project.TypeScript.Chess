@@ -9,7 +9,7 @@ export class ChessBoardDomInputDevice implements IChessBoardInputDevice {
     private onClickHandler?: InputDeviceCallback;
     private onClickHandlers: (() => void)[] = [...Array(allBoardCords.length)];
 
-    constructor(private chessboardComponent: ChessBoardComponent) { }
+    constructor(private chessboardComponent: ChessBoardComponent) {}
 
     onHover(callback: InputDeviceCallback): void {
         if (this.onHoverHandler) {
