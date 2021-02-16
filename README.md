@@ -30,7 +30,7 @@ Wersja demonstracyjna aplikacji jest dostępna [TUTAJ](https://coderscamp2020-hk
 ### Cel projektu
 
 Celem projektu było napisanie aplikacji wykorzystującej dotychczas nabytą wiedzę z następujących technologi: html, css, javascript, typescript.
-Zespół projektowy zdecydował się na aplikacje - gra w szachy z motywem gry Cyberpunk 20777. Aplikacja umożliwia grę w szachy, rywalizację z graczem i komputerem umożliwiając grę w wyznacznym czasie.
+Zespół projektowy zdecydował się na aplikacje - gra w szachy z motywem gry Cyberpunk 2077. Aplikacja umożliwia grę w szachy, rywalizację z graczem i komputerem umożliwiając grę w wyznacznym czasie.
 
 Aplikacja została wykonana wg dostarczonych przez organizatorów CodersCamp wymagań.
 Szablon projektu dostępny jest [TUTAJ](https://github.com/CodersCamp2020/CodersCamp2020.Project.TypeScript.Chess).
@@ -46,7 +46,7 @@ Możliwe tryby gry:
 -   Computer — możliwość gry z komputerem
 -   Other user — możliwość gry z innym graczem
 
-Następnie gracz wybiera długość trwania rozgrywki. Możliwe opcje do wyboru:
+Następnie długość trwania gry rozgrywki dla jednego gracza. Możliwe opcje do wyboru:
 
 -   3 min
 -   5 min
@@ -64,21 +64,22 @@ Zasady gry wyświetlane są w formie modalu z lewej strony po naciśnięciu przy
 
 ##### Informacje
 
-Użytkowik w dowolnym momencie jest w stanie podejrzeć informacje dotyczące projektu. Zostały one wyświetlane w formie modalu z prawej strony po naciśnięciu przycisku INFO na ekranie menu głownego jak i podczas rozgrywki.
+Użytkowik w dowolnym momencie jest w stanie podejrzeć informacje dotyczące projektu. Zostały one przygotowane w formie modalu z prawej strony po naciśnięciu przycisku INFO na ekranie menu głownego jak i podczas rozgrywki.
 
-#### Rozgrywka — Quiz
+#### Rozgrywka
 
-Rozgrywa się ją na planszy nazywanej szachownicą. Szachownica składa się z 64 pól, na przemian białych i czarnych. Pola w pionie opisane są za pomocą cyfr od 1 do 8, natomiast pola w poziomie za pomocą liter od A do H. Opis alfanumeryczny pozwala na określenie współrzędnych każdej figury na szachownicy. Na szachownicy rozstawia się 32 bierki (w sześciu rodzajach, w tym po 8 pionów i 8 figur, łącznie 16 dla każdego z graczy). Celem gry jest danie mata, tzn. zagrożenie królowi przeciwnika usunięciem z dalszej rozgrywki („zbiciem”). Gra może zakończyć się na dwa sposoby. Król jednego z graczy zostanie wyeliminowany bądź skończy się czas rozgrywki. 
+Partie rozgrywa się na planszy nazywanej szachownicą. Szachownica składa się z 64 pól, na przemian białych i czarnych. Pola w pionie opisane są za pomocą cyfr od 1 do 8, natomiast pola w poziomie za pomocą liter od A do H. Opis alfanumeryczny pozwala na określenie współrzędnych każdej figury na szachownicy. Na szachownicy umieszczone są 32 bierki (w sześciu rodzajach, w tym po 8 pionów i 8 figur, łącznie 16 dla każdego z graczy). Celem gry jest danie mata, tzn. zagrożenie królowi przeciwnika usunięciem z dalszej rozgrywki („zbiciem”). Gra może zakończyć się na trzy sposoby. 
+1. Wykonany zostaje szach-mat
+2. Skończy się czas rozgrywki dla jednej ze stron
+3. Wykonany zostaje pat
 
 #### Sterowanie
 
-<span align="center">
-  <img src="https://user-images.githubusercontent.com/56504859/107998937-791c6f80-6fe6-11eb-8778-0403e2c95aea.PNG">
-</span>
-<span> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp </span> 
-<span align="center">
-  <img src="https://user-images.githubusercontent.com/56504859/107998982-9e10e280-6fe6-11eb-91ea-9a2c45d5bd50.PNG">
-</span>
+Aby wykonać ruch należy umieścić kursor na wybranej bierce. Następnie kliknać w celu wyświetlenia możliwych ruchów bierki. Na koniec wybrać jedno z podświetlonych pól, by przesunięcia bierki.
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/56504859/108079996-b416b580-706f-11eb-9793-8c93d8f5d4ea.gif" alt="gif" />
+</p>
 
 #### Sterowanie głosem
 
@@ -95,7 +96,6 @@ Nasz zespół zrealizował także zadania dodatkowe, wykraczające poza zakres k
 1. Utowrzony został szablon graficzny aplikacji w programie Figma.
 
 2. Wykorzystaliśmy Web Speech API w celu umożliwieniu gry za pomocą głosem.
-
 
 ## Development aplikacji
 
@@ -124,7 +124,7 @@ Aby uruchomić aplikację na lokalnej maszynie, wykonaj następujące kroki:
 
 Aplikacja będzie dostępna pod adresem [localhost:8080/](http://localhost:8080)
 
-Kod produkcyjny aplikacji umieszczamy w katalogu `src`.
+Kod produkcyjny aplikacji umieszczamy w katalogu `dist`.
 
 ### Uruchomienie testów
 
@@ -135,16 +135,6 @@ Aby uruchomić testy aplikacji, wykonaj następujące kroki:
 2. Uruchom testy, wykonując komendę: `npm run test`. Testy z raportem pokrycia uruchomisz za pomocą: `npm run test:cov`.
 
 Kod testów umieszczamy w katalogu `test`.
-
-### Zmienne środowiskowe
-
-Zmienne środowiskowe są określone w pliku `.env`.
-Aby je nadpisać, utwórz lokalny plik `.env.local` i powtórz wpisy dla odpowiednich zmiennych.
-Przykładowo, plik o zawartości:
-
-```.env
-SW_API_BASE_URL = http://localhost:3000/
-```
 
 zmieni adres, z jakiego aplikacja będzie korzystać, aby łączyć się z SWApi. Domyślnie jest to zdefiniowane w pliku `.env` na wartość: `https://swapi.dev/api`.
 
