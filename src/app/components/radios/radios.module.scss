@@ -105,3 +105,12 @@
     margin: 0px;
     display: flex;
 }
+
+.hovered {
+    position: relative;
+}
+
+.hovered::before {
+    content: '';
+    box-shadow: inset 0px 0px 8px 0px #44E0DB, 0px 0px 16px 0px #44E0DB;
+}

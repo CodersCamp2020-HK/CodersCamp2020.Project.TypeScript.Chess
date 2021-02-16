@@ -16,6 +16,10 @@
     color: colors.$red;
     border: 1px solid colors.$red;
   }
+
+  &.wrong::before {
+    background-color: #FD6059;
+  }
 }
 
 .input:focus {
@@ -27,6 +31,11 @@
     box-shadow: none;
     @extend %shadow-red-focus !optional;
     @extend %shadow-red-text !optional;
+  }
+
+
+  &.wrong::before {
+    background-color: #FD6059;
   }
 }
 
@@ -42,6 +51,11 @@
   &.wrong {
     @extend %shadow-red-1;
   }
+
+  &.wrong::before {
+    background-color: #FD6059;
+  }
+
 }
 
 .wrapper::before {
