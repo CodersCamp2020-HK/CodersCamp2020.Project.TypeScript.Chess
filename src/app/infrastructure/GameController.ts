@@ -3,7 +3,6 @@ import {
     MoveType,
     Piece,
     PromotionPieceType,
-    Score,
     Side,
     CordWithMoveType,
     PieceType,
@@ -21,6 +20,7 @@ import { IGameStatsPresenter } from '../domain/IGameStatsPresenter';
 import _ from 'lodash';
 import { AI } from './AI';
 import { StartGameParams } from '../components/MainMenu/MainMenu';
+import { convertTime } from '../utils/ConvertTime';
 
 export class GameController {
     private currentTurn: Side;
@@ -38,7 +38,6 @@ export class GameController {
         public chessboardPresenter: IChessBoardPresenter,
         public gameStatsPresenter: IGameStatsPresenter,
         private chessboardInputDevice: IChessBoardInputDevice,
-        private onEndGame: (score: Score) => void,
     ) {
         this.stockfish = new AI(10);
         this.currentTurn = Side.White;
@@ -150,7 +149,7 @@ export class GameController {
         this.gameStatsPresenter.openModal(
             side,
             this.gameState.previousMoves.length,
-            this.gameStatsPresenter.getRemainingTime(side),
+            parseInt(convertTime(this.gameStatsPresenter.getRemainingTime(side))),
             winWay,
             playerName,
             opponentName,
@@ -186,6 +185,8 @@ export class GameController {
         if (this.gameState.previousBoards.length === 1) {
             this.gameStatsPresenter.startTimer(Side.Black, () => {
                 this.endGame(Side.White, 'Timeout', this.params.playerName1, this.params.playerName2);
+                this.gameStatsPresenter.stopTimer(Side.Black);
+                this.gameStatsPresenter.stopTimer(Side.White);
             });
         }
         if (this.gameState.previousBoards.length > 1) {
@@ -193,20 +194,30 @@ export class GameController {
                 this.gameStatsPresenter.stopTimer(Side.White);
                 this.gameStatsPresenter.startTimer(Side.Black, () => {
                     this.endGame(Side.White, 'Timeout', this.params.playerName1, this.params.playerName2);
+                    this.gameStatsPresenter.stopTimer(Side.Black);
+                    this.gameStatsPresenter.stopTimer(Side.White);
                 });
             } else {
                 this.gameStatsPresenter.stopTimer(Side.Black);
                 this.gameStatsPresenter.startTimer(Side.White, () => {
                     this.endGame(Side.Black, 'Timeout', this.params.playerName1, this.params.playerName2);
+                    this.gameStatsPresenter.stopTimer(Side.Black);
+                    this.gameStatsPresenter.stopTimer(Side.White);
                 });
             }
         }
 
         const enemy = this.currentTurn === Side.White ? Side.Black : Side.White;
         if (this.chessEngine.isCheckmate(this.chessboardState, this.currentTurn, this.lastBoardState)) {
-            this.endGame(enemy, 'Mat', this.params.playerName1, this.params.playerName2);
+            this.gameStatsPresenter.stopTimer(Side.Black);
+            this.gameStatsPresenter.stopTimer(Side.White);
+            this.chessboardPresenter.unsetDangerColor();
+            this.endGame(enemy, 'Checkmate', this.params.playerName1, this.params.playerName2);
         } else if (this.chessEngine.isStealemate(this.chessboardState, this.currentTurn, this.lastBoardState)) {
-            this.endGame(enemy, 'Pat', this.params.playerName1, this.params.playerName2);
+            this.gameStatsPresenter.stopTimer(Side.Black);
+            this.gameStatsPresenter.stopTimer(Side.White);
+            this.chessboardPresenter.unsetDangerColor();
+            this.endGame(enemy, 'Stealmate', this.params.playerName1, this.params.playerName2);
         }
 
         this.chessboardPresenter.clearMarkedFields();
@@ -235,21 +246,6 @@ export class GameController {
                 this.gameState.updatePreviousBoards(this.chessboardState.board);
                 this.undoNumbersWhite = this.gameState.previousBoards.length - 1;
                 this.undoNumbersWhite = this.gameState.previousBoards.length - 1;
-
-                if (
-                    (cord.x === 0 && piece.figType === PieceType.Pawn) ||
-                    (cord.x === 7 && piece.figType === PieceType.Pawn)
-                ) {
-                    this.gameStatsPresenter.openPromotionModal(this.currentTurn, (pieceChosen) => {
-                        if (piece) {
-                            piece.figType = pieceChosen;
-                        } else {
-                            throw new Error('Cannot promote piece.');
-                        }
-                        this.continueOnClick(lastPiece, { x, y, moveType }, pieceChosen);
-                    });
-                    return;
-                }
 
                 this.continueOnClick(lastPiece, { x, y, moveType }, PieceType.Queen);
                 piece = null;
