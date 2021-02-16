@@ -8,11 +8,14 @@ $board__size: calc(90vh - 110px - 40px - 30px);
     grid-area: gamestats;
     min-width: 20vw;
     animation: glitchedChessboard 45000ms infinite linear;
-    animation-delay:100s;
+    animation-delay:60s;
+    display:flex;
+    flex-direction:column;
+    //justify-content: space-between;
+    max-height:$board__size;
 
     .opponentScoreWrapper{
         margin-bottom: 1vh;
-
 
         >  :last-child,:nth-last-child(2){
             margin-top: 1vh;
@@ -42,8 +45,10 @@ $board__size: calc(90vh - 110px - 40px - 30px);
     }
 
     .previousMovesWrapper{
+        height:100%;
         font-size: 16px;
         margin-bottom: 1vh;
+        overflow: hidden;
 
         >  :last-child{
             margin-top: 1vh;

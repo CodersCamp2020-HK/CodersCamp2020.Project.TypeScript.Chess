@@ -83,14 +83,14 @@ export class MainMenu {
         const computer: Data[] = [
             {
                 value: 'computer',
-                label: 'computer',
+                label: 'Computer',
                 category: 'playWithDiv',
             },
         ];
         const otherUser: Data[] = [
             {
                 value: 'otherUser',
-                label: 'other User',
+                label: 'Other User',
                 category: 'playWithDiv',
             },
         ];
@@ -139,9 +139,9 @@ export class MainMenu {
         //3 DIV
         const enterYourNameDiv = document.createElement('div');
         enterYourNameDiv.classList.add(styles.enterYourNameDiv);
-        const enterYourNameLabel1 = new Input('Player1', 4, 10);
+        const enterYourNameLabel1 = new Input('Player1', 3, 10);
         enterYourNameLabel1.element.setAttribute('name', 'input1');
-        const enterYourNameLabel2 = new Input('Player2');
+        const enterYourNameLabel2 = new Input('Player2', 3, 10);
         enterYourNameLabel2.element.setAttribute('name', 'input2');
         radiosPlayWith.element.childNodes[2].addEventListener('click', () => {
             enterYourNameLabel2.wrapper.style.display = 'none';
@@ -149,34 +149,6 @@ export class MainMenu {
         radiosPlayWith.element.childNodes[0].addEventListener('click', () => {
             enterYourNameLabel2.wrapper.style.display = 'inline-block';
         });
-
-        // if (radiosPlayWith.currentSelected.value === 'otherUser') {
-        //     enterYourNameLabel2.wrapper.style.display = 'none';
-        // } else {
-        //     enterYourNameLabel2.wrapper.style.display = 'inline-block';
-        // }
-
-        // userRadio.element.addEventListener('click', () => {
-        //     enterYourNameLabel2.wrapper.style.display = 'inline-block';
-        // });
-        // computerRadio.element.addEventListener('click', () => {
-        //     enterYourNameLabel2.wrapper.style.display = 'none';
-        // });
-        // if (computerOpponent) {
-        //     enterYourNameLabel1.wrapper.style.display = 'none';
-        // } else {
-        //     enterYourNameLabel1.wrapper.style.display = 'block';
-        // }
-
-        // const input1 = document.createElement('input');
-        // const input2 = document.createElement('input');
-        // input1.setAttribute('id', 'xxx');
-        // input2.setAttribute('id', 'xxx');
-        // input1.placeholder = 'Player1';
-        // input2.placeholder = 'Player2';
-
-        // input1.setAttribute('name', 'input1');
-        // input2.setAttribute('name', 'input2');
         enterYourNameDiv.append(
             enterYourNameLabel1.wrapper,
             enterYourNameLabel1.errorsElement,
@@ -193,7 +165,6 @@ export class MainMenu {
             },
             true,
         );
-        // startTheGameButton.button.classList.add(styles.startTheGameButton);
         startTheGameButton.button.type = 'submit';
 
         //FOOTER

@@ -58,11 +58,7 @@ export class ChessBoardPresenter implements IChessBoardPresenter {
         const castlingFields = fields.filter((x) => x.display === ChessBoardSquareDisplayType.Castling);
         for (const field of castlingFields) {
             if (field.x == 0 && field.y == 2) {
-                const leftArrows: Cord[] = [
-                    { x: 0, y: 2 },
-                    { x: 0, y: 3 },
-                    { x: 0, y: 4 },
-                ];
+                const leftArrows: Cord[] = [{ x: 0, y: 4 }];
                 leftArrows.forEach((cord) =>
                     this.chessboardComponent.addTileClassList(cord, [currentColorToAdd, boardStyles.castlingLeft]),
                 );
@@ -86,22 +82,14 @@ export class ChessBoardPresenter implements IChessBoardPresenter {
                 leftArrows.forEach((cord) =>
                     this.chessboardComponent.addTileClassList(cord, [currentColorToAdd, boardStyles.castlingLeft]),
                 );
-                const rightArrows: Cord[] = [
-                    { x: 0, y: 4 },
-                    { x: 0, y: 5 },
-                    { x: 0, y: 6 },
-                ];
+                const rightArrows: Cord[] = [{ x: 0, y: 4 }];
                 rightArrows.forEach((cord) =>
                     this.chessboardComponent.addTileClassList(cord, [currentColorToAdd, boardStyles.castlingRight]),
                 );
             }
 
             if (field.x == 7 && field.y == 2) {
-                const leftArrows: Cord[] = [
-                    { x: 7, y: 2 },
-                    { x: 7, y: 3 },
-                    { x: 7, y: 4 },
-                ];
+                const leftArrows: Cord[] = [{ x: 7, y: 4 }];
                 leftArrows.forEach((cord) =>
                     this.chessboardComponent.addTileClassList(cord, [currentColorToAdd, boardStyles.castlingLeft]),
                 );
@@ -125,11 +113,7 @@ export class ChessBoardPresenter implements IChessBoardPresenter {
                 leftArrows.forEach((cord) =>
                     this.chessboardComponent.addTileClassList(cord, [currentColorToAdd, boardStyles.castlingLeft]),
                 );
-                const rightArrows: Cord[] = [
-                    { x: 7, y: 4 },
-                    { x: 7, y: 5 },
-                    { x: 7, y: 6 },
-                ];
+                const rightArrows: Cord[] = [{ x: 7, y: 4 }];
                 rightArrows.forEach((cord) =>
                     this.chessboardComponent.addTileClassList(cord, [currentColorToAdd, boardStyles.castlingRight]),
                 );
