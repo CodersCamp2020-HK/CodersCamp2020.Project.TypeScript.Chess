@@ -11,6 +11,7 @@ import { PreviousMoves } from '../PreviousMoves/previousMoves';
 import { Timer } from '../timer/Timer';
 import { ModalQuit } from '../game/modalQuit/ModalQuit';
 import { StartGameParams } from '../MainMenu/MainMenu';
+import App from '../../App';
 
 export class GameStatsPresenter implements IGameStatsPresenter {
     private gameStatsWrapper: HTMLElement;
@@ -64,10 +65,12 @@ export class GameStatsPresenter implements IGameStatsPresenter {
         const previousMovesButtons = new PreviousMovesButtons(fun, fun, fun, fun);
 
         const quitBtn = new Button('Quit', () => {
-            const modalQuit = new ModalQuit(() => console.log('eluwinka w śrdodki'));
+            const modalQuit = new ModalQuit(() => {
+                document.body.innerHTML = '';
+                App();
+            });
             this.gameStatsWrapper.appendChild(modalQuit.element);
         });
-      
         this.gameStatsWrapper.append(
             opponentScoreWrapper,
             playerScoreWrapper,

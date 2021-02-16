@@ -20,6 +20,7 @@ import { IChessBoardInputDevice } from '../domain/IChessBoardInputDevice';
 import { IGameStatsPresenter } from '../domain/IGameStatsPresenter';
 import _ from 'lodash';
 import { StartGameParams } from '../components/MainMenu/MainMenu';
+import App from '../App';
 
 export class GameController {
     private currentTurn: Side;
@@ -126,8 +127,14 @@ export class GameController {
             winWay,
             playerName,
             opponentName,
-            () => console.log('Main'),
-            () => console.log('Play again'),
+            () => {
+                document.body.innerHTML = '';
+                App();
+            },
+            () => {
+                document.body.innerHTML = '';
+                App();
+            },
         );
     }
 
