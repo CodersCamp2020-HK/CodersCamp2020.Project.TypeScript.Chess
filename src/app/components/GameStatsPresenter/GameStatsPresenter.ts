@@ -66,12 +66,13 @@ export class GameStatsPresenter implements IGameStatsPresenter {
         const quitBtn = new Button(
             'Quit',
             () => {
-            const modalQuit = new ModalQuit(() => console.log('eluwinka w śrdodki'));
-            this.gameStatsWrapper.appendChild(modalQuit.element);
+                const modalQuit = new ModalQuit(() => console.log('eluwinka w śrdodki'));
+                this.gameStatsWrapper.appendChild(modalQuit.element);
             },
             // eslint-disable-next-line prettier/prettier
             true);
       
+
         this.gameStatsWrapper.append(
             opponentScoreWrapper,
             playerScoreWrapper,

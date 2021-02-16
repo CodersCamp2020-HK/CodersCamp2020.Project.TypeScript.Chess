@@ -143,7 +143,7 @@ $board__size_mobile: 75vw;
   justify-items: center;
   align-items: center;
   animation: glitchedChessboard 45000ms infinite linear;
-  animation-delay:100s;
+  animation-delay:60s;
 
   @media only screen and (max-width: common.$mobileMax) {
     min-width: 100%;
