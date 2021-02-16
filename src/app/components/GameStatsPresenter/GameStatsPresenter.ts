@@ -63,10 +63,14 @@ export class GameStatsPresenter implements IGameStatsPresenter {
         };
         const previousMovesButtons = new PreviousMovesButtons(fun, fun, fun, fun);
 
-        const quitBtn = new Button('Quit', () => {
-            const modalQuit = new ModalQuit(() => console.log('eluwinka w śrdodki'));
-            this.gameStatsWrapper.appendChild(modalQuit.element);
-        });
+        const quitBtn = new Button(
+            'Quit',
+            () => {
+                const modalQuit = new ModalQuit(() => console.log('eluwinka w śrdodki'));
+                this.gameStatsWrapper.appendChild(modalQuit.element);
+            },
+            // eslint-disable-next-line prettier/prettier
+            true);
 
         this.gameStatsWrapper.append(
             opponentScoreWrapper,

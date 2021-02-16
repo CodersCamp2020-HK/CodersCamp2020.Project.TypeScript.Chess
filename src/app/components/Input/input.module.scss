@@ -3,59 +3,82 @@
 @use '../../../styles/colors';
 
 .input {
-    background-color: black;
-    position: relative;
-    padding: 12px;
-    color: colors.$blue;
-    border: 1px solid colors.$blue;
-    @extend %font-main;
-    @extend %p;
-    width:100%;
+  background-color: black;
+  position: relative;
+  padding: 12px;
+  color: colors.$blue;
+  border: 1px solid colors.$blue;
+  @extend %font-main;
+  @extend %p;
+  width: 100%;
 
-    &.wrong {
-        color: colors.$red;
-        border: 1px solid colors.$red;
-    }
+  &.wrong {
+    color: colors.$red;
+    border: 1px solid colors.$red;
+  }
+
+  &.wrong::before {
+    background-color: #FD6059;
+  }
 }
 
 .input:focus {
-    outline: none;
-    @extend %shadow-blue-focus;
-    @extend %shadow-blue-text;
+  outline: none;
+  @extend %shadow-blue-focus;
+  @extend %shadow-blue-text;
 
-    &.wrong {
-        box-shadow: none;
-        @extend %shadow-red-focus !optional;
-        @extend %shadow-red-text !optional;
-    }
+  &.wrong {
+    box-shadow: none;
+    @extend %shadow-red-focus !optional;
+    @extend %shadow-red-text !optional;
+  }
+
+
+  &.wrong::before {
+    background-color: #FD6059;
+  }
 }
 
 .input:focus::placeholder {
-    opacity: 0;
+  opacity: 0;
 }
 
 .wrapper {
-    position: relative;
-    display: inline-block;
-    width:100%;
+  position: relative;
+  display: inline-block;
+  width: 100%;
 
-    &.wrong {
-        @extend %shadow-red-1;
-    }
+  &.wrong {
+    @extend %shadow-red-1;
+  }
+
+  &.wrong::before {
+    background-color: #FD6059;
+  }
+
 }
 
 .wrapper::before {
-    content: "";
-    display: flex;
-    width: 9px;
-    height: 100%;
-    background-color: colors.$blue;
-    position: absolute;
-    top: 0;
-    left: -9px;
-    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%,  0% 90%, 30% 80%, 30% 20%, 0% 10%);
+  content: "";
+  display: flex;
+  width: 9px;
+  height: 100%;
+  background-color: colors.$blue;
+  position: absolute;
+  top: 0;
+  left: -9px;
+  clip-path: polygon(
+    0% 0%,
+    100% 0%,
+    100% 100%,
+    0% 100%,
+    0% 90%,
+    30% 80%,
+    30% 20%,
+    0% 10%
+  );
 
-    &.wrong::before {
+  &.wrong::before {
     content: "";
     display: flex;
     width: 9px;
@@ -64,18 +87,26 @@
     position: absolute;
     top: 0;
     left: -9px;
-    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%,  0% 90%, 30% 80%, 30% 20%, 0% 10%);
-    }
+    clip-path: polygon(
+      0% 0%,
+      100% 0%,
+      100% 100%,
+      0% 100%,
+      0% 90%,
+      30% 80%,
+      30% 20%,
+      0% 10%
+    );
+  }
 }
 
 .errors {
-   color: colors.$red;
-   @extend %shadow-red-text;
-   list-style-type: none;
+  color: colors.$red;
+  @extend %shadow-red-text;
+  list-style-type: none;
 
-   li:before {
+  li:before {
     content: ">";
     padding-right: 5px;
   }
 }
-
