@@ -269,6 +269,11 @@ $board__size_mobile: 75vw;
   &.possibleMoveHover {
     position: relative;
     cursor: pointer;
+    background-image: url("./images/whiteSide/circle.svg");
+    background-position: center;
+    background-size: auto 30% ;
+    background-origin: content-box;
+    background-repeat: no-repeat;
   }
 
   &.possibleMoveHover::after {
