@@ -67,7 +67,6 @@ export class MainMenu {
 
         //1 DIV
         const playWithDiv = document.createElement('div');
-        // playWithDiv.classList.add(styles.playWithDiv);
         const playWithLabel = new Label('blue', 'PLAY WITH');
         const computer: Data[] = [
             {
@@ -90,7 +89,6 @@ export class MainMenu {
 
         //2 DIV
         const timePerPlayerDiv = document.createElement('div');
-        // timePerPlayerDiv.classList.add(styles.timePerPlayerDiv);
         const timePerPlayerLabel = new Label('blue', 'TIME PER PLAYER');
         const min3: Data[] = [
             {
@@ -125,8 +123,35 @@ export class MainMenu {
         timePerPlayerDiv.append(timePerPlayerLabel.element, radiosTime.element);
 
         //3 DIV
+        const computerLevelDiv = document.createElement('div');
+        const computerLevelLabel = new Label('blue', 'LEVEL');
+        const easy: Data[] = [
+            {
+                value: 'easy',
+                label: 'easy',
+                category: 'computerLevelDiv',
+            },
+        ];
+        const medium: Data[] = [
+            {
+                value: 'medium',
+                label: 'medium',
+                category: 'computerLevelDiv',
+            },
+        ];
+        const hard: Data[] = [
+            {
+                value: 'hard',
+                label: 'hard',
+                category: 'computerLevelDiv',
+            },
+        ];
+
+        const radiosLevels = new Radios(easy.concat(medium).concat(hard));
+        computerLevelDiv.append(computerLevelLabel.element, radiosLevels.element);
+
+        //4 DIV
         const enterYourNameDiv = document.createElement('div');
-        // enterYourNameDiv.classList.add(styles.enterYourNameDiv);
         const enterYourNameLabel1 = new Input('Player1', 4, 10);
         enterYourNameLabel1.element.setAttribute('name', 'input1');
         const enterYourNameLabel2 = new Input('Player2');
@@ -139,33 +164,6 @@ export class MainMenu {
             enterYourNameLabel2.wrapper.style.display = 'inline-block';
         });
 
-        // if (radiosPlayWith.currentSelected.value === 'otherUser') {
-        //     enterYourNameLabel2.wrapper.style.display = 'none';
-        // } else {
-        //     enterYourNameLabel2.wrapper.style.display = 'inline-block';
-        // }
-
-        // userRadio.element.addEventListener('click', () => {
-        //     enterYourNameLabel2.wrapper.style.display = 'inline-block';
-        // });
-        // computerRadio.element.addEventListener('click', () => {
-        //     enterYourNameLabel2.wrapper.style.display = 'none';
-        // });
-        // if (computerOpponent) {
-        //     enterYourNameLabel1.wrapper.style.display = 'none';
-        // } else {
-        //     enterYourNameLabel1.wrapper.style.display = 'block';
-        // }
-
-        // const input1 = document.createElement('input');
-        // const input2 = document.createElement('input');
-        // input1.setAttribute('id', 'xxx');
-        // input2.setAttribute('id', 'xxx');
-        // input1.placeholder = 'Player1';
-        // input2.placeholder = 'Player2';
-
-        // input1.setAttribute('name', 'input1');
-        // input2.setAttribute('name', 'input2');
         enterYourNameDiv.append(
             enterYourNameLabel1.wrapper,
             enterYourNameLabel1.errorsElement,
@@ -182,7 +180,6 @@ export class MainMenu {
             },
             true,
         );
-        // startTheGameButton.button.classList.add(styles.startTheGameButton);
         startTheGameButton.button.type = 'submit';
 
         //FOOTER
@@ -192,9 +189,13 @@ export class MainMenu {
         footerWrapper.appendChild(footerImage.element);
 
         //APPENDS
-
-        // mainMenuSettingsWrapper.append(playWithDiv, timePerPlayerDiv, enterYourNameDiv, buttonDiv);
-        mainMenuSettingsWrapper.append(playWithDiv, timePerPlayerDiv, enterYourNameDiv, startTheGameButton.button);
+        mainMenuSettingsWrapper.append(
+            playWithDiv,
+            timePerPlayerDiv,
+            computerLevelDiv,
+            enterYourNameDiv,
+            startTheGameButton.button,
+        );
         wrapper.append(mainMenuSettingsWrapper);
         container.append(rules.element, info.element, cyberChessTextWrapper, wrapper, footerWrapper);
 

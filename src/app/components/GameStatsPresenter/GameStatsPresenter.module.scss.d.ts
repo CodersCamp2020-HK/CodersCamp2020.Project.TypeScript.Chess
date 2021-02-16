@@ -1,3 +1,4 @@
+// This file is generated automatically
 export const wrapperGameStats: string;
 export const glitchedChessboard: string;
 export const opponentScoreWrapper: string;
