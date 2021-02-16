@@ -73,6 +73,17 @@ export class MainMenu {
                 playerName1: data.get('input1'),
                 playerName2: data.get('input2'),
             } as StartGameParams;
+
+            if (!params.playerName1) {
+                event.preventDefault();
+                return;
+            }
+
+            if (!params.playerName2 && params.playWith !== 'computer') {
+                event.preventDefault();
+                return;
+            }
+
             onStart(params);
             console.log(params);
             event.preventDefault();
