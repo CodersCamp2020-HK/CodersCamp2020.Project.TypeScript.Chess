@@ -1,6 +1,5 @@
 import { container } from '../game/Game.module.scss';
 import styles from '../radios/radios.module.scss';
-import { pseudoStyle } from './pseudoStyle';
 
 export interface Data {
     value: string;
@@ -53,35 +52,25 @@ export class Radios {
             radio.addEventListener('mouseover', () => {
                 const current = radio;
                 if (!current.checked) {
-                    pseudoStyle(current, 'before', 'content', '');
-                    pseudoStyle(
-                        current,
-                        'before',
-                        'box-shadow',
-                        'inset 0px 0px 8px 0px #44E0DB, 0px 0px 16px 0px #44E0DB',
-                    );
+                    current.classList.add(styles.hovered);
                 } else {
-                    pseudoStyle(current, 'before', 'content', '');
-                    pseudoStyle(current, 'before', 'box-shadow', 'none');
+                    current.classList.remove(styles.hovered);
                 }
             });
 
             radio.addEventListener('mouseout', () => {
                 const current = radio;
                 if (!current.checked) {
-                    pseudoStyle(current, 'before', 'content', '');
-                    pseudoStyle(current, 'before', 'box-shadow', 'none');
+                    current.classList.remove(styles.hovered);
                 } else {
-                    pseudoStyle(current, 'before', 'content', '');
-                    pseudoStyle(current, 'before', 'box-shadow', 'none');
+                    current.classList.remove(styles.hovered);
                 }
             });
 
             radio.addEventListener('change', () => {
                 const current = radio;
                 if (current.checked) {
-                    pseudoStyle(current, 'before', 'content', '');
-                    pseudoStyle(current, 'before', 'box-shadow', 'none');
+                    current.classList.remove(styles.hovered);
                 }
                 const foundedData = this._data.find((el) => el.value == radio.value);
                 if (foundedData) {
