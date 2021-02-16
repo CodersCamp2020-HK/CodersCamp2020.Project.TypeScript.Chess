@@ -15,9 +15,16 @@ import { ChessBoardPresenter } from '../ChessBoardPresenter/ChessBoardPresenter'
 import { Game } from '../game/Game';
 import { GameStatsPresenter } from '../GameStatsPresenter/GameStatsPresenter';
 
+const textToTime = new Map([
+    ['3', 3],
+    ['5', 5],
+    ['10', 10],
+    ['30', 30],
+]);
+
 export interface StartGameParams {
     playWith: 'computer' | 'user';
-    timePerPlayer: '3' | '5' | '10' | 'noLimit';
+    timePerPlayerSeconds: number;
     playerName1: string;
     playerName2: string;
 }
@@ -54,14 +61,17 @@ export class MainMenu {
         mainMenuSettingsWrapper.classList.add(styles.mainMenuSettingsWrapper);
         mainMenuSettingsWrapper.addEventListener('submit', (event) => {
             const data = new FormData(mainMenuSettingsWrapper);
+
+            const timeText = data.get('timePerPlayerDiv') as string;
+            const time = textToTime.get(timeText) ?? 30;
+
             const params = {
                 playWith: data.get('playWithDiv'),
-                timePerPlayer: data.get('timePerPlayerDiv'),
+                timePerPlayerSeconds: time * 60,
                 playerName1: data.get('input1'),
                 playerName2: data.get('input2'),
             } as StartGameParams;
             onStart(params);
-
 
             event.preventDefault();
         });
@@ -73,20 +83,20 @@ export class MainMenu {
         const computer: Data[] = [
             {
                 value: 'computer',
-                label: 'computer',
+                label: 'Computer',
                 category: 'playWithDiv',
             },
         ];
         const otherUser: Data[] = [
             {
                 value: 'otherUser',
-                label: 'other User',
+                label: 'Other User',
                 category: 'playWithDiv',
             },
         ];
 
         const radiosPlayWith = new Radios(otherUser.concat(computer));
-
+        playWithDiv.classList.add(styles.playWithDiv);
         playWithDiv.append(playWithLabel.element, radiosPlayWith.element);
 
         //2 DIV
@@ -95,78 +105,50 @@ export class MainMenu {
         const timePerPlayerLabel = new Label('blue', 'TIME PER PLAYER');
         const min3: Data[] = [
             {
-                value: '3min',
+                value: '3',
                 label: '3min',
                 category: 'timePerPlayerDiv',
             },
         ];
         const min5: Data[] = [
             {
-                value: '5min',
+                value: '5',
                 label: '5min',
                 category: 'timePerPlayerDiv',
             },
         ];
         const min10: Data[] = [
             {
-                value: '10min',
+                value: '10',
                 label: '10min',
                 category: 'timePerPlayerDiv',
             },
         ];
         const min30: Data[] = [
             {
-                value: '30min',
+                value: '30',
                 label: '30min',
                 category: 'timePerPlayerDiv',
             },
         ];
 
         const radiosTime = new Radios(min3.concat(min5).concat(min10).concat(min30));
+        timePerPlayerDiv.classList.add(styles.timePerPlayerDiv);
         timePerPlayerDiv.append(timePerPlayerLabel.element, radiosTime.element);
 
         //3 DIV
         const enterYourNameDiv = document.createElement('div');
-        // enterYourNameDiv.classList.add(styles.enterYourNameDiv);
-        const enterYourNameLabel1 = new Input('Player1', 4, 10);
+        enterYourNameDiv.classList.add(styles.enterYourNameDiv);
+        const enterYourNameLabel1 = new Input('Player1', 3, 10);
         enterYourNameLabel1.element.setAttribute('name', 'input1');
-        const enterYourNameLabel2 = new Input('Player2');
+        const enterYourNameLabel2 = new Input('Player2', 3, 10);
         enterYourNameLabel2.element.setAttribute('name', 'input2');
-        console.log(radiosPlayWith.element.childNodes[2]);
         radiosPlayWith.element.childNodes[2].addEventListener('click', () => {
             enterYourNameLabel2.wrapper.style.display = 'none';
         });
         radiosPlayWith.element.childNodes[0].addEventListener('click', () => {
             enterYourNameLabel2.wrapper.style.display = 'inline-block';
         });
-
-        // if (radiosPlayWith.currentSelected.value === 'otherUser') {
-        //     enterYourNameLabel2.wrapper.style.display = 'none';
-        // } else {
-        //     enterYourNameLabel2.wrapper.style.display = 'inline-block';
-        // }
-
-        // userRadio.element.addEventListener('click', () => {
-        //     enterYourNameLabel2.wrapper.style.display = 'inline-block';
-        // });
-        // computerRadio.element.addEventListener('click', () => {
-        //     enterYourNameLabel2.wrapper.style.display = 'none';
-        // });
-        // if (computerOpponent) {
-        //     enterYourNameLabel1.wrapper.style.display = 'none';
-        // } else {
-        //     enterYourNameLabel1.wrapper.style.display = 'block';
-        // }
-
-        // const input1 = document.createElement('input');
-        // const input2 = document.createElement('input');
-        // input1.setAttribute('id', 'xxx');
-        // input2.setAttribute('id', 'xxx');
-        // input1.placeholder = 'Player1';
-        // input2.placeholder = 'Player2';
-
-        // input1.setAttribute('name', 'input1');
-        // input2.setAttribute('name', 'input2');
         enterYourNameDiv.append(
             enterYourNameLabel1.wrapper,
             enterYourNameLabel1.errorsElement,
@@ -183,7 +165,6 @@ export class MainMenu {
             },
             true,
         );
-        // startTheGameButton.button.classList.add(styles.startTheGameButton);
         startTheGameButton.button.type = 'submit';
 
         //FOOTER
