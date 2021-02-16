@@ -9,3 +9,5 @@ coverage
 # *.scss.d.ts
 *:Zone.Identifier
 .log
+debug.log
+stockfish.asm.js

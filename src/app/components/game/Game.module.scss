@@ -1,78 +1,74 @@
 @use '../../../styles/common';
+@use '../../../styles/colors';
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .container {
-    @extend %background-gradient;
-    min-height: 100vh;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    color: #fbec09;
-    z-index: 1;
+  @extend %background-gradient;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  color: #fbec09;
+  z-index: 1;
+}
+
+@keyframes dangerAnimation {
+  0% {
+    border-color: colors.$yellow;
+  }
+  60% {
+    border-color: colors.$dark-red;
+  }
+  100% {
+    border-color: colors.$yellow;
+  }
+}
+
+.danger {
+  border-color: colors.$dark-red;
+  animation-duration: 2s;
+  animation-name: dangerAnimation;
+  animation-iteration-count: infinite;
 }
 
 .container::after {
-    @extend %background-photo-after;
-    z-index: 0;
+  @extend %background-photo-after;
+  z-index: 0;
 }
 
 .wrapper {
-    z-index: 1;
-    padding: 0 20px;
-    margin: auto;
-    display: grid;
-    grid-template-columns: repeat(2, auto);
-    grid-template-rows: repeat(4, auto);
-    row-gap: 10px;
-    column-gap: 30px;
-    grid-template-areas:
-        'chessboard opponent'
-        'chessboard opponent'
-        'chessboard opponent'
-        'chessboard opponent';
-}
+  z-index: 1;
+  padding-top: 25px;
+  padding-bottom: 5px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  row-gap: 10px;
+  column-gap: 30px;
+  height: 100%;
+  grid-template-areas: "chessboard gamestats";
 
-.wrapper > * {
-    border: 1px solid purple;
+  @media only screen and (max-width: common.$mobileMax) {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .wrapperText {
-    grid-area: text;
-    text-align: center;
+  grid-area: text;
+  text-align: center;
 }
 
 .wrapperChessboard {
-    grid-area: chessboard;
-}
-
-.wrapperOpponent {
-    grid-area: opponent;
-}
-
-.wrapperPlayer {
-    grid-area: player;
-}
-
-.wrapperMoves {
-    grid-area: moves;
-}
-
-.wrapperQuit {
-    grid-area: quit;
+  grid-area: chessboard;
 }
 
 .wrapperFooter {
-    grid-area: footer;
-    text-align: center;
+  grid-area: footer;
+  text-align: center;
 }

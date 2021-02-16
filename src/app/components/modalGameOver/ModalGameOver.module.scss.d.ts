@@ -11,3 +11,5 @@ export const labelHeader: string;
 export const modalInvisible: string;
 export const label: string;
 export const buttonWrapper: string;
+export const glitched: string;
+export const glitchedChessboard: string;

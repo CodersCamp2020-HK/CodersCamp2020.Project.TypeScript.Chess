@@ -9,6 +9,8 @@ import { ModalGameOver } from '../modalGameOver/ModalGameOver';
 import { ModalPromotion } from '../game/modalPromotionPawn/ModalPromotion';
 import { PreviousMoves } from '../PreviousMoves/previousMoves';
 import { Timer } from '../timer/Timer';
+import { ModalQuit } from '../game/modalQuit/ModalQuit';
+import { StartGameParams } from '../MainMenu/MainMenu';
 
 export class GameStatsPresenter implements IGameStatsPresenter {
     private gameStatsWrapper: HTMLElement;
@@ -19,9 +21,15 @@ export class GameStatsPresenter implements IGameStatsPresenter {
     private modalPromotionWhite;
     timerWhite: Timer;
     timerBlack: Timer;
-    constructor(gameTimeInSec: number, addedTimeInSec: number) {
+    // private modalQuit = new ModalQuit(() => console.log('modal'));
+    constructor(startGameParams: StartGameParams, addedTimeInSec: number) {
+        const oponentName = startGameParams.playerName1;
+        const playerName = startGameParams.playerName2;
+        const gameTimeInSec = startGameParams.timePerPlayerSeconds;
         this.timerWhite = new Timer(gameTimeInSec, addedTimeInSec);
+        this.timerWhite.element.classList.add(styles.timerPlayer);
         this.timerBlack = new Timer(gameTimeInSec, addedTimeInSec);
+        this.timerBlack.element.classList.add(styles.timerOpponent);
 
         this.gameStatsWrapper = document.createElement('div');
         this.gameStatsWrapper.classList.add(styles.wrapperGameStats);
@@ -29,44 +37,48 @@ export class GameStatsPresenter implements IGameStatsPresenter {
         this.modalPromotionBlack = new ModalPromotion(Side.Black);
 
         const opponentScoreWrapper = document.createElement('div');
-        const opponentLabel = new Label('blue', 'Opponent');
+        const opponentLabel = new Label('blue', oponentName);
         this.opponentCapturedTable = new CapturedTable('opponent', []);
+        opponentScoreWrapper.classList.add(styles.opponentScoreWrapper);
         opponentScoreWrapper.appendChild(opponentLabel.element);
         opponentScoreWrapper.appendChild(this.opponentCapturedTable.element);
+        opponentScoreWrapper.appendChild(this.timerBlack.element);
 
         const playerScoreWrapper = document.createElement('div');
         this.playerCapturedTable = new CapturedTable('player', []);
-        const playerLabel = new Label('red', 'Player');
+        const playerLabel = new Label('red', playerName);
+        playerScoreWrapper.classList.add(styles.playerScoreWrapper);
         playerScoreWrapper.append(playerLabel.element);
         playerScoreWrapper.append(this.playerCapturedTable.element);
+        playerScoreWrapper.append(this.timerWhite.element);
 
         const previousMovesWrapper = document.createElement('div');
         const movesLabel = new Label('yellow', 'previous moves');
+        previousMovesWrapper.classList.add(styles.previousMovesWrapper);
         previousMovesWrapper.append(movesLabel.element, this.previousMoves.element);
 
         const quitButtonWrapper = document.createElement('div');
         const fun = () => {
             console.log(`x`);
         };
-        const previousMovesButtons = new PreviousMovesButtons(fun, fun, fun, fun, fun);
-        const quitButton = new Button(
-            'QUIT',
-            function () {
-                console.log('animated button');
+        const previousMovesButtons = new PreviousMovesButtons(fun, fun, fun, fun);
+
+        const quitBtn = new Button(
+            'Quit',
+            () => {
+                const modalQuit = new ModalQuit(() => console.log('eluwinka w śrdodki'));
+                this.gameStatsWrapper.appendChild(modalQuit.element);
             },
-            true,
-        );
-        // quitButtonWrapper.append(previousMovesButtons.element, quitButton.button);
+            // eslint-disable-next-line prettier/prettier
+            true);
 
         this.gameStatsWrapper.append(
             opponentScoreWrapper,
-            this.timerBlack.element,
             playerScoreWrapper,
-            this.timerWhite.element,
             previousMovesWrapper,
-            quitButtonWrapper,
             this.modalPromotionBlack.element,
             this.modalPromotionWhite.element,
+            quitBtn.button,
         );
     }
 
@@ -78,7 +90,6 @@ export class GameStatsPresenter implements IGameStatsPresenter {
     updatePreviousMoves(notationArray: { white: string; black: string; [key: string]: string }[]): void {
         this.previousMoves.render(notationArray);
     }
-
     openPromotionModal(side: Side, onClick: (piece: PieceType) => void): string {
         side === Side.White ? this.modalPromotionWhite.openModal(onClick) : this.modalPromotionBlack.openModal(onClick);
         return side === Side.White ? this.modalPromotionWhite.pieceChosen : this.modalPromotionBlack.pieceChosen;
@@ -120,9 +131,14 @@ export class GameStatsPresenter implements IGameStatsPresenter {
         modal.openModal();
     }
 
-    createPreviousButtons(fun: () => void): void {
-        const previousMovesButtons = new PreviousMovesButtons(fun, fun, fun, fun, fun);
-        this.gameStatsWrapper.appendChild(previousMovesButtons.element);
+    createPreviousButtons(
+        onHomeCb: () => void,
+        onPreviousCb: () => void,
+        onNextCb: () => void,
+        onEndCb: () => void,
+    ): void {
+        const previousMovesButtons = new PreviousMovesButtons(onHomeCb, onPreviousCb, onNextCb, onEndCb);
+        this.gameStatsWrapper.append(previousMovesButtons.element);
     }
 
     get element(): HTMLElement {

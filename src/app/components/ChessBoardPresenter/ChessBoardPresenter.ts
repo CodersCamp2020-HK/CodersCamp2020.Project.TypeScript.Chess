@@ -1,19 +1,19 @@
-import { ChessBoardView, IChessBoard } from '../../domain/IChessBoard';
+import { ChessBoardView } from '../../domain/IChessBoard';
 import {
     IChessBoardPresenter,
     ReadonlyMovesWithDisplayType,
-    OnHoverHandler,
-    OnClickHandler,
     ChessBoardSquareDisplayType,
 } from '../../domain/IPresenter';
 import { ChessBoardComponent } from '../ChessBoard/ChessBoardComponent';
 import styles from '../game/Game.module.scss';
+import asideStyles from '../Aside/Aside.module.scss';
 import boardStyles from '../ChessBoard/chess.module.scss';
 import { piecesArray } from '../PiecesElements/piecesElements';
 import { Cord, allBoardCords } from '../../domain/basicChessTypes';
 import { Side } from '../../domain/basicChessTypes';
 import { ChessBoardDomInputDevice } from './ChessBoardDomInputDevice';
 import { generateDeafultChessboard } from '../../utils/ChessboardHelpers';
+import { IChessBoardInputDevice } from '../../domain/IChessBoardInputDevice';
 
 const displayToStyle = new Map<ChessBoardSquareDisplayType, string>([
     [ChessBoardSquareDisplayType.Normal, boardStyles.possibleMove],
@@ -27,26 +27,22 @@ const displayToStyle = new Map<ChessBoardSquareDisplayType, string>([
 export class ChessBoardPresenter implements IChessBoardPresenter {
     private chessboardComponent: ChessBoardComponent;
     private chessboardWrapper: HTMLDivElement;
-    private inputDevice: ChessBoardDomInputDevice;
+    private _inputDevice: ChessBoardDomInputDevice;
 
     constructor(chessboard: ChessBoardView = generateDeafultChessboard()) {
         this.chessboardWrapper = document.createElement('div');
         this.chessboardWrapper.classList.add(styles.wrapperChessboard, boardStyles.boardWrapper);
         this.chessboardComponent = new ChessBoardComponent(this.chessboardWrapper, [...piecesArray], chessboard);
-        this.inputDevice = new ChessBoardDomInputDevice(this.chessboardComponent);
+        this._inputDevice = new ChessBoardDomInputDevice(this.chessboardComponent);
     }
 
-    onHover(callback: OnHoverHandler): void {
-        this.inputDevice.onHover(callback);
-    }
-
-    onClick(callback: OnClickHandler): void {
-        this.inputDevice.onClick(callback);
+    get inputDevice(): IChessBoardInputDevice {
+        return this._inputDevice;
     }
 
     render(chessBoard: ChessBoardView): void {
         this.chessboardComponent.renderBoard(chessBoard);
-        this.inputDevice.update();
+        this._inputDevice.update();
     }
 
     markFields(fields: ReadonlyMovesWithDisplayType, side: Side): void {
@@ -62,11 +58,7 @@ export class ChessBoardPresenter implements IChessBoardPresenter {
         const castlingFields = fields.filter((x) => x.display === ChessBoardSquareDisplayType.Castling);
         for (const field of castlingFields) {
             if (field.x == 0 && field.y == 2) {
-                const leftArrows: Cord[] = [
-                    { x: 0, y: 2 },
-                    { x: 0, y: 3 },
-                    { x: 0, y: 4 },
-                ];
+                const leftArrows: Cord[] = [{ x: 0, y: 4 }];
                 leftArrows.forEach((cord) =>
                     this.chessboardComponent.addTileClassList(cord, [currentColorToAdd, boardStyles.castlingLeft]),
                 );
@@ -90,22 +82,14 @@ export class ChessBoardPresenter implements IChessBoardPresenter {
                 leftArrows.forEach((cord) =>
                     this.chessboardComponent.addTileClassList(cord, [currentColorToAdd, boardStyles.castlingLeft]),
                 );
-                const rightArrows: Cord[] = [
-                    { x: 0, y: 4 },
-                    { x: 0, y: 5 },
-                    { x: 0, y: 6 },
-                ];
+                const rightArrows: Cord[] = [{ x: 0, y: 4 }];
                 rightArrows.forEach((cord) =>
                     this.chessboardComponent.addTileClassList(cord, [currentColorToAdd, boardStyles.castlingRight]),
                 );
             }
 
             if (field.x == 7 && field.y == 2) {
-                const leftArrows: Cord[] = [
-                    { x: 7, y: 2 },
-                    { x: 7, y: 3 },
-                    { x: 7, y: 4 },
-                ];
+                const leftArrows: Cord[] = [{ x: 7, y: 4 }];
                 leftArrows.forEach((cord) =>
                     this.chessboardComponent.addTileClassList(cord, [currentColorToAdd, boardStyles.castlingLeft]),
                 );
@@ -129,11 +113,7 @@ export class ChessBoardPresenter implements IChessBoardPresenter {
                 leftArrows.forEach((cord) =>
                     this.chessboardComponent.addTileClassList(cord, [currentColorToAdd, boardStyles.castlingLeft]),
                 );
-                const rightArrows: Cord[] = [
-                    { x: 7, y: 4 },
-                    { x: 7, y: 5 },
-                    { x: 7, y: 6 },
-                ];
+                const rightArrows: Cord[] = [{ x: 7, y: 4 }];
                 rightArrows.forEach((cord) =>
                     this.chessboardComponent.addTileClassList(cord, [currentColorToAdd, boardStyles.castlingRight]),
                 );
@@ -146,6 +126,44 @@ export class ChessBoardPresenter implements IChessBoardPresenter {
         for (const cord of cordsToClear) {
             this.chessboardComponent.clearTileClassList(cord);
         }
+    }
+
+    setDangerColor(): void {
+        const gameBorder = document.body.querySelector('.' + styles.container) as HTMLElement;
+        if (gameBorder) {
+            gameBorder.classList.add(styles.danger);
+        }
+
+        const asides = document.querySelectorAll('.' + asideStyles.wrapper);
+
+        asides.forEach((aside) => {
+            aside.classList.add(asideStyles.danger);
+        });
+
+        const buttons = document.querySelectorAll('.' + asideStyles.btn);
+
+        buttons.forEach((button) => {
+            button.classList.add(asideStyles.danger);
+        });
+    }
+
+    unsetDangerColor(): void {
+        const bord = document.body.querySelector('.' + styles.container) as HTMLElement;
+        if (bord) {
+            bord.classList.remove(styles.danger);
+        }
+
+        const asides = document.querySelectorAll('.' + asideStyles.wrapper);
+
+        asides.forEach((aside) => {
+            aside.classList.remove(asideStyles.danger);
+        });
+
+        const buttons = document.querySelectorAll('.' + asideStyles.btn);
+
+        buttons.forEach((button) => {
+            button.classList.remove(asideStyles.danger);
+        });
     }
 
     get element(): HTMLElement {

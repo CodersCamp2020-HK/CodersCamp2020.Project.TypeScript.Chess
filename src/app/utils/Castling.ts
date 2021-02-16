@@ -9,7 +9,6 @@ export function possibleCastlingMoves(
     side: Side,
     previousBoardState: ChessBoardView,
 ): CordWithMoveType[] {
-    const { board } = boardState;
     const kingAr = boardState.getPieces(side, PieceType.King) ?? [];
     const rooks = boardState.getPieces(side, PieceType.Rook) ?? [];
     const castlingCord = [];
