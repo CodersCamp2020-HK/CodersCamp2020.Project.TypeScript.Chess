@@ -7,6 +7,7 @@ export const wrapperText: string;
 export const wrapperFooter: string;
 export const playWithDiv: string;
 export const timePerPlayerDiv: string;
+export const levelDiv: string;
 export const enterYourNameDiv: string;
 export const glitched: string;
 export const glitchedChessboard: string;

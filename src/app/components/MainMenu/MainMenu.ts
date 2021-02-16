@@ -25,6 +25,7 @@ const textToTime = new Map([
 export interface StartGameParams {
     playWith: 'computer' | 'user';
     timePerPlayerSeconds: number;
+    AIlevel: string;
     playerName1: string;
     playerName2: string;
 }
@@ -68,17 +69,17 @@ export class MainMenu {
             const params = {
                 playWith: data.get('playWithDiv'),
                 timePerPlayerSeconds: time * 60,
+                AIlevel: data.get('levelDiv'),
                 playerName1: data.get('input1'),
                 playerName2: data.get('input2'),
             } as StartGameParams;
             onStart(params);
-
+            console.log(params);
             event.preventDefault();
         });
 
         //1 DIV
         const playWithDiv = document.createElement('div');
-        // playWithDiv.classList.add(styles.playWithDiv);
         const playWithLabel = new Label('blue', 'PLAY WITH');
         const computer: Data[] = [
             {
@@ -101,7 +102,6 @@ export class MainMenu {
 
         //2 DIV
         const timePerPlayerDiv = document.createElement('div');
-        // timePerPlayerDiv.classList.add(styles.timePerPlayerDiv);
         const timePerPlayerLabel = new Label('blue', 'TIME PER PLAYER');
         const min3: Data[] = [
             {
@@ -136,27 +136,60 @@ export class MainMenu {
         timePerPlayerDiv.classList.add(styles.timePerPlayerDiv);
         timePerPlayerDiv.append(timePerPlayerLabel.element, radiosTime.element);
 
-        //3 DIV
+        //3 LEVEL
+
+        const levelDiv = document.createElement('div');
+        const levelLabel = new Label('blue', 'LEVEL');
+        const easy: Data[] = [
+            {
+                value: '2',
+                label: 'Easy',
+                category: 'levelDiv',
+            },
+        ];
+        const medium: Data[] = [
+            {
+                value: '4',
+                label: 'Medium',
+                category: 'levelDiv',
+            },
+        ];
+        const hard: Data[] = [
+            {
+                value: '7',
+                label: 'Hard',
+                category: 'levelDiv',
+            },
+        ];
+
+        const radiosLevel = new Radios(easy.concat(medium).concat(hard));
+        levelDiv.classList.add(styles.levelDiv);
+        levelDiv.append(levelLabel.element, radiosLevel.element);
+
+        //4 DIV
         const enterYourNameDiv = document.createElement('div');
         enterYourNameDiv.classList.add(styles.enterYourNameDiv);
         const enterYourNameLabel1 = new Input('Player1', 3, 10);
         enterYourNameLabel1.element.setAttribute('name', 'input1');
         const enterYourNameLabel2 = new Input('Player2', 3, 10);
         enterYourNameLabel2.element.setAttribute('name', 'input2');
+
         radiosPlayWith.element.childNodes[2].addEventListener('click', () => {
             enterYourNameLabel2.wrapper.style.display = 'none';
+            levelDiv.style.display = 'block';
         });
         radiosPlayWith.element.childNodes[0].addEventListener('click', () => {
-            enterYourNameLabel2.wrapper.style.display = 'inline-block';
+            enterYourNameLabel2.wrapper.style.display = 'block';
+            levelDiv.style.display = 'none';
         });
+        levelDiv.style.display = 'none';
+
         enterYourNameDiv.append(
             enterYourNameLabel1.wrapper,
             enterYourNameLabel1.errorsElement,
             enterYourNameLabel2.wrapper,
             enterYourNameLabel2.errorsElement,
         );
-
-        // BUTTON
 
         const startTheGameButton = new Button(
             'START THE GAME',
@@ -167,16 +200,18 @@ export class MainMenu {
         );
         startTheGameButton.button.type = 'submit';
 
-        //FOOTER
         const footerWrapper = document.createElement('div');
         footerWrapper.classList.add(styles.wrapperFooter);
         const footerImage = new Footer();
         footerWrapper.appendChild(footerImage.element);
 
-        //APPENDS
-
-        // mainMenuSettingsWrapper.append(playWithDiv, timePerPlayerDiv, enterYourNameDiv, buttonDiv);
-        mainMenuSettingsWrapper.append(playWithDiv, timePerPlayerDiv, enterYourNameDiv, startTheGameButton.button);
+        mainMenuSettingsWrapper.append(
+            playWithDiv,
+            timePerPlayerDiv,
+            levelDiv,
+            enterYourNameDiv,
+            startTheGameButton.button,
+        );
         wrapper.append(mainMenuSettingsWrapper);
         container.append(rules.element, info.element, cyberChessTextWrapper, wrapper, footerWrapper);
 

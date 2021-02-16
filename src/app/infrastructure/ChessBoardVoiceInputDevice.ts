@@ -57,7 +57,7 @@ export class ChessBoardVoiceInputDevice implements IChessBoardInputDevice {
         const confidence = event.results[0][0].confidence;
         const recognizedCommand = event.results[0][0].transcript.toLocaleLowerCase();
         console.log(`confidence: ${confidence}, text: ${recognizedCommand}`);
-        const match = recognizedCommand.match(/^([a-g])([1-8])$/);
+        const match = recognizedCommand.match(/^([a-h])([1-8])$/);
         if (match) {
             const cord = { x: 8 - Number(match[2]), y: match[1].charCodeAt(0) - 97 } as Cord;
             this.onClickHandler?.(cord);
