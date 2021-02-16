@@ -1,6 +1,8 @@
 import { data } from './infoData';
 import { data as rulesData } from './rulesData';
 import styles from './sidebars.module.scss';
+import SimpleBar from 'simplebar';
+import 'simplebar/dist/simplebar.css';
 
 export class InfoContent {
     private _element: HTMLDivElement = document.createElement('div');
@@ -56,7 +58,7 @@ export class InfoContent {
         linkLabel.textContent = 'Link to github';
         linkLabel.classList.add(styles.label);
         const link = document.createElement('a');
-        link.textContent = this._data.link;
+        link.textContent = "Click here!";
         link.href = this._data.link;
         link.target = '_blank';
         link.classList.add(styles.link);
@@ -64,6 +66,9 @@ export class InfoContent {
         linkWrapper.append(linkLabel, link);
 
         this._element.append(logo, year, description, mentorWrapper, teamWrapper, linkWrapper);
+
+        // const simplebar = new SimpleBar(this._element);
+        //console.log(simplebar.getContentElement());
     }
 }
 
@@ -139,6 +144,7 @@ export class RulesContent {
         });
 
         this._element.append(piecesLabel, piecesContainer, actionsContainer);
+        const simplebar = new SimpleBar(this._element);
     }
     get element(): HTMLDivElement {
         return this._element;

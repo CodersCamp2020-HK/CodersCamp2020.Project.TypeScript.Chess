@@ -14,7 +14,8 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
         new HtmlWebpackPlugin({
-            title: 'Output Management',
+            title: 'Cyber Chess 2021',
+            favicon: 'src/assets/Favicon.ico',
         }),
     ],
 
@@ -36,7 +37,6 @@ module.exports = {
                 test: /\.(woff|woff2|eot|ttf|otf)$/i,
                 type: 'asset/resource',
             },
-
             {
                 test: /\.module\.scss$/,
                 use: [
@@ -64,6 +64,12 @@ module.exports = {
                 test: /\.scss$/,
                 use: ['style-loader', 'css-loader', 'sass-loader'],
                 exclude: /\.module\.scss$/,
+            },
+
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader'],
+                exclude: /\.module\.css$/,
             },
 
             {

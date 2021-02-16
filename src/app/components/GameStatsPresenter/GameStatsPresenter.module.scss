@@ -1,4 +1,48 @@
+@use '../../../styles/colors';
+
+$board__size: calc(90vh - 110px - 40px - 30px);
+
 .wrapperGameStats {
-    // background-color: darkcyan;
-    grid-area: opponent;
+    grid-area: gamestats;
+    min-width: 20vw;
+    animation: glitchedChessboard 45000ms infinite linear;
+    animation-delay:100s;
+
+    .opponentScoreWrapper{
+        margin-bottom: 1vh;
+
+
+        >  :last-child,:nth-last-child(2){
+            margin-top: 1vh;
+        }
+
+        .timerOpponent{
+            border: 1px solid colors.$blue;
+        }
+    }
+
+    .playerScoreWrapper{
+        margin-bottom: 1vh;
+
+        >  :last-child, :nth-last-child(2){
+            margin-top: 1vh;
+        }
+
+        .timerPlayer{
+            border: 1px solid colors.$red;
+        }
+    }
+
+    .previousMovesWrapper{
+        margin-bottom: 1vh;
+
+        >  :last-child{
+            margin-top: 1vh;
+        }
+    }
+
+    .quitButtonWrapper{
+        margin-bottom: 1vh;
+
+    }
 }

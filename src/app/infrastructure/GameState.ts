@@ -5,22 +5,37 @@ import {
     CordWithMoveTypes,
     MoveType,
     Piece,
-    PieceType,
     Side,
     PromotionPieceType,
     StringPieces,
+    PieceType,
 } from '../domain/basicChessTypes';
 import { IChessEngine } from '../domain/IChessEngine';
 import { moveToNotation } from '../utils/MoveToNotation';
+import { generateDeafultChessboard } from '../utils/ChessboardHelpers';
 
 export class GameState {
-    private __previousMoves: { white: string; black: string }[] = [{ white: '', black: '' }];
+    private __previousMoves: { white: string; black: string }[];
     private __capturedPieces: { white: StringPieces[]; black: StringPieces[] };
     private __previousBoards: ChessBoardView[];
+    private __previousBoardsSide: { white: ChessBoardView[]; black: ChessBoardView[] };
 
-    constructor() {
+    constructor(
+        previousMoves?: { white: string; black: string }[],
+        previousBoards?: ChessBoardView[],
+        previousBoardsSide?: { white: ChessBoardView[]; black: ChessBoardView[] },
+    ) {
+        this.__previousMoves =
+            previousMoves !== undefined && previousMoves.length > 0 ? previousMoves : [{ white: '', black: '' }];
         this.__capturedPieces = { white: [], black: [] };
-        this.__previousBoards = [];
+        this.__previousBoards = [generateDeafultChessboard()];
+        if (previousBoards) this.__previousBoards.push(...previousBoards);
+        this.__previousBoardsSide = previousBoardsSide
+            ? previousBoardsSide
+            : {
+                  white: [generateDeafultChessboard()],
+                  black: [generateDeafultChessboard()],
+              };
     }
 
     public get capturedPieces(): { white: StringPieces[]; black: StringPieces[] } {
@@ -34,7 +49,12 @@ export class GameState {
     public get previousMoves(): { white: string; black: string }[] {
         return this.__previousMoves;
     }
-    updateCapturedPieces(boardState: IChessBoard, side: Side): void {
+
+    public get previousMovesSide(): { white: ChessBoardView[]; black: ChessBoardView[] } {
+        return this.__previousBoardsSide;
+    }
+
+    updateCapturedPieces(boardState: ChessBoardView, side: Side): void {
         const pieceNames = getCapturedPieceNames(side, boardState);
 
         side === Side.White ? (this.__capturedPieces.black = pieceNames) : (this.__capturedPieces.white = pieceNames);
@@ -44,6 +64,12 @@ export class GameState {
         this.__previousBoards.push(_.cloneDeep(chessboard));
     }
 
+    updatePreviousBoardsSide(chessboard: ChessBoardView, side: Side): void {
+        side === Side.White
+            ? this.__previousBoardsSide.white.push(_.cloneDeep(chessboard))
+            : this.__previousBoardsSide.black.push(_.cloneDeep(chessboard));
+    }
+
     updatePreviousMoves(
         piece: Piece,
         moveTo: CordWithMoveTypes,
@@ -51,6 +77,12 @@ export class GameState {
         chessboard: IChessBoard,
         promotionPiece: PromotionPieceType,
     ): void {
+        const convertPromotionPiece = new Map([
+            [PromotionPieceType.Bishop, 'B'],
+            [PromotionPieceType.Knight, 'N'],
+            [PromotionPieceType.Rook, 'R'],
+            [PromotionPieceType.Queen, 'Q'],
+        ]);
         const move = moveToNotation(piece, moveTo, promotionPiece);
 
         let lastIndex = this.__previousMoves.length - 1;
@@ -65,14 +97,22 @@ export class GameState {
             if (moveType === MoveType.Castling) {
                 if (moveTo.y === 6) {
                     this.updateMove('0-0', piece.side, lastIndex);
+                    return;
                 } else {
                     this.updateMove('0-0-0', piece.side, lastIndex);
+                    return;
                 }
-            } else {
-                const joinedMove = move.join('');
-                this.updateMove(joinedMove, piece.side, lastIndex);
+            } else if (piece.figType === PieceType.Pawn) {
+                const stringPromotionPiece = convertPromotionPiece.get(promotionPiece);
+                if (piece.side === Side.White && moveTo.x === 0 && stringPromotionPiece) {
+                    move.push(`=${stringPromotionPiece}`);
+                } else if (piece.side === Side.Black && moveTo.x === 7 && stringPromotionPiece) {
+                    move.push(`=${stringPromotionPiece}`);
+                }
             }
         }
+        const joinedMove = move.join('');
+        this.updateMove(joinedMove, piece.side, lastIndex);
         if (chessEngine.isCheckmate(chessboard, enemySide, chessboard.board)) {
             move.push('#');
             const joinedMove = move.join('');

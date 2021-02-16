@@ -24,13 +24,15 @@
 }
 
 .wrapper {
-    padding: 0 20px;
+    padding: 15px;
     margin: auto;
-    display: grid;
-    grid-template-columns: repeat(2, auto);
-    grid-template-rows: repeat(4, auto);
-    row-gap: 10px;
-    column-gap: 30px;
+    width: 500px;
+
+    // display: grid;
+    // grid-template-columns: repeat(2, auto);
+    // grid-template-rows: repeat(4, auto);
+    // row-gap: 10px;
+    // column-gap: 30px;
     // grid-template-areas:
     //     "chessboard opponent"
     //     "chessboard player"
@@ -50,27 +52,25 @@
 }
 
 .playWithDiv {
-    width: 700px;
+    // width: 700px;
 }
 
 .timePerPlayerDiv {
-    width: 700px;
+    // width: 700px;
 
 }
 
 .enterYourNameDiv {
-    width: 700px;
+    // width: 700px;
 
 }
 
-.buttonDiv {
-    width: 700px;
-}
+
 
 .startTheGameButton {
     @extend %button-yellow;
-    width: 50px;
-    height: 50px;
+    max-width: 100px;
+
 }
 
 .wrapperFooter {

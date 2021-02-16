@@ -1,9 +1,9 @@
 import { PieceType, Side, StringPieces } from '../domain/basicChessTypes';
-import { IChessBoard } from '../domain/IChessBoard';
+import { ChessBoardView } from '../domain/IChessBoard';
 
 export const getCapturedPieceCount = (
     side: Side,
-    boardState: IChessBoard,
+    boardState: ChessBoardView,
 ): Map<
     PieceType,
     {
@@ -28,7 +28,7 @@ export const getCapturedPieceCount = (
         [PieceType.King, { startingCount: 1, actualCount: 0, name: 'king' }],
     ]);
 
-    for (const row of boardState.board) {
+    for (const row of boardState) {
         for (const square of row) {
             if (square !== null) {
                 const piece = pieceMap.get(square.figType);
@@ -43,7 +43,7 @@ export const getCapturedPieceCount = (
     return pieceMap;
 };
 
-export const getCapturedPieceNames = (side: Side, boardState: IChessBoard): StringPieces[] => {
+export const getCapturedPieceNames = (side: Side, boardState: ChessBoardView): StringPieces[] => {
     const result: StringPieces[] = [];
     for (let i = 0; i < 6; i++) {
         const pieceCount = getCapturedPieceCount(side, boardState);

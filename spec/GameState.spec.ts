@@ -24,8 +24,8 @@ describe(`Given: Starting chessboard: ${displayEmojiBoard(firstMoveEmojiBoard)}`
             const expected = { black: [], white: [] };
             const gameState = new GameState();
             jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(firstMoveEmojiBoard));
-            gameState.updateCapturedPieces(chessboard, Side.Black);
-            gameState.updateCapturedPieces(chessboard, Side.White);
+            gameState.updateCapturedPieces(chessboard.board, Side.Black);
+            gameState.updateCapturedPieces(chessboard.board, Side.White);
             const actual = gameState.capturedPieces;
             expect(actual).toEqual(expect.objectContaining(expected));
         });
@@ -53,8 +53,8 @@ describe(`Given: Starting chessboard: ${displayEmojiBoard(secondMoveEmojiBoard)}
 
             const gameState = new GameState();
             jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(secondMoveEmojiBoard));
-            gameState.updateCapturedPieces(chessboard, Side.Black);
-            gameState.updateCapturedPieces(chessboard, Side.White);
+            gameState.updateCapturedPieces(chessboard.board, Side.Black);
+            gameState.updateCapturedPieces(chessboard.board, Side.White);
             const actual = gameState.capturedPieces;
             expect(actual).toEqual(expect.objectContaining(expected));
         });
@@ -74,14 +74,14 @@ describe(`Given: Starting chessboard: ${displayEmojiBoard(firstMoveEmojiBoard)}`
 
             const knight = newChessboard.getPiece({ x: 7, y: 1 }) as Piece;
             newChessboard.makeMove(knight, { x: 5, y: 2 });
-            gameState.updateCapturedPieces(newChessboard, knight.side);
+            gameState.updateCapturedPieces(newChessboard.board, knight.side);
 
             const pawn = newChessboard.getPiece({ x: 1, y: 3 }) as Piece;
             newChessboard.makeMove(pawn, { x: 3, y: 3 });
-            gameState.updateCapturedPieces(newChessboard, knight.side);
+            gameState.updateCapturedPieces(newChessboard.board, knight.side);
 
             newChessboard.makeMove(knight, { x: 3, y: 3 });
-            gameState.updateCapturedPieces(newChessboard, pawn.side);
+            gameState.updateCapturedPieces(newChessboard.board, pawn.side);
 
             const actual = gameState.capturedPieces;
             expect(actual).toEqual(expect.objectContaining(expected));
@@ -191,25 +191,22 @@ describe(`Given: Starting chessboard ${displayEmojiBoard(firstMoveEmojiBoard)}`,
         });
         it('Then: previousBoards should contain only 1 element', () => {
             const actual = gameState.previousBoards.length;
-            expect(actual).toBe(1);
+            expect(actual).toBe(2);
         });
     });
     describe('When: updatePreviousBoards is invoked 3 times on 3 different boards', () => {
         const gameState = new GameState();
         const expected = convertEmojiToRep(thirdEmoji);
-        jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(firstEmoji));
+        const newChessboard = new ChessBoard();
+        jest.spyOn(newChessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(firstEmoji));
+        gameState.updatePreviousBoards(newChessboard.board);
+        jest.spyOn(newChessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(secondEmoji));
+        gameState.updatePreviousBoards(newChessboard.board);
+        jest.spyOn(newChessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(thirdEmoji));
         gameState.updatePreviousBoards(chessboard.board);
-        jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(secondEmoji));
-        gameState.updatePreviousBoards(chessboard.board);
-        jest.spyOn(chessboard, 'board', 'get').mockReturnValue(convertEmojiToRep(thirdEmoji));
-        gameState.updatePreviousBoards(chessboard.board);
-        it('Then: previousBoards at index 2 should be: ', () => {
-            const actual = gameState.previousBoards[2];
-            expect(actual).toEqual(expect.arrayContaining(expected));
-        });
         it('Then: previousBoards should contain 3 elements', () => {
             const actual = gameState.previousBoards.length;
-            expect(actual).toBe(3);
+            expect(actual).toBe(4);
         });
     });
 });

@@ -1,4 +1,4 @@
-import { Cord, CordWithMoveType } from '../src/app/domain/basicChessTypes';
+import { Cord, CordWithMoveType, Side } from '../src/app/domain/basicChessTypes';
 import { ChessBoard } from '../src/app/infrastructure/ChessBoard';
 import { ChessEngine } from '../src/app/infrastructure/ChessEngine';
 import { convertEmojitoCordWithMoveType, convertEmojiToRep, displayEmojiBoard } from './Display';
@@ -249,7 +249,7 @@ describe(`Given: Chessboard: ${displayEmojiBoard(emojiBoardKingAttackedSquares2)
 //             const chessboardCheck = ChessBoard.createNewBoard();
 //             jest.spyOn(chessboardCheck, 'board', 'get').mockReturnValue(convertEmojiToRep(emojiBoard));
 //             it(`Then: there is no check on white side`, () => {
-//                 const actual = chessEngine.isCheck(chessboardCheck, Side.White);
+//                 const actual = chessEngine.isCheck(chessboardCheck, Side.White, chessboardCheck.board);
 //                 expect(actual).toBe(expectedWhite);
 //             });
 //         });
@@ -293,9 +293,10 @@ describe(`Given: Chessboard: ${displayEmojiBoard(emojiBoardKingAttackedSquares2)
 //         const result = true;
 //         whiteSideHasCheck.map((emojiBoard) => {
 //             const chessboardCheck = ChessBoard.createNewBoard();
+//             jest.spyOn(chessboardCheck, 'board', 'get').mockRestore();
 //             jest.spyOn(chessboardCheck, 'board', 'get').mockReturnValue(convertEmojiToRep(emojiBoard));
 //             it(`Then: there is check on white side`, () => {
-//                 const actual = chessEngine.isCheck(chessboardCheck, Side.White);
+//                 const actual = chessEngine.isCheck(chessboardCheck, Side.White, chessboardCheck.board);
 //                 expect(actual).toBe(result);
 //             });
 //         });
@@ -331,7 +332,7 @@ describe(`Given: Chessboard: ${displayEmojiBoard(emojiBoardKingAttackedSquares2)
 //             const chessboardCheck = ChessBoard.createNewBoard();
 //             jest.spyOn(chessboardCheck, 'board', 'get').mockReturnValue(convertEmojiToRep(emojiBoard));
 //             it(`Then: there is no check on black side`, () => {
-//                 const actual = chessEngine.isCheck(chessboardCheck, Side.Black);
+//                 const actual = chessEngine.isCheck(chessboardCheck, Side.Black, chessboardCheck.board);
 //                 expect(actual).toBe(result);
 //             });
 //         });
@@ -357,7 +358,7 @@ describe(`Given: Chessboard: ${displayEmojiBoard(emojiBoardKingAttackedSquares2)
 //             const chessboardCheck = ChessBoard.createNewBoard();
 //             jest.spyOn(chessboardCheck, 'board', 'get').mockReturnValue(convertEmojiToRep(emojiBoard));
 //             it(`Then: there is check on black side`, () => {
-//                 const actual = chessEngine.isCheck(chessboardCheck, Side.Black);
+//                 const actual = chessEngine.isCheck(chessboardCheck, Side.Black, chessboardCheck.board);
 //                 expect(actual).toBe(result);
 //             });
 //         });

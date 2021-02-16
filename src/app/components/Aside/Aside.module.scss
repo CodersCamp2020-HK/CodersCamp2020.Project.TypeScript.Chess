@@ -1,59 +1,110 @@
 @use '../../../styles/colors';
 @use '../../../styles/typography';
+@use '../../../styles/common';
 
 .wrapper {
-    background-color: colors.$yellow;
-    z-index: 3;
-    position: fixed;
-    top: 0;
-    max-width: 50vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    &.left{
-        left:0;
-        transform: translateX(-100%);
-        transition: transform 0.3s ease-in-out;
-        &.active {
-            transform: translateX(0%);
-        }
-        .btn {
-            right: 0;
-            top:50%;
-            transform: translateY(-50%) translateX(50%) rotate(90deg) translateY(-50%);
-        }
+  background-color: colors.$yellow;
+  z-index: 3;
+  position: fixed;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media only screen and (max-width: common.$minimobileMax) {
+    // flex-direction: column;
+  }
+
+  &.left {
+    left: 0;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+
+    &.active {
+      transform: translateX(0%);
+
+      img {
+        transform: rotate(180deg);
+      }
+
+      @media only screen and (max-width: common.$minimobileMax) {
+        top: 35px;
+      }
     }
-    &.right{
-        right:0;
-        transform: translateX(100%);
-        transition: transform 0.3s ease-in-out;
-        &.active {
-            transform: translateX(0%);
-        }
-        .btn {
-            left: 0;
-            top:50%;
-            transform: translateY(-50%) translateX(-50%) rotate(-90deg) translateY(-50%);
-            
-        }
-    }    
+
+    .btn {
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%) translateX(50%) rotate(90deg) translateY(-50%);
+
+      @media only screen and (max-width: common.$minimobileMax) {
+        top: 0%;
+        right: -50vw;
+        transform: rotate(0deg);
+      }
+    }
+  }
+
+  &.right {
+    right: 0;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+
+    &.active {
+      transform: translateX(0%);
+
+      img {
+        transform: rotate(180deg);
+      }
+
+      @media only screen and (max-width: common.$minimobileMax) {
+        top: 35px;
+      }
+    }
+
+    .btn {
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%) translateX(-50%) rotate(-90deg)
+        translateY(-50%);
+
+      .img {
+        transform: rotate(180deg);
+      }
+
+      @media only screen and (max-width: common.$minimobileMax) {
+        top: 0%;
+        left: -50vw;
+        transform: rotate(0deg);
+      }
+    }
+  }
 }
 
 .btn {
-    background-color: colors.$yellow;
-    cursor: pointer;
-    position: absolute;
-    text-transform: UpperCase;
-    height: 40px;
-    width: 150px;
-    border: none;
-    outline: none;
-    @extend %p;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    img {
-        padding: 4px;
+  background-color: colors.$yellow;
+  cursor: pointer;
+  position: absolute;
+  text-transform: UpperCase;
+  height: 40px;
+  width: 150px;
+  border: none;
+  outline: none;
+  @extend %p;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  img {
+    padding: 4px;
+    @media only screen and (max-width: common.$minimobileMax) {
+      transform: rotate(180deg);
     }
+  }
+  @media only screen and (max-width: common.$mobileMax) {
+    height: 35px;
+  }
+  @media only screen and (max-width: common.$minimobileMax) {
+    width: 50vw;
+  }
 }
