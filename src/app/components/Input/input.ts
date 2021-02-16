@@ -1,5 +1,4 @@
 import styles from './input.module.scss';
-import { pseudoStyle } from './pseudoStyle';
 
 interface InputError {
     valid: boolean;
@@ -53,11 +52,11 @@ export class Input {
         if (this._errors.length > 0) {
             this._wrapper.classList.add(styles.wrong);
             this._element.classList.add(styles.wrong);
-            pseudoStyle(this._wrapper, 'before', 'background-color', '#FD6059');
+            //pseudoStyle(this._wrapper, 'before', 'background-color', '#FD6059');
         } else {
             this._wrapper.classList.remove(styles.wrong);
             this._element.classList.remove(styles.wrong);
-            pseudoStyle(this._wrapper, 'before', 'background-color', '#44E0DB');
+            //pseudoStyle(this._wrapper, 'before', 'background-color', '#44E0DB');
         }
     }
 
@@ -71,7 +70,7 @@ export class Input {
             this.updateErrorsElement();
             this._wrapper.classList.add(styles.wrong);
             this._element.classList.add(styles.wrong);
-            pseudoStyle(this._wrapper, 'before', 'background-color', '#FD6059');
+            //pseudoStyle(this._wrapper, 'before', 'background-color', '#FD6059');
             this._element.focus();
             return false;
         }
