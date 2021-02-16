@@ -9,10 +9,13 @@ $board__size: calc(90vh - 110px - 40px - 30px);
     min-width: 20vw;
     animation: glitchedChessboard 45000ms infinite linear;
     animation-delay:100s;
+    display:flex;
+    flex-direction:column;
+    justify-content: space-between;
+    height:$board__size;
 
     .opponentScoreWrapper{
         margin-bottom: 1vh;
-
 
         >  :last-child,:nth-last-child(2){
             margin-top: 1vh;
