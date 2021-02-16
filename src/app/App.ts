@@ -10,6 +10,9 @@ import { GameStatsPresenter } from '../app/components/GameStatsPresenter/GameSta
 import { IGameStatsPresenter } from './domain/IGameStatsPresenter';
 import { sayText } from './components/PreviousMoves/sayText';
 import { PreviousMoves } from './components/PreviousMoves/previousMoves';
+import { AI } from './infrastructure/AI';
+import { currentBoardPromotionForBlackWithCapturePossible } from '../../spec/pawMovesTestCases/promotionMove';
+import { translateToEngine, translateToStockfish } from './utils/Stockfish';
 
 import { MainMenu, StartGameParams } from './components/MainMenu/MainMenu';
 import { IChessBoardInputDevice, InputDeviceCallback } from './domain/IChessBoardInputDevice';
@@ -31,13 +34,7 @@ const App = (): void => {
             },
         };
 
-        const gameController = new GameController(
-            startGameParams,
-            presenter,
-            gameStatsPresenter,
-            inputDevice,
-            (score) => console.log(score),
-        );
+        const gameController = new GameController(startGameParams, presenter, gameStatsPresenter, inputDevice);
 
         const game = new Game(presenter.element, gameStatsPresenter.element);
         document.body.append(game.element);

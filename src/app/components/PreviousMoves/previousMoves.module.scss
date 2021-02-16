@@ -5,12 +5,27 @@
 .wrapper {
     padding-top: 3px;
     border: 1px solid colors.$yellow;
-    height: 50px;
+    height: calc(100% - 37px);
+    //height: 100px;
     overflow-y: auto;
     padding-left: 20px;
+    //margin-bottom: 5px;
+
     .pieceImage {
-        width: 18px;
-        height: 18px;
+        width: 15px;
+        height: 15px;
+    }
+
+    &::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        box-sizing: border-box;
+        border: 1px black solid;
+        background-color: colors.$yellow;
+        opacity: 0.5;
+        border-radius: 5px;
     }
 
     &::-webkit-scrollbar {
@@ -30,6 +45,8 @@
     @extend %p;
     font-size:16px;
     color: colors.$yellow;
+    letter-spacing: -0.03em;
+    height:100%;
 }
 
 .player {

@@ -3,77 +3,105 @@
 @use '../../../styles/typography';
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .container {
-    @extend %background-gradient;
-    min-height: 100vh;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    color: #fbec09;
-    z-index: 1;
+  @extend %background-gradient;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  color: #fbec09;
+  z-index: 1;
 }
 
 .container::after {
-    @extend %background-photo-after;
-    z-index: -1;
+  @extend %background-photo-after;
+  z-index: -1;
 }
 
 .wrapper {
-    padding: 15px;
-    margin: auto;
-    width: 500px;
-    
-    // display: grid;
-    // grid-template-columns: repeat(2, auto);
-    // grid-template-rows: repeat(4, auto);
-    // row-gap: 10px;
-    // column-gap: 30px;
-    // grid-template-areas:
-    //     "chessboard opponent"
-    //     "chessboard player"
-    //     "chessboard moves"
-    //     "chessboard quit";
-}
+  padding: 15px;
+  margin: auto;
+  min-width: 400px;
 
+  @media only screen and (max-width: common.$minimobileMax) {
+    min-width: 100%;
+  }
+}
 
 .wrapperText {
-    grid-area: text;
-    text-align: center;
+  grid-area: text;
+  text-align: center;
 }
-
 
 .mainMenuSettingsWrapper {
-    @extend %h4;
+  @extend %p;
 }
-
-.playWithDiv {
-    // width: 700px;
-}
-
-.timePerPlayerDiv {
-    // width: 700px;
-
-}
-
-.enterYourNameDiv {
-    // width: 700px;
-
-}
-
-
 
 .startTheGameButton {
-    @extend %button-yellow;
-    max-width: 100px;
-  
+  @extend %button-yellow;
+  max-width: 100px;
 }
 
 .wrapperFooter {
-    grid-area: footer;
-    text-align: center;
+  grid-area: footer;
+  text-align: center;
+}
+
+.playWithDiv {
+  display: flex;
+  flex-direction: column;
+
+  > :last-child {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+
+    @media only screen and (max-width: common.$minimobileMax) {
+        margin-top: 20px;
+    }
+  }
+}
+
+.timePerPlayerDiv {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+
+  > :last-child {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    @media only screen and (max-width: common.$minimobileMax) {
+        margin-top: 20px;
+    }
+  }
+}
+
+.enterYourNameDiv {
+  margin-top: 10px;
+
+  > * {
+    margin-top: 7px;
+    display: flex;
+    justify-content: space-around;
+
+    @media only screen and (max-width: common.$minimobileMax) {
+        margin-top: 10px;
+    }
+  }
+
+  > :last-child {
+    margin-bottom: 10px;
+
+    @media only screen and (max-width: common.$minimobileMax) {
+        margin-top: 20px;
+    }
+  }
 }
