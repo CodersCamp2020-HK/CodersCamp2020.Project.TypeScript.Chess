@@ -20,6 +20,7 @@ import { IGameStatsPresenter } from '../domain/IGameStatsPresenter';
 import _ from 'lodash';
 import { AI } from './AI';
 import { StartGameParams } from '../components/MainMenu/MainMenu';
+import App from '../App';
 import { convertTime } from '../utils/ConvertTime';
 
 export class GameController {
@@ -153,8 +154,14 @@ export class GameController {
             winWay,
             playerName,
             opponentName,
-            () => console.log('Main'),
-            () => console.log('Play again'),
+            () => {
+                document.body.innerHTML = '';
+                App();
+            },
+            () => {
+                document.body.innerHTML = '';
+                App();
+            },
         );
     }
 
