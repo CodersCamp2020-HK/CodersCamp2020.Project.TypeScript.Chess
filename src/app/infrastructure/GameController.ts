@@ -65,30 +65,54 @@ export class GameController {
     }
 
     private renderFirstBoard(): void {
-        if (this.currentTurn === Side.White) {
-            this.undoNumbersWhite = 0;
-            this.chessboardPresenter.render(this.gameState.previousBoards[this.undoNumbersWhite]);
+        if (!(this.currentTurn === Side.Black && this.isAI)) {
+            if (this.currentTurn === Side.White) {
+                this.undoNumbersWhite = 0;
+                this.chessboardPresenter.render(this.gameState.previousBoards[this.undoNumbersWhite]);
+            }
+            if (this.currentTurn === Side.Black) {
+                this.undoNumbersBlack = 0;
+                this.chessboardPresenter.render(this.gameState.previousBoards[this.undoNumbersBlack]);
+            }
         }
     }
 
     private renderPreviousBoard(): void {
-        if (this.undoNumbersWhite > 0 && this.currentTurn === Side.White) {
-            this.undoNumbersWhite--;
-            this.chessboardPresenter.render(this.gameState.previousBoards[this.undoNumbersWhite]);
+        if (!(this.currentTurn === Side.Black && this.isAI)) {
+            if (this.undoNumbersWhite > 0 && this.currentTurn === Side.White) {
+                this.undoNumbersWhite--;
+                this.chessboardPresenter.render(this.gameState.previousBoards[this.undoNumbersWhite]);
+            }
+            if (this.undoNumbersBlack > 0 && this.currentTurn === Side.Black) {
+                this.undoNumbersBlack--;
+                this.chessboardPresenter.render(this.gameState.previousBoards[this.undoNumbersBlack]);
+            }
         }
     }
 
     private renderNextBoard(): void {
-        if (this.undoNumbersWhite < this.gameState.previousBoards.length - 1 && this.currentTurn === Side.White) {
-            this.undoNumbersWhite++;
-            this.chessboardPresenter.render(this.gameState.previousBoards[this.undoNumbersWhite]);
+        if (!(this.currentTurn === Side.Black && this.isAI)) {
+            if (this.undoNumbersWhite < this.gameState.previousBoards.length - 1 && this.currentTurn === Side.White) {
+                this.undoNumbersWhite++;
+                this.chessboardPresenter.render(this.gameState.previousBoards[this.undoNumbersWhite]);
+            }
+            if (this.undoNumbersBlack < this.gameState.previousBoards.length - 1 && this.currentTurn === Side.Black) {
+                this.undoNumbersBlack++;
+                this.chessboardPresenter.render(this.gameState.previousBoards[this.undoNumbersBlack]);
+            }
         }
     }
 
     private renderLastBoard(): void {
-        if (this.currentTurn === Side.White) {
-            this.undoNumbersWhite = this.gameState.previousBoards.length - 1;
-            this.chessboardPresenter.render(this.gameState.previousBoards[this.undoNumbersWhite]);
+        if (!(this.currentTurn === Side.Black && this.isAI)) {
+            if (this.currentTurn === Side.White) {
+                this.undoNumbersWhite = this.gameState.previousBoards.length - 1;
+                this.chessboardPresenter.render(this.gameState.previousBoards[this.undoNumbersWhite]);
+            }
+            if (this.currentTurn === Side.Black) {
+                this.undoNumbersBlack = this.gameState.previousBoards.length - 1;
+                this.chessboardPresenter.render(this.gameState.previousBoards[this.undoNumbersBlack]);
+            }
         }
     }
 
@@ -282,7 +306,7 @@ export class GameController {
 
                     this.gameState.updatePreviousBoards(this.chessboardState.board);
                     this.undoNumbersWhite = this.gameState.previousBoards.length - 1;
-                    this.undoNumbersWhite = this.gameState.previousBoards.length - 1;
+                    this.undoNumbersBlack = this.gameState.previousBoards.length - 1;
 
                     if (
                         (cord.x === 0 && this.currentSelectedPiece.figType === PieceType.Pawn) ||
