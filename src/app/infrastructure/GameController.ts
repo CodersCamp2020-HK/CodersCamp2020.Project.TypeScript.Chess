@@ -21,7 +21,6 @@ import _ from 'lodash';
 import { AI } from './AI';
 import { StartGameParams } from '../components/MainMenu/MainMenu';
 import App from '../App';
-import { convertTime } from '../utils/ConvertTime';
 
 export class GameController {
     private currentTurn: Side;
@@ -40,7 +39,7 @@ export class GameController {
         public gameStatsPresenter: IGameStatsPresenter,
         private chessboardInputDevice: IChessBoardInputDevice,
     ) {
-        this.stockfish = new AI(10);
+        this.stockfish = new AI(parseInt(params.AIlevel));
         this.currentTurn = Side.White;
         this.lastBoardState = [];
         this.isAI = params.playWith === 'computer';
@@ -150,7 +149,7 @@ export class GameController {
         this.gameStatsPresenter.openModal(
             side,
             this.gameState.previousMoves.length,
-            parseInt(convertTime(this.gameStatsPresenter.getRemainingTime(side))),
+            this.gameStatsPresenter.getRemainingTime(side),
             winWay,
             playerName,
             opponentName,

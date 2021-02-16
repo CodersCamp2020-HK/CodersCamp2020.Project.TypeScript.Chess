@@ -2,6 +2,7 @@ import styles from './ModalGameOver.module.scss';
 import { Side } from '../../domain/basicChessTypes';
 import { Label } from '../genericLabel/Label';
 import { Button } from '../genericButton/Button';
+import { convertTime } from '../../utils/ConvertTime';
 
 export class ModalGameOver {
     private __element: HTMLDialogElement;
@@ -33,11 +34,11 @@ export class ModalGameOver {
         tableScore.classList.add(styles.tableScore);
         const scoreTxt = document.createElement('p');
         scoreTxt.classList.add(styles.score);
-        scoreTxt.innerHTML = '1\xA0<span>:\xA0</span><span>0</span>';
         const playerTxt = document.createElement('p');
         playerTxt.innerHTML = namePlayer;
         playerTxt.classList.add(styles.playerTxt);
         const opponentTxt = document.createElement('p');
+        nameOpponent = nameOpponent.length > 0 ? nameOpponent : 'Computer';
         opponentTxt.innerHTML = nameOpponent;
         opponentTxt.classList.add(styles.opponentTxt);
         tableScore.append(playerTxt, scoreTxt, opponentTxt);
@@ -48,14 +49,16 @@ export class ModalGameOver {
             modalWrapper.classList.add(styles.wrapperPlayer);
             labelWin = new Label('red', `Win by: ${winWay}`);
             labelMoves = new Label('red', `Moves: ${numberOfMoves}`);
-            labelTime = new Label('red', `Time: ${timeInString}`);
+            labelTime = new Label('red', `Time: ${convertTime(parseInt(timeInString))}`);
+            scoreTxt.innerHTML = '1\xA0<span>:\xA0</span><span>0</span>';
         } else {
             labelHeader = new Label('yellow', `${nameOpponent} is a winner`);
             labelHeader.element.classList.add(styles.labelHeader);
             modalWrapper.classList.add(styles.wrapperOpponent);
             labelWin = new Label('blue', winWay);
             labelMoves = new Label('blue', `Moves: ${numberOfMoves}`);
-            labelTime = new Label('blue', `Time: ${timeInString}`);
+            labelTime = new Label('blue', `Time: ${convertTime(parseInt(timeInString))}`);
+            scoreTxt.innerHTML = '0\xA0<span>:\xA0</span><span>1</span>';
         }
 
         labelWin.element.classList.add(styles.label);

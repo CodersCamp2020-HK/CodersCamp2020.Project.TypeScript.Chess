@@ -20,7 +20,6 @@ export class AI {
         }
 
         this.engine.onmessage = (line: { data: string }) => {
-            console.log(line.data);
             if (line.data.includes('bestmove')) {
                 this.lastMove = line.data.slice(9, 14);
                 this.updatePreviousMoves(this.lastMove);

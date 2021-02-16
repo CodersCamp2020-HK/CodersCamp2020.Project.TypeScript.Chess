@@ -24,8 +24,8 @@ export class GameStatsPresenter implements IGameStatsPresenter {
     timerBlack: Timer;
     // private modalQuit = new ModalQuit(() => console.log('modal'));
     constructor(startGameParams: StartGameParams, addedTimeInSec: number) {
-        const oponentName = startGameParams.playerName1;
-        const playerName = startGameParams.playerName2;
+        const oponentName = startGameParams.playerName2.length > 0 ? startGameParams.playerName2 : 'Computer';
+        const playerName = startGameParams.playerName1;
         const gameTimeInSec = startGameParams.timePerPlayerSeconds;
         this.timerWhite = new Timer(gameTimeInSec, addedTimeInSec);
         this.timerWhite.element.classList.add(styles.timerPlayer);
