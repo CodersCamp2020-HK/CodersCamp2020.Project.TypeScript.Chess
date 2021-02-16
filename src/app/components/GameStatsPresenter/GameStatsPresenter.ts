@@ -64,13 +64,18 @@ export class GameStatsPresenter implements IGameStatsPresenter {
         };
         const previousMovesButtons = new PreviousMovesButtons(fun, fun, fun, fun);
 
-        const quitBtn = new Button('Quit', () => {
-            const modalQuit = new ModalQuit(() => {
-                document.body.innerHTML = '';
-                App();
-            });
-            this.gameStatsWrapper.appendChild(modalQuit.element);
-        });
+        const quitBtn = new Button(
+            'Quit',
+            () => {
+                const modalQuit = new ModalQuit(() => {
+                    document.body.innerHTML = '';
+                    App();
+                });
+                this.gameStatsWrapper.appendChild(modalQuit.element);
+            },
+            true,
+        );
+
         this.gameStatsWrapper.append(
             opponentScoreWrapper,
             playerScoreWrapper,
