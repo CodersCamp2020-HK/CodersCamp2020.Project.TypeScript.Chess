@@ -34,13 +34,7 @@ const App = (): void => {
             },
         };
 
-        const gameController = new GameController(
-            startGameParams,
-            presenter,
-            gameStatsPresenter,
-            inputDevice,
-            (score) => console.log(score),
-        );
+        const gameController = new GameController(startGameParams, presenter, gameStatsPresenter, inputDevice);
 
         const game = new Game(presenter.element, gameStatsPresenter.element);
         document.body.append(game.element);
