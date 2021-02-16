@@ -16,12 +16,10 @@ import { IChessBoardInputDevice, InputDeviceCallback } from './domain/IChessBoar
 
 const App = (): void => {
     const startGame = (startGameParams: StartGameParams) => {
-        const gameTimeInSeconds = startGameParams.timePerPlayer;
-
         const voiceInputDevice = new ChessBoardVoiceInputDevice();
         voiceInputDevice.start();
         const presenter = new ChessBoardPresenter();
-        const gameStatsPresenter = new GameStatsPresenter(gameTimeInSeconds, 0);
+        const gameStatsPresenter = new GameStatsPresenter(startGameParams, 0);
         const inputDevice: IChessBoardInputDevice = {
             onClick: (cb: InputDeviceCallback) => {
                 presenter.inputDevice.onClick(cb);

@@ -15,9 +15,16 @@ import { ChessBoardPresenter } from '../ChessBoardPresenter/ChessBoardPresenter'
 import { Game } from '../game/Game';
 import { GameStatsPresenter } from '../GameStatsPresenter/GameStatsPresenter';
 
+const textToTime = new Map([
+    ['3', 3],
+    ['5', 5],
+    ['10', 10],
+    ['30', 30],
+]);
+
 export interface StartGameParams {
     playWith: 'computer' | 'user';
-    timePerPlayer: '3' | '5' | '10' | 'noLimit';
+    timePerPlayerSeconds: number;
     playerName1: string;
     playerName2: string;
 }
@@ -54,9 +61,13 @@ export class MainMenu {
         mainMenuSettingsWrapper.classList.add(styles.mainMenuSettingsWrapper);
         mainMenuSettingsWrapper.addEventListener('submit', (event) => {
             const data = new FormData(mainMenuSettingsWrapper);
+
+            const timeText = data.get('timePerPlayerDiv') as string;
+            const time = textToTime.get(timeText) ?? 30;
+
             const params = {
                 playWith: data.get('playWithDiv'),
-                timePerPlayer: data.get('timePerPlayerDiv'),
+                timePerPlayerSeconds: time * 60,
                 playerName1: data.get('input1'),
                 playerName2: data.get('input2'),
             } as StartGameParams;
