@@ -4,8 +4,6 @@ import { PieceElement } from '../ChessBoard/ChessBoardComponent';
 import { Side, PieceType } from '../../domain/basicChessTypes';
 import { opponent } from '../game/capturedTable/CapturedTable.module.scss';
 import { sayText } from './sayText';
-import SimpleBar from 'simplebar';
-import 'simplebar/dist/simplebar.css';
 
 interface Notation {
     white: string;
@@ -15,18 +13,19 @@ interface Notation {
 
 export class PreviousMoves {
     element = document.createElement('div');
+    ol: HTMLElement = document.createElement('ol');
     notationArray: Notation[];
     constructor(notationArray: Notation[]) {
         this.element.classList.add(styles.wrapper);
         this.notationArray = notationArray;
         this.render(notationArray);
+        this.element.append(this.ol);
     }
 
     render(notationArray: Notation[]): void {
-        this.element.innerHTML = '';
         this.notationArray = notationArray;
 
-        const ol = document.createElement('ol');
+        this.ol.innerHTML = '';
 
         notationArray.forEach((notation, index) => {
             const currentMadeMove = notation.black == '' ? notation.white : notation.black;
@@ -186,11 +185,7 @@ export class PreviousMoves {
             li.insertBefore(document.createTextNode(' | '), li.lastChild);
             //`${bluePiece} ${blueOrigin} > ${blueDestination} `
 
-            ol.append(li);
+            this.ol.append(li);
         });
-
-        this.element.append(ol);
-
-        const scrollbar = new SimpleBar(this.element, { autoHide: true });
     }
 }

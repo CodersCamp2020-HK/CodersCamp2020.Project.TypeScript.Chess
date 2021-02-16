@@ -7,3 +7,4 @@ export const playerScoreWrapper: string;
 export const timerPlayer: string;
 export const previousMovesWrapper: string;
 export const quitButtonWrapper: string;
+export const glitched: string;

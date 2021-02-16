@@ -2,6 +2,18 @@
 @use '../../../styles/typography';
 @use '../../../styles/common';
 
+@keyframes dangerAnimation2 {
+    0% {
+      background-color: colors.$yellow;
+    }
+    60% {
+        background-color: colors.$dark-red;
+    }
+    100% {
+        background-color: colors.$yellow;
+    }
+  }
+
 .wrapper {
   background-color: colors.$yellow;
   z-index: 3;
@@ -24,7 +36,7 @@
     &.active {
       transform: translateX(0%);
 
-      img {
+      > img {
         transform: rotate(180deg);
       }
 
@@ -54,7 +66,7 @@
     &.active {
       transform: translateX(0%);
 
-      img {
+      > img {
         transform: rotate(180deg);
       }
 
@@ -100,11 +112,21 @@
     @media only screen and (max-width: common.$minimobileMax) {
       transform: rotate(180deg);
     }
-  }
-  @media only screen and (max-width: common.$mobileMax) {
-    height: 35px;
-  }
-  @media only screen and (max-width: common.$minimobileMax) {
-    width: 50vw;
-  }
 }
+
+@media only screen and (max-width: common.$mobileMax) {
+  height: 35px;
+}
+@media only screen and (max-width: common.$minimobileMax) {
+  width: 50vw;
+}
+
+}
+
+.danger {
+  background-color: colors.$dark-red;
+  animation-duration: 2s;
+  animation-name: dangerAnimation2;
+  animation-iteration-count: infinite;
+}
+
