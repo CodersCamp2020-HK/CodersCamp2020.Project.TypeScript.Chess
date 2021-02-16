@@ -71,7 +71,6 @@ export class GameStatsPresenter implements IGameStatsPresenter {
             },
             // eslint-disable-next-line prettier/prettier
             true);
-      
 
         this.gameStatsWrapper.append(
             opponentScoreWrapper,
