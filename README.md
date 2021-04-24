@@ -1,5 +1,6 @@
 # Coders Camp 2020 | Projekt Zespołowy | TypeScript
 
+
 ![CyperpunkChessLogo](https://user-images.githubusercontent.com/56504859/107998538-ab799d00-6fe5-11eb-836b-cc4d7ff870c4.PNG)
 
 ## Zespół projektowy
@@ -34,7 +35,6 @@ Zespół projektowy zdecydował się na aplikacje - gra w szachy z motywem gry C
 
 Aplikacja została wykonana wg dostarczonych przez organizatorów CodersCamp wymagań.
 Szablon projektu dostępny jest [TUTAJ](https://github.com/CodersCamp2020/CodersCamp2020.Project.TypeScript.Chess).
-
 
 ### Działanie aplikacji
 
